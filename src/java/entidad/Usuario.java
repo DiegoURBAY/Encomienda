@@ -8,6 +8,8 @@ public class Usuario {
     private String password;
     private String email;
     private String nivel;
+    
+    private TipoUsuario tipousuario;
 
     //Constructor vacío para crear objetos vacios
     public Usuario() {
@@ -22,6 +24,16 @@ public class Usuario {
         this.email = email;
         this.nivel = nivel;
     }
+
+    public Usuario(int id, String nom, String password, String email, TipoUsuario tipousuario) {
+        this.id = id;
+        this.nom = nom;
+        this.password = password;
+        this.email = email;
+        this.tipousuario = tipousuario;
+    }
+    
+    
     
     //Para obtener o establecer los valores de los campos
 
@@ -64,6 +76,14 @@ public class Usuario {
 
     public void setNivel(String nivel) {
         this.nivel = nivel;
+    }
+
+    public TipoUsuario getTipousuario() {
+        return tipousuario;
+    }
+
+    public void setTipousuario(TipoUsuario tipousuario) {
+        this.tipousuario = tipousuario;
     }
 
 }
