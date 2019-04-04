@@ -17,18 +17,18 @@ public class Acceso extends Conexion{
     public Acceso() {
     }
             
-    public int validar(String usuario, String contra){
+    public int validar(String email, String contraseña){
         int nivel = 0;
         try{
             this.conectar();
-            sql = "SELECT id_nivel FROM usuarios WHERE nom=? AND pass =? AND estado = ?";
+            sql = "SELECT email, contraseña  FROM clientes WHERE email=? AND contraseña =? AND estado = ?";
             pst =  (PreparedStatement) conexion.prepareStatement(sql);
-            pst.setString(1, usuario);
-            pst.setString(2, contra);
+            pst.setString(1, email);
+            pst.setString(2, contraseña);
             pst.setInt(3, 1);
             rs = pst.executeQuery();
             while(rs.next()){
-                nivel =rs.getInt("id_nivel");
+                nivel = 1;
             }
             this.cerrar();
             rs.close();

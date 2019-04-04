@@ -10,7 +10,7 @@ public class Conexion {
     protected Connection conexion;
     
     private String driver = "com.mysql.jdbc.Driver";
-    private String url = "jdbc:mysql://localhost:3307/bdmudanza";
+    private String url = "jdbc:mysql://localhost:3307/encomienda";
 
     private String user = "root";
     private String password = "";
