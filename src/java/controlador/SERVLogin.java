@@ -57,8 +57,7 @@ public class SERVLogin extends HttpServlet {
             Acceso acc = new Acceso();
             
             RequestDispatcher rd = null;
-            
-            
+                        
             if(request.getParameter("btnIniciar")!=null){
                 
                 email = request.getParameter("txtEmail");
@@ -67,7 +66,7 @@ public class SERVLogin extends HttpServlet {
                 
                 if(nivel > 0){
 
-                rd = request.getRequestDispatcher("exito.jsp");  
+                rd = request.getRequestDispatcher("RegistrarCliente.jsp");  
                 }
                 else{
                     rd = request.getRequestDispatcher("error.jsp");
