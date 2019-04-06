@@ -21,14 +21,14 @@ public class Acceso extends Conexion{
         int nivel = 0;
         try{
             this.conectar();
-            sql = "SELECT email, contraseña  FROM clientes WHERE email=? AND contraseña =? AND estado = ?";
+            sql = "SELECT id, email, contraseña  FROM clientes WHERE email=? AND contraseña =? AND estado = ?";
             pst =  (PreparedStatement) conexion.prepareStatement(sql);
             pst.setString(1, email);
             pst.setString(2, contraseña);
             pst.setInt(3, 1);
             rs = pst.executeQuery();
             while(rs.next()){
-                nivel = 1;
+                nivel = rs.getInt("id");
             }
             this.cerrar();
             rs.close();

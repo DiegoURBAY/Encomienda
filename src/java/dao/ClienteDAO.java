@@ -148,7 +148,28 @@ public class ClienteDAO extends Conexion implements DAO{
         } catch (Exception e) {
         }
          return res.next();
-    }     
+    }    
+    
+    
+    public Cliente ConsultarByEmail(String email) throws SQLException{
+        
+        Cliente cliente = new Cliente();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String sql = "SELECT id FROM clientes WHERE email=?";
+
+        try {
+            this.conectar();
+               pst = conexion.prepareStatement(sql);
+               pst.setString(1,email);                                
+               rs = pst.executeQuery();               
+            if (rs.next()) {
+                    cliente.setId(rs.getInt("id"));
+            }
+        } catch (Exception e) {
+        }
+         return cliente;
+    }
     
     
     

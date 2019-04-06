@@ -23,6 +23,14 @@ import javax.servlet.http.HttpServletResponse;
  * @author usuario
  */
 public class SERVCliente extends HttpServlet {
+    
+    public static final String edit = "/EditarCliente.jsp";
+    
+    ClienteDAO clienteDAO = new ClienteDAO();
+    Cliente cliente = new Cliente();
+    
+    RequestDispatcher rd = null;
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,7 +70,27 @@ public class SERVCliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String forward = "";
+        String action = request.getParameter("action");
+                        
+       if(action.equalsIgnoreCase("buscar")){
+           rd = request.getRequestDispatcher("exito.jsp");
+        }        
+        if(action.equalsIgnoreCase("editar")){
+            int id = Integer.parseInt(request.getParameter("id"));
+            try {
+                
+                forward = edit;
+                cliente = clienteDAO.BuscarPorId(id);
+                request.setAttribute("cliente", cliente);
+                rd = request.getRequestDispatcher(forward);
+                rd.forward(request, response);
+                
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
 
     /**
@@ -77,10 +105,9 @@ public class SERVCliente extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-                    RequestDispatcher rd = null;
-
         request.setCharacterEncoding("UTF-8");
         
+        int id = Integer.parseInt(request.getParameter("txtId"));
         String identificador = request.getParameter("txtIdentificador");
         String nombre = request.getParameter("txtNombre");
         String contraseña = request.getParameter("txtContraseña");
@@ -93,19 +120,25 @@ public class SERVCliente extends HttpServlet {
         cliente.setContraseña(contraseña);
         cliente.setEmail(email);
         cliente.setTelefono(telefono);
-        
-        
-        ClienteDAO clienteDAO = new ClienteDAO();
+                
         Envio envio = new Envio();
         
         if(request.getParameter("btnInsertar")!= null){
-                        try {
-                            clienteDAO.insertar(cliente);
-                            envio.EnviarCorreo(email);
-                        } catch (Exception ex) {
-                            Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+            try {
+                clienteDAO.insertar(cliente);
+                envio.EnviarCorreo(email);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
             rd = request.getRequestDispatcher("exito.jsp");
+        }
+        if(request.getParameter("btnEditar")!=null){
+            try {
+               
+                
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         

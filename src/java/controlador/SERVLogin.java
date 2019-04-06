@@ -6,8 +6,13 @@
 package controlador;
 
 import dao.Acceso;
+import dao.ClienteDAO;
+import entidad.Cliente;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -54,8 +59,7 @@ public class SERVLogin extends HttpServlet {
                String email;
             String contra;
             int nivel = 0;
-            Acceso acc = new Acceso();
-            
+            Acceso acc = new Acceso();            
             RequestDispatcher rd = null;
                         
             if(request.getParameter("btnIniciar")!=null){
@@ -63,10 +67,11 @@ public class SERVLogin extends HttpServlet {
                 email = request.getParameter("txtEmail");
                 contra = request.getParameter("txtContra");
                 nivel = acc.validar(email, contra);
-                
-                if(nivel > 0){
 
-                rd = request.getRequestDispatcher("exito.jsp");  
+                if(nivel > 0){               
+                    request.setAttribute("email", email);
+                    request.setAttribute("nivel", nivel);
+                    rd = request.getRequestDispatcher("index.jsp");  
                 }
                 else{
                     rd = request.getRequestDispatcher("error.jsp");
@@ -75,7 +80,7 @@ public class SERVLogin extends HttpServlet {
             }
             if(request.getParameter("btnRegistrar")!=null){
                 rd = request.getRequestDispatcher("RegistrarCliente.jsp");
-            }
+            }          
             
             rd.forward(request, response);  
     }

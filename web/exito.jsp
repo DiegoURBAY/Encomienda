@@ -7,6 +7,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Exito!</h1>
+        <form method="POST" action="SERVCliente">
+            <input type="submit" name="btnEditar" value="Editar"><br>
+        </form>       
     </body>
 </html>

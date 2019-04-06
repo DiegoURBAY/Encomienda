@@ -16,7 +16,7 @@
             <input type="text" name="txtEmail">Email<br>
             <input type="text" name="txtContra">Contra<br>
             <input type="submit" name="btnIniciar" value="Ingresar"><br>
-            <input type="submit" name="btnRegistrar" value="Registrar"><br>
+            <input type="submit" name="btnRegistrar" value="Registrar"><br>            
         </form>
                 
     <%
@@ -27,7 +27,7 @@
             if(!(nivel == 0)){
                 sesion.setAttribute("email", request.getAttribute("email"));
                 sesion.setAttribute("nivel", nivel);
-                response.sendRedirect("exito.jsp");
+                response.sendRedirect("CuentaCliente.jsp");
             }
         }
         if(request.getParameter("cerrar")!=null){
