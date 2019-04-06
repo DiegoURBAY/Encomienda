@@ -66,12 +66,15 @@ public class SERVLogin extends HttpServlet {
                 
                 if(nivel > 0){
 
-                rd = request.getRequestDispatcher("RegistrarCliente.jsp");  
+                rd = request.getRequestDispatcher("exito.jsp");  
                 }
                 else{
                     rd = request.getRequestDispatcher("error.jsp");
                 }
 
+            }
+            if(request.getParameter("btnRegistrar")!=null){
+                rd = request.getRequestDispatcher("RegistrarCliente.jsp");
             }
             
             rd.forward(request, response);  

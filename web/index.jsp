@@ -16,6 +16,7 @@
             <input type="text" name="txtEmail">Email<br>
             <input type="text" name="txtContra">Contra<br>
             <input type="submit" name="btnIniciar" value="Ingresar"><br>
+            <input type="submit" name="btnRegistrar" value="Registrar"><br>
         </form>
                 
     <%
