@@ -6,6 +6,7 @@
 package controlador;
 
 import dao.ClienteDAO;
+import dao.Envio;
 import entidad.Cliente;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -95,10 +96,12 @@ public class SERVCliente extends HttpServlet {
         
         
         ClienteDAO clienteDAO = new ClienteDAO();
+        Envio envio = new Envio();
         
         if(request.getParameter("btnInsertar")!= null){
                         try {
                             clienteDAO.insertar(cliente);
+                            envio.EnviarCorreo(email);
                         } catch (Exception ex) {
                             Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
                         }
