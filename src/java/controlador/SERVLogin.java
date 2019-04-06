@@ -56,7 +56,9 @@ public class SERVLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-               String email;
+        
+            String nombre;
+            String email;
             String contra;
             int nivel = 0;
             Acceso acc = new Acceso();            
@@ -67,12 +69,15 @@ public class SERVLogin extends HttpServlet {
                 email = request.getParameter("txtEmail");
                 contra = request.getParameter("txtContra");
                 nivel = acc.validar(email, contra);
+                nombre = acc.ExtraerNombre(email);
 
-                if(nivel > 0){               
+                if(nivel > 0){
+                    
+                    request.setAttribute("nombre", nombre);
                     request.setAttribute("email", email);
                     request.setAttribute("nivel", nivel);
                     rd = request.getRequestDispatcher("index.jsp");  
-                }
+                }                
                 else{
                     rd = request.getRequestDispatcher("error.jsp");
                 }

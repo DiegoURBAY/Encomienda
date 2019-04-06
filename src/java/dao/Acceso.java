@@ -46,4 +46,14 @@ public class Acceso extends Conexion{
         }
         return nivel;
     }
+    
+    public String ExtraerNombre (String email){
+        String[] parts = null;
+        String nombre = null;
+        
+        parts = email.split("@");
+        nombre = parts[0]; // 123
+
+        return nombre;
+    }
 }

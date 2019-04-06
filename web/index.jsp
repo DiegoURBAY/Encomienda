@@ -25,6 +25,7 @@
         if(request.getAttribute("nivel")!=null){
             nivel = (Integer)request.getAttribute("nivel");
             if(!(nivel == 0)){
+                sesion.setAttribute("nombre", request.getAttribute("nombre"));
                 sesion.setAttribute("email", request.getAttribute("email"));
                 sesion.setAttribute("nivel", nivel);
                 response.sendRedirect("CuentaCliente.jsp");
