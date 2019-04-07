@@ -32,15 +32,6 @@ public class SERVCliente extends HttpServlet {
     RequestDispatcher rd = null;
 
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -58,25 +49,14 @@ public class SERVCliente extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String forward = "";
         String action = request.getParameter("action");
-                        
-       if(action.equalsIgnoreCase("buscar")){
-           rd = request.getRequestDispatcher("exito.jsp");
-        }        
-        if(action.equalsIgnoreCase("editar")){
+                              
+        if(action.equalsIgnoreCase("buscar")){
             int id = Integer.parseInt(request.getParameter("id"));
             try {
                 
@@ -93,63 +73,59 @@ public class SERVCliente extends HttpServlet {
 
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         request.setCharacterEncoding("UTF-8");
         
-        int id = Integer.parseInt(request.getParameter("txtId"));
+        int id = 0;
+        if(request.getParameter("txtId")!= null){
+            id = Integer.parseInt(request.getParameter("txtId"));
+        }
         String identificador = request.getParameter("txtIdentificador");
         String nombre = request.getParameter("txtNombre");
-        String contraseña = request.getParameter("txtContraseña");
         String email = request.getParameter("txtEmail");
+        String usuario = request.getParameter("txtUsuario");
+        String contraseña = request.getParameter("txtContraseña");        
         String telefono = request.getParameter("txtTelefono");
         
-        Cliente cliente = new Cliente();
+        
         cliente.setIdentificador(identificador);
         cliente.setNombre(nombre);
-        cliente.setContraseña(contraseña);
         cliente.setEmail(email);
+        cliente.setUsuario(usuario);
+        cliente.setContraseña(contraseña);        
         cliente.setTelefono(telefono);
                 
         Envio envio = new Envio();
         
-        if(request.getParameter("btnInsertar")!= null){
+        if(request.getParameter("btnRegistrar")!= null){
             try {
                 clienteDAO.insertar(cliente);
                 envio.EnviarCorreo(email);
+              rd = request.getRequestDispatcher("exito.jsp");
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-            rd = request.getRequestDispatcher("exito.jsp");
+            
         }
-        if(request.getParameter("btnEditar")!=null){
+        /*
+        if(request.getParameter("btnRegistrar")!=null){
             try {
-               
-                
+               cliente.setId(id);
+               clienteDAO.modificar(cliente);
+              rd = request.getRequestDispatcher("exito.jsp");
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        
-        rd.forward(request, response);  
+       */ 
+         
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -8,34 +8,33 @@ public class Cliente {
     private int id;
     private String identificador;
     private String nombre;
-    private String contraseña;
     private String email;    
+    private String usuario;
+    private String contraseña;    
     private String telefono;
     private Date fecharegistro;
 
     public Cliente() {
     }
 
-    public Cliente(int id) {
-        this.id = id;
-    }
 
-    public Cliente(int id, String identificador, String nombre, String contraseña, String email, String telefono, Date fecharegistro) {
+    public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, Date fecharegistro) {
         this.id = id;
         this.identificador = identificador;
         this.nombre = nombre;
-        this.contraseña = contraseña;
         this.email = email;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
         this.telefono = telefono;
         this.fecharegistro = fecharegistro;
     }
 
-    public Date getFecharegistro() {
-        return fecharegistro;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setFecharegistro(Date fecharegistro) {
-        this.fecharegistro = fecharegistro;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public int getId() {
@@ -62,20 +61,20 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     public String getTelefono() {
@@ -85,6 +84,16 @@ public class Cliente {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public Date getFecharegistro() {
+        return fecharegistro;
+    }
+
+    public void setFecharegistro(Date fecharegistro) {
+        this.fecharegistro = fecharegistro;
+    }
+
+
 
     
     

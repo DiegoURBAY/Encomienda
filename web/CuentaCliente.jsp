@@ -20,10 +20,10 @@ HttpSession sesion = request.getSession();
     </head>
     <body>
         <form method="POST" action="SERVCliente">  
-            <h1>BIENVENIDO <%= sesion.getAttribute("nombre") %></h1>
-            <input type="text" name="txtNombre" value="<c:out value="${cliente.nombre}" />"> Nombre <br>
+            <h1>BIENVENIDO <%= sesion.getAttribute("usuario") %></h1>
+        //    <input type="text" name="txtNombre" value="<c:out value="${cliente.nombre}" />"> Nombre <br>
 
-            <a href="SERVCliente?action=editar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />"  class="btn btn-warning btn-sm" >Editar</a>   
+            <a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />"  class="btn btn-warning btn-sm" >Editar</a>   
         </form>
     </body>
 </html>

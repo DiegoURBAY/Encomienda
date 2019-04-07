@@ -20,6 +20,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SERVLogin extends HttpServlet {
+    
+    private static String ingresar= "/login.jsp";
+    private static String registrar = "/RegistrarCliente.jsp";
+    private static String index = "/index.jsp";
+    ClienteDAO clienteDAO = new ClienteDAO();
+    RequestDispatcher rd = null;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,54 +35,62 @@ public class SERVLogin extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-
+        String vista = "";
+        String action = request.getParameter("action");
+        
+        if(action.equalsIgnoreCase("ingresar")){
+            vista = ingresar;
+            rd = request.getRequestDispatcher(vista);
+                      
+        }        
+        if(action.equalsIgnoreCase("registrar")){
+            vista = registrar;
+            rd = request.getRequestDispatcher(vista);            
+            
+        }
+        if(action.equalsIgnoreCase("regresar")){
+            vista = index;
+            rd = request.getRequestDispatcher(vista);
+                      
+        }                
+        rd.forward(request, response);  
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            String nombre;
+            String usuario = null;
             String email;
             String contra;
             int nivel = 0;
             Acceso acc = new Acceso();            
-            RequestDispatcher rd = null;
+          
                         
             if(request.getParameter("btnIniciar")!=null){
                 
                 email = request.getParameter("txtEmail");
                 contra = request.getParameter("txtContra");
                 nivel = acc.validar(email, contra);
-                nombre = acc.ExtraerNombre(email);
+                try {
+                    //nombre = acc.ExtraerNombre(email);
+                    usuario = clienteDAO.UsuarioByEmail(email);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
 
                 if(nivel > 0){
                     
-                    request.setAttribute("nombre", nombre);
+                    request.setAttribute("usuario", usuario);
                     request.setAttribute("email", email);
                     request.setAttribute("nivel", nivel);
-                    rd = request.getRequestDispatcher("index.jsp");  
+                    rd = request.getRequestDispatcher("login.jsp");  
                 }                
                 else{
                     rd = request.getRequestDispatcher("error.jsp");
