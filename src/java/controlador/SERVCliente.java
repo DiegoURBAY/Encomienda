@@ -24,13 +24,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SERVCliente extends HttpServlet {
     
-    public static final String edit = "/EditarCliente.jsp";
+    private static final String insert= "/RegistrarCliente.jsp";
+    private static final String edit = "/EditarCliente.jsp";
+    private static final String list_cliente = "/navegador.jsp";
+    private static final String action_listar = "/SERVCliente?action=listar";
     
-    ClienteDAO clienteDAO = new ClienteDAO();
+        ClienteDAO clienteDAO = new ClienteDAO();
     Cliente cliente = new Cliente();
     
     RequestDispatcher rd = null;
-
+  String vista = "";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -53,24 +56,40 @@ public class SERVCliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String forward = "";
+      
         String action = request.getParameter("action");
-                              
+                                      
         if(action.equalsIgnoreCase("buscar")){
             int id = Integer.parseInt(request.getParameter("id"));
             try {
                 
-                forward = edit;
+                vista = edit;
                 cliente = clienteDAO.BuscarPorId(id);
                 request.setAttribute("cliente", cliente);
-                rd = request.getRequestDispatcher(forward);
+                rd = request.getRequestDispatcher(vista);
                 rd.forward(request, response);
                 
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        else if(action.equalsIgnoreCase("insert")) {        
+            vista = insert;
+            rd = request.getRequestDispatcher(vista);
+            rd.forward(request, response);
+        }        
+        else if(action.equalsIgnoreCase("listar")){
+            vista = list_cliente;
+            try {   
+                request.setAttribute("cliente", clienteDAO.consultar());
+                rd = request.getRequestDispatcher(vista);
+                rd.forward(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
+
+        }
     }
 
 
@@ -79,7 +98,7 @@ public class SERVCliente extends HttpServlet {
             throws ServletException, IOException {
         
         request.setCharacterEncoding("UTF-8");
-        
+     
         int id = 0;
         if(request.getParameter("txtId")!= null){
             id = Integer.parseInt(request.getParameter("txtId"));
@@ -100,30 +119,33 @@ public class SERVCliente extends HttpServlet {
         cliente.setTelefono(telefono);
                 
         Envio envio = new Envio();
-        
+ 
+         
         if(request.getParameter("btnRegistrar")!= null){
             try {
+                               
                 clienteDAO.insertar(cliente);
                 envio.EnviarCorreo(email);
-              rd = request.getRequestDispatcher("exito.jsp");
+
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
-        /*
-        if(request.getParameter("btnRegistrar")!=null){
+
+        if(request.getParameter("btnEditar")!=null){
             try {
                cliente.setId(id);
                clienteDAO.modificar(cliente);
-              rd = request.getRequestDispatcher("exito.jsp");
+
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-       */ 
-         
+      
+    response.sendRedirect(request.getContextPath() + "/SERVCliente?action=listar");    
+
     }
 
     @Override

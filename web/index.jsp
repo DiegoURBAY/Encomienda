@@ -1,11 +1,6 @@
-<%-- 
-    Document   : index2
-    Created on : 07/04/2019, 11:08:40 AM
-    Author     : usuario
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -49,11 +44,9 @@
                 <a class="nav-link js-scroll-trigger" href="#contact">Contactenos</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link js-scroll-trigger" href="login.jsp">Ingrese</a>
+                  <a class="nav-link js-scroll-trigger" href="login.jsp">Unase</a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link js-scroll-trigger" href="RegistrarCliente.jsp">Registrese</a>
-              </li>          
+        
             </ul>
           </div>
         </div>

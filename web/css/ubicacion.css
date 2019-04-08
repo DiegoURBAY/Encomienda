@@ -1,0 +1,12 @@
+#mapa{
+    width: 400px;
+    height: 400px;
+    float:left;
+    background: green;
+}
+#infor{
+    width: 400px;
+    height: 400px;
+    float:left;
+
+}

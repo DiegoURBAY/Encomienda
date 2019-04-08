@@ -1,5 +1,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
     if(sesion.getAttribute("nivel")==null){
@@ -10,7 +12,7 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Navegador</title>
         <script src="js/jquery-3.3.1.slim.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/bootstrap.bundle.min.js" type="text/javascript"></script>
@@ -44,8 +46,8 @@ HttpSession sesion = request.getSession();
                         aria-expanded="false">
                         <i class="fas fa-user"></i> ¡Hola, <%= sesion.getAttribute("usuario") %>! </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-                          <a class="dropdown-item" href="EditarCliente.jsp">Mi cuenta</a>
-                        <a class="dropdown-item" href="index.jsp">Salir</a>
+                          <a class="dropdown-item" href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" > Mi cuenta</a>
+                        <a class="dropdown-item" href="SERVLogin?action=adios">Salir</a>
                       </div>
                     </li>                
                   </ul>

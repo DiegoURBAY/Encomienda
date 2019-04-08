@@ -18,11 +18,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class SERVLogin extends HttpServlet {
     
     private static String ingresar= "/login.jsp";
-    private static String registrar = "/RegistrarCliente.jsp";
+    //private static String registrar = "/RegistrarCliente.jsp";
     private static String index = "/index.jsp";
     ClienteDAO clienteDAO = new ClienteDAO();
     RequestDispatcher rd = null;
@@ -39,26 +40,37 @@ public class SERVLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+ 
         String vista = "";
         String action = request.getParameter("action");
+        
+        if(action.equalsIgnoreCase("adios")){
+        HttpSession sesion = request.getSession();
+        sesion.invalidate();
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+        dispatcher.forward(request, response);
+        }
         
         if(action.equalsIgnoreCase("ingresar")){
             vista = ingresar;
             rd = request.getRequestDispatcher(vista);
-                      
-        }        
+                      rd.forward(request, response); 
+        }    
+/*        
         if(action.equalsIgnoreCase("registrar")){
             vista = registrar;
             rd = request.getRequestDispatcher(vista);            
             
         }
+        */
         if(action.equalsIgnoreCase("regresar")){
             vista = index;
             rd = request.getRequestDispatcher(vista);
-                      
+                      rd.forward(request, response); 
         }                
-        rd.forward(request, response);  
+        
+        
+         
     }
 
     @Override
@@ -72,7 +84,7 @@ public class SERVLogin extends HttpServlet {
             Acceso acc = new Acceso();            
           
                         
-            if(request.getParameter("btnIniciar")!=null){
+            if(request.getParameter("btnIniciar")!=null || request.getParameter("btnRegistrar")!=null){
                 
                 email = request.getParameter("txtEmail");
                 contra = request.getParameter("txtContra");
@@ -88,20 +100,18 @@ public class SERVLogin extends HttpServlet {
                 if(nivel > 0){
                     
                     request.setAttribute("usuario", usuario);
-                    request.setAttribute("email", email);
                     request.setAttribute("nivel", nivel);
                     rd = request.getRequestDispatcher("login.jsp");  
+                  //  rd = request.getRequestDispatcher("RegistrarCliente.jsp");
+                     rd.forward(request, response);  
                 }                
                 else{
                     rd = request.getRequestDispatcher("error.jsp");
+                     rd.forward(request, response);  
                 }
 
             }
-            if(request.getParameter("btnRegistrar")!=null){
-                rd = request.getRequestDispatcher("RegistrarCliente.jsp");
-            }          
-            
-            rd.forward(request, response);  
+           
     }
 
     /**

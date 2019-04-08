@@ -1,11 +1,7 @@
-<%-- 
-    Document   : CuentaCliente
-    Created on : 05/04/2019, 09:38:02 PM
-    Author     : usuario
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
     if(sesion.getAttribute("nivel")==null){

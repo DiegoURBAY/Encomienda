@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -65,12 +67,29 @@
               </div>              
               <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="registrar" name="btnRegistrar">
               <hr class="my-4">
-              <a href="index.jsp" class="btn btn-lg btn-secondary btn-block text-uppercase">Atrás</a>                 
+              <a href="SERVLogin?action=adios" class="btn btn-lg btn-secondary btn-block text-uppercase">Atrás</a>                 
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+    
+        <%
+        HttpSession sesion = request.getSession();
+        int nivel = 0;
+        if(request.getAttribute("nivel")!=null){
+            nivel = (Integer)request.getAttribute("nivel");
+            if(!(nivel == 0)){
+                sesion.setAttribute("usuario", request.getAttribute("usuario"));
+                sesion.setAttribute("nivel", nivel);
+                response.sendRedirect("navegador.jsp");
+            }
+        }
+        if(request.getParameter("cerrar")!=null){
+            session.invalidate();
+        }
+    %>      
+    
 </body>
 </html>
