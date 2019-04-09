@@ -152,9 +152,12 @@ public class SERVTipoEncomienda extends HttpServlet {
                     try { 
                         List tipos = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomienda);
 
-                        int idEncomienda2 =  tipoEncomiendaDAO.ConsultarTipoNombrePorEncomienda(idEncomienda);
+                        //int idEncomienda2 =  tipoEncomiendaDAO.ConsultarTipoNombrePorEncomienda(idEncomienda);
+                        double peso = tipoEncomiendaDAO.ConsultarPesoPorEncomiendaID(idEncomienda);
+                        
                         request.setAttribute("tipoEncomienda", tipos);                                        
                         sesion.setAttribute("idEncomienda", idEncomienda);
+                        sesion.setAttribute("peso", peso);
 
                         RequestDispatcher view = request.getRequestDispatcher(forward);
                     view.forward(request, response);      

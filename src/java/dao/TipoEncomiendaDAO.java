@@ -160,7 +160,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
         return datos;        
     }
         
-        
+
     @Override
     public TipoEncomienda BuscarPorId(int id) throws Exception {
            TipoEncomienda tu = new TipoEncomienda();
@@ -215,6 +215,29 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
            return result;        
     }
 
+    public double ConsultarPesoPorEncomiendaID(int idEncomienda) throws Exception {
+           double result = 0;
+           PreparedStatement pst;
+           ResultSet res;
+           String sql = "SELECT SUM(peso) AS peso FROM tiposencomiendas WHERE estado = 1 AND idEncomienda = ?";
+           try {
+            this.conectar();
+               pst = conexion.prepareStatement(sql);
+               pst.setInt(1,idEncomienda);  
+               res = pst.executeQuery();                                    
+                if (res.next()) {
+                    result = res.getInt("peso");
+                    
+                }                        
+            } catch (SQLException e) {
+            }
+            finally{
+                this.cerrar();
+            }
+           return result;        
+    }
+    
+    //        //SELECT SUM(peso) FROM tiposencomiendas WHERE estado = 1 AND idEncomienda = 13
     public boolean ConsultarNombre(String nom) throws Exception {
         PreparedStatement pst;
         ResultSet res = null;

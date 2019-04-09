@@ -12,19 +12,21 @@ HttpSession sesion = request.getSession();
 <html>
     <head>        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Lista de Envios</title>                    
+        <title>Lista de tipos de Envios</title>                    
         <jsp:include page="navbar.jsp"/>             
     </head>    
     <body>
         <div class="container">
             <input type="text" value="<%= sesion.getAttribute("idEncomienda") %>"><br>
             <input type="text" value="<%= sesion.getAttribute("nivel") %>">
-            <h1>Lista de Tipo de Encomienda  </h1>
+            <input type="text" value="<%= sesion.getAttribute("peso") %>">
+            <h1>Lista de tipos de Envios  </h1>
                 <hr>                
                 <a class="btn btn-success btn-lg" href="SERVTipoEncomienda?action=insert&id=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>">+ Sobre</a>
                 <a class="btn btn-success btn-lg" href="SERVTipoEncomienda?action=insert&id=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>&tipo=paquete">+ Paquete</a>                    
-                    <a class="btn btn-primary btn-lg" href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>"> Actualizar Lista</a>
-                    <a class="btn btn-info btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Mis Encomiendas</a>                         
+                <a class="btn btn-primary btn-lg" href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>"> Actualizar Lista</a>
+                <a class="btn btn-info btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Mis Encomiendas</a>
+                <a class="btn btn-info btn-lg" href="SERVVehiculo?action=refresh&peso=<c:out value="<%= sesion.getAttribute("peso") %>"/>">Elegir Vehiculo</a>
                 <br>
                 <br>                
             <form method="POST">
