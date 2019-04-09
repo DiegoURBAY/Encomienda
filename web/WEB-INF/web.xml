@@ -23,6 +23,10 @@
         <servlet-name>SERVVehiculo</servlet-name>
         <servlet-class>controlador.SERVVehiculo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SERVPedido</servlet-name>
+        <servlet-class>controlador.SERVPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
@@ -42,6 +46,10 @@
     <servlet-mapping>
         <servlet-name>SERVVehiculo</servlet-name>
         <url-pattern>/SERVVehiculo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVPedido</servlet-name>
+        <url-pattern>/SERVPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

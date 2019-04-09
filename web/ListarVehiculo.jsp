@@ -17,9 +17,9 @@ HttpSession sesion = request.getSession();
     </head>    
     <body>
         <div class="container">
-            <input type="text" value="<%= sesion.getAttribute("idEncomienda") %>"><br>
-            <input type="text" value="<%= sesion.getAttribute("nivel") %>">
-            <input type="text" value="<%= sesion.getAttribute("peso") %>">
+            <input type="text" value="<%= sesion.getAttribute("idEncomienda") %>">idEncomienda<br>
+            <input type="text" value="<%= sesion.getAttribute("nivel") %>">idCliente<br>
+            <input type="text" value="<%= sesion.getAttribute("peso") %>">Peso<br>
             <h1>Lista de Vehiculos  </h1>
                 <hr>                                
                 <a class="btn btn-primary btn-lg" href="SERVVehiculo?action=refresh&peso=<c:out value="<%= sesion.getAttribute("peso") %>"/>"> Actualizar Lista</a>
@@ -50,8 +50,7 @@ HttpSession sesion = request.getSession();
                                         <c:out value="${vehiculo.capacidad}"/>
                                 </td>                                                               
                                 <td class="text-center">                                    
-                                    <a href="SERVTipoEncomienda?action=edit&id=<c:out value="${tipoEncomienda.id}"/>&tipo=<c:out value="${tipoEncomienda.tipo}"/>"  class="btn btn-warning btn-sm">Elegir</a>   
-                                    <a href="SERVTipoEncomienda?action=delete&id=<c:out value="${tipoEncomienda.id}"/>&idEncomienda=<%= sesion.getAttribute("idEncomienda") %>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
+                                    <a href="SERVPedido?action=refresh&idVehiculo=<c:out value="${vehiculo.id}"/>&idCliente=<c:out value="<%= sesion.getAttribute("nivel") %>"/>&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>"  class="btn btn-warning btn-sm" >Elegir</a>                                       
                                 </td>
                             </tr>
                         </c:forEach>                         

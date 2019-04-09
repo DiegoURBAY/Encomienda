@@ -19,6 +19,7 @@ HttpSession sesion = request.getSession();
         <div class="container">
             <input type="text" value="<%= sesion.getAttribute("nivel") %>">
             <input type="text" value="<%= sesion.getAttribute("usuario") %>">
+            <input type="text" value="<%= sesion.getAttribute("email") %>">
                 <h1>Lista de Encomiendas</h1>
                 <hr>                
                     <a class="btn btn-success btn-lg" href="SERVEncomienda?action=insert&id=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Nueva Encomienda</a>

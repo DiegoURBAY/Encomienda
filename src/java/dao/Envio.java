@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dao;
 
 import java.util.Properties;
@@ -17,13 +13,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author usuario
- */
+
 public class Envio {
     
-    public void EnviarCorreo(String remitente) throws MessagingException{
+    public void EnviarCorreo(String receptor) throws MessagingException{
         try {
             Properties props = new Properties();
             //Propiedades para la conexión a nuestra cuenta
@@ -42,8 +35,8 @@ public class Envio {
             //declaracion de variables string con nuestro datos
             String correoRemitente = "larcroco@gmail.com";
             String passwordRemitente = "Marcelo44";
-            String correoReceptor = remitente;
-            String asunto = "Mi primer correo en java";
+            String correoReceptor = receptor;
+            String asunto = "Registro de cuenta";
             String mensaje = "Se ha unido a Zurita SAC! Felicidades!!";
             
             //Se envia la sesion
@@ -77,5 +70,53 @@ public class Envio {
         
         
     }
+    
+    
+    public void EnviarCodigo(String codigo, String receptor) throws MessagingException{
+        try {
+            Properties props = new Properties();
+
+            props.setProperty("mail.smtp.host", "smtp.gmail.com");
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.port", "587");
+            props.setProperty("mail.smtp.auth", "true");
+            
+            Session session = Session.getDefaultInstance(props);
+            
+            //declaracion de variables string con nuestro datos
+            String correoRemitente = "larcroco@gmail.com";
+            String passwordRemitente = "Marcelo44";
+            String correoReceptor = receptor;
+            String key = codigo;
+            String asunto = "CODIGO ";
+            String mensaje = "Hola,"+receptor+". Su código de encomienda es :"+key;
+            
+ 
+            MimeMessage message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(correoRemitente));
+
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoReceptor));
+            //Para enviar una copia
+            message.addRecipient(Message.RecipientType.CC, new InternetAddress(correoRemitente));
+
+            message.setSubject(asunto);
+            message.setText(mensaje);
+            
+            //se elige el tipo de transporte
+            Transport t = session.getTransport("smtp");
+
+            t.connect(correoRemitente, passwordRemitente);
+            t.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            t.close();
+            
+            JOptionPane.showMessageDialog(null, "correo enviado");
+            
+        } catch (AddressException ex) {
+            Logger.getLogger(Envio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }    
     
 }
