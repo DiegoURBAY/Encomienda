@@ -19,6 +19,72 @@
         <!-- Theme CSS - Includes Bootstrap -->
         <link href="css/creative.min.css" rel="stylesheet">
   
+        
+<style type="text/css">
+    body {
+		font-family: 'Varela Round', sans-serif;
+	}
+	.modal-login {
+		width: 320px;
+	}
+	.modal-login .modal-content {
+		border-radius: 1px;
+		border: none;
+	}
+	.modal-login .modal-header {
+        position: relative;
+		justify-content: center;
+        background: #f2f2f2;
+	}
+    .modal-login .modal-body {
+        padding: 30px;
+    }
+    .modal-login .modal-footer {
+        background: #f2f2f2;
+    }
+	.modal-login h4 {
+		text-align: center;
+		font-size: 26px;
+	}
+    .modal-login label {
+        font-weight: normal;
+        font-size: 13px;
+    }
+	.modal-login .form-control, .modal-login .btn {
+		min-height: 38px;
+		border-radius: 2px; 
+	}
+	.modal-login .hint-text {
+		text-align: center;
+	}
+	.modal-login .close {
+        position: absolute;
+		top: 15px;
+		right: 15px;
+	}
+    .modal-login .checkbox-inline {
+        margin-top: 12px;
+    }
+    .modal-login input[type="checkbox"]{
+        margin-top: 2px;
+    }
+	.modal-login .btn {
+        min-width: 100px;
+		background: #3498db;
+		border: none;
+		line-height: normal;
+	}
+	.modal-login .btn:hover, .modal-login .btn:focus {
+		background: #248bd0;
+	}
+	.modal-login .hint-text a {
+		color: #999;
+	}
+	.trigger-btn {
+		display: inline-block;
+		margin: 100px auto;
+	}
+</style>        
     </head>
     <body id="page-top">
 
@@ -44,7 +110,9 @@
                 <a class="nav-link js-scroll-trigger" href="#contact">Contactenos</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link js-scroll-trigger" href="login.jsp">Unase</a>
+                  <!--<a class="nav-link js-scroll-trigger" href="login.jsp">Unase</a>-->
+                   <!--<a href="#myModal" class="trigger-btn" data-toggle="modal">Unase</a>-->
+                  <a class="" href="#myModal" data-toggle="modal">Unase</a>
               </li>
         
             </ul>
@@ -237,6 +305,46 @@
           </div>
         </div>
       </section>
+      
+      
+        <div class="text-center">
+                <!-- Button HTML (to Trigger Modal) -->
+                <a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>
+        </div>
+
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade">
+                <div class="modal-dialog modal-login">
+                        <div class="modal-content">
+                                <form action="SERVLogin" method="post">
+                                        <div class="modal-header">				
+                                                <h4 class="modal-title">Login</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">				
+                                                <div class="form-group">
+                                                        <label>Correo</label>                     
+                                                        <input type="text" class="form-control"  name="txtEmail" >
+                                                </div>
+                                                <div class="form-group">
+                                                        <div class="clearfix">
+                                                                <label>Contraseña</label>
+                                                                <a href="#" class="pull-right text-muted"><small>¿Recuperar Contraseña?</small></a>
+                                                        </div>
+
+                                                        <input type="password" class="form-control" name="txtContra" >
+                                                </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <label class="text-left"><a href="RegistrarCliente.jsp">¿Crear cuenta nueva?</a></label>                     
+                                                 <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciar">
+                                        </div>
+                                </form>
+                            
+                             <p class="text-center"></p>
+                        </div>
+                </div>
+        </div>          
 
       <!-- Footer -->
       <footer class="bg-light py-5">
@@ -255,6 +363,23 @@
 
       <!-- Custom scripts for this template -->
       <script src="js/creative.min.js"></script>
+      
+                <%
+        HttpSession sesion = request.getSession();
+        int nivel = 0;
+        if(request.getAttribute("nivel")!=null){
+            nivel = (Integer)request.getAttribute("nivel");
+            if(!(nivel == 0)){
+                sesion.setAttribute("usuario", request.getAttribute("usuario"));
+                sesion.setAttribute("nivel", nivel);
+
+                response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+nivel);
+            }
+        }
+        if(request.getParameter("cerrar")!=null){
+            session.invalidate();
+        }
+    %>        
 
     </body>
     

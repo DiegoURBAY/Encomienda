@@ -101,7 +101,7 @@ public class SERVLogin extends HttpServlet {
                     
                     request.setAttribute("usuario", usuario);
                     request.setAttribute("nivel", nivel);
-                    rd = request.getRequestDispatcher("login.jsp");  
+                    rd = request.getRequestDispatcher("index.jsp");  
                   //  rd = request.getRequestDispatcher("RegistrarCliente.jsp");
                      rd.forward(request, response);  
                 }                

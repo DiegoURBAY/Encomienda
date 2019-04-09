@@ -17,6 +17,7 @@ import entidad.Encomienda;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.servlet.http.HttpSession;
 
 public class SERVEncomienda extends HttpServlet {
 
@@ -41,27 +42,38 @@ public class SERVEncomienda extends HttpServlet {
             String action = request.getParameter("action");
                 
             //ELIMINAR CLIENTE
-            if (action.equalsIgnoreCase("delete")) {                 
+            if (action.equalsIgnoreCase("delete")) {  
+                
+                int idCliente = Integer.parseInt(request.getParameter("nivel"));
                 try {
-                    enc.setId(Integer.parseInt(request.getParameter("id")));
-                    encomiendadao.eliminar(enc);
-                    forward = list_encomienda;
-                    request.setAttribute("encomiendadao", encomiendadao.consultar());                      
+
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    enc.setId(id);
+                    encomiendadao.eliminar(enc);  
+                    List<Encomienda> encomienda = encomiendadao.consultar(idCliente);
+                    request.setAttribute("encomienda", encomienda); 
+                    
                 } catch (Exception ex) {
                 }              
-                               
-        response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh");
+                          
+                response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+idCliente);  
+                
+    //              RequestDispatcher view = request.getRequestDispatcher(forward);
+      //     view.forward(request, response);
             }
             //EDITAR CLIENTE
             else if (action.equalsIgnoreCase("edit")) {
                 try {
                     forward = edit;
+
                     int id = Integer.parseInt(request.getParameter("id"));
                     Encomienda encomienda = encomiendadao.BuscarPorId(id);             
+                    
+                  
                     request.setAttribute("encomienda", encomienda);
                 } catch (Exception ex) {
                 }
-                               
+                              
             RequestDispatcher view = request.getRequestDispatcher(forward);
            view.forward(request, response);
             }            
@@ -83,17 +95,24 @@ public class SERVEncomienda extends HttpServlet {
             }
             //LISTAR O ACTUALIZAR CLIENTE
             else if(action.equalsIgnoreCase("refresh")){
+                     HttpSession sesion = request.getSession();
+                     
+                 int idCliente = 0;
+                if(request.getParameter("nivel")!=null){
+                     idCliente =Integer.parseInt(request.getParameter("nivel"));
+                }
                 try {
                     forward = list_encomienda;
-                    List cliente = encomiendadao.consultar();
-                    request.setAttribute("encomienda", cliente); 
+                    List<Encomienda> encomienda = encomiendadao.consultar(idCliente);
+                    request.setAttribute("encomienda", encomienda); 
+                 
+                 //   sesion.setAttribute("nivel", request);
                 } catch (Exception e) {
                 }
                                
             RequestDispatcher view = request.getRequestDispatcher(forward);
            view.forward(request, response);
             }
-
              
     }
 
@@ -141,7 +160,7 @@ public class SERVEncomienda extends HttpServlet {
         } catch (Exception e) {
         }
                    
-        response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh");   
+        response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+idCliente);   
     }
 
     @Override

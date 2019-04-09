@@ -80,7 +80,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, origen, destino, envio, llegada, fecharegistro, idCliente FROM encomiendas WHERE estado = 1";
+        String sql = "SELECT id, origen, destino, envio, llegada, idCliente FROM encomiendas WHERE estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -92,7 +92,6 @@ public class EncomiendaDAO extends Conexion implements DAO{
                         rs.getString("destino"),
                         rs.getDate("envio"),
                         rs.getDate("llegada"),                                              
-                        rs.getDate("fecharegistro"),
                         rs.getInt("idCliente")
                         )
                 );
@@ -105,15 +104,15 @@ public class EncomiendaDAO extends Conexion implements DAO{
         return datos;
     }
     
-    public List consultar(int id) throws Exception {
+    public List<Encomienda> consultar(int idCliente) throws Exception {
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, origen, destino, envio, llegada, fecharegistro, idCliente FROM encomiendas WHERE estado = 1 AND id = ?";
+        String sql = "SELECT id, origen, destino, envio, llegada, idCliente FROM encomiendas WHERE estado = 1 AND idCliente = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setInt(1, id);
+            pst.setInt(1, idCliente);
             rs = pst.executeQuery();
             while(rs.next()){
                 datos.add(new Encomienda(
@@ -122,7 +121,6 @@ public class EncomiendaDAO extends Conexion implements DAO{
                         rs.getString("destino"),
                         rs.getDate("envio"),
                         rs.getDate("llegada"),                                              
-                        rs.getDate("fecharegistro"),
                         rs.getInt("idCliente")
                         )
                 );
@@ -135,12 +133,33 @@ public class EncomiendaDAO extends Conexion implements DAO{
         return datos;
     }    
 
+    public int consultarClienteIdPorEncomiendaId(int idEncomienda) throws Exception {
+        int idCliente = 0;
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "SELECT id, origen, destino, envio, llegada, idCliente FROM encomiendas WHERE estado = 1 AND id = ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setInt(1, idCliente);
+            rs = pst.executeQuery();
+            if(rs.next()){
+                idCliente = rs.getInt("idCliente");
+            }
+        } catch (SQLException e) {
+        }
+        finally{
+            this.cerrar();
+        }   
+        return idCliente;
+    }        
+    
     @Override
     public Encomienda BuscarPorId(int id) throws Exception {
            Encomienda c = new Encomienda();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT id, origen, destino, envio, llegada, fecharegistro, idCliente FROM encomiendas WHERE estado = 1 AND id = ?";
+           String sql = "SELECT id, origen, destino, envio, llegada, idCliente FROM encomiendas WHERE estado = 1 AND id = ?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -152,7 +171,6 @@ public class EncomiendaDAO extends Conexion implements DAO{
                     c.setDestino(res.getString("destino"));                               
                     c.setEnvio(res.getDate("envio"));   
                     c.setLlegada(res.getDate("llegada")); 
-                    c.setFecharegistro(res.getDate("fecharegistro"));
                     c.setIdCliente(res.getInt("idCliente"));
                 }                   
      

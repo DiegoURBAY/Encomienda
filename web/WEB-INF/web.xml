@@ -14,7 +14,11 @@
     <servlet>
         <servlet-name>SERVEncomienda</servlet-name>
         <servlet-class>controlador.SERVEncomienda</servlet-class>
-    </servlet>    
+    </servlet>
+    <servlet>
+        <servlet-name>SERVTipoEncomienda</servlet-name>
+        <servlet-class>controlador.SERVTipoEncomienda</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
@@ -26,7 +30,11 @@
     <servlet-mapping>
         <servlet-name>SERVEncomienda</servlet-name>
         <url-pattern>/SERVEncomienda</url-pattern>
-    </servlet-mapping>    
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVTipoEncomienda</servlet-name>
+        <url-pattern>/SERVTipoEncomienda</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

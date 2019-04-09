@@ -10,23 +10,19 @@ public class Encomienda {
     private String destino;    
     private Date envio;
     private Date llegada;
-    private Date fecharegistro;
     private int idCliente;
 
     public Encomienda() {
     }
 
-    public Encomienda(int id, String origen, String destino, Date envio, Date llegada, Date fecharegistro, int idCliente) {
+    public Encomienda(int id, String origen, String destino, Date envio, Date llegada, int idCliente) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
         this.envio = envio;
         this.llegada = llegada;
-        this.fecharegistro = fecharegistro;
         this.idCliente = idCliente;
-    }
-
-   
+    }   
 
     public int getId() {
         return id;
@@ -68,14 +64,6 @@ public class Encomienda {
         this.llegada = llegada;
     }
 
-    public Date getFecharegistro() {
-        return fecharegistro;
-    }
-
-    public void setFecharegistro(Date fecharegistro) {
-        this.fecharegistro = fecharegistro;
-    }
-
     public int getIdCliente() {
         return idCliente;
     }
@@ -83,7 +71,5 @@ public class Encomienda {
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
-    
-    
-        
+                
 }

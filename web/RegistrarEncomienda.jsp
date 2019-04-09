@@ -16,6 +16,7 @@ HttpSession sesion = request.getSession();
       
     </head>
     <body>
+        <input type="text" value="<%= sesion.getAttribute("nivel") %>">
     <div class="container" id="advanced-search-form">
         <h2>Advanced Search</h2>
         <form method="POST" action="SERVEncomienda">

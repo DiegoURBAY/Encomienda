@@ -74,7 +74,7 @@ HttpSession sesion = request.getSession();
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Bienvenido : <%= sesion.getAttribute("nombre") %></a></li>                
+                <li><a href="#">Bienvenido : <%= sesion.getAttribute("usuario") %></a></li>                
                 <li><a href="index.jsp?cerrar=true">Cerrar Sesión</a></li>
             </ul>
           </div>
