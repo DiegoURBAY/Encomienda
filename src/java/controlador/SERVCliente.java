@@ -98,11 +98,8 @@ public class SERVCliente extends HttpServlet {
             throws ServletException, IOException {
         
         request.setCharacterEncoding("UTF-8");
-     
-        int id = 0;
-        if(request.getParameter("txtId")!= null){
-            id = Integer.parseInt(request.getParameter("txtId"));
-        }
+      
+        String id = request.getParameter("txtId");
         String identificador = request.getParameter("txtIdentificador");
         String nombre = request.getParameter("txtNombre");
         String email = request.getParameter("txtEmail");
@@ -120,7 +117,7 @@ public class SERVCliente extends HttpServlet {
                 
         Envio envio = new Envio();
  
-         
+      /*   
         if(request.getParameter("btnRegistrar")!= null){
             try {
                                
@@ -144,10 +141,30 @@ public class SERVCliente extends HttpServlet {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-          
+            
         }
+*/
         
-         response.sendRedirect(request.getContextPath() + "/SERVCliente?action=listar");
+        if (id == null || id.isEmpty()) {
+            try {
+                clienteDAO.insertar(cliente);
+                envio.EnviarCorreo(email);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+                response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+id); 
+            
+        } else {                    
+            try {
+                cliente.setId(Integer.parseInt(id));
+                clienteDAO.modificar(cliente);
+            } catch (Exception ex) {
+               Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);                  
+            }
+        }             
+                     
+                response.sendRedirect(request.getContextPath() + "/index.jsp?cerrar=true"); 
 
     }
 

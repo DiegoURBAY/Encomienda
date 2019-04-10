@@ -27,7 +27,7 @@ HttpSession sesion = request.getSession();
     </head>
     <body>
 <div class="signup-form">
-    <form action="SERVCliente" method="post"  autocomplete="off">
+    <form action="SERVCliente" method="POST"  autocomplete="off">
 		<h2>Editar</h2>
 		<p class="hint-text">Solo le tomará unos segundos</p>
                 

@@ -1,11 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page session="true"%>
-
 <%
 HttpSession sesion = request.getSession();
     if(sesion.getAttribute("nivel")==null){
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index.jsp");      
     }
 %>
 <!DOCTYPE html>
@@ -45,8 +44,9 @@ HttpSession sesion = request.getSession();
                                 <td>
                                         <c:out value="${encomienda.id}"/>
                                 </td>                                
-                                <td>
-                                        <c:out value="${encomienda.origen}"/>
+                                <td>                                    
+                                           <c:out value="${encomienda.origen}"   />
+                                                                                           
                                 </td>
                                 <td>
                                         <c:out value="${encomienda.destino}"/>
