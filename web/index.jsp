@@ -18,80 +18,14 @@
 
         <!-- Theme CSS - Includes Bootstrap -->
         <link href="css/creative.min.css" rel="stylesheet">
-  
-        
-<style type="text/css">
-    body {
-		font-family: 'Varela Round', sans-serif;
-	}
-	.modal-login {
-		width: 320px;
-	}
-	.modal-login .modal-content {
-		border-radius: 1px;
-		border: none;
-	}
-	.modal-login .modal-header {
-        position: relative;
-		justify-content: center;
-        background: #f2f2f2;
-	}
-    .modal-login .modal-body {
-        padding: 30px;
-    }
-    .modal-login .modal-footer {
-        background: #f2f2f2;
-    }
-	.modal-login h4 {
-		text-align: center;
-		font-size: 26px;
-	}
-    .modal-login label {
-        font-weight: normal;
-        font-size: 13px;
-    }
-	.modal-login .form-control, .modal-login .btn {
-		min-height: 38px;
-		border-radius: 2px; 
-	}
-	.modal-login .hint-text {
-		text-align: center;
-	}
-	.modal-login .close {
-        position: absolute;
-		top: 15px;
-		right: 15px;
-	}
-    .modal-login .checkbox-inline {
-        margin-top: 12px;
-    }
-    .modal-login input[type="checkbox"]{
-        margin-top: 2px;
-    }
-	.modal-login .btn {
-        min-width: 100px;
-		background: #3498db;
-		border: none;
-		line-height: normal;
-	}
-	.modal-login .btn:hover, .modal-login .btn:focus {
-		background: #248bd0;
-	}
-	.modal-login .hint-text a {
-		color: #999;
-	}
-	.trigger-btn {
-		display: inline-block;
-		margin: 100px auto;
-	}
-</style>        
+        <link href="css/index.css" rel="stylesheet" type="text/css"/>
     </head>
     <body id="page-top">
 
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a>
+          <a class="navbar-brand js-scroll-trigger" href="#page-top">Zurita SAC</a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -125,12 +59,12 @@
         <div class="container h-100">
           <div class="row h-100 align-items-center justify-content-center text-center">
             <div class="col-lg-10 align-self-end">
-              <h1 class="text-uppercase text-white font-weight-bold">Your Favorite Source of Free Bootstrap Themes</h1>
+              <h1 class="text-uppercase text-white font-weight-bold">Su empresa de encomienda favorita</h1>
               <hr class="divider my-4">
             </div>
             <div class="col-lg-8 align-self-baseline">
-              <p class="text-white-75 font-weight-light mb-5">Start Bootstrap can help you build better websites using the Bootstrap framework! Just download a theme and start customizing, no strings attached!</p>
-              <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
+              <p class="text-white-75 font-weight-light mb-5">¡Zurita SAC puede ayudarte a enviar su encomienda de manera fácil y sencilla! ¡Simplemente unase y comience a enviar!</p>
+              <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Saber más</a>
             </div>
           </div>
         </div>
@@ -141,10 +75,10 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-              <h2 class="text-white mt-0">We've got what you need!</h2>
+              <h2 class="text-white mt-0">¡Tenemos lo que necesita!</h2>
               <hr class="divider light my-4">
-              <p class="text-white-50 mb-4">Start Bootstrap has everything you need to get your new website up and running in no time! Choose one of our open source, free to download, and easy to use themes! No strings attached!</p>
-              <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
+              <p class="text-white-50 mb-4">¡Zurita Sac tiene todo lo que necesita para enviar su encomienda facilmante!</p>
+              <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">¡Empezar!</a>
             </div>
           </div>
         </div>
@@ -153,35 +87,35 @@
       <!-- Services Section -->
       <section class="page-section" id="services">
         <div class="container">
-          <h2 class="text-center mt-0">At Your Service</h2>
+          <h2 class="text-center mt-0">A su servicio</h2>
           <hr class="divider my-4">
           <div class="row">
             <div class="col-lg-3 col-md-6 text-center">
               <div class="mt-5">
                 <i class="fas fa-4x fa-gem text-primary mb-4"></i>
-                <h3 class="h4 mb-2">Sturdy Themes</h3>
-                <p class="text-muted mb-0">Our themes are updated regularly to keep them bug free!</p>
+                <h3 class="h4 mb-2">Cuidamos</h3>
+                <p class="text-muted mb-0">Aseguramos sus objetos más valiosos durante el envío</p>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
               <div class="mt-5">
                 <i class="fas fa-4x fa-laptop-code text-primary mb-4"></i>
-                <h3 class="h4 mb-2">Up to Date</h3>
-                <p class="text-muted mb-0">All dependencies are kept current to keep things fresh.</p>
+                <h3 class="h4 mb-2">Fácil de ubicarnos</h3>
+                <p class="text-muted mb-0">Estamos a su alcance desde la comododidad de su casa.</p>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
               <div class="mt-5">
                 <i class="fas fa-4x fa-globe text-primary mb-4"></i>
-                <h3 class="h4 mb-2">Ready to Publish</h3>
-                <p class="text-muted mb-0">You can use this design as is, or you can make changes!</p>
+                <h3 class="h4 mb-2">Nos expandimos</h3>
+                <p class="text-muted mb-0">Tenemos locales fuera de Lima</p>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
               <div class="mt-5">
                 <i class="fas fa-4x fa-heart text-primary mb-4"></i>
-                <h3 class="h4 mb-2">Made with Love</h3>
-                <p class="text-muted mb-0">Is it really open source if it's not made with love?</p>
+                <h3 class="h4 mb-2">Lo hacemos con amor</h3>
+                <p class="text-muted mb-0">¿Quién mejor que cuide sus objetos que alguien que los aprecia como usted?</p>
               </div>
             </div>
           </div>
@@ -197,10 +131,10 @@
                 <img class="img-fluid" src="img/portfolio/thumbnails/1.jpg" alt="">
                 <div class="portfolio-box-caption">
                   <div class="project-category text-white-50">
-                    Category
+                    Categoria
                   </div>
                   <div class="project-name">
-                    Project Name
+                    Conductores
                   </div>
                 </div>
               </a>
@@ -210,10 +144,10 @@
                 <img class="img-fluid" src="img/portfolio/thumbnails/2.jpg" alt="">
                 <div class="portfolio-box-caption">
                   <div class="project-category text-white-50">
-                    Category
+                    Categoria
                   </div>
                   <div class="project-name">
-                    Project Name
+                    Ayudantes
                   </div>
                 </div>
               </a>
@@ -223,10 +157,10 @@
                 <img class="img-fluid" src="img/portfolio/thumbnails/3.jpg" alt="">
                 <div class="portfolio-box-caption">
                   <div class="project-category text-white-50">
-                    Category
+                    Categoria
                   </div>
                   <div class="project-name">
-                    Project Name
+                   Vehiculos
                   </div>
                 </div>
               </a>
@@ -236,10 +170,10 @@
                 <img class="img-fluid" src="img/portfolio/thumbnails/4.jpg" alt="">
                 <div class="portfolio-box-caption">
                   <div class="project-category text-white-50">
-                    Category
+                    Categoria
                   </div>
                   <div class="project-name">
-                    Project Name
+                    Personal
                   </div>
                 </div>
               </a>
@@ -249,10 +183,10 @@
                 <img class="img-fluid" src="img/portfolio/thumbnails/5.jpg" alt="">
                 <div class="portfolio-box-caption">
                   <div class="project-category text-white-50">
-                    Category
+                    Categoria
                   </div>
                   <div class="project-name">
-                    Project Name
+                    Encomienda
                   </div>
                 </div>
               </a>
@@ -262,10 +196,10 @@
                 <img class="img-fluid" src="img/portfolio/thumbnails/6.jpg" alt="">
                 <div class="portfolio-box-caption p-3">
                   <div class="project-category text-white-50">
-                    Category
+                    Categoria
                   </div>
                   <div class="project-name">
-                    Project Name
+                    Locales
                   </div>
                 </div>
               </a>
@@ -274,22 +208,22 @@
         </div>
       </section>
 
-      <!-- Call to Action Section -->
+      <!-- Call to Action Section 
       <section class="page-section bg-dark text-white">
         <div class="container text-center">
           <h2 class="mb-4">Free Download at Start Bootstrap!</h2>
           <a class="btn btn-light btn-xl" href="https://startbootstrap.com/themes/creative/">Download Now!</a>
         </div>
       </section>
-
+-->
       <!-- Contact Section -->
       <section class="page-section" id="contact">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-              <h2 class="mt-0">Let's Get In Touch!</h2>
+              <h2 class="mt-0">¡Mantengase en contacto!</h2>
               <hr class="divider my-4">
-              <p class="text-muted mb-5">Ready to start your next project with us? Give us a call or send us an email and we will get back to you as soon as possible!</p>
+              <p class="text-muted mb-5">¿Listo para empezar ? ¡Llámenos o envíenos un correo electrónico y nos pondremos en contacto con usted lo antes posible!</p>
             </div>
           </div>
           <div class="row">
@@ -300,7 +234,7 @@
             <div class="col-lg-4 mr-auto text-center">
               <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
               <!-- Make sure to change the email address in anchor text AND the link below! -->
-              <a class="d-block" href="mailto:contact@yourwebsite.com">contact@yourwebsite.com</a>
+              <a class="d-block" href="mailto:contact@yourwebsite.com">transportezuritasac@gmail.com</a>
             </div>
           </div>
         </div>
@@ -309,14 +243,14 @@
       
         <div class="text-center">
                 <!-- Button HTML (to Trigger Modal) -->
-                <a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>
+                <a href="#myModal" class="trigger-btn" data-toggle="modal">Click para Unirse</a>
         </div>
 
         <!-- Modal HTML -->
         <div id="myModal" class="modal fade">
                 <div class="modal-dialog modal-login">
                         <div class="modal-content">
-                                <form action="SERVLogin" method="post">
+                            <form action="SERVLogin" method="post" autocomplete="off">
                                         <div class="modal-header">				
                                                 <h4 class="modal-title">Login</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -324,20 +258,20 @@
                                         <div class="modal-body">				
                                                 <div class="form-group">
                                                         <label>Correo</label>                     
-                                                        <input type="text" class="form-control"  name="txtEmail" >
+                                                        <input type="text" class="form-control"  name="txtEmail" id="email_id">
                                                 </div>
                                                 <div class="form-group">
                                                         <div class="clearfix">
                                                                 <label>Contraseña</label>
-                                                                <a href="#" class="pull-right text-muted"><small>¿Recuperar Contraseña?</small></a>
+                                                                <a href="#" class="pull-right text-muted"></a>
                                                         </div>
 
-                                                        <input type="password" class="form-control" name="txtContra" >
+                                                        <input type="password" class="form-control" name="txtContra" id="contraseña">
                                                 </div>
                                         </div>
                                         <div class="modal-footer">
                                             <label class="text-left"><a href="RegistrarCliente.jsp">¿Crear cuenta nueva?</a></label>                     
-                                                 <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciar">
+                                            <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciar" id="ingresar" >
                                         </div>
                                 </form>
                             
@@ -349,7 +283,7 @@
       <!-- Footer -->
       <footer class="bg-light py-5">
         <div class="container">
-          <div class="small text-center text-muted">Copyright &copy; 2019 - Start Bootstrap</div>
+          <div class="small text-center text-muted">Copyright &copy; 2019 - transportezuritasac@gmail.com</div>
         </div>
       </footer>
 
@@ -363,6 +297,8 @@
 
       <!-- Custom scripts for this template -->
       <script src="js/creative.min.js"></script>
+      
+      <script src="js/validarLogin.js" type="text/javascript"></script>
       
                 <%
         HttpSession sesion = request.getSession();

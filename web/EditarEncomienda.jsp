@@ -39,6 +39,7 @@ HttpSession sesion = request.getSession();
             </div>                        
             <div class="clearfix"></div>            
             <input type="submit" class="btn btn-info btn-lg btn-responsive" id="editar" name="btnEditar">
+                                <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Regresar</a>               
         </form>
     </div>
     </body>

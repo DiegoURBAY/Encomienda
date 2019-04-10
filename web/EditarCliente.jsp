@@ -76,7 +76,7 @@ HttpSession sesion = request.getSession();
               </div>              
               <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Editar" name="btnEditar">
               <hr class="my-4">
-              <a href="SERVCliente?action=listar"  class="btn btn-lg btn-secondary btn-block text-uppercase">Atrás</a>
+    <a class="btn btn-info btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Atras</a>
             </form>
           </div>
         </div>

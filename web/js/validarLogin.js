@@ -1,34 +1,40 @@
 $(document).ready(function (){
     
- $('#username').keypress(function (e) {
-       key = e.keyCode || e.which;
-       tecla = String.fromCharCode(key).toLowerCase();
-       letras = "áéíóúabcdefghijklmnñopqrstuvwxyz";
-       especiales = "8-37-39-46";
+    //Transforma las letras en minuscula
+    $("#email_id").keyup(function() {
+       $(this).val($(this).val().toLowerCase());
+    });
+    
+    
+ $('#ingresar').click(function (){
 
-       tecla_especial = false;
-       for(var i in especiales){
-            if(key === especiales[i]){
-                tecla_especial = true;
-                break;
-            }
-        }
-
-        if(letras.indexOf(tecla)===-1 && !tecla_especial){
+        var email = $('#email_id').val();  
+        var contra = $('#contraseña').val();  
+        var respuestaEmail = $('#ReportarEmail').text().trim();
+        var condicion = 'Ya existe';   
+                                                
+        if (email ===  null || email.length ===  0 || /^\s+$/.test(email) ) {
+            alert('[ERROR] El email no puede quedar vacío');
+            return false;
+        }               
+        else if (!(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(email))) {
+            alert('[ERROR] Ingrese un email con formato adecuado');
             return false;
         }
-    });    
-    
-    $( "#username" ).blur(function() {
-        var val = $('#username').val();
-        var tam = val.length;
-        for(i = 0; i < tam; i++) {
-            if(!isNaN(val[i]))
-                document.getElementById("username").value = '';
+        else if(!(email.length <=30) || /^\s+$/.test(email)){
+            alert('[ERROR] El email no puede exceder los 30 caracteres');
+            return false;
         }
-    });    
+        else if(respuestaEmail === condicion){
+            alert('[ERROR] Ingrese un email que no este registrado');
+            return false;
+        }      
+        if (contra ===  null || contra.length ===  0 || /^\s+$/.test(contra) ) {
+            alert('[ERROR] La Contraseña no puede quedar vacío');
+            return false;
+        }         
+        
+        return true;           
+     });    
     
-    $("#username").keyup(function() {
-       $(this).val($(this).val().toLowerCase());
-    });    
 });

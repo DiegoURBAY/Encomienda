@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
     if(sesion.getAttribute("nivel")==null){
@@ -16,9 +17,9 @@ HttpSession sesion = request.getSession();
       
     </head>
     <body>
-        <input type="text" value="<%= sesion.getAttribute("nivel") %>">
+        <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
     <div class="container" id="advanced-search-form">
-        <h2>Advanced Search</h2>
+        <h2>Registrar Encomienda</h2>
         <form method="POST" action="SERVEncomienda">
             <input type="hidden" id="cliente" name="txtIdCliente" value="<%= sesion.getAttribute("nivel") %>"  >
             <div class="form-group">
@@ -39,6 +40,7 @@ HttpSession sesion = request.getSession();
             </div>                        
             <div class="clearfix"></div>            
             <input type="submit" class="btn btn-info btn-lg btn-responsive" id="registrar" name="btnRegistrar">
+                                <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Regresar</a>   
         </form>
     </div>
     </body>

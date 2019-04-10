@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
@@ -74,8 +75,9 @@ HttpSession sesion = request.getSession();
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Bienvenido : <%= sesion.getAttribute("usuario") %></a></li>                
-                <li><a href="index.jsp?cerrar=true">Cerrar Sesión</a></li>
+                <li><a href="#">¡Hola, <%= sesion.getAttribute("usuario") %>! </a></li> 
+                <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
+                <li><a href="index.jsp?cerrar=true">Cerrar Sesión</a></li>               
             </ul>
           </div>
         </nav>

@@ -17,9 +17,9 @@ HttpSession sesion = request.getSession();
     </head>    
     <body>
         <div class="container">
-            <input type="text" value="<%= sesion.getAttribute("idEncomienda") %>">idEncomienda<br>
-            <input type="text" value="<%= sesion.getAttribute("nivel") %>">idCliente<br>
-            <input type="text" value="<%= sesion.getAttribute("peso") %>">Peso<br>
+            <input type="hidden" value="<%= sesion.getAttribute("idEncomienda") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("peso") %>">
             <h1>Lista de Vehiculos  </h1>
                 <hr>                                
                 <a class="btn btn-primary btn-lg" href="SERVVehiculo?action=refresh&peso=<c:out value="<%= sesion.getAttribute("peso") %>"/>"> Actualizar Lista</a>

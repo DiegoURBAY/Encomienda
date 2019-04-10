@@ -47,7 +47,7 @@ $(document).ready(function (){
     });        
     
    
-    $('#registrar').click(function (){
+    $('#editar').click(function (){
         var opciones = document.getElementsByName("optradio"); 
         var ruc_dni = $('#inputIdentificador').val();
         var nombre = $('#inputNombre').val();

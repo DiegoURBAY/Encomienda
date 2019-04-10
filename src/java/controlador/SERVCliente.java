@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SERVCliente extends HttpServlet {
     
     private static final String insert= "/RegistrarCliente.jsp";
-    private static final String edit = "/EditarCliente.jsp";
+    private static final String edit = "/EditarCliente2.jsp";
     private static final String list_cliente = "/navegador.jsp";
     private static final String action_listar = "/SERVCliente?action=listar";
     
@@ -131,6 +131,8 @@ public class SERVCliente extends HttpServlet {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+                 
+
         }
 
         if(request.getParameter("btnEditar")!=null){
@@ -141,10 +143,11 @@ public class SERVCliente extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+          
         }
         
-      
-    response.sendRedirect(request.getContextPath() + "/SERVCliente?action=listar");    
+         response.sendRedirect(request.getContextPath() + "/SERVCliente?action=listar");
 
     }
 
