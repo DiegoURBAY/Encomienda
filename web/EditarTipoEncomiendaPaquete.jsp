@@ -15,9 +15,8 @@ HttpSession sesion = request.getSession();
          <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
-       
         <link href="css/stylesTE.css" rel="stylesheet" type="text/css"/>
-      
+             <script src="js/validarRegistrarPaquete.js" type="text/javascript"></script> 
     </head>
     <body>
 <div class="container">
@@ -35,39 +34,39 @@ HttpSession sesion = request.getSession();
                     <div class="row">                                                
                             <div class="col-sm-4 form-group">
                                     <label>Altura</label>
-                                    <input type="text" class="form-control" name="txtAltura" value="${tipoEncomienda.altura}">
+                                    <input type="text" class="form-control" name="txtAltura" id="altura"  value="${tipoEncomienda.altura}">
                             </div>
                         
                             <div class="col-sm-4 form-group">
                                     <label>Anchura</label>
-                                    <input type="text"  class="form-control" name="txtAnchura" value="${tipoEncomienda.anchura}">
+                                    <input type="text"  class="form-control" name="txtAnchura" id="anchura" value="${tipoEncomienda.anchura}">
                             </div>
                         
                             <div class="col-sm-4 form-group">
                                     <label>Largo</label>
-                                    <input type="text"  class="form-control" name="txtLargo"  value="${tipoEncomienda.largo}">
+                                    <input type="text"  class="form-control" name="txtLargo"  id="largo" value="${tipoEncomienda.largo}">
                             </div>
                     </div> 
                     <div class="row">                                                
                             <div class="col-sm-4 form-group">
                                     <label>Cantidad</label>
-                                    <input type="text" class="form-control" name="txtCantidad" value="${tipoEncomienda.cantidad}">
+                                    <input type="text" class="form-control" name="txtCantidad" id="cantidadSobres" value="${tipoEncomienda.cantidad}">
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Peso por Sobre</label>
-                                    <input type="text"  class="form-control" name="txtPeso" value="${tipoEncomienda.peso}">
+                                    <label>Peso por Paquete (kg)</label>
+                                    <input type="text"  class="form-control" name="txtPeso" id="peso" value="${tipoEncomienda.peso}">
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Resultado</label>
-                                    <input type="text"  class="form-control" name="txtPrecio"   value="${tipoEncomienda.precio}">
+                                    <label>Precio</label>
+                                    <input type="text"  class="form-control" name="txtPrecio"  readonly="" id="precio" value="${tipoEncomienda.precio}">
                             </div>
                     </div>                                                             
                             
                     <div class="row">
                         <div class="col-sm-3 form-group">
-                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="registrar" name="btnAceptarPaquete" value="Aceptar">		                
+                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="editar" name="btnAceptarPaquete" value="Editar">		                
                         </div>
                         <div class="col-sm-3 form-group">
                             <input type="reset" class="form-control btn btn-info  btn-warning" id="reset" name="btnLimpiar" value="Limpiar">		                

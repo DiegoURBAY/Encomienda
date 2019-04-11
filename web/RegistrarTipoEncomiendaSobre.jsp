@@ -11,7 +11,7 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registrar Encomienda</title>
+        <title>Registrar Tipo Encomienda</title>
          <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
@@ -37,7 +37,7 @@ HttpSession sesion = request.getSession();
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Peso por Sobre en kg</label>
+                                    <label>Peso por Sobre (kg)</label>
                                     <input type="text"  class="form-control" name="txtPeso" id="peso"> 
                             </div>
                         

@@ -15,14 +15,14 @@ HttpSession sesion = request.getSession();
          <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
-       
+        <script src="js/validarRegistrarSobre.js" type="text/javascript"></script>
         <link href="css/stylesTE.css" rel="stylesheet" type="text/css"/>
       
     </head>
     <body>
 <div class="container">
-    <input type="hidden" value="<%= sesion.getAttribute("idEncomienda") %>">IdEncomienda
-    <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">IdCliente
+    <input type="hidden" value="<%= sesion.getAttribute("idEncomienda") %>">
+    <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
     <h1 class="well">Editar Sobre</h1>
 	<div class="col-lg-12 well">
 	<div class="row">
@@ -31,26 +31,26 @@ HttpSession sesion = request.getSession();
                     <div class="row">
                         <input type="hidden" name="txtidEncomienda"  value="<%= sesion.getAttribute("idEncomienda") %>">
                         
-                        <input type="hidden" class="form-control" name="txtIdTipoEncomienda"  value="${tipoEncomienda.id}">
+                        <input type="hidden" class="form-control" name="txtIdTipoEncomienda"   value="${tipoEncomienda.id}">
                         
                             <div class="col-sm-4 form-group">
                                     <label>Cantidad</label>
-                                    <input type="text" class="form-control" name="txtCantidad"  value="${tipoEncomienda.cantidad}">
+                                    <input type="text" class="form-control" name="txtCantidad" id="cantidadSobres" value="${tipoEncomienda.cantidad}">
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Peso por Sobre</label>
-                                    <input type="text"  class="form-control" name="txtPeso" value="${tipoEncomienda.peso}">
+                                    <label>Peso por Sobre (kg)</label>
+                                    <input type="text"  class="form-control" name="txtPeso"  id="peso" value="${tipoEncomienda.peso}">
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Resultado</label>
-                                    <input type="text"  class="form-control" name="txtPrecio" value="${tipoEncomienda.precio}">
+                                    <label>Precio</label>
+                                    <input type="text"  class="form-control" readonly="" name="txtPrecio" id="precio" value="${tipoEncomienda.precio}" >
                             </div>
                     </div>                    
                     <div class="row">
                         <div class="col-sm-3 form-group">
-                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="registrar" name="btnAceptarSobre" value="Editar">		                
+                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="editar" name="btnAceptarSobre" value="Editar">		                
                         </div>
                         <div class="col-sm-3 form-group">
                             <input type="reset" class="form-control btn btn-info  btn-warning" id="reset" name="btnLimpiar" value="Limpiar">		                
