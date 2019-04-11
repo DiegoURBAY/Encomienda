@@ -50,8 +50,8 @@ HttpSession sesion = request.getSession();
                 <input type="text" class="form-control" placeholder="Llegada" id="llegada" name="txtLlegada">
             </div>                        
             <div class="clearfix"></div>            
-            <input type="submit" class="btn btn-info btn-lg btn-responsive" id="registrar" name="btnRegistrar" value="Registrar">
-                <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Regresar</a>   
+            <input type="submit" class="btn btn-info btn-lg btn-responsive" id="registrar" name="btnRegistrar" value="Registrar" onclick="return confirm('¿Seguro que desea registrar?')">
+                <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>" onclick="return confirm('¿Seguro que desea salir del registro?')">Regresar</a>   
         </form>
     </div>
     </body>

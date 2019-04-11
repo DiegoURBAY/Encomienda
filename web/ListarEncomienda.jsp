@@ -61,7 +61,7 @@ HttpSession sesion = request.getSession();
                                 </td>                                 
                                 <td class="text-center">                                    
                                     <a href="SERVEncomienda?action=edit&id=<c:out value="${encomienda.id}"/>"  class="btn btn-warning btn-sm">Editar</a>   
-                                    <a href="SERVEncomienda?action=delete&id=<c:out value="${encomienda.id}"/>&nivel=<%= sesion.getAttribute("nivel") %>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
+                                    <a href="SERVEncomienda?action=delete&id=<c:out value="${encomienda.id}"/>&nivel=<%= sesion.getAttribute("nivel") %>" onclick="return confirm('¿Seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
                                 </td>
                             </tr>
                         </c:forEach>                         

@@ -89,12 +89,19 @@
               alert('[ERROR] El campo llegada no puede quedar vacío');
               return false;              
         }  
-        else if( (new Date(fechainicial).getTime() > new Date(fechafinal).getTime()))
-        {
-          alert("[ERROR] La fecha de envio no puede superar la fecha de llegada");
-          return false;
-        }
+        //Split de las fechas recibidas para separarlas
+        var x = envio.split("/");
+        var z = llegada.split("/");
 
+        //Cambiamos el orden al formato americano, de esto dd/mm/yyyy a esto mm/dd/yyyy
+        envio = x[2] + "-" + x[1] + "-" + x[0];
+        llegada = z[2] + "-" + z[1] + "-" + z[0];
+
+        //Comparamos las fechas
+        if (Date.parse(envio) > Date.parse(llegada)){
+            alert("[ERROR] La fecha de envio no puede superar la fecha de llegada");
+            return false;   
+        }
             
             return true;
     });    

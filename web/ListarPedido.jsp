@@ -21,31 +21,30 @@ HttpSession sesion = request.getSession();
     </head>
     <body>
 <div class="container">
-    <input type="hidden" value="<%= sesion.getAttribute("idEncomienda") %>">
-    <input type="hidden" value="<%= sesion.getAttribute("idCliente") %>">
-    <input type="hidden" value="<%= sesion.getAttribute("idVehiculo") %>">
-    <h1 class="well">Registrar Sobre</h1>
+    <h1 class="well">Codigo de Encomienda</h1>
 	<div class="col-lg-12 well">
 	<div class="row">
             <form method="POST" action="SERVPedido">
-                <input type="hidden" name="txtidEncomienda"  value="<%= sesion.getAttribute("idEncomienda") %>">
+                <input type="hidden" name="txtidEncomienda"  value="<%= sesion.getAttribute("idEncomienda") %>">               
+                <input type="hidden" name="txtidCliente" value="<%= sesion.getAttribute("idCliente") %>">
+                <input type="hidden" name="txtidVehiculo" value="<%= sesion.getAttribute("idVehiculo") %>">                
+                <input type="hidden" name="txtplacaVehiculo" value="<%= sesion.getAttribute("placaVehiculo") %>"> 
                 <div class="col-sm-12">
                     <div class="row">                                                
                             <div class="col-sm-4 form-group">
-                                    <label>Codigo</label>
-                                    <input type="text" class="form-control" name="txtCodigo" value="<%= sesion.getAttribute("idCliente") %>.<%= sesion.getAttribute("idEncomienda") %>.<%= sesion.getAttribute("idVehiculo") %>" readonly="" > 
-                                    
+                                    <label >Codigo</label>
+                                    <input type="text" class="form-control" name="txtCodigo" value="<%= sesion.getAttribute("idCliente") %>.<%= sesion.getAttribute("idEncomienda") %>.<%= sesion.getAttribute("idVehiculo") %>" readonly="" >                                     
                                     <input type="hidden"  name="txtIdcliente" value="<%= sesion.getAttribute("idCliente") %>">
                             </div>                                           
                     </div> 
                             
                     <div class="row">
-                        <div class="col-sm-3 form-group">
+                        <div class="col-sm-4 form-group">
                             <input type="submit" class="form-control btn btn-info  btn-responsive" id="registrar" name="btnIngresar" value="Enviar a mi correo">		                
                         </div>  
                         
-                         <div class="col-sm-3 form-group">
-                            <a class="btn btn-danger btn-sm" href="SERVVehiculo?action=refresh&peso=<c:out value="<%= sesion.getAttribute("peso") %>"/>"> No enviar y salir</a>
+                         <div class="col-sm-4 form-group">
+                            <a class="orm-control btn btn-danger  btn-responsive" href="SERVVehiculo?action=refresh&peso=<c:out value="<%= sesion.getAttribute("peso") %>"/>"> No enviar y salir</a>
                         </div>     
                         
 

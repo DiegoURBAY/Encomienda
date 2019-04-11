@@ -20,7 +20,8 @@ HttpSession sesion = request.getSession();
             <input type="hidden" value="<%= sesion.getAttribute("idEncomienda") %>">
             <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
             <input type="hidden" value="<%= sesion.getAttribute("peso") %>">
-            <h1>Lista de Vehiculos  </h1>
+            <h1>Lista de Vehiculos</h1>
+            <h4> Peso de encomienda: <%= sesion.getAttribute("peso") %></h4>
                 <hr>                                
                 <a class="btn btn-primary btn-lg" href="SERVVehiculo?action=refresh&peso=<c:out value="<%= sesion.getAttribute("peso") %>"/>"> Actualizar Lista</a>
                 <a class="btn btn-info btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Mis Encomiendas</a>
@@ -50,7 +51,7 @@ HttpSession sesion = request.getSession();
                                         <c:out value="${vehiculo.capacidad}"/>
                                 </td>                                                               
                                 <td class="text-center">                                    
-                                    <a href="SERVPedido?action=refresh&idVehiculo=<c:out value="${vehiculo.id}"/>&idCliente=<c:out value="<%= sesion.getAttribute("nivel") %>"/>&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>"  class="btn btn-warning btn-sm" >Elegir</a>                                       
+                                    <a href="SERVPedido?action=refresh&idVehiculo=<c:out value="${vehiculo.id}"/>&placaVehiculo=<c:out value="${vehiculo.placa}"/>&idCliente=<c:out value="<%= sesion.getAttribute("nivel") %>"/>&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>"  class="btn btn-warning btn-sm" onclick="return confirm('¿Seguro que su elección?')" > Elegir</a>                                       
                                 </td>
                             </tr>
                         </c:forEach>                         

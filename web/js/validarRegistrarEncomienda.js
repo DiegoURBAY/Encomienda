@@ -1,5 +1,4 @@
-  
-  
+   
       $(function() {
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
@@ -57,17 +56,14 @@
     });    
             
 
-        
+
     $("#registrar").click(function() {
 
         var origen = $('#origen').val();
         var destino = $('#destino').val();
         var envio = $("#envio").val();
         var llegada = $("#llegada").val();
-        var fechainicial = new Date($('#envio').val());
-        var fechafinal = new Date($('#llegada').val());
-        
-        
+                
         if( origen === null || origen.length === 0 || /^\s+$/.test(origen) ) {
               alert('[ERROR] El campo origen no puede quedar vacío');
               return false;              
@@ -84,22 +80,30 @@
             alert('[ERROR] El origen no puede exceder los 30 dígitos');
             return false; 
         }        
-        if( envio === null || envio.length === 0 || /^\s+$/.test(envio) ) {
+        else if( envio === null || envio.length === 0 || /^\s+$/.test(envio) ) {
               alert('[ERROR] El campo envio no puede quedar vacío');
               return false;              
         }   
-        if( llegada === null || llegada.length === 0 || /^\s+$/.test(llegada) ) {
+        else if( llegada === null || llegada.length === 0 || /^\s+$/.test(llegada) ) {
               alert('[ERROR] El campo llegada no puede quedar vacío');
               return false;              
-        }  
-        else if( (new Date(fechainicial).getTime() > new Date(fechafinal).getTime()))
-        {
-          alert("[ERROR] La fecha de envio no puede superar la fecha de llegada");
-          return false;
-        }
+        }               
 
-            
-            return true;
+        //Split de las fechas recibidas para separarlas
+        var x = envio.split("/");
+        var z = llegada.split("/");
+
+        //Cambiamos el orden al formato americano, de esto dd/mm/yyyy a esto mm/dd/yyyy
+        envio = x[2] + "-" + x[1] + "-" + x[0];
+        llegada = z[2] + "-" + z[1] + "-" + z[0];
+
+        //Comparamos las fechas
+        if (Date.parse(envio) > Date.parse(llegada)){
+            alert("[ERROR] La fecha de envio no puede superar la fecha de llegada");
+            return false;   
+        }
+   
+        return true;
     });    
             
        

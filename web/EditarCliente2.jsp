@@ -69,10 +69,10 @@ HttpSession sesion = request.getSession();
         </div>                
         <div class="form-group">
         <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Editar" name="btnEditar" id="editar">
-           
+        <a class="btn btn-sm btn-secondary btn-block text-uppercase" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')" >Atras</a>
         </div>
-                    <hr class="my-4">
-                     <a class="btn btn-lg text-center" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Atras</a>
+                    
+                     
     </form>
 </div>
     </body>

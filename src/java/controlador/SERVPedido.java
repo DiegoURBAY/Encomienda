@@ -67,6 +67,7 @@ public class SERVPedido extends HttpServlet {
                  int idCliente = 0;
                  int idEncomienda = 0;
                  int idVehiculo = 0;
+                 String placaVehiculo= null;
                 if(request.getParameter("idCliente")!=null){
                      idCliente =Integer.parseInt(request.getParameter("idCliente"));
                 }
@@ -76,11 +77,16 @@ public class SERVPedido extends HttpServlet {
                 if(request.getParameter("idVehiculo")!=null){
                      idVehiculo =Integer.parseInt(request.getParameter("idVehiculo"));
                 }                    
+                if(request.getParameter("placaVehiculo")!=null){
+                     placaVehiculo =request.getParameter("placaVehiculo");
+                }                                    
+                
                 try {
                     forward = list;
                     sesion.setAttribute("idCliente", idCliente);
                     sesion.setAttribute("idEncomienda", idEncomienda);
                     sesion.setAttribute("idVehiculo", idVehiculo);
+                    sesion.setAttribute("placaVehiculo", placaVehiculo);
                  
                  //   sesion.setAttribute("nivel", request);
                 } catch (Exception e) {
@@ -105,21 +111,20 @@ public class SERVPedido extends HttpServlet {
                  ClienteDAO clienteDAO = new ClienteDAO();
                  Cliente  cliente = new Cliente();
                 
-                String codigo = request.getParameter("txtCodigo");
-                
-                
-
-                               
+                String codigo = request.getParameter("txtCodigo");                                                               
                 String Idcliente = request.getParameter("txtIdcliente");
-               
-     
+                String IdEncomienda = request.getParameter("txtidEncomienda");
+                String IdVehiculo = request.getParameter("txtidVehiculo");
+                String placaVehiculo = request.getParameter("txtplacaVehiculo");
+                
+                
                 if(request.getParameter("btnIngresar")!=null){
                     
                     try {  
                        cliente = clienteDAO.BuscarPorId(Integer.parseInt(Idcliente));
                         String email = cliente.getEmail();
                         
-                        envio.EnviarCodigo(codigo ,email);
+                        envio.EnviarCodigo(codigo , Idcliente, IdEncomienda, IdVehiculo, placaVehiculo, email);
                         sesion.setAttribute("email", email);
                                                 
                     } catch (MessagingException ex) {

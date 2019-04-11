@@ -62,13 +62,17 @@ HttpSession sesion = request.getSession();
                     </div>                     
                         
                     <div class="row">
-                        <div class="col-sm-3 form-group">
-                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="registrar" name="btnAceptarPaquete" value="Aceptar">		                
+                        <div class="col-sm-4 form-group">
+                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="registrar" name="btnAceptarPaquete" value="Aceptar" onclick="return confirm('¿Seguro que desea registrar?')">		                
                             
                         </div>
                         
-                        <div class="col-sm-3 form-group">
-                            <a class="btn btn-primary btn-sm" href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>">Regresar</a>
+                        <div class="col-sm-4 form-group">
+                            <input type="reset" class="form-control btn btn-warning  btn-responsive" id="limpiar" name="btnLimpiar" value="Limpiar" onclick="return confirm('¿Seguro que desea limpiar todos los campos?')">		                
+                        </div>
+                        
+                        <div class="col-sm-4 form-group">
+                            <a class="form-control btn btn-danger btn-responsive" href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>" onclick="return confirm('¿Seguro que desea salir del registro?')">Regresar</a>
                             
                         </div>                                               
                         

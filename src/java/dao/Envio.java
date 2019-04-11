@@ -72,7 +72,7 @@ public class Envio {
     }
     
     
-    public void EnviarCodigo(String codigo, String receptor) throws MessagingException{
+    public void EnviarCodigo(String codigo,  String idcliente, String idencomienda, String vehiculo, String placaVehiculo, String receptor) throws MessagingException{
         try {
             Properties props = new Properties();
 
@@ -89,7 +89,11 @@ public class Envio {
             String correoReceptor = receptor;
             String key = codigo;
             String asunto = "CODIGO ";
-            String mensaje = "Hola,"+receptor+". Su código de encomienda es :"+key;
+            String mensaje = "Hola, "+receptor+"\n"
+                    + "Número de cliente: " + idcliente +"\n"
+                    + "Número de encomienda: " + idencomienda +"\n"
+                    + "Matricula de vehiculo: " + placaVehiculo +"\n"
+                    + "Su código de encomienda es :"+key;
             
  
             MimeMessage message = new MimeMessage(session);

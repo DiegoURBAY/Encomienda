@@ -85,3 +85,8 @@ body{
         text-align: center;
     }
 }
+
+.sinbordefondo {
+outline: none;
+  border: 0;
+}

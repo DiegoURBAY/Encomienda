@@ -65,14 +65,11 @@ HttpSession sesion = request.getSession();
                     </div>                                                             
                             
                     <div class="row">
-                        <div class="col-sm-3 form-group">
-                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="editar" name="btnAceptarPaquete" value="Editar">		                
-                        </div>
-                        <div class="col-sm-3 form-group">
-                            <input type="reset" class="form-control btn btn-info  btn-warning" id="reset" name="btnLimpiar" value="Limpiar">		                
-                        </div>                             
-                        <div class="col-sm-3 form-group">
-                            <a class="form-control btn btn-danger  btn-responsiv" href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>">Regresar</a>
+                        <div class="col-sm-6 form-group">
+                            <input type="submit" class="form-control btn btn-info  btn-responsive" id="editar" name="btnAceptarPaquete" value="Editar"  onclick="return confirm('¿Seguro que desea editar?')" >	                
+                        </div>                           
+                        <div class="col-sm-6 form-group">
+                            <a class="form-control btn btn-danger  btn-responsive" href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')" >Regresar</a>
                         </div>                                                
                        
                     </div>                              
