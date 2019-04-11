@@ -11,6 +11,9 @@ public class Encomienda {
     private Date envio;
     private Date llegada;
     private int idCliente;
+    
+    private String envioS;
+    private String llegadaS;
 
     public Encomienda() {
     }
@@ -23,6 +26,18 @@ public class Encomienda {
         this.llegada = llegada;
         this.idCliente = idCliente;
     }   
+
+    public Encomienda(int id, String origen, String destino, int idCliente, String envioS, String llegadaS) {
+        this.id = id;
+        this.origen = origen;
+        this.destino = destino;
+        this.idCliente = idCliente;
+        this.envioS = envioS;
+        this.llegadaS = llegadaS;
+    }
+    
+    
+    
 
     public int getId() {
         return id;
@@ -70,6 +85,22 @@ public class Encomienda {
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getEnvioS() {
+        return envioS;
+    }
+
+    public void setEnvioS(String envioS) {
+        this.envioS = envioS;
+    }
+
+    public String getLlegadaS() {
+        return llegadaS;
+    }
+
+    public void setLlegadaS(String llegadaS) {
+        this.llegadaS = llegadaS;
     }
                 
 }

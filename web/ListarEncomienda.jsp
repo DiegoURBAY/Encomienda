@@ -45,17 +45,16 @@ HttpSession sesion = request.getSession();
                                         <c:out value="${encomienda.id}"/>
                                 </td>                                
                                 <td>                                    
-                                           <c:out value="${encomienda.origen}"   />
-                                                                                           
+                                           <c:out value="${encomienda.origen}"   />                                                                                           
                                 </td>
                                 <td>
                                         <c:out value="${encomienda.destino}"/>
                                 </td>                                   
                                 <td>
-                                        <c:out value="${encomienda.envio}"/>
+                                        <c:out value="${encomienda.envioS}"/>
                                 </td>
                                 <td>
-                                        <c:out value="${encomienda.llegada}"/>
+                                        <c:out value="${encomienda.llegadaS}"/>
                                 </td>                                                                                             
                                 <td class="text-center">
                                     <a href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="${encomienda.id}"/>"  class="btn btn-secondary btn-sm">Ver Envios</a>                                       

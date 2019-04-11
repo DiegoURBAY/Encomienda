@@ -14,8 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import entidad.Encomienda;
+import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import javax.servlet.http.HttpSession;
 
@@ -102,9 +106,31 @@ public class SERVEncomienda extends HttpServlet {
                      idCliente =Integer.parseInt(request.getParameter("nivel"));
                 }
                 try {
-                    forward = list_encomienda;
+                    forward = list_encomienda;                              
+                    
                     List<Encomienda> encomienda = encomiendadao.consultar(idCliente);
-                    request.setAttribute("encomienda", encomienda); 
+                    
+                    Encomienda enco[] = new Encomienda[encomienda.size()];
+                    enco = encomienda.toArray(enco);            
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+              
+                    for(int i = 0; i < enco.length; i++){
+
+                         if(enco[i].getEnvio() != null){
+                           
+                            Date envio_date = enco[i].getEnvio();
+                            Date llegada_date = enco[i].getLlegada();
+                             
+                            String envio_string = sdf.format(envio_date);                                                            
+                            String llegada_string = sdf.format(llegada_date);
+                                                        
+                            enco[i].setEnvioS(envio_string);
+                            enco[i].setLlegadaS(llegada_string);                       
+                         }
+                    }
+                    List<Encomienda> con_filtro = new ArrayList(Arrays.asList(enco));
+                    
+                    request.setAttribute("encomienda", con_filtro); 
                  
                  //   sesion.setAttribute("nivel", request);
                 } catch (Exception e) {
@@ -198,4 +224,19 @@ public class SERVEncomienda extends HttpServlet {
         return ejemploLista;
         
     }
+    
+    
+    
+  public static void main(String[] args) {
+      
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+    java.util.Date utilDate = new java.util.Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    System.out.println("utilDate:" + utilDate);
+    
+    String date = sdf.format(sqlDate);
+    System.out.println("sqlDate:" + date);
+
+  }    
+    
 }

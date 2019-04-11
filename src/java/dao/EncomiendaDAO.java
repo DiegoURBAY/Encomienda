@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entidad.Encomienda;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class EncomiendaDAO extends Conexion implements DAO{ 
 
@@ -123,8 +125,9 @@ public class EncomiendaDAO extends Conexion implements DAO{
                         rs.getDate("llegada"),                                              
                         rs.getInt("idCliente")
                         )
-                );
-            }
+                );            
+            }           
+            
         } catch (SQLException e) {
         }
         finally{
