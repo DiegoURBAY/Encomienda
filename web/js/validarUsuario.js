@@ -25,7 +25,7 @@ $(document).ready(function (){
     //Busca el nombre de manera asincrona
     $("#nom_id").keyup(function(){
             $nombre = $('#nom_id').val();
-            $.post("SERVUsuario", {nnombre:$nombre}, function(data) {               
+            $.post("SERVUsuario", {nombre:$nombre}, function(data) {               
                     $("#ReportarNombre").html(data);
             });
     });    

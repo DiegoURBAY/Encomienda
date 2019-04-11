@@ -15,7 +15,7 @@ HttpSession sesion = request.getSession();
          <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/ValidaRegistrarSobre.js" type="text/javascript"></script>
+        <script src="js/validarRegistrarSobre.js" type="text/javascript"></script>
         <link href="css/stylesTE.css" rel="stylesheet" type="text/css"/>
       
     </head>
@@ -43,7 +43,7 @@ HttpSession sesion = request.getSession();
                         
                             <div class="col-sm-4 form-group">
                                     <label>Precio</label>
-                                    <input type="text"  class="form-control" name="txtPrecio"  id="precio"> 
+                                    <input type="text"  class="form-control" readonly="" name="txtPrecio"  id="precio" value="10"> 
                             </div>
                     </div>                    
                     <div class="row">

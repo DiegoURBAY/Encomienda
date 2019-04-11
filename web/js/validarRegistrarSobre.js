@@ -15,9 +15,15 @@ $(document).ready(function (){
         
         
         if (cantidadSobres === null || cantidadSobres.length === 0 || /^\s+$/.test(cantidadSobres) ) {
-            alert('[ERROR] El cantidad no puede quedar vacio');
+            alert('[ERROR] La cantidad no puede quedar vacio');
             return false;
         }    
+        if (cantidadSobres >=20 ||  /^\s+$/.test(cantidadSobres) ) {
+            alert('[ERROR] La cantidad no puede superar las 20 unidades');
+            return false;
+        }    
+            
+    
         
         else if (peso === null || peso.length === 0 || /^\s+$/.test(peso) ) {
             alert('[ERROR] El peso no puede quedar vacio');

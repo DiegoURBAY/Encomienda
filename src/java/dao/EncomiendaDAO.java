@@ -1,15 +1,13 @@
 
 package dao;
 
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entidad.Encomienda;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class EncomiendaDAO extends Conexion implements DAO{ 
 
@@ -185,7 +183,5 @@ public class EncomiendaDAO extends Conexion implements DAO{
            return c;        
     }
 
-    
-      
   
 }

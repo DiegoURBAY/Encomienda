@@ -1,4 +1,5 @@
-   
+  
+  
       $(function() {
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
@@ -53,9 +54,11 @@
         if (!/^[a-záéíóúüñ]*$/i.test(this.value)) {
             this.value = this.value.replace(/[^a-záéíóúüñ]+/ig,"");
         }
-    });   
-    
-    $("#editar").click(function() {
+    });    
+            
+
+        
+    $("#registrar").click(function() {
 
         var origen = $('#origen').val();
         var destino = $('#destino').val();
@@ -101,3 +104,7 @@
             
        
 });    
+   
+
+
+  

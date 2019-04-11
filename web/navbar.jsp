@@ -45,39 +45,17 @@ HttpSession sesion = request.getSession();
           <!-- Agrupar los enlaces de navegación, los formularios y cualquier
                otro elemento que se pueda ocultar al minimizar la barra -->
           <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav navbar-right">
+
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  Modulos <b class="caret"></b>
+                  ¡Hola, <%= sesion.getAttribute("usuario") %>!<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="SERVAyudante?action=refresh">Gestionar Ayudante</a></li>
-                    <li><a href="SERVCliente?action=refresh">Gestionar Cliente</a></li>                          
-                    <li><a href="SERVConductor?action=refresh">Gestionar Conductor</a></li>                                                      
-                    <li><a href="SERVEncomienda?action=refresh">Gestionar Encomienda</a></li>
-                    <li><a href="SERVPrecio?action=refresh">Gestionar Precio</a></li>                    
-                    <li><a href="SERVVehiculo?action=refresh">Gestionar Vehiculo</a></li>
-                    <li><a href="SERVUsuario?action=refresh">Gestionar Usuario</a></li>
-                    <li><a href="Ubicacion.jsp">Gestionar Ubicación</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  Reportes <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="ReporteCliente.jsp">Reporte de Clientes</a></li>
-                    <li><a href="ReporteEncomienda.jsp">Reporte de Encomiendas</a></li>             
-                    <li><a href="ReporteIngreso.jsp">Reporte de Ingresos</a></li>
-                    <li><a href="ReporteVehiculo.jsp">Reporte de Vehiculos</a></li>              
+                    <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
+                     <li><a href="index.jsp?cerrar=true">Cerrar Sesión</a></li>                           
                 </ul>
               </li>              
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">¡Hola, <%= sesion.getAttribute("usuario") %>! </a></li> 
-                <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
-                <li><a href="index.jsp?cerrar=true">Cerrar Sesión</a></li>               
             </ul>
           </div>
         </nav>

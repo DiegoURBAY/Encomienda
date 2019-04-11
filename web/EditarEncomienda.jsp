@@ -12,7 +12,18 @@ HttpSession sesion = request.getSession();
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Editar Encomienda</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+    
+        <!--DATAPICKER Y AUTOCOMPLETAR -->       
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        
+        <!--BARRA DE NAVEGACIÓN -->   
+        
+        <!--DATAPICKER -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+        <!-- VALIDACIONES -->
+        <script src="js/validarEditarEncomienda.js" type="text/javascript"></script>
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>        
       
     </head>
     <body>
@@ -38,8 +49,8 @@ HttpSession sesion = request.getSession();
                 <input type="text" class="form-control" placeholder="Llegada" id="llegada" name="txtLlegada" value="<c:out value="${encomienda.llegadaS}" />" >
             </div>                        
             <div class="clearfix"></div>            
-            <input type="submit" class="btn btn-info btn-lg btn-responsive" id="editar" name="btnEditar">
-                                <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Regresar</a>               
+            <input type="submit" class="btn btn-info btn-lg btn-responsive" id="editar" name="btnEditar" value="Editar">
+            <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Regresar</a>               
         </form>
     </div>
     </body>
