@@ -41,7 +41,7 @@ public class SERVEncomienda extends HttpServlet {
           String forward = "";   
             String action = request.getParameter("action");
                 
-            //ELIMINAR CLIENTE
+            //ELIMINAR CLIENT
             if (action.equalsIgnoreCase("delete")) {  
                 
                 int idCliente = Integer.parseInt(request.getParameter("nivel"));
