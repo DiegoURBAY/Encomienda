@@ -31,11 +31,11 @@ HttpSession sesion = request.getSession();
             </div>
             <div class="form-group">
                 <label for="envio">Envio</label>
-                <input type="text" class="form-control" placeholder="Envio" id="envio" name="txtEnvio"  value="<c:out value="${encomienda.envio}" />" >
+                <input type="text" class="form-control" placeholder="Envio" id="envio" name="txtEnvio"  value="<c:out value="${encomienda.envioS}" />" >
             </div>
             <div class="form-group">
                 <label for="llegada">Llegada</label>
-                <input type="text" class="form-control" placeholder="Llegada" id="llegada" name="txtLlegada" value="<c:out value="${encomienda.llegada}" />" >
+                <input type="text" class="form-control" placeholder="Llegada" id="llegada" name="txtLlegada" value="<c:out value="${encomienda.llegadaS}" />" >
             </div>                        
             <div class="clearfix"></div>            
             <input type="submit" class="btn btn-info btn-lg btn-responsive" id="editar" name="btnEditar">

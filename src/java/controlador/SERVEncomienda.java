@@ -69,10 +69,21 @@ public class SERVEncomienda extends HttpServlet {
             else if (action.equalsIgnoreCase("edit")) {
                 try {
                     forward = edit;
-
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     int id = Integer.parseInt(request.getParameter("id"));
                     Encomienda encomienda = encomiendadao.BuscarPorId(id);             
                     
+                         if(encomienda.getEnvio() != null || encomienda.getLlegada()!= null){
+                           
+                            Date envio_date = encomienda.getEnvio();
+                            Date llegada_date = encomienda.getLlegada();
+                             
+                            String envio_string = sdf.format(envio_date);                                                            
+                            String llegada_string = sdf.format(llegada_date);
+                                                        
+                            encomienda.setEnvioS(envio_string);
+                            encomienda.setLlegadaS(llegada_string);                       
+                         }                    
                   
                     request.setAttribute("encomienda", encomienda);
                 } catch (Exception ex) {
@@ -116,7 +127,7 @@ public class SERVEncomienda extends HttpServlet {
               
                     for(int i = 0; i < enco.length; i++){
 
-                         if(enco[i].getEnvio() != null){
+                         if(enco[i].getEnvio() != null || enco[i].getLlegada()!= null){
                            
                             Date envio_date = enco[i].getEnvio();
                             Date llegada_date = enco[i].getLlegada();
@@ -148,7 +159,7 @@ public class SERVEncomienda extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         
         String origen = request.getParameter("txtOrigen");
-        String destino = request.getParameter("txtDestino");
+        String destino = request.getParameter("txtDestino");                        
         String envio = request.getParameter("txtEnvio");
         String llegada = request.getParameter("txtLlegada");
         String id =request.getParameter("txtId");
@@ -156,17 +167,14 @@ public class SERVEncomienda extends HttpServlet {
 
         
         try {
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date dateEnvio = sdf1.parse(envio);
-            java.util.Date dateLlegada = sdf1.parse(llegada);
-            java.sql.Date sqlStartDateEnvio = new java.sql.Date(dateEnvio.getTime()); 
-            java.sql.Date sqlStartDateLlegada = new java.sql.Date(dateLlegada.getTime()); 
             
+            List<java.sql.Date> cambio = Fechas(envio, llegada);
+                        
             Encomienda encomienda = new Encomienda();
             encomienda.setOrigen(origen);            
             encomienda.setDestino(destino);      
-            encomienda.setEnvio(sqlStartDateEnvio);      
-            encomienda.setLlegada(sqlStartDateLlegada);            
+            encomienda.setEnvio(cambio.get(0));      
+            encomienda.setLlegada(cambio.get(1));            
             encomienda.setIdCliente(idCliente);
            
                 if (id == null || id.isEmpty()) {
@@ -196,7 +204,7 @@ public class SERVEncomienda extends HttpServlet {
         
     public List<java.sql.Date> Fechas(String fech_ini, String fech_fin) throws ParseException {
                      
-        SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yyyy");
 
         SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
 
