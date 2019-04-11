@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controlador;
 
 import dao.ClienteDAO;
@@ -10,6 +6,7 @@ import dao.Envio;
 import entidad.Cliente;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -18,14 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author usuario
- */
+
 public class SERVCliente extends HttpServlet {
     
     private static final String insert= "/RegistrarCliente.jsp";
-    private static final String edit = "/EditarCliente2.jsp";
+    private static final String edit = "/EditarCliente.jsp";
     private static final String list_cliente = "/navegador.jsp";
     private static final String action_listar = "/SERVCliente?action=listar";
     
@@ -39,7 +33,6 @@ public class SERVCliente extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -98,13 +91,62 @@ public class SERVCliente extends HttpServlet {
             throws ServletException, IOException {
         
         request.setCharacterEncoding("UTF-8");
+        
+        
+         PrintWriter out = response.getWriter();
+        
+        if(request.getParameter("iidentificador")!=null){
+            String iidentificador = request.getParameter("iidentificador");
+            String report = null;
+            try {
+                report = VerificarIdentificador(iidentificador);
+            } catch (SQLException ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            response.setContentType("text/plain");
+            out.println("" + report + "");
+                            
+            out.flush();
+            out.close();
+        }         
+        if(request.getParameter("eemail")!=null){
+            String eemail = request.getParameter("eemail");
+            String report = null;
+            try {
+                report = VerificarEmail(eemail);
+            } catch (SQLException ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            response.setContentType("text/plain");
+            out.println("" + report + "");
+            out.flush();
+            out.close();
+        }      
+        
+        if(request.getParameter("uusuario")!=null){
+            String uusuario = request.getParameter("uusuario");
+            String report = null;
+            try {
+                report = VerificarUsuario(uusuario);
+            } catch (SQLException ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            response.setContentType("text/plain");
+            out.println("" + report + "");
+            out.flush();
+            out.close();
+        }          
+
       
         String id = request.getParameter("txtId");
         String identificador = request.getParameter("txtIdentificador");
         String nombre = request.getParameter("txtNombre");
         String email = request.getParameter("txtEmail");
         String usuario = request.getParameter("txtUsuario");
-        String contraseña = request.getParameter("txtContraseña");        
+        String contra = request.getParameter("txtContrase");        
         String telefono = request.getParameter("txtTelefono");
         
         
@@ -112,7 +154,7 @@ public class SERVCliente extends HttpServlet {
         cliente.setNombre(nombre);
         cliente.setEmail(email);
         cliente.setUsuario(usuario);
-        cliente.setContraseña(contraseña);        
+        cliente.setContraseña(contra);        
         cliente.setTelefono(telefono);
                 
         Envio envio = new Envio();
@@ -153,7 +195,7 @@ public class SERVCliente extends HttpServlet {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-                response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+id); 
+           //     response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+id); 
             
         } else {                    
             try {
@@ -162,9 +204,10 @@ public class SERVCliente extends HttpServlet {
             } catch (Exception ex) {
                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);                  
             }
+             
         }             
-                     
-                response.sendRedirect(request.getContextPath() + "/index.jsp?cerrar=true"); 
+                       response.sendRedirect(request.getContextPath() + "/index.jsp?cerrar=true"); 
+             
 
     }
 
@@ -172,5 +215,52 @@ public class SERVCliente extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+ private String VerificarIdentificador(String identificador) throws SQLException {
+        String report = null;
+        
+        if(identificador.equals("")){
+            report = "";
+        }
+        else if(clienteDAO.ConsultarRUCDNI(identificador)){
+            report = "Ya existe";
+        }
+        else {
+            report = "Libre";
+        }
+        return report;
+    }                
+
+    private String VerificarEmail(String eemail) throws SQLException {
+        String report2 = null;
+        
+        if(eemail.equals("")){
+            report2 = "";
+        }
+        else if(clienteDAO.ConsultarEmail(eemail)){
+            report2 = "Ya existe";
+        }
+        else {
+            report2 = "Libre";
+        }
+        return report2;
+
+    }     
+    
+    private String VerificarUsuario(String uusuario) throws SQLException {
+        String report3 = null;
+        if(uusuario.equals("")){
+            report3 = "";
+        }
+        else if(clienteDAO.ConsultarUsuario(uusuario)){
+            report3 = "Ya existe";
+        }
+        else {
+            report3 = "Libre";
+        }
+        return report3;
+
+    }       
+    
 
 }

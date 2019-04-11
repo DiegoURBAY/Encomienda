@@ -47,14 +47,14 @@ $(document).ready(function (){
     });        
     
    
-    $('#registrar').click(function (){
+    $('#editar').click(function (){
         var opciones = document.getElementsByName("optradio"); 
         var ruc_dni = $('#inputIdentificador').val();
         var nombre = $('#inputNombre').val();
         var usuario = $('#inputUserame').val();
         var email = $('#inputEmail').val();                 
         var celular = $('#inputTelefono').val();
-        var contra = $('#contraseña').val();  
+        var contra = $('#inputPassword').val();  
         var respuestaRucDni = $('#ReportarRucDni').text().trim();
         var respuestaEmail = $('#ReportarEmail').text().trim();
          var respuestaUsuario = $('#ReportarNombre').text().trim()

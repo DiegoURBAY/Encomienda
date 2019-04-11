@@ -250,7 +250,7 @@
         <div id="myModal" class="modal fade">
                 <div class="modal-dialog modal-login">
                         <div class="modal-content">
-                            <form action="SERVLogin" method="post" autocomplete="off">
+                            <form action="SERVLogin" method="post" autocomplete="off" >
                                         <div class="modal-header">				
                                                 <h4 class="modal-title">Login</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -264,12 +264,14 @@
                                                         <div class="clearfix">
                                                                 <label>Contraseña</label>
                                                                 <a href="#" class="pull-right text-muted"></a>
+                                                                <a class="pull-right text-muted" href="RecuperarContraseña.jsp" >Recuperar Contraseña?</a>
                                                         </div>
 
                                                         <input type="password" class="form-control" name="txtContra" id="contraseña">
                                                 </div>
                                         </div>
                                         <div class="modal-footer">
+                                             
                                             <label class="text-left"><a href="RegistrarCliente.jsp">¿Crear cuenta nueva?</a></label>                     
                                             <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciar" id="ingresar" >
                                         </div>
@@ -279,7 +281,7 @@
                         </div>
                 </div>
         </div>          
-
+        
       <!-- Footer -->
       <footer class="bg-light py-5">
         <div class="container">

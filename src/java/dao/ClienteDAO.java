@@ -138,22 +138,7 @@ public class ClienteDAO extends Conexion implements DAO{
                this.cerrar();
            }
            return c;
-    }
-
-    public boolean ConsultarRUCDNI(String nombre) throws SQLException{
-        PreparedStatement pst;
-        ResultSet res = null;
-        String sql = "SELECT * FROM clientes WHERE ruc_dni='"+nombre+"'";
-
-        try {
-            this.conectar();
-            pst = conexion.prepareStatement(sql);
-            res = pst.executeQuery();
-        } catch (Exception e) {
-        }
-         return res.next();
-    }    
-    
+    }  
     
     public Cliente ConsultarByEmail(String email) throws SQLException{
         
@@ -196,6 +181,80 @@ public class ClienteDAO extends Conexion implements DAO{
         return  result;
         
     }
+    
+    
+    public String ContraseñaByEmail(String email) throws SQLException{
+        String result = null;
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String sql = "SELECT contra FROM clientes WHERE email=?";
+        
+        try {
+            this.conectar();
+            pst = conexion.prepareCall(sql);
+            pst.setString(1, email);
+            rs = pst.executeQuery();
+            if(rs.next()){
+                result = rs.getString("contra");
+            }
+        }
+        catch (Exception e) {            
+        }
+        return  result;
+        
+    }    
+    
+    
+   public boolean ConsultarRUCDNI(String nombre) throws SQLException{
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM clientes WHERE identificador= ? ";
+
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setString(1,nombre);    
+            rs = pst.executeQuery();
+        } catch (Exception e) {
+        }
+         return rs.next();
+    }    
+   
+    public boolean ConsultarEmail(String email) throws SQLException{
+    
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String sql = "SELECT email FROM clientes WHERE email=?";
+        
+        try {
+            this.conectar();
+            pst = conexion.prepareCall(sql);
+            pst.setString(1, email);
+            rs = pst.executeQuery();  
+        }
+        catch (Exception e) {            
+        }
+        return rs.next();
+        
+    }            
+    
+    public boolean ConsultarUsuario(String usuario) throws SQLException{
+
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String sql = "SELECT usuario FROM clientes WHERE usuario=?";
+        
+        try {
+            this.conectar();
+            pst = conexion.prepareCall(sql);
+            pst.setString(1, usuario);
+            rs = pst.executeQuery();
+        }
+        catch (Exception e) {            
+        }
+        return rs.next();
+        
+    }    
     
     
 }

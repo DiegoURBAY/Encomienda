@@ -67,8 +67,7 @@ public class Envio {
         } catch (AddressException ex) {
             Logger.getLogger(Envio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+                
     }
     
     
@@ -119,8 +118,44 @@ public class Envio {
         } catch (AddressException ex) {
             Logger.getLogger(Envio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+                
+    }    
+    
+   public void RecuperarContraseña(String email, String contra) throws MessagingException{
+        try {
+            Properties props = new Properties();
+            props.setProperty("mail.smtp.host", "smtp.gmail.com");
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.port", "587");
+            props.setProperty("mail.smtp.auth", "true");
+           
+            Session session = Session.getDefaultInstance(props);
+            
+            String correoRemitente = "larcroco@gmail.com";
+            String passwordRemitente = "Marcelo44";
+            String correoReceptor = email;
+            String asunto = "Recuperación de contraseña";
+            String mensaje = "Hola, "+email+"\n"
+                    + "Su contraseña es: " + contra;
+                        
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(correoRemitente));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoReceptor));
+                        
+            message.setSubject(asunto);
+            message.setText(mensaje);
+            
+            Transport t = session.getTransport("smtp");
+            t.connect(correoRemitente, passwordRemitente);
+            t.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            t.close();
+            
+            JOptionPane.showMessageDialog(null, "correo enviado");
+            
+        } catch (AddressException ex) {
+            Logger.getLogger(Envio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
     }    
     
 }

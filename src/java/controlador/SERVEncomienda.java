@@ -232,19 +232,5 @@ public class SERVEncomienda extends HttpServlet {
         return ejemploLista;
         
     }
-    
-    
-    
-  public static void main(String[] args) {
-      
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-    java.util.Date utilDate = new java.util.Date();
-    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-    System.out.println("utilDate:" + utilDate);
-    
-    String date = sdf.format(sqlDate);
-    System.out.println("sqlDate:" + date);
-
-  }    
-    
+           
 }

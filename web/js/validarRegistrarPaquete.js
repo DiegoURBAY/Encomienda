@@ -57,7 +57,7 @@ $(document).ready(function (){
             return false;
         }    
         else if (!(peso.match(re_peso)) || /\s+$/.test(re_peso)){
-            alert('[ERROR] Ingrese un formato de altura adecuado, formato: 00.00 ');
+            alert('[ERROR] Ingrese un formato de peso adecuado, formato: 00.00 ');
             return false;
         }          
     

@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +12,7 @@
 <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <link href="css/registrarcliente.css" rel="stylesheet" type="text/css"/>
-<script src="js/validarCliente.js" type="text/javascript"></script>
+<script src="js/validarRegistrarCliente.js" type="text/javascript"></script>
 
     </head>
     <body>
@@ -34,6 +33,7 @@
                 
         <div class="form-group">
         	<input type="text" id="inputIdentificador" class="form-control" placeholder="Identificador" name="txtIdentificador" >
+                <div id="ReportarIdentificador" class="outputTextArea"></div> 
         </div>                
                 
         <div class="form-group">
@@ -41,6 +41,7 @@
         </div>
         <div class="form-group">
             <input type="text" id="inputEmail" class="form-control" placeholder="Correo" name="txtEmail" >
+            <div id="ReportarEmail" class="outputTextArea"></div>
         </div>
 	<div class="form-group">
             <input type="text" id="inputTelefono" class="form-control" placeholder="Telefono celular" name="txtTelefono" >
@@ -50,9 +51,10 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <input type="text" id="inputUserame" class="form-control" placeholder="Usuario" name="txtUsuario" >
+                        <div id="ReportarUsuario" class="outputTextArea"></div>
                     </div>
                     <div class="col-xs-6">
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="txtContraseña" >
+                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="txtContrase" >
                     </div>
                 </div>        	
         </div>                

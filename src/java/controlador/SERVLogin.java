@@ -7,12 +7,14 @@ package controlador;
 
 import dao.Acceso;
 import dao.ClienteDAO;
+import dao.Envio;
 import entidad.Cliente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -67,24 +69,22 @@ public class SERVLogin extends HttpServlet {
             vista = index;
             rd = request.getRequestDispatcher(vista);
                       rd.forward(request, response); 
-        }                
-        
-        
+        }             
          
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+          HttpSession sesion = request.getSession();
             String usuario = null;
             String email;
             String contra;
             int nivel = 0;
             Acceso acc = new Acceso();            
-          
+
                         
-            if(request.getParameter("btnIniciar")!=null || request.getParameter("btnRegistrar")!=null){
+            if(request.getParameter("btnIniciar")!=null || request.getParameter("btnRecuperar")!=null){
                 
                 email = request.getParameter("txtEmail");
                 contra = request.getParameter("txtContra");
@@ -95,7 +95,7 @@ public class SERVLogin extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+                   Envio envio = new Envio();
 
                 if(nivel > 0){
                     
@@ -104,14 +104,62 @@ public class SERVLogin extends HttpServlet {
                     rd = request.getRequestDispatcher("index.jsp");  
                   //  rd = request.getRequestDispatcher("RegistrarCliente.jsp");
                      rd.forward(request, response);  
-                }                
-                else{
-                    rd = request.getRequestDispatcher("error.jsp");
+                } 
+                /*
+                if(contra==null){
+                    nivel = 0;
+                    email = request.getParameter("txtEmail");  
+                    try {
+                        contra = clienteDAO.ContraseñaByEmail(email);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {                    
+                        envio.RecuperarContraseña(email, contra);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        contra = clienteDAO.ContraseñaByEmail(email);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     rd = request.getRequestDispatcher("index.jsp");
                      rd.forward(request, response);  
                 }
+*/
+                else{
+                    rd = request.getRequestDispatcher("index.jsp");
+                     rd.forward(request, response);  
+                }
+                
+                
+                
 
             }
-           
+            
+                 
+      
+                    
+                    String index = "/index.jsp";
+                     String vista = index;
+       /*              
+            if(request.getParameter("btnRecuperar")!=null){                                                               
+
+                try {
+                   
+                    email = request.getParameter("txtEmail");                      
+                    contra = clienteDAO.ContraseñaByEmail(email);
+                    envio.RecuperarContraseña(email, contra);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    response.sendRedirect(request.getContextPath() + "/SERVLogin?action=adios");          
+            }                       
+            
+        */   
     }
 
     /**

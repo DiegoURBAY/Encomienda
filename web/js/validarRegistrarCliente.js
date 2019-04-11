@@ -24,9 +24,9 @@ $(document).ready(function (){
 
     //Busca el dni de manera asincrona
     $("#inputIdentificador").keyup(function(){
-            $dni = $('#inputIdentificador').val();
-            $.post("SERVCliente", {ddni:$dni}, function(data) {               
-                    $("#ReportarRucDni").html(data);
+            $identificador = $('#inputIdentificador').val();
+            $.post("SERVCliente", {iidentificador:$identificador}, function(data) {               
+                    $("#ReportarIdentificador").html(data);
             });
     }); 
     
@@ -40,24 +40,24 @@ $(document).ready(function (){
     
     //Busca el usuario de manera asincrona
     $("#inputUserame").keyup(function(){
-            $nombre = $('#inputUserame').val();
-            $.post("SERVUsuario", {nnombre:$nombre}, function(data) {               
-                    $("#ReportarNombre").html(data);
+            $usuario = $('#inputUserame').val();
+            $.post("SERVCliente", {uusuario:$usuario}, function(data) {               
+                    $("#ReportarUsuario").html(data);
             });
     });        
     
    
-    $('#editar').click(function (){
+    $('#registrar').click(function (){
         var opciones = document.getElementsByName("optradio"); 
         var ruc_dni = $('#inputIdentificador').val();
         var nombre = $('#inputNombre').val();
         var usuario = $('#inputUserame').val();
         var email = $('#inputEmail').val();                 
         var celular = $('#inputTelefono').val();
-        var contra = $('#contraseña').val();  
-        var respuestaRucDni = $('#ReportarRucDni').text().trim();
+        var contra = $('#inputPassword').val();  
+        var respuestaIdentificador = $('#ReportarIdentificador').text().trim();
         var respuestaEmail = $('#ReportarEmail').text().trim();
-         var respuestaUsuario = $('#ReportarNombre').text().trim()
+        var respuestaUsuario = $('#ReportarUsuario').text().trim();
         var condicion = 'Ya existe';   
                         
         var seleccionado = false;
@@ -98,7 +98,7 @@ $(document).ready(function (){
             } 
         }           
         
-        if(respuestaRucDni === condicion){
+        if(respuestaIdentificador === condicion){
             alert('[ERROR] Ingrese un Ruc o DNI que no este registrado');
             return false;
         }      
