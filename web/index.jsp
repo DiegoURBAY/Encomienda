@@ -257,7 +257,7 @@
                                         </div>
                                         <div class="modal-body">				
                                                 <div class="form-group">
-                                                        <label>Correo</label>                     
+                                                        <label>Correoooo</label>                     
                                                         <input type="text" class="form-control"  name="txtEmail" id="email_id">
                                                 </div>
                                                 <div class="form-group">
