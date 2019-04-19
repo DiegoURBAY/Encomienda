@@ -8,7 +8,7 @@
     </head>
     <body>
         <form method="POST" action="SERVCliente">
-            <a href="SERVEncomienda?action=refresh" > Continuar</a>
+            <a href="SERVEncomienda?action=refresh" > Exito!!! Continuar</a>
         </form>       
     </body>
 </html>

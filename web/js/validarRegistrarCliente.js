@@ -45,7 +45,7 @@ $(document).ready(function (){
                     $("#ReportarUsuario").html(data);
             });
     });        
-    
+        
    
     $('#registrar').click(function (){
         var opciones = document.getElementsByName("optradio"); 

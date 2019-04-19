@@ -257,14 +257,14 @@
                                         </div>
                                         <div class="modal-body">				
                                                 <div class="form-group">
-                                                        <label>Correoooo</label>                     
+                                                        <label>Correo</label>                     
                                                         <input type="text" class="form-control"  name="txtEmail" id="email_id">
                                                 </div>
                                                 <div class="form-group">
                                                         <div class="clearfix">
                                                                 <label>Contraseña</label>
                                                                 <a href="#" class="pull-right text-muted"></a>
-                                                                <a class="pull-right text-muted" href="RecuperarContraseña.jsp" >Recuperar Contraseña?</a>
+                                                   <!--             <a class="pull-right text-muted" href="RecuperarContraseña.jsp" >Recuperar Contraseña?</a> -->
                                                         </div>
 
                                                         <input type="password" class="form-control" name="txtContra" id="contraseña">
