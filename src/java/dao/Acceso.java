@@ -47,6 +47,38 @@ public class Acceso extends Conexion{
         return nivel;
     }
     
+        public int getClienteID(String email, String contraseña){
+        int id = 0;
+        try{
+            this.conectar();
+            sql = "SELECT id, email, contraseña  FROM clientes WHERE email=? AND contraseña =? AND estado = ?";
+            pst =  (PreparedStatement) conexion.prepareStatement(sql);
+            pst.setString(1, email);
+            pst.setString(2, contraseña);
+            pst.setInt(3, 1);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                id = rs.getInt("id");
+            }
+            this.cerrar();
+            rs.close();
+
+        }
+        catch (SQLException e){
+            System.err.println("Algo ha salido mal en autentificar "+e);
+        }
+        finally{
+            try {
+                this.cerrar();
+            } catch (SQLException ex) {
+                Logger.getLogger(Acceso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return id;
+    }
+    
+    
+    
     public String ExtraerNombre (String email){
         String[] parts = null;
         String nombre = null;

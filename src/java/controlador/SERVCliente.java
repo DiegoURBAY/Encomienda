@@ -7,6 +7,7 @@ import entidad.Cliente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 public class SERVCliente extends HttpServlet {
@@ -22,9 +24,12 @@ public class SERVCliente extends HttpServlet {
     private static final String edit = "/EditarCliente.jsp";
     private static final String list_cliente = "/navegador.jsp";
     private static final String action_listar = "/SERVCliente?action=listar";
-    
-        ClienteDAO clienteDAO = new ClienteDAO();
+    private ClienteDAO clienteDAO;   
     Cliente cliente = new Cliente();
+    
+   public SERVCliente() {
+        clienteDAO = new ClienteDAO(){};
+    }         
     
     RequestDispatcher rd = null;
   String vista = "";
@@ -80,9 +85,37 @@ public class SERVCliente extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-
         }
+        
+        
+        if(action.equalsIgnoreCase("buscarPrueba")){
+               HttpSession sesion = request.getSession();
+               Cliente cliente = new Cliente();
+               
+            int idCliente = 0;
+            String usuario = null;
+            
+            if(sesion.getAttribute("idCliente")!=null){
+                  idCliente = Integer.parseInt(request.getParameter("idCliente"));
+            }           
+            try {                
+                cliente = clienteDAO.BuscarPorId(idCliente);
+                usuario = cliente.getUsuario();
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+            if(idCliente == 0){
+                response.sendRedirect("indexPrueba.jsp");
+            }
+            else if(idCliente != 0){
+                sesion.setAttribute("idCliente", idCliente);
+                sesion.setAttribute("usuarioPrueba", usuario);
+                request.setAttribute("cliente", cliente);
+                RequestDispatcher view = request.getRequestDispatcher("EditarCliente1.jsp");
+                view.forward(request, response);                  
+            }
+
+        }        
     }
 
 
@@ -159,6 +192,18 @@ public class SERVCliente extends HttpServlet {
                 
         Envio envio = new Envio();
  
+        
+        if(request.getParameter("btnEditarPrueba")!=null){
+        
+        cliente.setId(Integer.parseInt(id));
+            try {
+                clienteDAO.modificar(cliente);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
+          response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar"); 
+        }
       /*   
         if(request.getParameter("btnRegistrar")!= null){
             try {
@@ -186,7 +231,7 @@ public class SERVCliente extends HttpServlet {
             
         }
 */
-        
+        /*
         if (id == null || id.isEmpty()) {
             try {
                 clienteDAO.insertar(cliente);
@@ -208,7 +253,7 @@ public class SERVCliente extends HttpServlet {
         }             
                        response.sendRedirect(request.getContextPath() + "/index.jsp?cerrar=true"); 
              
-
+*/
     }
 
     @Override

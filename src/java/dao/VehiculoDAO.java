@@ -62,6 +62,30 @@ public class VehiculoDAO extends Conexion implements DAO{
         }
         return datos;     
     }
+    
+    public Vehiculo consultarVehiculoPorPeso(double peso) throws Exception {
+        Vehiculo vehiculo = new Vehiculo();
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "SELECT id, placa, capacidad, idEncomienda	FROM vehiculos WHERE estado = 1 AND capacidad > ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setDouble(1, peso);
+            rs = pst.executeQuery();
+                 if (rs.next()) {          
+                    vehiculo.setId(rs.getInt("id"));
+                    vehiculo.setPlaca(rs.getString("placa"));
+                    vehiculo.setCapacidad(rs.getDouble("capacidad"));
+                    vehiculo.setIdencomienda(rs.getInt("idEncomienda"));
+                }  
+        } catch (SQLException e) {
+        }
+        finally{
+            this.cerrar();
+        }
+        return vehiculo;     
+    }    
 
                 
 }

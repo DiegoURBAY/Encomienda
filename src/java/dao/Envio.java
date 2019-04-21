@@ -71,7 +71,7 @@ public class Envio {
     }
     
     
-    public void EnviarCodigo(String codigo,  String idcliente, String idencomienda, String vehiculo, String placaVehiculo, String receptor) throws MessagingException{
+    public void EnviarCodigo(String codigo, int idcliente, int idencomienda, int vehiculo, String placaVehiculo, String receptor) throws MessagingException{
         try {
             Properties props = new Properties();
 

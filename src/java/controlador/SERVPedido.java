@@ -4,8 +4,12 @@ package controlador;
 import dao.ClienteDAO;
 import dao.EncomiendaDAO;
 import dao.Envio;
+import dao.TipoEncomiendaDAO;
+import dao.VehiculoDAO;
 import entidad.Cliente;
 import entidad.Encomienda;
+import entidad.TipoEncomienda;
+import entidad.Vehiculo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -27,12 +31,16 @@ public class SERVPedido extends HttpServlet {
     private static String list = "/ListarPedido.jsp";
     private static String exito = "/exito.jsp";
     private EncomiendaDAO encomiendadao;
-    private ClienteDAO clientedao;       
+    private TipoEncomiendaDAO tipoEncomiendaDAO;
+    private ClienteDAO clientedao;
+    private VehiculoDAO vehiculoDAO;
     Encomienda enc = new Encomienda();
     
      public SERVPedido() {
+        tipoEncomiendaDAO = new TipoEncomiendaDAO(){};
     	encomiendadao = new EncomiendaDAO(){};
         clientedao = new ClienteDAO(){};
+        vehiculoDAO = new VehiculoDAO(){};
     }             
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -95,7 +103,49 @@ public class SERVPedido extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher(forward);
            view.forward(request, response);
             }
-        
+            
+            else if(action.equalsIgnoreCase("refreshPrueba")){
+                HttpSession sesion = request.getSession();
+                
+                TipoEncomienda tipoEncomienda = new TipoEncomienda();
+                Vehiculo vehiculo = new Vehiculo();
+                
+                int idCliente = 0;
+                int idEncomienda = 0;
+                int idVehiculo = 0;
+                double peso = 0;
+                String matricula = null;
+                String ticket = null;
+                
+                if(sesion.getAttribute("idCliente")!=null){
+                    idCliente = Integer.parseInt(String.valueOf(sesion.getAttribute("idCliente")));
+                }
+                if(sesion.getAttribute("idEncomienda")!=null){
+                    idEncomienda = Integer.parseInt(String.valueOf(sesion.getAttribute("idEncomienda")));
+                } 
+
+                try {
+                   tipoEncomienda = tipoEncomiendaDAO.getUltimoTipoEncomiendaByIdEncomienda(idEncomienda);
+                   peso = tipoEncomienda.getPeso();
+                   vehiculo = (Vehiculo) vehiculoDAO.consultarPorPeso(peso);
+                } catch (Exception ex) {
+                    Logger.getLogger(SERVPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                idVehiculo = vehiculo.getId();
+                matricula = vehiculo.getPlaca();
+                
+                ticket = ""+idCliente+"."+idEncomienda+"."+idVehiculo;
+                
+                request.setAttribute("placaVehiculo",  matricula);
+                request.setAttribute("idCliente",  idCliente);
+                request.setAttribute("idEncomienda",  idEncomienda);
+                request.setAttribute("idVehiculo",  idVehiculo);
+                request.setAttribute("ticket",  ticket);
+                RequestDispatcher view = request.getRequestDispatcher("ListarPedido1.jsp");
+                view.forward(request, response);                                 
+                
+            }        
         
     }
 
@@ -124,7 +174,7 @@ public class SERVPedido extends HttpServlet {
                        cliente = clienteDAO.BuscarPorId(Integer.parseInt(Idcliente));
                         String email = cliente.getEmail();
                         
-                        envio.EnviarCodigo(codigo , Idcliente, IdEncomienda, IdVehiculo, placaVehiculo, email);
+                     //   envio.EnviarCodigo(codigo , Idcliente, IdEncomienda, IdVehiculo, placaVehiculo, email);
                         sesion.setAttribute("email", email);
                                                 
                     } catch (MessagingException ex) {

@@ -10,7 +10,7 @@ import entidad.TipoEncomienda;
 
 public class TipoEncomiendaDAO extends Conexion implements DAO{
     
-/*    
+ /*  
     public static void main(String[] args) throws Exception {
         TipoEncomienda tipoEncomienda = new TipoEncomienda();
         tipoEncomienda.setTipo("sobre");
@@ -252,4 +252,34 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
          return res.next();        
     }
     
+    
+    
+    public TipoEncomienda getUltimoTipoEncomiendaByIdEncomienda(int idEncomienda) throws SQLException{
+           TipoEncomienda tipoEncomienda = new TipoEncomienda();
+           PreparedStatement pst;
+           ResultSet res;
+           String sql = "SELECT MAX(id) AS id, tipo, altura, anchura, largo, cantidad, peso, precio FROM tiposencomiendas WHERE idEncomienda = ?";
+           try {
+            this.conectar();
+               pst = conexion.prepareStatement(sql);
+               pst.setInt(1,idEncomienda);                 
+               res = pst.executeQuery();                                    
+                if (res.next()) {          
+                    tipoEncomienda.setId(res.getInt("id"));
+                    tipoEncomienda.setTipo(res.getString("tipo"));            
+                    tipoEncomienda.setAltura(res.getDouble("altura"));                                
+                    tipoEncomienda.setAnchura(res.getDouble("anchura"));
+                    tipoEncomienda.setLargo(res.getDouble("largo"));
+                    tipoEncomienda.setCantidad(res.getInt("cantidad"));
+                    tipoEncomienda.setPeso(res.getDouble("peso"));
+                    tipoEncomienda.setPrecio(res.getDouble("precio"));
+                }                   
+     
+        } catch (SQLException e) {
+        }
+        finally{
+            this.cerrar();
+        }   
+        return tipoEncomienda;  
+    } 
 }

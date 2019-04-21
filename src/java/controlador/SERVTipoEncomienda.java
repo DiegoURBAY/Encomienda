@@ -167,7 +167,21 @@ public class SERVTipoEncomienda extends HttpServlet {
                     }                     
                 }
 
-            }            
+            } 
+            
+         /*   
+             else if(action.equalsIgnoreCase("refreshPrueba")){
+                  HttpSession sesion = request.getSession();
+                    
+                  String usuario = null ;
+                    if(sesion.getAttribute("usuarioPrueba")!=null){
+                          usuario = (String) sesion.getAttribute("usuarioPrueba");
+                    }                   
+                 request.setAttribute("usuarioPrueba",  usuario);                 
+                  RequestDispatcher view = request.getRequestDispatcher("RegistrarEncomienda1.jsp");
+                    view.forward(request, response);      
+            }
+            */
     }
 
 
@@ -175,7 +189,36 @@ public class SERVTipoEncomienda extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
         request.setCharacterEncoding("UTF-8");
-   
+        /*
+        int cantidadSobre = Integer.parseInt(request.getParameter("txtCantidadSobre"));
+        double pesoSobre =Double.parseDouble(request.getParameter("txtPesoSobre"));
+          double precioSobre =Double.parseDouble(request.getParameter("txtPrecioSobre"));  
+        
+         TipoEncomienda prueba = new TipoEncomienda();
+         
+         prueba.setAltura(0);
+         prueba.setAnchura(0);
+         prueba.setLargo(0);
+ RequestDispatcher rd = null;
+        if(request.getParameter("btnRegistrarPrueba")!=null){
+            String tipo = "sobre";
+            prueba.setTipo(tipo);
+            prueba.setCantidad(cantidadSobre);
+            prueba.setPeso(pesoSobre);         
+            prueba.setPrecio(precioSobre);
+            prueba.setIdEncomienda(15);
+          
+            try {
+                tipoEncomiendaDAO.insertar(prueba);
+               
+            } catch (Exception ex) {
+               
+                Logger.getLogger(SERVTipoEncomienda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            rd = request.getRequestDispatcher("exito.jsp");
+             rd.forward(request, response);  
+        }                
+   */
         String id =request.getParameter("txtIdTipoEncomienda");
         //String tipo = request.getParameter("txtTipo");
         

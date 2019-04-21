@@ -26,8 +26,11 @@ public class SERVLogin extends HttpServlet {
     
     private static String ingresar= "/login.jsp";
     //private static String registrar = "/RegistrarCliente.jsp";
-    private static String index = "/index.jsp";
+    private static String index = "/index.jsp";    
     ClienteDAO clienteDAO = new ClienteDAO();
+    
+    private static String registrar_encomienda = "/SERVEncomienda?action=refreshPrueba";
+    
     RequestDispatcher rd = null;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -47,10 +50,10 @@ public class SERVLogin extends HttpServlet {
         String action = request.getParameter("action");
         
         if(action.equalsIgnoreCase("adios")){
-        HttpSession sesion = request.getSession();
-        sesion.invalidate();
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-        dispatcher.forward(request, response);
+        HttpSession sesion = request.getSession(false);        
+        request.setAttribute("idCliente", null);
+            rd = request.getRequestDispatcher("indexPrueba.jsp");
+            rd.forward(request, response); 
         }
         
         if(action.equalsIgnoreCase("ingresar")){
@@ -76,14 +79,44 @@ public class SERVLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          HttpSession sesion = request.getSession();
+            HttpSession sesion = request.getSession();
             String usuario = null;
             String email;
             String contra;
             int nivel = 0;
+            int idCliente = 0;
             Acceso acc = new Acceso();            
+            String forward = "";
+            
+            if(request.getParameter("btnIniciarPrueba")!=null){
+                email = request.getParameter("txtEmail");
+                contra = request.getParameter("txtContra");  
+                idCliente = acc.getClienteID(email, contra);
+                
+              try {
+                  usuario = clienteDAO.UsuarioByEmail(email);
+              } catch (SQLException ex) {
+                  Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+              }
+              
+             Envio envio = new Envio();
 
-                        
+                if(idCliente > 0){
+
+             sesion.setAttribute("idCliente", idCliente);
+             sesion.setAttribute("usuario", usuario);
+             response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
+
+
+              
+                } 
+                else{
+                    rd = request.getRequestDispatcher("index.jsp");
+                     rd.forward(request, response);  
+                }                
+            }
+                
+            
             if(request.getParameter("btnIniciar")!=null || request.getParameter("btnRecuperar")!=null){
                 
                 email = request.getParameter("txtEmail");
@@ -132,10 +165,6 @@ public class SERVLogin extends HttpServlet {
                     rd = request.getRequestDispatcher("index.jsp");
                      rd.forward(request, response);  
                 }
-                
-                
-                
-
             }
             
                  

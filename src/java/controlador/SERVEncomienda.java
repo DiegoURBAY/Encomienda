@@ -3,6 +3,10 @@ package controlador;
 
 import dao.ClienteDAO;
 import dao.EncomiendaDAO;
+import dao.Envio;
+import dao.TipoEncomiendaDAO;
+import dao.VehiculoDAO;
+import entidad.Cliente;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -14,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import entidad.Encomienda;
+import entidad.TipoEncomienda;
+import entidad.Vehiculo;
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParseException;
@@ -30,12 +36,16 @@ public class SERVEncomienda extends HttpServlet {
     private static String list_encomienda = "/ListarEncomienda.jsp";
     private static String exito = "/exito.jsp";
     private EncomiendaDAO encomiendadao;
+    private TipoEncomiendaDAO tipoEncomiendaDAO;
+    private VehiculoDAO vehiculoDAO;
     private ClienteDAO clientedao;       
     Encomienda enc = new Encomienda();
 
             
      public SERVEncomienda() {
+        tipoEncomiendaDAO = new TipoEncomiendaDAO(){};
     	encomiendadao = new EncomiendaDAO(){};
+        vehiculoDAO = new VehiculoDAO(){};
         clientedao = new ClienteDAO(){};
     }         
      
@@ -149,7 +159,59 @@ public class SERVEncomienda extends HttpServlet {
                                
             RequestDispatcher view = request.getRequestDispatcher(forward);
            view.forward(request, response);
+            }                       
+            
+            else if(action.equalsIgnoreCase("refreshPrueba")){
+                
+                HttpSession sesion = request.getSession();
+                
+                Cliente cliente = new Cliente();
+                String  usuario_de_login = null;
+                String usuario = null ;
+                int idCliente = 0;
+            
+                if(sesion.getAttribute("idCliente")!=null){
+                    idCliente = Integer.parseInt(String.valueOf(sesion.getAttribute("idCliente")));
+                }
+                if(sesion.getAttribute("usuario")!=null){
+                    usuario_de_login = String.valueOf(sesion.getAttribute("usuario"));
+                }                
+                try {
+                    cliente = clientedao.BuscarPorId(idCliente);
+                } catch (Exception ex) {
+                    Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
+                }   
+                usuario = cliente.getUsuario();
+                
+                if(idCliente == 0 || usuario_de_login == null){
+                    response.sendRedirect("indexPrueba.jsp");
+                }
+                else if (idCliente != 0){
+                //El nabvar esta incluido en la pag RegistrarEncomienda1
+                //si se envia session el nabvar recibirá el idCliente, todo lo contrario con enviar request
+                sesion.setAttribute("idCliente", idCliente);
+                sesion.setAttribute("usuarioPrueba", usuario);
+                sesion.setAttribute("usuario_de_login", usuario_de_login);
+                request.setAttribute("usuarioPrueba",  usuario);                 
+                request.setAttribute("idCliente",  idCliente);
+                RequestDispatcher view = request.getRequestDispatcher("RegistrarEncomienda1.jsp");
+                view.forward(request, response);  
+                }
+
+                
+
+            }  
+        if(action.equalsIgnoreCase("cerrar")){
+            HttpSession session = request.getSession();
+           /* session.setAttribute("idCliente", null);        
+            response.sendRedirect("indexPrueba.jsp");
+            if(request.getParameter("cerrar")!=null){
+            session.invalidate();
             }
+            */
+            session.invalidate();
+            response.sendRedirect("indexPrueba.jsp");
+        }            
              
     }
 
@@ -158,14 +220,162 @@ public class SERVEncomienda extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         
-        String origen = request.getParameter("txtOrigen");
-        String destino = request.getParameter("txtDestino");                        
-        String envio = request.getParameter("txtEnvio");
-        String llegada = request.getParameter("txtLlegada");
-        String id =request.getParameter("txtId");
-        int idCliente =Integer.parseInt(request.getParameter("txtIdCliente"));
-
+         HttpSession sesion = request.getSession();
+        RequestDispatcher rd = null;
         
+        
+        String tipo = null;
+        String origen = null;
+        String destino = null;
+        int idCliente = 0;
+        int idEncomienda = 0;
+        int cantidadSobre = 0;
+        double pesoSobre = 0; 
+        double precioSobre = 0; 
+        double altura = 0;
+        double anchura = 0;
+        double largo = 0;
+        int cantidadPaquete = 0;
+        double pesoPaquete = 0; 
+        double precioPaquete = 0;         
+        
+        int idVehiculo = 0;
+        String matricula = null;
+        String ticket = null;
+       
+         
+        if(request.getParameter("txtOrigen")!=null) {
+            origen = request.getParameter("txtOrigen");
+        }
+        if(request.getParameter("txtDestino")!=null) {
+            destino = request.getParameter("txtDestino");
+        }
+        if(request.getParameter("txtIdCliente")!=null) {
+            idCliente = Integer.parseInt(request.getParameter("txtIdCliente"));
+        }    
+                
+      //  String id =request.getParameter("txtId");                             
+
+        int cantidad = 0;
+        double peso = 0;
+        double precio = 0;
+        
+        if(request.getParameter("pago1")!=null) {
+            tipo = request.getParameter("pago1");
+            if(tipo.equals("sobre")){
+                tipo = "sobre";   
+                
+        //Viene de un input type number 
+        if(request.getParameter("txtCantidadSobre")!=null){
+                cantidadSobre = Integer.parseInt(String.valueOf(request.getParameter("txtCantidadSobre")));
+        }
+        if(request.getParameter("txtPesoSobre")!=null){
+                pesoSobre = Double.parseDouble(String.valueOf(request.getParameter("txtPesoSobre")));
+        }
+        //Viene de un input type text
+        if(request.getParameter("txtPrecioSobre")!=null){
+                precioSobre = Double.parseDouble(String.valueOf(request.getParameter("txtPrecioSobre")));
+        }                      
+                altura = 0;
+                anchura = 0;
+                largo = 0;     
+                
+                cantidad = cantidadSobre;
+                peso = pesoSobre;
+                precio = precioSobre;
+                
+            }
+            else if (tipo.equals("paquete")){
+                
+        if(request.getParameter("txtAltura")!=null){
+                altura = Double.parseDouble(String.valueOf(request.getParameter("txtAltura")));
+        }
+        if(request.getParameter("txtAnchura")!=null){
+                anchura = Double.parseDouble(String.valueOf(request.getParameter("txtAnchura")));
+        }              
+        if(request.getParameter("txtLargo")!=null){
+                largo = Double.parseDouble(String.valueOf(request.getParameter("txtLargo")));
+        }
+        if(request.getParameter("txtCantidadPaquete")!=null){
+                cantidadPaquete = Integer.parseInt(String.valueOf(request.getParameter("txtCantidadPaquete")));
+        }        
+        if(request.getParameter("txtPesoPaquete")!=null){
+                pesoPaquete = Double.parseDouble(String.valueOf(request.getParameter("txtPesoPaquete")));
+        }
+        if(request.getParameter("txtPrecioPaquete")!=null){
+                precioPaquete = Double.parseDouble(String.valueOf(request.getParameter("txtPrecioPaquete")));                
+        }
+                cantidadSobre = 0;
+                pesoSobre = 0; 
+                precioSobre = 0; 
+        
+                tipo = "paquete";                           
+                cantidad = cantidadPaquete;
+                peso = pesoPaquete;
+                precio = precioPaquete;
+            }
+        }        
+                                        
+            
+        if(request.getParameter("btnRegistrarPrueba")!=null){
+       
+        try {
+           
+            Encomienda encomienda = new Encomienda();
+            encomienda.setOrigen(origen);            
+            encomienda.setDestino(destino);
+            encomienda.setIdCliente(idCliente);
+
+            encomiendadao.insertar(encomienda);
+
+            encomienda = encomiendadao.getUltimoEncomiendaByIdCliente(idCliente);
+
+            idEncomienda = encomienda.getId();
+
+            TipoEncomienda tipoEncomienda = new TipoEncomienda();
+            tipoEncomienda.setTipo(tipo);
+            tipoEncomienda.setAltura(altura);
+            tipoEncomienda.setAnchura(anchura);
+            tipoEncomienda.setLargo(largo);
+            tipoEncomienda.setCantidad(cantidad);
+            tipoEncomienda.setPeso(peso);
+            tipoEncomienda.setPrecio(precio);
+            tipoEncomienda.setIdEncomienda(idEncomienda);
+       
+            tipoEncomiendaDAO.insertar(tipoEncomienda);
+            
+            Vehiculo vehiculo1 = new Vehiculo();            
+            vehiculo1 = vehiculoDAO.consultarVehiculoPorPeso(peso);
+            
+            idVehiculo = vehiculo1.getId();
+            matricula = vehiculo1.getPlaca();
+                
+            ticket = ""+idCliente+"."+idEncomienda+"."+idVehiculo;
+            
+            Envio envio = new Envio();
+            Cliente  cliente1 = new Cliente();
+            
+            cliente1 = clientedao.BuscarPorId(idCliente);
+            String email = cliente1.getEmail();
+            envio.EnviarCodigo(ticket , idCliente , idEncomienda, idVehiculo, matricula, email);
+
+            } catch (Exception ex) {
+               
+                Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+          //  sesion.setAttribute("idCliente", idCliente);
+          //  sesion.setAttribute("idEncomienda", idEncomienda);
+            //response.sendRedirect(request.getContextPath() + "/SERVPedido?action=refreshPrueba"); 
+        
+           rd = request.getRequestDispatcher("indexPrueba.jsp");
+           rd.forward(request, response);  
+        }              
+        
+        //String origen = request.getParameter("txtOrigen");
+       // String destino = request.getParameter("txtDestino");                        
+       
+        /*
         try {
             
             List<java.sql.Date> cambio = Fechas(envio, llegada);
@@ -195,6 +405,8 @@ public class SERVEncomienda extends HttpServlet {
         }
                    
         response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+idCliente);   
+
+*/
     }
 
     @Override
