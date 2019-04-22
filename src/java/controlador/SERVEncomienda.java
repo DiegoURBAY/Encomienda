@@ -267,10 +267,10 @@ public class SERVEncomienda extends HttpServlet {
                 
         //Viene de un input type number 
         if(request.getParameter("txtCantidadSobre")!=null){
-                cantidadSobre = Integer.parseInt(String.valueOf(request.getParameter("txtCantidadSobre")));
+                cantidadSobre = Integer.parseInt(request.getParameter("txtCantidadSobre"));
         }
         if(request.getParameter("txtPesoSobre")!=null){
-                pesoSobre = Double.parseDouble(String.valueOf(request.getParameter("txtPesoSobre")));
+                pesoSobre = Double.parseDouble(request.getParameter("txtPesoSobre"));
         }
         //Viene de un input type text
         if(request.getParameter("txtPrecioSobre")!=null){
@@ -288,19 +288,19 @@ public class SERVEncomienda extends HttpServlet {
             else if (tipo.equals("paquete")){
                 
         if(request.getParameter("txtAltura")!=null){
-                altura = Double.parseDouble(String.valueOf(request.getParameter("txtAltura")));
+                altura = Double.parseDouble(request.getParameter("txtAltura"));
         }
         if(request.getParameter("txtAnchura")!=null){
-                anchura = Double.parseDouble(String.valueOf(request.getParameter("txtAnchura")));
+                anchura = Double.parseDouble(request.getParameter("txtAnchura"));
         }              
         if(request.getParameter("txtLargo")!=null){
-                largo = Double.parseDouble(String.valueOf(request.getParameter("txtLargo")));
+                largo = Double.parseDouble(request.getParameter("txtLargo"));
         }
         if(request.getParameter("txtCantidadPaquete")!=null){
-                cantidadPaquete = Integer.parseInt(String.valueOf(request.getParameter("txtCantidadPaquete")));
+                cantidadPaquete = Integer.parseInt(request.getParameter("txtCantidadPaquete"));
         }        
         if(request.getParameter("txtPesoPaquete")!=null){
-                pesoPaquete = Double.parseDouble(String.valueOf(request.getParameter("txtPesoPaquete")));
+                pesoPaquete = Double.parseDouble(request.getParameter("txtPesoPaquete"));
         }
         if(request.getParameter("txtPrecioPaquete")!=null){
                 precioPaquete = Double.parseDouble(String.valueOf(request.getParameter("txtPrecioPaquete")));                
@@ -368,8 +368,7 @@ public class SERVEncomienda extends HttpServlet {
           //  sesion.setAttribute("idEncomienda", idEncomienda);
             //response.sendRedirect(request.getContextPath() + "/SERVPedido?action=refreshPrueba"); 
         
-           rd = request.getRequestDispatcher("indexPrueba.jsp");
-           rd.forward(request, response);  
+          response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar");
         }              
         
         //String origen = request.getParameter("txtOrigen");
