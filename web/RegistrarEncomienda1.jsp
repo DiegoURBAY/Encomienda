@@ -82,33 +82,28 @@ HttpSession sesion = request.getSession();
             <div class="row" id="div1" style="display:;">
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-sm-3 form-group">
-                            <h4>Cantidad máxima: 20</h4>
-                        </div>
-                        <div class="col-sm-3 form-group">
-                            <h4>Peso máximo: 1.13 kg</h4>
-                        </div>                      
-                        <div class="col-sm-3 form-group">
-                            <h4>Costo unitario: S/. 10.00</h4>
+                   
+                        <div class="col-sm-12 form-group">
+                            <h4>Costo x Sobre S/. 10.00</h4>
                         </div>                        
                     </div>
                     <div class="row">
                       
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Cantidad</label>
+                                    <label>Cantidad (min:1, max: 20)</label>
                                     <input type="text" class="form-control" name="txtCantidadSobre" id="cantidadSobres" >
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Peso (kg)</label>
+                                    <label>Peso(kg)(min:0.01, max:1.13)</label>
                                     <input type="text" class="form-control "  name="txtPesoSobre" id="pesoSobre">
 
                                          
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Precio</label>
+                                    <label>Precio S/.</label>
                                     <input type="number"  class="form-control" readonly name="txtPrecioSobre"  id="precioSobre"> 
                             </div>
                     </div>                                       
@@ -121,53 +116,63 @@ HttpSession sesion = request.getSession();
                         <div class="col-sm-12">
                     <div class="row">
                         <div class="col-sm-3 form-group">
-                            <h4>Cantidad máxima: 8</h4>
+                            <h4>Costo x kilo: S/. 0.20</h4>
                         </div>
                         <div class="col-sm-3 form-group">
-                            <h4>Peso máximo: 200 kg</h4>
+                            <h4>Precio = (peso*cantidad*costoxkilo)</h4>
                         </div>                      
                         <div class="col-sm-3 form-group">
-                            <h4>Costo unitario: S/. 10.00</h4>
+                            <h4>PesoVolumen = (altura*anchura*largo)</h4>
                         </div>                        
                     </div>                            
                     <div class="row">                                                
                             <div class="col-sm-4 form-group">
-                                    <label>Altura</label>
+                                    <label>Altura cm (min: 10, max: 25)</label>
                                     <input type="text" class="form-control" name="txtAltura" id="altura"  value="0"> 
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Anchura</label>
+                                    <label>Anchura cm (min:5, max:31)</label>
                                     <input type="text"  class="form-control" name="txtAnchura" id="anchura"  value="0"> 
                             </div>
                         
                             <div class="col-sm-4 form-group">
-                                    <label>Largo</label>
+                                    <label>Largo cm (min:14, max:75)</label>
                                     <input type="text"  class="form-control" name="txtLargo" id="largo"  value="0"> 
                             </div>
                     </div> 
                     <div class="row">                                                
-                            <div class="col-sm-4 form-group">
-                                    <label>Cantidad</label>
-                                    <input type="text" class="form-control" name="txtCantidadPaquete" id="cantidadPaquetes" >
-                            </div>
+                        <div class="col-sm-4 form-group">
+                                <label>Peso Volumétrico</label>
+                                <input type="text" class="form-control" readonly name="txtPesoVolumen" id="pesoVolumen" >  
+
+                        </div>
+
+                        <div class="col-sm-4 form-group">
+                                <label>Cantidad (min:1, max:8)</label>
+                                <input type="text" class="form-control" name="txtCantidadPaquete" id="cantidadPaquetes" >                              
+                        </div>                        
                         
-                            <div class="col-sm-4 form-group">
-                                    <label>Peso (kg)</label>
-                                    <input type="text"  class="form-control" name="txtPesoPaquete"  id="pesoPaquete" > 
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Precio</label>
-                                    <input type="number"  class="form-control" readonly name="txtPrecioPaquete" id="precioPaquete">
-                            </div>
+                        <div class="col-sm-4 form-group">
+                                <label>Peso(kg) (min:1.14, max:200)</label>
+                                <input type="text"  class="form-control" name="txtPesoPaquete"  id="pesoPaquete" > 
+                        </div>
+
+
                     </div>    
-                            <div class="row">                                                
+                    <div class="row">                                                
                             <div class="col-sm-4 form-group">
-                                    <label>Peso Volumétrico</label>
-                                    <input type="text" class="form-control" name="txtPesoVolumen" id="pesoVolumen" >
+                                    <label>Precio S/.</label>
+                                    <input type="text"  class="form-control" readonly name="txtPrecioPaquete" id="precioPaquete">                            
                             </div>
-                                </div>
+                        
+                            <div class="col-sm-8 form-group">
+                                <br>
+                                <label id="mensaje_error" class="control-label text-danger" style="display: block;">
+                                    Se usa peso volumétrico en el precio</label>
+                            </div>
+                            
+                    </div>
                                             
             </div>                
                 
@@ -176,13 +181,10 @@ HttpSession sesion = request.getSession();
             <div class="row">
                 
                 <div class="col-sm-12">
-                    <div class="col-sm-3">
+                    <div class="col-sm-6">
                          <input type="submit" class="btn btn-primary  btn-responsive" id="registrar1" name="btnRegistrarPrueba" value="Registrar" >                
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="button" class="btn btn-warning btn-responsive" id="calcular" name="btnCalcular" value="Calcular">
-                    </div>                     
-                    <div class="col-sm-3">
+                    </div>              
+                    <div class="col-sm-6">
                         <input type="reset" class="btn btn-danger btn-responsive" id="limpiar" name="btnLimpiar" value="Limpiar">
                     </div>                    
                 </div>

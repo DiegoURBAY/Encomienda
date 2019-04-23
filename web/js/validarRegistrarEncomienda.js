@@ -27,7 +27,9 @@
     });      
       
    $(document).ready(function(){              
-           
+
+        $('#mensaje_error').hide(); 
+       
         $( function() {
           var availableTags = new Array();
 
@@ -65,6 +67,8 @@
             $("#cantidadPaquetes").val(0);
             $("#pesoPaquete").val(0);
             $("#precioPaquete").val(0);
+            $("#pesoVolumen").val('');
+            $('#mensaje_error').hide();
         } else if (valor === "paquete") {
             $("#div1").hide();
             $("#cantidadSobres").val(0);
@@ -99,16 +103,18 @@
 
 
 
-     $('#cantidadPaquetes, #largo, #altura, #anchura ,#pesoPaquete,#precioPaquete').change( function () {
+     $('#cantidadPaquetes, #largo, #altura, #anchura ,#pesoPaquete, #precioPaquete').change( function () {
         var cantidadPaquetes = $('#cantidadPaquetes').val();
         var largo = $('#largo').val();
         var altura = $('#altura').val();
         var anchura = $('#anchura').val();
         var pesoPaquete = $('#pesoPaquete').val();
 
-        var costoPesoKilo = 0.2;
+        var costoPesoKilo = 0.20;
         
         var pesoVolumetrico = 0;
+        var pesoPaquete_float = 0;
+        var peso ;     
  
         try{
         //Calculamos el número escrito:
@@ -127,64 +133,109 @@
         if(largo < 14 || largo > 75){
             largo =  $('#largo').val(0);          
             
-        }        
+        }
+
+
+        var dimensiones = altura*anchura*largo;
+        var operacion = parseFloat(dimensiones/10).toFixed(2);
         
-        var pesoPaquete_float = parseFloat(pesoPaquete).toFixed(2);        
-        if(pesoPaquete_float < 1.13 || pesoPaquete_float > 200){
-           pesoPaquete_float = $('#pesoPaquete').val(0);
-        }              
-                       
-       pesoVolumetrico = $('#pesoVolumen').val(parseFloat(altura*anchura*largo).toFixed(2));
+       if(!isNaN(operacion) ){
+           pesoVolumetrico = $('#pesoVolumen').val(operacion);
+       }
+       else {
+           pesoVolumetrico = $('#pesoVolumen').val('Altura*Anchura*Largo');
+       }
        
+       console.log(pesoVolumetrico);
         
-        if(pesoVolumetrico > pesoPaquete_float ){
-            pesoPaquete = parseFloat(pesoVolumetrico).toFixed(2);
-            
+           
+        pesoPaquete_float = parseFloat(pesoPaquete).toFixed(2);
+        console.log(pesoPaquete_float); 
+        if(pesoPaquete_float < 1.14 || pesoPaquete_float > 200){
+           pesoPaquete_float = $('#pesoPaquete').val(0);           
         }
-        else if(pesoVolumetrico <= pesoPaquete_float ){
-            pesoPaquete = parseFloat(pesoPaquete_float).toFixed(2);
+        if(pesoPaquete_float >= 1.14 || pesoPaquete_float <= 200){
+            if (pesoPaquete % 1 !== 0){
+                var pesoPaquete_split = pesoPaquete.split(".");
+                var pesoPaquete_decimal = pesoPaquete_split[1];
+
+                if(pesoPaquete_decimal.length > 2){
+                    $('#pesoPaquete').val(0);
+                }            
+            }               
         }
-         $("#precioPaquete").val(pesoPaquete*costoPesoKilo*cantidadPaquetes);
+
+        
+        if (parseFloat( $('#pesoVolumen').val()) > parseFloat($('#pesoPaquete').val())){
+          peso = $('#pesoVolumen').val();
+
+        }else  {
+           peso = $('#pesoPaquete').val();
+
+        }   
+        
+        console.log(peso);
+        //console.log(pesoPaquete*parseFloat(costoPesoKilo).toFixed(2));
+         $("#precioPaquete").val(parseFloat(cantidadPaquetes*costoPesoKilo*peso).toFixed(2));
+         
+         if( parseFloat($("#precioPaquete").val()) > 0){
+                 if (parseFloat( $('#pesoVolumen').val()) > parseFloat($('#pesoPaquete').val())){
+                     alert('El peso volumen se usará en el precio');
+                 }
+                 else{
+                     alert('El peso volumen NO se usará en el precio');
+                 }
+         }
         
         }
         //Si se produce un error no hacemos nada
         catch(e) {}
 
     });
-  
+      
        $('#pesoSobre, #pesoPaquete').change( function () {
             var pesoSobre = $('#pesoSobre').val();           
             var pesoPaquete = $('#pesoPaquete').val();
            
-            console.log(parseInt(pesoSobre));
+           // console.log(parseInt(pesoSobre));
             var pesoSobre_float = parseFloat(pesoSobre).toFixed(2);
-            console.log(pesoSobre_float);
-            var pesoPaquete_float = parseFloat(pesoPaquete).toFixed(2);
+         //   console.log(pesoSobre_float);
+          //  var pesoPaquete_float = parseFloat(pesoPaquete).toFixed(2);
                 
             if(pesoSobre_float < 0.01 || pesoSobre_float > 1.13){
+                
                 $('#pesoSobre').val(0);
             }
+            if(pesoSobre_float >= 0.01 || pesoSobre_float <= 1.13){
+                if(pesoSobre % 1 !== 0){
+                    var pesoSobre_split = pesoSobre.split(".");
+                    var pesoSobre_decimal = pesoSobre_split[1];
+                    if(pesoSobre_decimal.length > 2){                    
+                        $('#pesoSobre').val(0);
+                    } 
+                }
+            }
+            /*
             if(pesoPaquete_float < 1.13 || pesoPaquete_float > 200){
                 $('#pesoPaquete').val(0);
             }    
-            
-            if(pesoSobre.split(".") !== null || pesoSobre !== 0){
-                var pesoSobre_split = pesoSobre.split(".");
-                var pesoSobre_decimal = pesoSobre_split[1];
-                
-                if(pesoSobre_decimal.length > 2){
-                    $('#pesoSobre').val(0);
-                }                    
-            }     
-            
-            if(pesoPaquete.split(".") !== null || pesoPaquete !== 0){
-                var pesoPaquete_split = pesoPaquete.split(".");
-                var pesoPaquete_decimal = pesoPaquete_split[1];
-                
-                if(pesoPaquete_decimal.length > 2){
-                    $('#pesoPaquete').val(0);
-                }                    
-            }               
+            */
+            console.log(pesoSobre);
+
+
+            /*
+            if(!(pesoPaquete % 1 === 0)){
+                if(pesoPaquete.split(".") !== null || pesoPaquete !== 0){
+                    var pesoPaquete_split = pesoPaquete.split(".");
+                    var pesoPaquete_decimal = pesoPaquete_split[1];
+
+                    if(pesoPaquete_decimal.length > 2){
+                        $('#pesoPaquete').val(0);
+                    }                    
+                }    
+          
+            }
+          */  
     /*         
         //console.log(decimal);        
         if(entero.length > 1){
@@ -205,16 +256,18 @@
         }
 */
         regexp = /.{1}[0-9]{2}$/;
- 
+        regexp3 = /[a-zA-ZÑáéíóúüñ]$/;
         re = new RegExp(regexp);
-        if (!(pesoSobre.match(re)) || /\s+$/.test(pesoSobre)){           
+        re3 = new RegExp(regexp3);
+        if (!(pesoSobre.match(re)) || /\s+$/.test(pesoSobre)|| pesoSobre.match(re3 )){           
             $('#pesoSobre').val(0);        
         }  
              
-        regexp = /.{1}[0-9]{2}$/;
+        regexp2 = /.{1}[0-9]{2}$/;
+       
  
-        re = new RegExp(regexp);
-        if (!(pesoPaquete.match(re)) || /\s+$/.test(pesoPaquete)){           
+        re2 = new RegExp(regexp2);
+        if (!(pesoPaquete.match(re2)) || /\s+$/.test(pesoPaquete)){           
             $('#pesoPaquete').val(0);        
         }               
              
@@ -331,7 +384,7 @@
                 if( opciones[x].value === 'sobre' ){
 
                     if( cantidadSobre === null || cantidadSobre.length === 0 || /^\s+$/.test(cantidadSobre) ) {
-                          alert('[ERROR] La cantidad no puede quedar vacío');
+                          alert('[ERROR] La cantidad del sobre no puede quedar vacío');
                           return false;              
                     }
                     cantidadSobre = parseInt(cantidadSobre);
@@ -362,22 +415,49 @@
                           alert('[ERROR] El altura no puede ser cero');
                           return false;              
                     }
+                    if( anchura === null || anchura.length === 0 || /^\s+$/.test(anchura) ) {
+                          alert('[ERROR] La anchura no puede quedar vacío');
+                          return false;              
+                    }                    
                     anchura = parseFloat(anchura).toFixed(2);
                     if(anchura < 0.01) {
                           alert('[ERROR] La anchura no puede ser cero');
+                          return false;              
+                    }                         
+                    if( largo === null || largo.length === 0 || /^\s+$/.test(largo) ) {
+                          alert('[ERROR] El largo no puede quedar vacío');
                           return false;              
                     }     
                     largo = parseFloat(largo).toFixed(2);
                     if(largo < 0.01) {
                           alert('[ERROR] El largo no puede ser cero');
                           return false;              
-                    }                       
-                                                                                                                        
+                    }        
+                    if( cantidadPaquete === null || cantidadPaquete.length === 0 || /^\s+$/.test(cantidadPaquete) ) {
+                          alert('[ERROR] La cantidad del paquete no puede quedar vacío');
+                          return false;              
+                    }                    
+                    cantidadPaquete = parseInt(cantidadPaquete);       
+                    if(cantidadPaquete < 1) {
+                          alert('[ERROR] El largo no puede ser cero');
+                          return false;              
+                    } 
+                    if( pesoPaquete === null || pesoPaquete.length === 0 || /^\s+$/.test(pesoPaquete) ) {
+                          alert('[ERROR] La peso del paquete no puede quedar vacío');
+                          return false;              
+                    }         
+                    pesoPaquete = parseFloat(pesoPaquete).toFixed(2);
+                    if(pesoPaquete < 0.01) {
+                          alert('[ERROR] El peso del paquete no puede ser cero');
+                          return false;              
+                    }               
                 }                
             } 
         }           
         
-        return confirm('¿Seguro que desea registrar?');
+        confirm('¿Seguro que desea registrar?');
+        alert('Recibirá en su email los datos de su encomienda');
+        return ;
     });        
     /*    
     $("#calcular").click(function() {
