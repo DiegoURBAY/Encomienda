@@ -91,13 +91,16 @@ public class SERVCliente extends HttpServlet {
         if(action.equalsIgnoreCase("buscarPrueba")){
                HttpSession sesion = request.getSession();
                Cliente cliente = new Cliente();
+               Cliente cliente2 = new Cliente();
                
             int idCliente = 0;
             String usuario = null;
+            int nivel = 0;
             
-            if(sesion.getAttribute("idCliente")!=null){
-                  idCliente = Integer.parseInt(request.getParameter("idCliente"));
-            }           
+            if(sesion.getAttribute("idUsuario")!=null){
+                  idCliente = Integer.parseInt(String.valueOf(sesion.getAttribute("idUsuario")));
+                  nivel = 2;
+            }
             try {                
                 cliente = clienteDAO.BuscarPorId(idCliente);
                 usuario = cliente.getUsuario();
@@ -105,17 +108,164 @@ public class SERVCliente extends HttpServlet {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
             }            
             if(idCliente == 0){
-                response.sendRedirect("indexPrueba.jsp");
+                response.sendRedirect("index.jsp");
             }
-            else if(idCliente != 0){
-                sesion.setAttribute("idCliente", idCliente);
+            else if(idCliente > 0){
+                sesion.setAttribute("idUsuario", idCliente);
                 sesion.setAttribute("usuarioPrueba", usuario);
                 request.setAttribute("cliente", cliente);
                 RequestDispatcher view = request.getRequestDispatcher("EditarCliente1.jsp");
                 view.forward(request, response);                  
             }
-
+        }
+        
+        if(action.equalsIgnoreCase("buscarPorAdmin")){
+               HttpSession sesion = request.getSession();
+               Cliente cliente = new Cliente();
+               
+            int idCliente = 0;
+            int nivel = 0;
+            String usuario = null;
+            
+            if(request.getParameter("idUsuarioPorAdmin")!=null){
+                  idCliente = Integer.parseInt(request.getParameter("idUsuarioPorAdmin"));
+            }                 
+            try {                
+                cliente = clienteDAO.BuscarPorId(idCliente);
+                usuario = cliente.getUsuario();
+                nivel = cliente.getNivel();
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }   
+                        
+/*
+            
+           if(idCliente == 0  || nivel >= 2){
+                response.sendRedirect("index.jsp");
+            }
+            else             
+            
+            */            
+             if(idCliente > 0 ){
+                sesion.setAttribute("idUsuario", idCliente);
+                sesion.setAttribute("usuarioPrueba", usuario);
+                request.setAttribute("cliente", cliente);
+                RequestDispatcher view = request.getRequestDispatcher("EditarClientePorAdmin.jsp");
+                view.forward(request, response);                  
+            }
         }        
+        
+        else if(action.equalsIgnoreCase("deleteCliente")){
+            
+            HttpSession sesion = request.getSession();
+            
+            Cliente cliente = new Cliente();
+             List<Cliente> cliente_list = null ;
+             int idCliente_request = 0;
+             int idCliente_sesion = 0;
+             int nivel = 0;
+            if(request.getParameter("idClienteR")!=null){
+                idCliente_request = Integer.parseInt(request.getParameter("idClienteR"));                              
+            }                  
+            if(sesion.getAttribute("idUsuario")!=null){
+                idCliente_sesion = Integer.parseInt(String.valueOf(sesion.getAttribute("idUsuario")));
+            }          
+               try {
+                    cliente.setId(idCliente_request);
+                    clienteDAO.eliminar(cliente);
+                    cliente_list =  clienteDAO.consultar();
+                                         
+                } catch (Exception ex) {
+                }  
+            for(int i = 0; i < cliente_list.size(); i++){
+                nivel =  cliente_list.get(i).getNivel();
+                if(nivel == 1){
+                    cliente_list.remove(i);                    
+                }
+            }    
+            if(idCliente_request == 0  || idCliente_sesion == 0){
+                response.sendRedirect("index.jsp");
+            }              
+            else if(idCliente_request != 0 ){                
+            request.setAttribute("cliente", cliente_list);
+            RequestDispatcher view = request.getRequestDispatcher("ListarCliente.jsp");
+            view.forward(request, response);
+            }
+        }
+        else if(action.equalsIgnoreCase("refreshCliente")){
+            
+            HttpSession sesion = request.getSession();
+            
+            List<Cliente> cliente = null ;
+            Cliente cliente1 = new Cliente();
+            int nivel = 0;
+            int idCliente = 0;
+            String  usuario_de_login = null;
+            String usuario_de_id_recibido = null;
+                        
+            if(sesion.getAttribute("nivel")!=null){
+                nivel  = Integer.parseInt(String.valueOf(sesion.getAttribute("nivel")));
+            }
+            if(sesion.getAttribute("idUsuario")!=null){
+                idCliente = Integer.parseInt(String.valueOf(sesion.getAttribute("idUsuario")));
+            }
+            if(sesion.getAttribute("usuario")!=null){
+                usuario_de_login = String.valueOf(sesion.getAttribute("usuario"));
+            }                
+             
+            try {      
+                cliente = clienteDAO.consultar();
+                
+                for(int i = 0; i < cliente.size(); i++){
+                    cliente.get(i).getNivel();
+                    if( cliente.get(i).getNivel() < 2){
+                        cliente.remove(i);
+                    }
+                }
+                cliente1 = clienteDAO.BuscarPorId(idCliente);
+                usuario_de_id_recibido = cliente1.getUsuario();
+            } catch (Exception e) {
+                
+            }
+            //nivel 1 = administrador
+            if(idCliente == 0 || usuario_de_login == null || nivel != 1 ){
+                response.sendRedirect("index.jsp");
+            }      
+            else if (idCliente != 0 && nivel == 1){
+            sesion.setAttribute("idUsuario", idCliente);
+            sesion.setAttribute("nivel", nivel);
+            sesion.setAttribute("usuario", usuario_de_login);
+            request.setAttribute("cliente", cliente); 
+            RequestDispatcher view = request.getRequestDispatcher("ListarCliente.jsp");
+            view.forward(request, response);                
+            }
+
+        }
+        
+        if(action.equalsIgnoreCase("cerrar")){
+            HttpSession session = request.getSession();
+           /* session.setAttribute("idCliente", null);        
+            response.sendRedirect("index.jsp");
+            if(request.getParameter("cerrar")!=null){
+            session.invalidate();
+            }
+            */
+            session.invalidate();
+            response.sendRedirect("index.jsp");
+        }           
+        
+        
+            else if(action.equalsIgnoreCase("refreshClienteProAdmin")){
+      
+                try {
+                    
+                    request.setAttribute("cliente", clienteDAO.consultar()); 
+                } catch (Exception e) {
+                }
+                                                 RequestDispatcher view = request.getRequestDispatcher("ListarCliente.jsp");
+            view.forward(request, response);
+            }        
+        
     }
 
 
@@ -172,7 +322,8 @@ public class SERVCliente extends HttpServlet {
             out.flush();
             out.close();
         }          
-
+        
+       
       
         String id = request.getParameter("txtId");
         String identificador = request.getParameter("txtIdentificador");
@@ -182,6 +333,7 @@ public class SERVCliente extends HttpServlet {
         String contra = request.getParameter("txtContrase");        
         String telefono = request.getParameter("txtTelefono");
         
+        int nivel = 0;
         
         cliente.setIdentificador(identificador);
         cliente.setNombre(nombre);
@@ -203,6 +355,47 @@ public class SERVCliente extends HttpServlet {
             }
          
           response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar"); 
+        }
+        
+        if(request.getParameter("btnEditarPruebaAdmin")!=null){
+        
+        cliente.setId(Integer.parseInt(id));
+            try {
+                clienteDAO.modificar(cliente);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
+          response.sendRedirect(request.getContextPath() + "/SERVCliente?action=refreshClienteProAdmin"); 
+        }
+        
+        
+        
+        /*        
+        if(request.getParameter("btnEditarPrueba")!=null){
+        
+        cliente.setId(Integer.parseInt(id));
+            try {
+                clienteDAO.modificar(cliente);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
+          response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar"); 
+        }                           
+        */     
+                
+        if(request.getParameter("btnRegistrarCliente")!= null){
+            nivel = 2;
+            try {
+                cliente.setNivel(nivel);
+                clienteDAO.insertar(cliente);
+                envio.EnviarCorreo(email);
+
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar"); 
         }
       /*   
         if(request.getParameter("btnRegistrar")!= null){
@@ -251,6 +444,7 @@ public class SERVCliente extends HttpServlet {
             }
              
         }             
+      //esa funcion dentro del index ya no existe
                        response.sendRedirect(request.getContextPath() + "/index.jsp?cerrar=true"); 
              
 */

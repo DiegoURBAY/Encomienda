@@ -273,7 +273,7 @@
                                         <div class="modal-footer">
                                              
                                             <label class="text-left"><a href="RegistrarCliente.jsp">¿Crear cuenta nueva?</a></label>                     
-                                            <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciarPrueba" id="ingresar" >
+                                            <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciar" id="ingresar" >
                                         </div>
                                 </form>
                             
@@ -302,6 +302,23 @@
       
       <script src="js/validarLogin.js" type="text/javascript"></script>
       
+                <%
+        HttpSession sesion = request.getSession();
+        int nivel = 0;
+        if(request.getAttribute("nivel")!=null){
+            nivel = (Integer)request.getAttribute("nivel");
+            if(!(nivel == 0)){
+                sesion.setAttribute("usuario", request.getAttribute("usuario"));
+                sesion.setAttribute("nivel", nivel);
+
+                response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+nivel);
+            }
+        }
+        if(request.getParameter("cerrar")!=null){
+            session.invalidate();
+        }
+    %>        
+
     </body>
     
 </html>

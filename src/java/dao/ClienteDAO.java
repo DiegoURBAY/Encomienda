@@ -11,11 +11,12 @@ import entidad.Cliente;
 
 public class ClienteDAO extends Conexion implements DAO{
     
+ 
     @Override
     public void insertar(Object obj) throws Exception {
         Cliente c = (Cliente) obj;
         PreparedStatement pst = null;
-        String sql="INSERT INTO clientes (identificador, nombre, email, usuario, contraseña, telefono, fecharegistro) VALUES(?,?,?,?,?,?, CURDATE())";
+        String sql="INSERT INTO clientes (identificador, nombre, email, usuario, contraseña, telefono, nivel, fecharegistro) VALUES(?,?,?,?,?,?,?, CURDATE())";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -25,6 +26,7 @@ public class ClienteDAO extends Conexion implements DAO{
             pst.setString(4, c.getUsuario());
             pst.setString(5, c.getContraseña());
             pst.setString(6, c.getTelefono());
+            pst.setInt(7, c.getNivel());
             pst.executeUpdate();            
                       
         } catch ( SQLException e) {           
@@ -84,7 +86,7 @@ public class ClienteDAO extends Conexion implements DAO{
         List<Cliente> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, identificador, nombre, email, usuario, contraseña, telefono, fecharegistro FROM clientes WHERE estado = 1";
+        String sql = "SELECT id, identificador, nombre, email, usuario, contraseña, telefono, nivel FROM clientes WHERE estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -98,7 +100,7 @@ public class ClienteDAO extends Conexion implements DAO{
                         rs.getString("usuario"),
                         rs.getString("contraseña"),
                         rs.getString("telefono"),
-                        rs.getDate("fecharegistro")
+                        rs.getInt("nivel")
                     )
                 );
             }
@@ -128,6 +130,7 @@ public class ClienteDAO extends Conexion implements DAO{
                     c.setUsuario(res.getString("usuario"));
                     c.setContraseña(res.getString("contraseña"));                    
                     c.setTelefono(res.getString("telefono"));
+                    c.setNivel(res.getInt("nivel"));
                     c.setFecharegistro(res.getDate("fecharegistro"));
                     c.setId(res.getInt("id"));
                 }                   
@@ -142,22 +145,29 @@ public class ClienteDAO extends Conexion implements DAO{
     
     public Cliente ConsultarByEmail(String email) throws SQLException{
         
-        Cliente cliente = new Cliente();
+        Cliente c = new Cliente();
         PreparedStatement pst;
-        ResultSet rs = null;
-        String sql = "SELECT id FROM clientes WHERE email=?";
+        ResultSet res = null;
+        String sql = "SELECT id, identificador, nombre, email, usuario, contraseña, telefono, nivel FROM clientes WHERE email=?";
 
         try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
                pst.setString(1,email);                                
-               rs = pst.executeQuery();               
-            if (rs.next()) {
-                    cliente.setId(rs.getInt("id"));
+               res = pst.executeQuery();               
+            if (res.next()) {
+                    c.setId(res.getInt("id"));
+                    c.setIdentificador(res.getString("identificador"));
+                    c.setNombre(res.getString("nombre"));            
+                    c.setEmail(res.getString("email"));
+                    c.setUsuario(res.getString("usuario"));
+                    c.setContraseña(res.getString("contraseña"));                    
+                    c.setTelefono(res.getString("telefono"));
+                    c.setNivel(res.getInt("nivel"));
             }
         } catch (Exception e) {
         }
-         return cliente;
+         return c;
     }
     
     

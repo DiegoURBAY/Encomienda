@@ -3,7 +3,7 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("nivel")==null){
+    if(sesion.getAttribute("nivel")==null  || sesion.getAttribute("usuario")==null){
         response.sendRedirect("index.jsp");
     }
 %>
@@ -53,7 +53,7 @@ HttpSession sesion = request.getSession();
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
-                     <li><a href="index.jsp?cerrar=true">Cerrar Sesión</a></li>                           
+                     <li><a href="SERVCliente?action=cerrar">Cerrar Sesión</a></li>                           
                 </ul>
               </li>              
             </ul>

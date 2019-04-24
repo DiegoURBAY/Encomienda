@@ -3,8 +3,8 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();    
-    if(sesion.getAttribute("idCliente")==null || sesion.getAttribute("usuarioPrueba")==null){             
-        response.sendRedirect("indexPrueba.jsp");
+    if(sesion.getAttribute("idUsuario")==null || sesion.getAttribute("usuarioPrueba")==null){             
+        response.sendRedirect("index.jsp");
     } 
 %>
 <!DOCTYPE html>
@@ -53,10 +53,10 @@ HttpSession sesion = request.getSession();
 
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  ¡Hola, <%= sesion.getAttribute("usuario_de_login") %>,¡Hola, <%= sesion.getAttribute("usuarioPrueba") %>!<b class="caret"></b>
+                  ¡Hola, <%= sesion.getAttribute("usuarioPrueba") %>!<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="SERVCliente?action=buscarPrueba&idCliente=<c:out value="<%= sesion.getAttribute("idCliente") %>" />" >¿Editar cuenta? </a></li> 
+                    <li><a href="SERVCliente?action=buscarPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Editar cuenta? </a></li> 
                      <li><a href="SERVEncomienda?action=cerrar">Cerrar Sesión</a></li> 
                 </ul>
               </li>              

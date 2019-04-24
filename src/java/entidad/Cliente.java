@@ -12,6 +12,7 @@ public class Cliente {
     private String usuario;
     private String contraseña;    
     private String telefono;
+    private int nivel;
     private Date fecharegistro;
 
     public Cliente() {
@@ -28,6 +29,19 @@ public class Cliente {
         this.telefono = telefono;
         this.fecharegistro = fecharegistro;
     }
+
+    public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, int nivel) {
+        this.id = id;
+        this.identificador = identificador;
+        this.nombre = nombre;
+        this.email = email;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
+        this.telefono = telefono;
+        this.nivel = nivel;
+    }
+    
+    
 
     public String getUsuario() {
         return usuario;
@@ -91,6 +105,14 @@ public class Cliente {
 
     public void setFecharegistro(Date fecharegistro) {
         this.fecharegistro = fecharegistro;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
     }
 
 

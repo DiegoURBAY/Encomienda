@@ -19,6 +19,9 @@
         <!-- Theme CSS - Includes Bootstrap -->
         <link href="css/creative.min.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="js/validarIndex.js" type="text/javascript"></script>
+
     </head>
     <body id="page-top">
 
@@ -255,10 +258,11 @@
                                                 <h4 class="modal-title">Login</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
-                                        <div class="modal-body">				
+                                        <div class="modal-body">
                                                 <div class="form-group">
                                                         <label>Correo</label>                     
-                                                        <input type="text" class="form-control"  name="txtEmail" id="email_id">
+                                                        <input type="text" class="form-control"  name="txtEmail" id="emailLogin">
+                                                        <div id="ReportarEmailLogin" class="outputTextArea"></div> 
                                                 </div>
                                                 <div class="form-group">
                                                         <div class="clearfix">
@@ -267,13 +271,13 @@
                                                    <!--             <a class="pull-right text-muted" href="RecuperarContraseña.jsp" >Recuperar Contraseña?</a> -->
                                                         </div>
 
-                                                        <input type="password" class="form-control" name="txtContra" id="contraseña">
+                                                        <input type="password" class="form-control" name="txtContra" id="contraLogin">
                                                 </div>
                                         </div>
                                         <div class="modal-footer">
                                              
                                             <label class="text-left"><a href="RegistrarCliente.jsp">¿Crear cuenta nueva?</a></label>                     
-                                            <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciar" id="ingresar" >
+                                            <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciarUsuario" id="ingresar" >
                                         </div>
                                 </form>
                             
@@ -302,23 +306,6 @@
       
       <script src="js/validarLogin.js" type="text/javascript"></script>
       
-                <%
-        HttpSession sesion = request.getSession();
-        int nivel = 0;
-        if(request.getAttribute("nivel")!=null){
-            nivel = (Integer)request.getAttribute("nivel");
-            if(!(nivel == 0)){
-                sesion.setAttribute("usuario", request.getAttribute("usuario"));
-                sesion.setAttribute("nivel", nivel);
-
-                response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+nivel);
-            }
-        }
-        if(request.getParameter("cerrar")!=null){
-            session.invalidate();
-        }
-    %>        
-
     </body>
     
 </html>

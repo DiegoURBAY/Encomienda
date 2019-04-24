@@ -168,49 +168,49 @@ public class SERVEncomienda extends HttpServlet {
                 Cliente cliente = new Cliente();
                 String  usuario_de_login = null;
                 String usuario = null ;
-                int idCliente = 0;
+                int idUsuario = 0;
             
-                if(sesion.getAttribute("idCliente")!=null){
-                    idCliente = Integer.parseInt(String.valueOf(sesion.getAttribute("idCliente")));
+                if(sesion.getAttribute("idUsuario")!=null){
+                    idUsuario = Integer.parseInt(String.valueOf(sesion.getAttribute("idUsuario")));
                 }
                 if(sesion.getAttribute("usuario")!=null){
                     usuario_de_login = String.valueOf(sesion.getAttribute("usuario"));
                 }                
                 try {
-                    cliente = clientedao.BuscarPorId(idCliente);
+                    cliente = clientedao.BuscarPorId(idUsuario);
                 } catch (Exception ex) {
                     Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
                 }   
                 usuario = cliente.getUsuario();
                 
-                if(idCliente == 0 || usuario_de_login == null){
-                    response.sendRedirect("indexPrueba.jsp");
+                if(idUsuario < 0 || usuario_de_login == null){
+                    response.sendRedirect("index.jsp");
                 }
-                else if (idCliente != 0){
+                else if (idUsuario != 0){
                 //El nabvar esta incluido en la pag RegistrarEncomienda1
                 //si se envia session el nabvar recibirá el idCliente, todo lo contrario con enviar request
-                sesion.setAttribute("idCliente", idCliente);
+                sesion.setAttribute("idUsuario", idUsuario);
                 sesion.setAttribute("usuarioPrueba", usuario);
                 sesion.setAttribute("usuario_de_login", usuario_de_login);
                 request.setAttribute("usuarioPrueba",  usuario);                 
-                request.setAttribute("idCliente",  idCliente);
+                request.setAttribute("idUsuario",  idUsuario);
                 RequestDispatcher view = request.getRequestDispatcher("RegistrarEncomienda1.jsp");
                 view.forward(request, response);  
                 }
 
                 
 
-            }  
+            }             
         if(action.equalsIgnoreCase("cerrar")){
             HttpSession session = request.getSession();
            /* session.setAttribute("idCliente", null);        
-            response.sendRedirect("indexPrueba.jsp");
+            response.sendRedirect("index.jsp");
             if(request.getParameter("cerrar")!=null){
             session.invalidate();
             }
             */
             session.invalidate();
-            response.sendRedirect("indexPrueba.jsp");
+            response.sendRedirect("index.jsp");
         }            
              
     }
@@ -239,6 +239,8 @@ public class SERVEncomienda extends HttpServlet {
         double pesoPaquete = 0; 
         double precioPaquete = 0;         
         
+        double pesoVolumen = 0;
+        
         int idVehiculo = 0;
         String matricula = null;
         String ticket = null;
@@ -250,9 +252,9 @@ public class SERVEncomienda extends HttpServlet {
         if(request.getParameter("txtDestino")!=null) {
             destino = request.getParameter("txtDestino");
         }
-        if(request.getParameter("txtIdCliente")!=null) {
-            idCliente = Integer.parseInt(request.getParameter("txtIdCliente"));
-        }    
+        if(request.getParameter("txtIdCliente2")!=null) {
+            idCliente = Integer.parseInt(request.getParameter("txtIdCliente2"));
+        } 
                 
       //  String id =request.getParameter("txtId");                             
 
@@ -298,21 +300,29 @@ public class SERVEncomienda extends HttpServlet {
         }
         if(request.getParameter("txtCantidadPaquete")!=null){
                 cantidadPaquete = Integer.parseInt(request.getParameter("txtCantidadPaquete"));
-        }        
+        }     
+        if(request.getParameter("txtPesoVolumen")!=null){
+                pesoVolumen = Double.parseDouble(request.getParameter("txtPesoVolumen"));
+        }          
         if(request.getParameter("txtPesoPaquete")!=null){
                 pesoPaquete = Double.parseDouble(request.getParameter("txtPesoPaquete"));
         }
         if(request.getParameter("txtPrecioPaquete")!=null){
-                precioPaquete = Double.parseDouble(String.valueOf(request.getParameter("txtPrecioPaquete")));                
-        }
-                cantidadSobre = 0;
-                pesoSobre = 0; 
-                precioSobre = 0; 
-        
-                tipo = "paquete";                           
-                cantidad = cantidadPaquete;
+                precioPaquete = Double.parseDouble(request.getParameter("txtPrecioPaquete"));
+        }              
+            cantidadSobre = 0;
+            pesoSobre = 0; 
+            precioSobre = 0; 
+
+            tipo = "paquete";                           
+            cantidad = cantidadPaquete;
+            if(pesoVolumen > pesoPaquete){
+                peso = pesoVolumen;
+            }
+            else{
                 peso = pesoPaquete;
-                precio = precioPaquete;
+            }               
+            precio = precioPaquete;
             }
         }        
                                         

@@ -13,8 +13,17 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
-
 public class Envio {
+    
+/*
+public static void main(String[] args) throws Exception {
+        Envio envio = new Envio();
+        //String receptor = "1510647@utp.edu.pe";
+        String receptor = "larcroco@gmail.com";
+        
+        envio.EnviarCorreo(receptor);
+}
+*/
     
     public void EnviarCorreo(String receptor) throws MessagingException{
         try {

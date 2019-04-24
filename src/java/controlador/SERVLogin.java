@@ -45,14 +45,14 @@ public class SERVLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- 
+ response.setContentType("text/html;charset=UTF-8");
         String vista = "";
         String action = request.getParameter("action");
         
         if(action.equalsIgnoreCase("adios")){
         HttpSession sesion = request.getSession(false);        
-        request.setAttribute("idCliente", null);
-            rd = request.getRequestDispatcher("indexPrueba.jsp");
+        request.setAttribute("idUsuario", null);
+            rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response); 
         }
         
@@ -79,42 +79,73 @@ public class SERVLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            HttpSession sesion = request.getSession();
-            String usuario = null;
-            String email;
-            String contra;
-            int nivel = 0;
-            int idCliente = 0;
-            Acceso acc = new Acceso();            
-            String forward = "";
-            
-            if(request.getParameter("btnIniciarPrueba")!=null){
-                email = request.getParameter("txtEmail");
-                contra = request.getParameter("txtContra");  
-                idCliente = acc.getClienteID(email, contra);
-                
-              try {
-                  usuario = clienteDAO.UsuarioByEmail(email);
-              } catch (SQLException ex) {
-                  Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-              }
-              
-             Envio envio = new Envio();
-
-                if(idCliente > 0){
-
-             sesion.setAttribute("idCliente", idCliente);
-             sesion.setAttribute("usuario", usuario);
-             response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
-
-
-              
-                } 
-                else{
-                    rd = request.getRequestDispatcher("index.jsp");
-                     rd.forward(request, response);  
-                }                
+        PrintWriter out = response.getWriter();
+        
+            if(request.getParameter("eemail2")!=null){
+            String eemail = request.getParameter("eemail2");
+            String report = null;
+            try {
+                report = VerificarEmail2(eemail);
+            } catch (SQLException ex) {
+                Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            response.setContentType("text/plain");
+            out.println("" + report + "");
+            out.flush();
+            out.close();
+        }  
+        
+        HttpSession sesion = request.getSession();
+        
+        Cliente cliente = new Cliente();
+        
+        String usuario = null;
+        String email;
+        String contra;
+        String select;
+        int nivel = 0;
+        int idUsuario = 0;
+        Acceso acc = new Acceso();            
+        String forward = "";
+
+        if(request.getParameter("btnIniciarUsuario")!=null){
+            email = request.getParameter("txtEmail");
+            contra = request.getParameter("txtContra");
+            idUsuario = acc.getClienteID(email, contra);
+                
+            try {
+                cliente = clienteDAO.ConsultarByEmail(email);
+                usuario = cliente.getUsuario();
+                nivel = cliente.getNivel();
+                //usuario = clienteDAO.UsuarioByEmail(email);
+            } catch (SQLException ex) {
+                Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Envio envio = new Envio();
+            
+            //nivel 1 = administrador
+
+            if(idUsuario > 0){
+
+                sesion.setAttribute("idUsuario", idUsuario);
+                sesion.setAttribute("usuario", usuario);
+                
+                if(nivel == 2 ){
+                    response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
+                }
+                if(nivel == 1 ){
+                    sesion.setAttribute("nivel", nivel);
+                    response.sendRedirect(request.getContextPath() + "/SERVCliente?action=refreshCliente"); 
+                }                
+              
+            } 
+            else{
+                rd = request.getRequestDispatcher("index.jsp");
+                 rd.forward(request, response);  
+            }                
+        }
                 
             
             if(request.getParameter("btnIniciar")!=null || request.getParameter("btnRecuperar")!=null){
@@ -200,5 +231,21 @@ public class SERVLogin extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+     
+    
+    private String VerificarEmail2(String eemail) throws SQLException {
+        String report2 = null;
+        
+        if(eemail.equals("")){
+            report2 = "";
+        }
+        else if(clienteDAO.ConsultarEmail(eemail)){
+            report2 = "Ya existe";
+        }
+        else {
+            report2 = "Libre";
+        }
+        return report2;
 
+    }     
 }

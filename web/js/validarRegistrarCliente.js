@@ -155,7 +155,16 @@ $(document).ready(function (){
         if (contra ===  null || contra.length ===  0 || /^\s+$/.test(contra) ) {
             alert('[ERROR] La Contraseña no puede quedar vacío');
             return false;
-        }           
+        }
+        
+        confirm('¿Seguro que desea registrarse?');
+        alert('Recibirá en su email un aviso de su registro');
+        
         return true;           
+     });
+     
+     $('#regresar').click(function (){
+        confirm('¿¿Seguro que desea salir del registro?');
+        return true; 
      });
 });

@@ -59,8 +59,8 @@
                 </div>        	
         </div>                
         <div class="form-group">
-        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="registrar" name="btnRegistrar" id="registrar">
-            <a href="index.jsp?cerrar=true" class="btn btn-sm btn-secondary btn-block text-uppercase" onclick="return confirm('¿Seguro que desea salir del registro?')">Atrás</a>                 
+        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="registrar" name="btnRegistrarCliente" id="registrar">
+            <a href="SERVEncomienda?action=cerrar" class="btn btn-sm btn-secondary btn-block text-uppercase" id="regresar">Atrás</a>                 
         </div>
     </form>
 </div>

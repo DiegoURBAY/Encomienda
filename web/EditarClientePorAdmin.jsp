@@ -3,21 +3,7 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("idUsuario")==null){
-        response.sendRedirect("index.jsp");
-    }
-    if(sesion.getAttribute("idUsuario")!=null){
-        int idCliente = (Integer) sesion.getAttribute("idUsuario");
-        String usuario_de_login = null;
-        String usuario_actual = String.valueOf(sesion.getAttribute("usuarioPrueba"));
-        if(sesion.getAttribute("usuario_de_login")!=null){
-            usuario_de_login = String.valueOf(sesion.getAttribute("usuario_de_login"));
-                if(!(usuario_actual.equals(usuario_de_login))){
-                   response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar");                                      
-                }       
-            } 
-    }    
-      
+
 %>
 <!DOCTYPE html>
 <html>
@@ -39,8 +25,8 @@ HttpSession sesion = request.getSession();
         <input type="hidden" id="nnivel" name="txtnivel" value="<%= sesion.getAttribute("nivel") %>"  ><br>
          <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  ><br>
          <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuarioPrueba") %>"  ><br>
-         <input type="hidden" id="cliente4" name="txtIdCliente4" value="<%= sesion.getAttribute("usuario_de_login") %>"  ><br>
-           <input type="hidden" class="form-control" id="cliente_id" name="txtId" value="<c:out value="${cliente.id}" />" > 
+          <input type="hidden" id="cliente4" name="txtIdCliente4" value="<%= sesion.getAttribute("usuario_de_login") %>"  ><br>
+           <input type="text" class="form-control" id="cliente_id" name="txtId" value="<c:out value="${cliente.id}" />" > 
 		<h2>Editar</h2>
 		<p class="hint-text">Solo le tomará unos segundos</p>
                                                              
@@ -79,8 +65,8 @@ HttpSession sesion = request.getSession();
                 </div>        	
         </div>                
         <div class="form-group">
-        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Editar" name="btnEditarPrueba" id="editar" onclick="return confirm('¿Seguro que desea editar')">
-        <a class="btn btn-sm btn-secondary btn-block text-uppercase" href="SERVEncomienda?action=refreshPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')" >Atras</a>
+        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Editar" name="btnEditarPruebaAdmin" id="editar" onclick="return confirm('¿Seguro que desea editar')">
+        <a class="btn btn-sm btn-secondary btn-block text-uppercase" href="SERVCliente?action=refreshCliente&idUsuarioPorAdmin=<c:out value="<%= sesion.getAttribute("idUsuario") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')" >Atras</a>
         </div>
                     
                      

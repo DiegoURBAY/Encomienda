@@ -67,7 +67,7 @@ public class VehiculoDAO extends Conexion implements DAO{
         Vehiculo vehiculo = new Vehiculo();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, placa, capacidad, idEncomienda	FROM vehiculos WHERE estado = 1 AND capacidad > ?";
+        String sql = "SELECT id, placa, capacidad FROM vehiculos WHERE estado = 1 AND capacidad > ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -77,7 +77,6 @@ public class VehiculoDAO extends Conexion implements DAO{
                     vehiculo.setId(rs.getInt("id"));
                     vehiculo.setPlaca(rs.getString("placa"));
                     vehiculo.setCapacidad(rs.getDouble("capacidad"));
-                    vehiculo.setIdencomienda(rs.getInt("idEncomienda"));
                 }  
         } catch (SQLException e) {
         }
