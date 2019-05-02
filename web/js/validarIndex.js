@@ -1,21 +1,22 @@
 
 $(document).ready(function(){    
     
-    //Busca el email de manera asincrona
-    $("#emailLogin").keyup(function(){
+    //Busca el email y la contraseña de manera asincrona
+    $("#emailLogin,#contraLogin").keyup(function(){
             $email = $('#emailLogin').val();
-            $.post("SERVLogin", {eemail2:$email}, function(data) {            
+            $contra = $('#contraLogin').val();
+            $.post("SERVLogin", {eemail2:$email, ccontra2:$contra}, function(data) {            
                     $("#ReportarEmailLogin").hide();
-                    $("#ReportarEmailLogin").html(data);
-            });
+                    $("#ReportarEmailLogin").html(data);                   
+            });    
     });      
-  
-      //Transforma las letras en minuscula
+
+    //Transforma las letras en minuscula
     $("#emailLogin").keyup(function() {
        $(this).val($(this).val().toLowerCase());
     });
   
-    $('#ingresar').click(function (){
+    $('#ingresar').click(function (){                 
 
         var contra = $('#contraLogin').val();
         var email = $('#emailLogin').val(); 
@@ -35,7 +36,7 @@ $(document).ready(function(){
           return false;
         }
         else if(respuestaEmail !== condicion){
-            alert('[ERROR] Email no registrado');
+            alert('[ERROR] Usuario o contraseña incorrectos');
             return false;
         }           
         else if (contra ===  null || contra.length ===  0 || /^\s+$/.test(contra) ) {

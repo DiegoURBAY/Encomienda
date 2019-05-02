@@ -26,7 +26,7 @@ HttpSession sesion = request.getSession();
          <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  ><br>
          <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuarioPrueba") %>"  ><br>
           <input type="hidden" id="cliente4" name="txtIdCliente4" value="<%= sesion.getAttribute("usuario_de_login") %>"  ><br>
-           <input type="text" class="form-control" id="cliente_id" name="txtId" value="<c:out value="${cliente.id}" />" > 
+          <input type="hidden" class="form-control" id="cliente_id" name="txtId" value="<c:out value="${cliente.id}" />" > 
 		<h2>Editar</h2>
 		<p class="hint-text">Solo le tomará unos segundos</p>
                                                              

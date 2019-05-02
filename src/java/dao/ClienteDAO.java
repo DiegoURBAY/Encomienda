@@ -234,7 +234,7 @@ public class ClienteDAO extends Conexion implements DAO{
     
         PreparedStatement pst;
         ResultSet rs = null;
-        String sql = "SELECT email FROM clientes WHERE email=?";
+        String sql = "SELECT email, contraseña FROM clientes WHERE email=?";
         
         try {
             this.conectar();
@@ -246,7 +246,26 @@ public class ClienteDAO extends Conexion implements DAO{
         }
         return rs.next();
         
-    }            
+    }   
+    
+    public boolean ConsultarEmailContra(String email, String contraseña) throws SQLException{
+    
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String sql = "SELECT email, contraseña FROM clientes WHERE email=? AND contraseña=?";
+        
+        try {
+            this.conectar();
+            pst = conexion.prepareCall(sql);
+            pst.setString(1, email);
+            pst.setString(2, contraseña);
+            rs = pst.executeQuery();  
+        }
+        catch (Exception e) {            
+        }
+        return rs.next();
+        
+    }         
     
     public boolean ConsultarUsuario(String usuario) throws SQLException{
 

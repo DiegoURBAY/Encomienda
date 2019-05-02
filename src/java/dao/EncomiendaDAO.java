@@ -43,11 +43,26 @@ public class EncomiendaDAO extends Conexion implements DAO{
         
     }
     */
+    /*
+    public static void main(String[] args) throws Exception {
+        Encomienda encomienda = new Encomienda();
+        
+        encomienda.setOrigen("lua");
+        encomienda.setDestino("laaa");
+        encomienda.setIdCliente(28);
+        EncomiendaDAO encomiendaDAO = new EncomiendaDAO();
+        encomiendaDAO.insertar(encomienda);
+        
+        
+    }
+    */
+    
+    
     @Override
     public void insertar(Object obj) throws Exception {
         Encomienda c = (Encomienda) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO encomiendas ( origen, destino, idCliente, fecharegistro) VALUES (?,?,?, CURDATE())";
+        String sql="INSERT INTO encomiendas ( origen, destino, idCliente, fecharegistro, fechatime) VALUES (?,?,?, CURDATE(), CURRENT_TIMESTAMP)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -92,8 +107,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
             pst = conexion.prepareStatement(sql);
             pst.setString(1, c.getOrigen());
             pst.setString(2, c.getDestino());            
-            pst.setDate(3, c.getEnvio());
-            pst.setDate(4, c.getLlegada());
+          //  pst.setDate(3, c.getEnvio());
+         //   pst.setDate(4, c.getLlegada());
             pst.setInt(5, c.getIdCliente());
             pst.setInt(6, c.getId());
             pst.executeUpdate();      
@@ -134,11 +149,11 @@ public class EncomiendaDAO extends Conexion implements DAO{
         return datos;
     }
     
-    public List<Encomienda> consultar(int idCliente) throws Exception {
+    public List<Encomienda> consultarEncomiendaPorIdCliente(int idCliente) throws Exception {
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, origen, destino, envio, llegada, idCliente FROM encomiendas WHERE estado = 1 AND idCliente = ?";
+        String sql = "SELECT id, origen, destino, idCliente, fechatime  FROM encomiendas WHERE estado = 1 AND idCliente = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -149,9 +164,10 @@ public class EncomiendaDAO extends Conexion implements DAO{
                         rs.getInt("id"),
                         rs.getString("origen"),
                         rs.getString("destino"),
-                        rs.getDate("envio"),
-                        rs.getDate("llegada"),                                              
-                        rs.getInt("idCliente")
+                     //  rs.getDate("envio"),
+                      //  rs.getDate("llegada"),                                              
+                        rs.getInt("idCliente"),
+                        rs.getTimestamp("fechatime")
                         )
                 );            
             }           
@@ -168,11 +184,11 @@ public class EncomiendaDAO extends Conexion implements DAO{
         int idCliente = 0;
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, origen, destino, envio, llegada, idCliente FROM encomiendas WHERE estado = 1 AND id = ?";
+        String sql = "SELECT id, origen, destino, idCliente FROM encomiendas WHERE id = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setInt(1, idCliente);
+            pst.setInt(1, idEncomienda);
             rs = pst.executeQuery();
             if(rs.next()){
                 idCliente = rs.getInt("idCliente");
@@ -190,7 +206,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
            Encomienda c = new Encomienda();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT id, origen, destino, envio, llegada, idCliente FROM encomiendas WHERE estado = 1 AND id = ?";
+           String sql = "SELECT id, origen, destino, idCliente FROM encomiendas WHERE id = ?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -200,8 +216,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
                     c.setId(res.getInt("id"));
                     c.setOrigen(res.getString("origen"));            
                     c.setDestino(res.getString("destino"));                               
-                    c.setEnvio(res.getDate("envio"));   
-                    c.setLlegada(res.getDate("llegada")); 
+               //     c.setEnvio(res.getDate("envio"));   
+                 //   c.setLlegada(res.getDate("llegada")); 
                     c.setIdCliente(res.getInt("idCliente"));
                 }                   
      

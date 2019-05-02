@@ -43,7 +43,7 @@ HttpSession sesion = request.getSession();
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Logotipo</a>
+            <a class="navbar-brand" href="#">ZuritaSac</a>
           </div>
 
           <!-- Agrupar los enlaces de navegación, los formularios y cualquier
@@ -53,10 +53,11 @@ HttpSession sesion = request.getSession();
 
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  ¡Hola, <%= sesion.getAttribute("usuarioPrueba") %>!<b class="caret"></b>
+                  ¡Hola, <%= sesion.getAttribute("usuarioPrueba") %>!<b class="caret"></b>                  
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="SERVCliente?action=buscarPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Editar cuenta? </a></li> 
+                    <li><a href="SERVEncomienda?action=buscarEncomienda&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Buscar encomienda? </a></li> 
                      <li><a href="SERVEncomienda?action=cerrar">Cerrar Sesión</a></li> 
                 </ul>
               </li>              

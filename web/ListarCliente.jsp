@@ -67,7 +67,7 @@ HttpSession sesion = request.getSession();
                                         <c:out value="${item.telefono}"/>
                                 </td>   
                                 <td class="text-center">
-                                    <a href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="${encomienda.id}"/>"  class="btn btn-secondary btn-sm">Ver Envios</a>                                       
+                                    <a href="SERVEncomienda?action=refresh&idCliente=<c:out value="${item.id}"/>"  class="btn btn-secondary btn-sm">Ver Envios</a>                                       
                                 </td>                                     
                                 <td class="text-center">
                                     <a href="SERVCliente?action=buscarPorAdmin&idUsuarioPorAdmin=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   

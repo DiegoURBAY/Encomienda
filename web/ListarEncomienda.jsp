@@ -3,8 +3,8 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("nivel")==null){
-        response.sendRedirect("index.jsp");      
+    if(sesion.getAttribute("usuario")==null){
+      response.sendRedirect("index.jsp");      
     }
 %>
 <!DOCTYPE html>
@@ -18,11 +18,10 @@ HttpSession sesion = request.getSession();
         <div class="container">
             <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
             <input type="hidden" value="<%= sesion.getAttribute("usuario") %>">
-            <input type="hidden" value="<%= sesion.getAttribute("email") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("email") %>"> <br>
+           <input type="hidden" id="cliente" value="<%= sesion.getAttribute("idCliente") %>">
                 <h1>Lista de Encomiendas</h1>
                 <hr>                
-                    <a class="btn btn-success btn-lg" href="SERVEncomienda?action=insert&id=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Nueva Encomienda</a>
-                    <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Actualizar Lista</a>                       
                 <br>
                 <br>                
             <form method="POST">
@@ -32,8 +31,7 @@ HttpSession sesion = request.getSession();
                             <th class="text-center">ID</th>                
                             <th class="text-center">ORIGEN</th>      
                             <th class="text-center">DESTINO</th>
-                            <th class="text-center">ENVIO</th>
-                            <th class="text-center">LLEGADA</th>
+                            <th class="text-center">FECHA DE REGISTRO</th>
                             <th class="text-center">ENVIOS</th>
                             <th class="text-center">ACCIONES</th>
                         </tr>                        
@@ -49,19 +47,16 @@ HttpSession sesion = request.getSession();
                                 </td>
                                 <td>
                                         <c:out value="${encomienda.destino}"/>
-                                </td>                                   
+                                </td> 
                                 <td>
-                                        <c:out value="${encomienda.envioS}"/>
-                                </td>
-                                <td>
-                                        <c:out value="${encomienda.llegadaS}"/>
-                                </td>                                                                                             
+                                        <c:out value="${encomienda.fechaRegistroTimeString}"/>
+                                </td>                                    
                                 <td class="text-center">
-                                    <a href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="${encomienda.id}"/>"  class="btn btn-secondary btn-sm">Ver Envios</a>                                       
+                                    <a href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="${encomienda.id}"/>"  class="btn btn-secondary btn-sm">Ver tipo de envio</a>                                       
                                 </td>                                 
                                 <td class="text-center">                                    
                                     <a href="SERVEncomienda?action=edit&id=<c:out value="${encomienda.id}"/>"  class="btn btn-warning btn-sm">Editar</a>   
-                                    <a href="SERVEncomienda?action=delete&id=<c:out value="${encomienda.id}"/>&nivel=<%= sesion.getAttribute("nivel") %>" onclick="return confirm('¿Seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
+                                    <a href="SERVEncomienda?action=delete&idEncomienda=<c:out value="${encomienda.id}"/>" onclick="return confirm('¿Seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
                                 </td>
                             </tr>
                         </c:forEach>                         

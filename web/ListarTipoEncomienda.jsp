@@ -4,7 +4,7 @@
 
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("nivel")==null){
+    if(sesion.getAttribute("usuario")==null){
         response.sendRedirect("index.jsp");
     }
 %>
@@ -17,17 +17,12 @@ HttpSession sesion = request.getSession();
     </head>    
     <body>
         <div class="container">
-            <input type="hidden" value="<%= sesion.getAttribute("idEncomienda") %>"><br>
-            <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
+            <input type=hidden value="<%= sesion.getAttribute("idEncomienda") %>"><br>
+            <input type="hidden" value="<%= sesion.getAttribute("nivel") %>"><br>
             <input type="hidden" value="<%= sesion.getAttribute("peso") %>">
             <h1>Lista de tipos de Envios  </h1>
              <h4> Encomienda #: <%= sesion.getAttribute("idEncomienda") %></h4>
-                <hr>                
-                <a class="btn btn-success btn-lg" href="SERVTipoEncomienda?action=insert&id=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>">+ Sobre</a>
-                <a class="btn btn-success btn-lg" href="SERVTipoEncomienda?action=insert&id=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>&tipo=paquete">+ Paquete</a>                    
-                <a class="btn btn-primary btn-lg" href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="<%= sesion.getAttribute("idEncomienda") %>"/>"> Actualizar Lista</a>
-                <a class="btn btn-info btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>">Mis Encomiendas</a>
-                <a class="btn btn-info btn-lg" href="SERVVehiculo?action=refresh&peso=<c:out value="<%= sesion.getAttribute("peso") %>"/>">Elegir Vehiculo</a>
+                <hr>                                
                 <br>
                 <br>                
             <form method="POST">

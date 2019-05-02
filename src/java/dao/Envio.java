@@ -43,7 +43,7 @@ public static void main(String[] args) throws Exception {
             
             //declaracion de variables string con nuestro datos
             String correoRemitente = "larcroco@gmail.com";
-            String passwordRemitente = "Marcelo44";
+            String passwordRemitente = "Daniel941J";
             String correoReceptor = receptor;
             String asunto = "Registro de cuenta";
             String mensaje = "Se ha unido a Zurita SAC! Felicidades!!";
@@ -93,7 +93,7 @@ public static void main(String[] args) throws Exception {
             
             //declaracion de variables string con nuestro datos
             String correoRemitente = "larcroco@gmail.com";
-            String passwordRemitente = "Marcelo44";
+            String passwordRemitente = "Daniel941J";
             String correoReceptor = receptor;
             String key = codigo;
             String asunto = "CODIGO ";

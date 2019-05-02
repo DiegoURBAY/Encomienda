@@ -262,7 +262,7 @@
                                                 <div class="form-group">
                                                         <label>Correo</label>                     
                                                         <input type="text" class="form-control"  name="txtEmail" id="emailLogin">
-                                                        <div id="ReportarEmailLogin" class="outputTextArea"></div> 
+                                                       
                                                 </div>
                                                 <div class="form-group">
                                                         <div class="clearfix">
@@ -272,6 +272,7 @@
                                                         </div>
 
                                                         <input type="password" class="form-control" name="txtContra" id="contraLogin">
+                                                         <div id="ReportarEmailLogin" class="outputTextArea"></div> 
                                                 </div>
                                         </div>
                                         <div class="modal-footer">
@@ -304,7 +305,7 @@
       <!-- Custom scripts for this template -->
       <script src="js/creative.min.js"></script>
       
-      <script src="js/validarLogin.js" type="text/javascript"></script>
+
       
     </body>
     

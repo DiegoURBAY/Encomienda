@@ -81,11 +81,22 @@ public class SERVLogin extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         
+            String eemail = null;
+            String ccontra = null;
             if(request.getParameter("eemail2")!=null){
-            String eemail = request.getParameter("eemail2");
+                 eemail = request.getParameter("eemail2");
+            }                
+            if( request.getParameter("ccontra2")!=null ){
+                ccontra = request.getParameter("ccontra2");
+            }
+        
+        if(eemail != null && ccontra != null){
+            
             String report = null;
+
             try {
-                report = VerificarEmail2(eemail);
+                //report = VerificarEmail2(eemail);
+                report = VerificarEmail2(eemail,ccontra);
             } catch (SQLException ex) {
                 Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -94,8 +105,8 @@ public class SERVLogin extends HttpServlet {
             out.println("" + report + "");
             out.flush();
             out.close();
-        }  
-        
+        }
+
         HttpSession sesion = request.getSession();
         
         Cliente cliente = new Cliente();
@@ -233,19 +244,19 @@ public class SERVLogin extends HttpServlet {
     }// </editor-fold>
      
     
-    private String VerificarEmail2(String eemail) throws SQLException {
+    private String VerificarEmail2(String eemail, String ccontra) throws SQLException {
         String report2 = null;
         
-        if(eemail.equals("")){
+        if(ccontra.equals("")){
             report2 = "";
         }
-        else if(clienteDAO.ConsultarEmail(eemail)){
+        else if(clienteDAO.ConsultarEmailContra(eemail, ccontra)){
             report2 = "Ya existe";
         }
-        else {
+        else if(!clienteDAO.ConsultarEmailContra(eemail, ccontra)){
             report2 = "Libre";
         }
         return report2;
 
-    }     
+    }       
 }

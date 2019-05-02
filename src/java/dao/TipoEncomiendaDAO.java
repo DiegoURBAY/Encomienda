@@ -1,6 +1,7 @@
 
 package dao;
 
+import entidad.Encomienda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +27,27 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
         tipoEncomiendaDAO.insertar(tipoEncomienda);
     }
 */
+    
+
+    public static void main(String[] args) throws Exception {
+        TipoEncomienda tipoEncomienda = new TipoEncomienda();
+        Encomienda encomienda = new Encomienda();         
+         
+        int idEncomienda = 28; 
+        int idTipoEncomienda = 0;
+        
+        TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
+        
+        List<TipoEncomienda> tipoEncomienda_list = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomienda);
+        
+        for (int i = 0; i < tipoEncomienda_list.size(); i++) {
+      
+                 System.out.println(1);
+
+        }        
+
+      
+    }
     @Override
     public void insertar(Object obj) throws Exception {
         TipoEncomienda te = (TipoEncomienda) obj;

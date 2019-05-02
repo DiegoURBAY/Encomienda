@@ -157,14 +157,37 @@ $(document).ready(function (){
             return false;
         }
         
-        confirm('¿Seguro que desea registrarse?');
-        alert('Recibirá en su email un aviso de su registro');
-        
-        return true;           
+        var answer = confirm('¿Seguro que desea registrar?');
+        if (answer)
+        {
+           console.log('yes');
+           alert('Recibirá en su email los datos de su encomienda');
+           return true;
+        }
+        else
+        {
+           console.log('cancel');
+           alert('Ha cancelado el registro');
+           return false;
+        }          
      });
      
-     $('#regresar').click(function (){
-        confirm('¿¿Seguro que desea salir del registro?');
-        return true; 
-     });
+    $('#regresar').click(function (){
+       confirm('¿Seguro que desea salir del registro?');
+        var answer = confirm('¿Seguro que desea salir del registro?');
+        if (answer)
+        {
+           console.log('yes');
+           return true;
+        }
+        else
+        {
+           console.log('cancel');
+           alert('Ha evitado regresar');
+           return false;
+        }    
+    });
+     
+     
+     
 });
