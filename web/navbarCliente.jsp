@@ -20,16 +20,13 @@ HttpSession sesion = request.getSession();
         <!-- Versión compilada y comprimida del JavaScript de Bootstrap -->
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         
-        <!-- Referencias para el DataTable 
-                <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>  
+        <!-- Referencias para el DataTable         -->
+        <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>  
         <link href="css/responsive.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>   
         <script src="js/dataTables.responsive.min.js" type="text/javascript"></script>
         <script src="js/dataTable.js" type="text/javascript"></script>      
         
-        
-        -->
-      
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
@@ -56,9 +53,10 @@ HttpSession sesion = request.getSession();
                   ¡Hola, <%= sesion.getAttribute("usuarioPrueba") %>!<b class="caret"></b>                  
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="SERVCliente?action=buscarPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Editar cuenta? </a></li> 
+                    <li><a href="SERVCliente?action=buscarPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Editar cuenta? </a></li>
+                    <li><a href="SERVEncomienda?action=refreshPrueba">¿Nueva Encomienda? </a></li>
                     <li><a href="SERVEncomienda?action=buscarEncomienda&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Buscar encomienda? </a></li> 
-                     <li><a href="SERVEncomienda?action=cerrar">Cerrar Sesión</a></li> 
+                    <li><a href="SERVEncomienda?action=cerrar">Cerrar Sesión</a></li> 
                 </ul>
               </li>              
             </ul>

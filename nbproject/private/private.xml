@@ -3,9 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/entidad/Disponibilidad.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/dao/EncomiendaDAO.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/dao/DisponibilidadDAO.java</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarCliente1.jsp</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/js/validarEditarEncomienda.js</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarEncomiendaSobre.jsp</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/RegistrarEncomienda1.jsp</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/entidad/TipoEncomienda.java</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/navbarCliente.jsp</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/js/validarRegistrarEncomienda.js</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVEncomienda.java</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ListarEncomienda.jsp</file>
         </group>
     </open-files>
 </project-private>

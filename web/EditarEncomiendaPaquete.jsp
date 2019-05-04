@@ -1,0 +1,185 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page session="true"%>
+<%
+HttpSession sesion = request.getSession();
+    if(session.getAttribute("idUsuario")==null){             
+        response.sendRedirect("index.jsp");
+    }
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Editar Paquete</title>
+        <jsp:include page="navbarCliente.jsp"/>
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>        
+       
+        
+        <!--DATAPICKER Y AUTOCOMPLETAR
+         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        -->       
+        
+        
+        <!--BARRA DE NAVEGACIÓN -->   
+        
+        <!--DATAPICKER 
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+        -->         
+        <!-- VALIDACIONES -->
+        <script src="js/validarEditarPaquete.js" type="text/javascript"></script>
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>        
+    </head>
+    <body>
+
+    <div class="container" id="advanced-search-form">
+        <h2>Editar Paquete</h2>
+        <form method="POST" action="SERVTipoEncomienda" autocomplete="off">
+   
+            <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
+            <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
+            <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-6 form-group">
+                        <label for="origen">Origen</label>
+                        <input type="text" class="form-control" placeholder="Origen" readonly="" id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="destino">Destino</label>
+                        <input type="text" class="form-control" placeholder="Destino" readonly="" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
+                    </div>               
+                </div>
+            </div>               
+                        
+            <hr class="my-4" >      
+            <div class="row"  >
+                <div class="col-sm-12">                
+                    <div class="row">                                                
+                        <div class="col-xs-3">
+                                <label>Altura cm</label>
+                                <input type="text" class="form-control" readonly="" name="txtAlturaOriginal" id="alturaOriginal"   value="<c:out value="${tipoEncomienda.altura}" />" >  
+                        </div>
+
+                        <div class="col-xs-3">
+                                <label>Ancho cm</label>
+                                <input type="text"  class="form-control" readonly="" name="txtAnchuraOriginal" id="anchuraOriginal"   value="<c:out value="${tipoEncomienda.anchura}" />" > 
+                        </div>
+
+                        <div class="col-xs-3">
+                                <label>Largo cm</label>
+                                <input type="text"  class="form-control" readonly="" name="txtLargoOriginal" id="largoOriginal"  value="<c:out value="${tipoEncomienda.largo}" />" > 
+                        </div>
+                        <div class="col-xs-3">
+                                <label>Volumen </label>
+                                <input type="text"  class="form-control " readonly="" name="txtVolumenOriginal" id="volumenOriginal" value="<c:out value="${volumen}" />" > 
+                        </div>                                
+                                     
+                    </div>   
+                    <br>        
+                    <div class="row">        
+                        <div class="col-xs-3">
+                                <label>Peso kg</label>
+                                <input type="text" class="form-control" readonly="" name="txtPesoPaqueteOriginal" id="pesoPaqueteOriginal"  value="<c:out value="${tipoEncomienda.peso}" />" > 
+                        </div>                          
+                        <div class="col-xs-3">
+                                <label>Cantidad </label>
+                                <input type="text" class="form-control" readonly="" name="txtCantidadPaqueteOriginal" id="cantidadPaquetesOriginal"  value="<c:out value="${tipoEncomienda.cantidad}" />" > 
+                        </div>      
+                        <div class="col-xs-3">
+                                <label>Precio S/.</label>
+                                <input type="text"  class="form-control " readonly="" name="txtPrecioPaqueteOriginal" id="precioPaqueteOriginal" value="<c:out value="${tipoEncomienda.precio}" />" > 
+                        </div>                           
+                    </div>
+                </div>                             
+            </div>                
+                
+                                
+             <hr class="my-4" >
+            <!-- PAQUETE-->            
+            <div class="row"  >
+                        <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h5>Costo x kilo: S/ 0.20</h5>
+                        </div>
+                        <div class="col-sm-5">
+                            <h5>Precio = (peso*cantidad*costoxkilo)</h5>
+                        </div>                      
+                        <div class="col-sm-4">
+                            <h5>PesoVolumen = (alto*ancho*largo)</h5>
+                        </div>                        
+                    </div>                            
+                    <div class="row">                                                
+                        <div class="col-xs-3">
+                                <label>Altura cm [10 - 25]</label>
+                                <input type="text" class="form-control" name="txtAltura" id="altura"  value="0"> 
+                        </div>
+
+                        <div class="col-xs-3">
+                                <label>Anchura cm [5 - 31]</label>
+                                <input type="text"  class="form-control" name="txtAnchura" id="anchura"  value="0"> 
+                        </div>
+
+                        <div class="col-xs-3">
+                                <label>Largo cm [14 - 75]</label>
+                                <input type="text"  class="form-control" name="txtLargo" id="largo"  value="0"> 
+                        </div>
+                        <div class="col-xs-3">
+                                <label>Volumen </label>
+                                <input type="text"  class="form-control " readonly="" name="txtVolumen" id="volumen" > 
+                        </div>                          
+                    </div> 
+                    <br>
+                    <div class="row">                                                
+                        <div class="col-xs-3">
+                                <label>Peso Volumen</label>
+                                <input type="text" class="form-control" readonly name="txtPesoVolumen" id="pesoVolumen" >  
+                        </div>  
+                        <div class="col-xs-3">
+                                <label>Cantidad [1 - 8]</label>
+                                <input type="text" class="form-control" name="txtCantidadPaquete" id="cantidadPaquetes" >                              
+                        </div>                        
+                        
+                        <div class="col-xs-3">
+                                <label>Peso(kg) [1.14 - 200]</label>
+                                <input type="text"  class="form-control" name="txtPesoPaquete"  id="pesoPaquete" > 
+                        </div>
+                        <div class="col-xs-3">
+                                <label>Precio S/.</label>
+                                <input type="text"  class="form-control" readonly name="txtPrecioPaquete" id="precioPaquete">                            
+                        </div>
+
+                    </div>    
+                    <div class="row">                                                
+                        
+                            <div class="col-sm-8 form-group">
+                                <br>
+                                <label id="mensaje_error" class="control-label text-danger" style="display: block;">
+                                    Se usa peso volumétrico en el precio</label>
+                            </div>
+                            
+                    </div>
+                                            
+            </div>                
+                
+            </div>
+            <div class="clearfix"></div>            
+            <div class="row">                
+           
+                <div class="col-xs-6">
+                     <input type="submit" class="btn-primary  form-control" id="registrar1" name="btnRegistrarPrueba" value="Registrar" >                
+                </div>              
+                <div class="col-xs-6">
+                    <input type="reset" class="btn-danger form-control" id="limpiar" name="btnLimpiar" value="Limpiar">
+                </div>                    
+             
+            </div>
+        </form>   
+                                  
+    </div>
+        
+    </body>
+</html>

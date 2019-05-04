@@ -1,4 +1,9 @@
 
+
+$('input[type="submit"]').attr('disabled','disabled');
+
+
+/*
       $(function() {
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
@@ -25,11 +30,24 @@
 
         });                                
     });      
-      
+ */     
    $(document).ready(function(){              
+       
+       
+       $('#pesoSobre, #pesoSobreOriginal').change(function (){
+      var pesoSobreOriginal = $("#pesoSobreOriginal").val();
+      var pesoSobre = $("#pesoSobre").val();
+      
+      var pesoSobreOriginal_float = parseFloat(pesoSobreOriginal).toFixed(2);
+      var pesoSobre_float = parseFloat(pesoSobre).toFixed(2);
+      if(pesoSobre_float > pesoSobreOriginal_float ){
+        alert('[Aviso] El peso nuevo no puede exceder al original');
+        $('#pesoSobre').val(0);     
+      }
+});
 
         $('#mensaje_error').hide(); 
-
+/*
         $( function() {                   
         var availableTags = new Array();
 
@@ -47,7 +65,7 @@
             source: availableTags,
             minLength: 1
           });
-          
+        
         $('#origen, #destino').change( function () {
             var origen = $('#origen').val();
             var destino = $('#destino').val();
@@ -79,7 +97,7 @@
             this.value = this.value.replace(/[^a-záéíóúüñ]+/ig,"");
         }
     });
-
+ */ 
     $("input[type=radio]").click(function(event){
         var valor = $(event.target).val();
         if(valor === "sobre"){
@@ -125,7 +143,7 @@
         catch(e) {}
       });    
 
-
+/*
 
      $('#cantidadPaquetes, #largo, #altura, #anchura ,#pesoPaquete, #precioPaquete').change( function () {
         var cantidadPaquetes = $('#cantidadPaquetes').val();
@@ -216,7 +234,7 @@
         catch(e) {}
 
     });
-      
+    */  
        $('#pesoSobre, #pesoPaquete').change( function () {
             var pesoSobre = $('#pesoSobre').val();           
             var pesoPaquete = $('#pesoPaquete').val();
@@ -279,6 +297,7 @@
             $('#pesoSobre').val(0);
         }
 */
+/*
         regexp = /.{1}[0-9]{2}$/;
         regexp3 = /[a-zA-ZÑáéíóúüñ]$/;
         re = new RegExp(regexp);
@@ -286,7 +305,7 @@
         if (!(pesoSobre.match(re)) || /\s+$/.test(pesoSobre)|| pesoSobre.match(re3 )){           
             $('#pesoSobre').val(0);        
         }  
-             
+             /*
         regexp2 = /.{1}[0-9]{2}$/;
        
  
@@ -294,7 +313,7 @@
         if (!(pesoPaquete.match(re2)) || /\s+$/.test(pesoPaquete)){           
             $('#pesoPaquete').val(0);        
         }               
-             
+             */
       }); 
 
     /* 
@@ -372,7 +391,7 @@
         return true;
     });    
     
-    $("#registrar1").click(function() {
+    $("#editarSobre").click(function() {
 
         var origen = $('#origen').val();
         var destino = $('#destino').val();
@@ -411,151 +430,48 @@
             return false; 
         }      
         
-        for(x = 0; x < opciones.length; x++){
-            if(opciones[x].checked){
-                if( opciones[x].value === 'sobre' ){
+        if( cantidadSobre === null || cantidadSobre.length === 0 || /^\s+$/.test(cantidadSobre) ) {
+             alert('[Aviso] La cantidad del sobre no puede quedar vacío');
+            $('#cantidadSobres').css("border", "1px solid red");
+            $("#cantidadSobres").focus();   
+              return false;              
+        }
+        else{
+             $('#cantidadSobres').css("border", "");
+        }
+        cantidadSobre = parseInt(cantidadSobre);
 
-                    if( cantidadSobre === null || cantidadSobre.length === 0 || /^\s+$/.test(cantidadSobre) ) {
-                         alert('[Aviso] La cantidad del sobre no puede quedar vacío');
-                        $('#cantidadSobres').css("border", "1px solid red");
-                        $("#cantidadSobres").focus();   
-                          return false;              
-                    }
-                    else{
-                         $('#cantidadSobres').css("border", "");
-                    }
-                    cantidadSobre = parseInt(cantidadSobre);
+        if( cantidadSobre < 1 ) {
+            alert('[Aviso] La cantidad no puede ser cero');
+            $('#cantidadSobres').css("border", "1px solid red");
+            $("#cantidadSobres").focus();   
+            return false;              
+        }       
+        else{
+             $('#cantidadSobres').css("border", "");
+        }
 
-                    if( cantidadSobre < 1 ) {
-                        alert('[Aviso] La cantidad no puede ser cero');
-                        $('#cantidadSobres').css("border", "1px solid red");
-                        $("#cantidadSobres").focus();   
-                        return false;              
-                    }       
-                    else{
-                         $('#cantidadSobres').css("border", "");
-                    }
-                    
-                    if( pesoSobre === null || pesoSobre.length === 0 ) {
-                        alert('[Aviso] El peso del sobre no puede quedar vacío');                        
-                        $('#pesoSobre').css("border", "1px solid red");
-                        $("#pesoSobre").focus();                          
-                        return false;              
-                    }
-                    else{
-                        $('#pesoSobre').css("border", "");
-                    }                    
-    
-                    pesoSobre = parseFloat(pesoSobre).toFixed(2);
-                    if(pesoSobre < 0.01) {
-                        alert('[Aviso] El peso no puede ser cero');
-                        $('#pesoSobre').css("border", "1px solid red");
-                        $("#pesoSobre").focus();                            
-                        return false;              
-                    }
-                    else{
-                        $('#pesoSobre').css("border", "");
-                    }
-                }  
-                else if( opciones[x].value === 'paquete'){
-                    if( altura === null || altura.length === 0 || /^\s+$/.test(altura) ) {
-                        alert('[Aviso] La altura no puede quedar vacío');
-                        $('#altura').css("border", "1px solid red");
-                        $("#altura").focus();   
-                        return false;              
-                    }
-                    else{
-                        $('#altura').css("border", "");
-                    }
-                    altura = parseFloat(altura).toFixed(2);
-                    if(altura < 0.01) {
-                        alert('[Aviso] La altura no puede ser cero');
-                        $('#altura').css("border", "1px solid red");
-                        $("#altura").focus();  
-                        return false;              
-                    }
-                    else{
-                        $('#altura').css("border", "");
-                    }                    
-                    if( anchura === null || anchura.length === 0 || /^\s+$/.test(anchura) ) {
-                        alert('[Aviso] La anchura no puede quedar vacío');
-                        $('#anchura').css("border", "1px solid red");
-                        $("#anchura").focus();                          
-                        return false;              
-                    }        
-                    else{
-                        $('#anchura').css("border", "");
-                    }                          
-                    anchura = parseFloat(anchura).toFixed(2);
-                    if(anchura < 0.01) {
-                        alert('[Aviso] La anchura no puede ser cero');
-                        $('#anchura').css("border", "1px solid red");
-                        $("#anchura").focus();                               
-                        return false;              
-                    }      
-                    else{
-                        $('#anchura').css("border", "");
-                    }                      
-                    if( largo === null || largo.length === 0 || /^\s+$/.test(largo) ) {
-                        alert('[Aviso] El largo no puede quedar vacío');
-                        $('#largo').css("border", "1px solid red");
-                        $("#largo").focus();                           
-                        return false;              
-                    }
-                    else{
-                        $('#largo').css("border", "");
-                    }                       
-                    largo = parseFloat(largo).toFixed(2);
-                    if(largo < 0.01) {
-                        alert('[Aviso] El largo no puede ser cero');
-                        $('#largo').css("border", "1px solid red");
-                        $("#largo").focus();                            
-                        return false;
-                    }
-                    else{
-                        $('#largo').css("border", "");
-                    }                      
-                    if( cantidadPaquete === null || cantidadPaquete.length === 0 || /^\s+$/.test(cantidadPaquete) ) {
-                        alert('[Aviso] La cantidad del paquete no puede quedar vacío');
-                        $('#cantidadPaquetes').css("border", "1px solid red");
-                        $("#cantidadPaquetes").focus();                         
-                        return false;              
-                    }           
-                    else{
-                        $('#cantidadPaquetes').css("border", "");
-                    }                     
-                    cantidadPaquete = parseInt(cantidadPaquete);       
-                    if(cantidadPaquete < 1) {
-                        alert('[Aviso] La cantidad del paquete no puede ser cero');
-                        $('#cantidadPaquetes').css("border", "1px solid red");
-                        $("#cantidadPaquetes").focus();                               
-                        return false;              
-                    } 
-                    else{
-                        $('#cantidadPaquetes').css("border", "");
-                    }                     
-                    if( pesoPaquete === null || pesoPaquete.length === 0 || /^\s+$/.test(pesoPaquete) ) {
-                        alert('[Aviso] El peso del paquete no puede quedar vacío');
-                        $('#pesoPaquete').css("border", "1px solid red");
-                        $("#pesoPaquete").focus();                             
-                        return false;              
-                    }       
-                    else{
-                        $('#pesoPaquete').css("border", "");
-                    }                       
-                    pesoPaquete = parseFloat(pesoPaquete).toFixed(2);
-                    if(pesoPaquete < 0.01) {
-                        alert('[Aviso] El peso del paquete no puede ser cero');
-                        $('#pesoPaquete').css("border", "1px solid red");
-                        $("#pesoPaquete").focus();                               
-                        return false;              
-                    }
-                    else{
-                        $('#pesoPaquete').css("border", "");
-                    }                     
-                }                
-            } 
-        }           
+        if( pesoSobre === null || pesoSobre.length === 0 ) {
+            alert('[Aviso] El peso del sobre no puede quedar vacío');                        
+            $('#pesoSobre').css("border", "1px solid red");
+            $("#pesoSobre").focus();                          
+            return false;              
+        }
+        else{
+            $('#pesoSobre').css("border", "");
+        }                    
+
+        pesoSobre = parseFloat(pesoSobre).toFixed(2);
+        if(pesoSobre < 0.01) {
+            alert('[Aviso] El peso no puede ser cero');
+            $('#pesoSobre').css("border", "1px solid red");
+            $("#pesoSobre").focus();                            
+            return false;              
+        }
+        else{
+            $('#pesoSobre').css("border", "");
+        }                 
+               
        var answer = confirm('¿Seguro que desea registrar?');
        if (answer)
         {
@@ -566,34 +482,11 @@
         else
         {
           console.log('cancel');
-          alert('Ha cancelado el registro');
+          alert('Ha cancelado la edición');
           return false;
         }
-       //  confirm('¿Seguro que desea registrar?');
-      //  alert('Recibirá en su email los datos de su encomienda');
-      //  return ;
       
     });        
     
-    /*    
-    $("#calcular").click(function() {
-        var largo = 0;
-        var altura = 0;
-        var anchura = 0;
-        
-         
-         altura = $('#altura').val();
-         anchura = $('#anchura').val();   
-         largo = $('#largo').val();
-         var dimensiones = altura*anchura;
 
-       $('#pesoVolumen').val(dimensiones);
-       
-       $('#pesoPaquete').val(dimensiones*largo);
-    });        
-        
-    $("#limpiar").click(function() {
-         return confirm('¿Seguro que desea limpiar todos los campos?');   
-    });
-    */
 });    

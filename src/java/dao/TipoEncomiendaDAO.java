@@ -28,26 +28,36 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
     }
 */
     
-
+/*
     public static void main(String[] args) throws Exception {
-        TipoEncomienda tipoEncomienda = new TipoEncomienda();
-        Encomienda encomienda = new Encomienda();         
-         
-        int idEncomienda = 28; 
-        int idTipoEncomienda = 0;
+        TipoEncomienda tipoEncomiendaSobre = new TipoEncomienda();       
+        Encomienda encomienda = new Encomienda();     
         
-        TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
-        
-        List<TipoEncomienda> tipoEncomienda_list = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomienda);
-        
-        for (int i = 0; i < tipoEncomienda_list.size(); i++) {
-      
-                 System.out.println(1);
-
-        }        
-
-      
+            tipoEncomiendaSobre.setTipo("sobre");
+            tipoEncomiendaSobre.setAltura(0);
+            tipoEncomiendaSobre.setAnchura(0);
+            tipoEncomiendaSobre.setLargo(0);                            
+            tipoEncomiendaSobre.setCantidad(12);
+            tipoEncomiendaSobre.setPeso(1.05);
+            tipoEncomiendaSobre.setPrecio(120);
+            tipoEncomiendaSobre.setIdEncomienda(119);
+            tipoEncomiendaSobre.setId(177);
+            
+             TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
+             tipoEncomiendaDAO.modificar(tipoEncomiendaSobre);
+         //   int idTipoEncomienda = 177;
+           
+            TipoEncomienda SobreEncontrado = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);  
+             int   idEncomiendaEditar = SobreEncontrado.getIdEncomienda();
+                
+                //encomiendaSobre = encomiendaDAO.BuscarPorId(idEncomiendaEditar);                
+              //  tipoEncomiendas = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomiendaEditar);
+                                                
+                tipoEncomiendaSobre.setIdEncomienda(idEncomiendaEditar);
+                tipoEncomiendaSobre.setId(119);              
+     
     }
+     */
     @Override
     public void insertar(Object obj) throws Exception {
         TipoEncomienda te = (TipoEncomienda) obj;
@@ -111,6 +121,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
             pst.executeUpdate();            
                     
         } catch (SQLException e) {
+           throw  e;
         }
         finally{
             this.cerrar();
@@ -304,4 +315,36 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
         }   
         return tipoEncomienda;  
     } 
+    
+    
+     public TipoEncomienda buscarTipoEncomiendaPorEncomiendaID(int idEncomienda) throws SQLException{
+           TipoEncomienda tipoEncomienda = new TipoEncomienda();
+           PreparedStatement pst;
+           ResultSet res;
+           String sql = "SELECT  tp.id, tp.tipo, tp.altura, tp.anchura, tp.largo, tp.cantidad, tp.peso, tp.precio, tp.idEncomienda FROM tiposencomiendas tp, encomiendas e Where e.id = tp.idEncomienda AND tp.estado = 1 AND tp.idEncomienda = ?";
+           try {
+            this.conectar();
+               pst = conexion.prepareStatement(sql);
+               pst.setInt(1,idEncomienda);                 
+               res = pst.executeQuery();                                    
+                if (res.next()) {          
+                    tipoEncomienda.setId(res.getInt("tp.id"));
+                    tipoEncomienda.setTipo(res.getString("tp.tipo"));            
+                    tipoEncomienda.setAltura(res.getDouble("tp.altura"));                                
+                    tipoEncomienda.setAnchura(res.getDouble("tp.anchura"));
+                    tipoEncomienda.setLargo(res.getDouble("tp.largo"));
+                    tipoEncomienda.setCantidad(res.getInt("tp.cantidad"));
+                    tipoEncomienda.setPeso(res.getDouble("tp.peso"));
+                    tipoEncomienda.setPrecio(res.getDouble("tp.precio"));
+                    tipoEncomienda.setIdEncomienda(res.getInt("tp.idEncomienda"));
+                }                   
+     
+        } catch (SQLException e) {
+        }
+        finally{
+            this.cerrar();
+        }   
+        return tipoEncomienda;  
+    }    
+    
 }

@@ -8,8 +8,10 @@
     </head>
     <body>
         <form method="POST" action="SERVCliente">
-            <input type="text" id="cliente" name="txtIdCliente" value="<%= request.getAttribute("idEncomienda") %>"  >
+      
+            <input type="text" id="cliente" name="txtIdCliente" value="<%= session.getAttribute("idTipoEncomienda") %>"  >
             <input type="text" id="cliente2" name="txtIdCliente2" value="<%= request.getAttribute("idCliente") %>"  >
+       
             <a href="SERVEncomienda?action=refresh" > Exito!!! Continuar</a>
         </form>       
     </body>

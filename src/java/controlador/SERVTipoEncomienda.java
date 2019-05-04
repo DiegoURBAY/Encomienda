@@ -1,11 +1,17 @@
 
 package controlador;
 
+import dao.ClienteDAO;
+import dao.EncomiendaDAO;
 import dao.TipoEncomiendaDAO;
+import entidad.Cliente;
 import entidad.Encomienda;
 import entidad.TipoEncomienda;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,11 +31,15 @@ public class SERVTipoEncomienda extends HttpServlet {
     private static String edit_paquete = "/EditarTipoEncomiendaPaquete.jsp";
     private static String list_encomienda = "/ListarTipoEncomienda.jsp";
     private TipoEncomiendaDAO tipoEncomiendaDAO;
+    private EncomiendaDAO encomiendaDAO;
     TipoEncomienda tipoEncomienda;
+    Encomienda encomienda;
 
      public SERVTipoEncomienda() {
     	tipoEncomiendaDAO = new TipoEncomiendaDAO(){};
         tipoEncomienda = new TipoEncomienda(){};
+        encomiendaDAO = new EncomiendaDAO(){};
+        encomienda = new Encomienda(){};
     }           
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -62,7 +72,7 @@ public class SERVTipoEncomienda extends HttpServlet {
                                
               response.sendRedirect(request.getContextPath() + "/SERVTipoEncomienda?action=refresh2&idEncomienda="+idEncomienda);  
             }
-
+/*
             //EDITAR Paquete
             else if (action.equalsIgnoreCase("edit")) {
                 try {
@@ -87,7 +97,58 @@ public class SERVTipoEncomienda extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher(forward);
            view.forward(request, response);
             }              
-            
+  */
+            else if (action.equalsIgnoreCase("edit")) {
+                Encomienda encomienda = new Encomienda();
+                TipoEncomienda tipoEncomienda = new TipoEncomienda();
+                EncomiendaDAO encomiendaDAO = new EncomiendaDAO();
+                String vista = null;
+                String tipo = null;
+                int idTipoEncomienda = 0;
+                int idEncomienda = 0;
+                double volumen = 0;
+                double volumen_aprox = 0;
+                try {
+                    forward = edit;                   
+                 //   SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    idTipoEncomienda = Integer.parseInt(request.getParameter("id"));                    
+                    tipoEncomienda = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);  
+                    tipo = tipoEncomienda.getTipo();
+                    idEncomienda = tipoEncomienda.getIdEncomienda();
+                    encomienda = encomiendaDAO.BuscarPorId(idEncomienda);
+                    volumen = (tipoEncomienda.getAltura()*tipoEncomienda.getAnchura()*tipoEncomienda.getLargo()*tipoEncomienda.getCantidad())/1000000;
+                    volumen_aprox = redondearDecimales(volumen, 2);
+                    /*
+                         if(encomienda.getEnvio() != null || encomienda.getLlegada()!= null){
+                           
+                            Date envio_date = encomienda.getEnvio();
+                            Date llegada_date = encomienda.getLlegada();
+                             
+                            String envio_string = sdf.format(envio_date);                                                            
+                            String llegada_string = sdf.format(llegada_date);
+                                                        
+                            encomienda.setEnvioS(envio_string);
+                            encomienda.setLlegadaS(llegada_string);                       
+                         }                    
+                  */
+
+                } catch (Exception ex) {
+                }              
+                
+                if(tipo.equalsIgnoreCase("sobre")){
+                    vista = "EditarEncomiendaSobre.jsp";
+                }
+                if(tipo.equalsIgnoreCase("paquete")){
+                    vista = "EditarEncomiendaPaquete.jsp";
+                }
+                request.setAttribute("idTipoEncomienda", idTipoEncomienda);
+                request.setAttribute("encomienda", encomienda);
+                request.setAttribute("volumen",volumen_aprox);
+                request.setAttribute("tipoEncomienda", tipoEncomienda);                                              
+            RequestDispatcher view = request.getRequestDispatcher(vista);
+           view.forward(request, response);
+           
+            }                        
             //INSERTAR CLIENTE    
             else if(action.equalsIgnoreCase("insert")) {  
                 HttpSession sesion = request.getSession();
@@ -219,6 +280,71 @@ public class SERVTipoEncomienda extends HttpServlet {
              rd.forward(request, response);  
         }                
    */
+        
+        if(request.getParameter("btnEditarSobre")!=null){
+            TipoEncomienda tipoEncomiendaSobre = new TipoEncomienda();
+            HttpSession sesion = request.getSession();
+            List<Encomienda> encomienda_list = null;
+            int idTipoEncomienda = 0;
+            int idEncomiendaEditar = 0;
+            int cantidadSobreEditar = 0;
+            double pesoSobreEditar = 0;
+            double precioSobreEditar = 0;
+            
+            if(request.getParameter("txtTipoEncomienda")!=null){
+                idTipoEncomienda = Integer.parseInt(request.getParameter("txtTipoEncomienda"));
+            }
+            //Viene de un input type number 
+            if(request.getParameter("txtCantidadSobre")!=null){
+                cantidadSobreEditar = Integer.parseInt(request.getParameter("txtCantidadSobre"));
+            }
+            if(request.getParameter("txtPesoSobre")!=null){
+                    pesoSobreEditar = Double.parseDouble(request.getParameter("txtPesoSobre"));
+            }
+            //Viene de un input type text
+            if(request.getParameter("txtPrecioSobre")!=null){
+                    precioSobreEditar = Double.parseDouble(String.valueOf(request.getParameter("txtPrecioSobre")));
+            }                                                 
+           
+            try {
+                
+            tipoEncomiendaSobre.setCantidad(cantidadSobreEditar);
+            tipoEncomiendaSobre.setPeso(pesoSobreEditar);
+            tipoEncomiendaSobre.setPrecio(precioSobreEditar);
+            tipoEncomiendaSobre.setAltura(0);
+            tipoEncomiendaSobre.setAnchura(0);
+            tipoEncomiendaSobre.setLargo(0);                
+            tipoEncomiendaSobre.setTipo("sobre");
+                
+                TipoEncomienda SobreEncontrado = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);  
+                idEncomiendaEditar = SobreEncontrado.getIdEncomienda();
+                
+                //encomiendaSobre = encomiendaDAO.BuscarPorId(idEncomiendaEditar);                
+              //  tipoEncomiendas = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomiendaEditar);
+                                                
+                tipoEncomiendaSobre.setIdEncomienda(idEncomiendaEditar);
+                tipoEncomiendaSobre.setId(idTipoEncomienda);
+                tipoEncomiendaDAO.modificar(tipoEncomiendaSobre);
+                
+                Encomienda encomienda = new Encomienda();
+                
+                encomienda = encomiendaDAO.BuscarPorId(idEncomiendaEditar);
+                
+               int idCliente =  encomienda.getIdCliente();
+                
+            encomienda_list = encomiendaDAO.consultarEncomiendaPorIdCliente(idCliente);
+                
+            } catch (Exception ex) {
+                Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          
+            sesion.setAttribute("encomienda", encomienda_list);
+            response.sendRedirect(request.getContextPath() + "/ListarEncomienda1.jsp");
+            //response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=buscarEncomienda");
+           
+        }        
+                
+      /*    
         String id =request.getParameter("txtIdTipoEncomienda");
         //String tipo = request.getParameter("txtTipo");
         
@@ -241,7 +367,7 @@ public class SERVTipoEncomienda extends HttpServlet {
              largo = Double.parseDouble(request.getParameter("txtLargo"));
         }                   
         
-                 
+               
         TipoEncomienda tipoEncomienda = new TipoEncomienda();                
         tipoEncomienda.setCantidad(cantidad);
         tipoEncomienda.setPeso(peso);
@@ -300,10 +426,10 @@ public class SERVTipoEncomienda extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/SERVTipoEncomienda?action=refresh2&idEncomienda="+idEncomienda);   
         }        
         
-        
+        */
 
 
-        
+                      
     }
 
 
@@ -312,4 +438,14 @@ public class SERVTipoEncomienda extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    public static double redondearDecimales(double valorInicial, int numeroDecimales) {
+        double parteEntera, resultado;
+        resultado = valorInicial;
+        parteEntera = Math.floor(resultado);
+        resultado=(resultado-parteEntera)*Math.pow(10, numeroDecimales);
+        resultado=Math.round(resultado);
+        resultado=(resultado/Math.pow(10, numeroDecimales))+parteEntera;
+        return resultado;
+    }
 }

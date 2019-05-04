@@ -3,8 +3,8 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-    if(session.getAttribute("idCliente")==null){             
-        response.sendRedirect("indexPrueba.jsp");
+    if(session.getAttribute("idUsuario")==null){             
+        response.sendRedirect("index.jsp");
     }
 %>
 <!DOCTYPE html>
@@ -34,9 +34,9 @@ HttpSession sesion = request.getSession();
         <h2>Registrar Encomienda</h2>
         <form method="POST" action="SERVEncomienda" autocomplete="off">
    
-            <input type="text" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idCliente") %>"  >
-            <input type="text" id="cliente" name="txtIdCliente" value="<%= request.getAttribute("idCliente") %>"  >
-            <input type="text" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
+            <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
+            <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
+            <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-6 form-group">

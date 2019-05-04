@@ -91,12 +91,20 @@ public class SERVEncomienda extends HttpServlet {
             }
             //EDITAR CLIENTE
             else if (action.equalsIgnoreCase("edit")) {
+                 Encomienda encomienda = null;
+                TipoEncomienda tipoEncomienda = null;
+                String vista = null;
+                String tipo = null;
+                int id = 0;
                 try {
-                    forward = edit;
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    int id = Integer.parseInt(request.getParameter("id"));
-                    Encomienda encomienda = encomiendadao.BuscarPorId(id);             
+                    forward = edit;                   
+                 //   SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    id = Integer.parseInt(request.getParameter("id"));
+                    encomienda = encomiendadao.BuscarPorId(id); 
+                    tipoEncomienda = tipoEncomiendaDAO.buscarTipoEncomiendaPorEncomiendaID(id);
+                    tipo = tipoEncomienda.getTipo();
                     
+                    /*
                          if(encomienda.getEnvio() != null || encomienda.getLlegada()!= null){
                            
                             Date envio_date = encomienda.getEnvio();
@@ -108,13 +116,23 @@ public class SERVEncomienda extends HttpServlet {
                             encomienda.setEnvioS(envio_string);
                             encomienda.setLlegadaS(llegada_string);                       
                          }                    
-                  
-                    request.setAttribute("encomienda", encomienda);
+                  */
+
                 } catch (Exception ex) {
+                }              
+                
+                if(tipo.equalsIgnoreCase("sobre")){
+                    vista = "EditarEncomiendaSobre.jsp";
                 }
-                              
-            RequestDispatcher view = request.getRequestDispatcher(forward);
+                if(tipo.equalsIgnoreCase("paquete")){
+                    vista = "exito.jsp";
+                }
+                request.setAttribute("idEncomienda", id);
+                request.setAttribute("encomienda", encomienda);
+                request.setAttribute("tipoEncomienda", tipoEncomienda);                                              
+            RequestDispatcher view = request.getRequestDispatcher(vista);
            view.forward(request, response);
+           
             }            
             //INSERTAR CLIENTE    
             else if(action.equalsIgnoreCase("insert")) {        
@@ -239,8 +257,10 @@ public class SERVEncomienda extends HttpServlet {
             HttpSession sesion = request.getSession();    
 
                 forward = list_encomienda; 
+                String vista = null;
                 int idEncomienda_buscar = 0;
                 int idCliente_buscar = 0;
+                 int nivel = 0;
                 Encomienda enco[] = null;
                 /*
                 if(request.getParameter("txtCodigo")!=null){
@@ -254,6 +274,9 @@ public class SERVEncomienda extends HttpServlet {
                 try {
                    // idCliente_buscar = encomiendadao.consultarClienteIdPorEncomiendaId(idEncomienda_buscar);
                     List<Encomienda> encomiendaList = encomiendadao.consultarEncomiendaPorIdCliente(idCliente_buscar);
+                    Cliente cliente = clientedao.BuscarPorId(idCliente_buscar);
+                   nivel = cliente.getNivel();
+                    
         
                 enco = new Encomienda[encomiendaList.size()];
                 enco = encomiendaList.toArray(enco);            
@@ -271,15 +294,21 @@ public class SERVEncomienda extends HttpServlet {
                          }
                     }
                 }
-                 catch (Exception ex) {
-               
+                catch (Exception ex) {               
                 Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+                }
+                
+                if(nivel == 1){
+                    vista = "ListarEncomienda.jsp";
+                }
+                if(nivel == 2){
+                    vista = "ListarEncomienda1.jsp";
+                }
             List<Encomienda> con_filtro = new ArrayList(Arrays.asList(enco));    
             request.setAttribute("encomienda", con_filtro); 
           //  request.setAttribute("idEncomienda", idEncomienda_buscar);
             request.setAttribute("idCliente", idCliente_buscar);           
-            RequestDispatcher view = request.getRequestDispatcher(forward);
+            RequestDispatcher view = request.getRequestDispatcher(vista);
             view.forward(request, response);         
         }     
             
