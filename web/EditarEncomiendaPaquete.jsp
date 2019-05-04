@@ -170,7 +170,7 @@ HttpSession sesion = request.getSession();
             <div class="row">                
            
                 <div class="col-xs-6">
-                     <input type="submit" class="btn-primary  form-control" id="registrar1" name="btnRegistrarPrueba" value="Registrar" >                
+                     <input type="submit" class="btn-primary  form-control" id="editarPaquete" name="btnEditarPaquete" value="Editar" >                
                 </div>              
                 <div class="col-xs-6">
                     <input type="reset" class="btn-danger form-control" id="limpiar" name="btnLimpiar" value="Limpiar">
