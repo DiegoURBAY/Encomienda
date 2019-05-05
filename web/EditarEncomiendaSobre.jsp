@@ -11,10 +11,9 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registrar Encomienda</title>
-        <jsp:include page="navbarCliente.jsp"/>
+        <title>Editar Sobre</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>        
-       
+       <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         
         <!--DATAPICKER Y AUTOCOMPLETAR    
          <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
@@ -33,51 +32,48 @@ HttpSession sesion = request.getSession();
     <body>
 
     <div class="container" id="advanced-search-form">
-        <h2>Registrar Encomienda</h2>
+        <h2>Editar Sobre</h2>
         <form method="POST" action="SERVTipoEncomienda" autocomplete="off">
-   <!--
+   
             <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
             <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
             <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  > 
-   -->
+            <input type="text" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
             <input type="text" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-6 form-group">
                         <label for="origen">Origen</label>
-                        <input type="text" class="form-control" placeholder="Origen" readonly id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
+                        <input type="text" class="form-control" placeholder="Origen" readonly="" id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
                     </div>
                     <div class="col-sm-6 form-group">
                         <label for="destino">Destino</label>
-                        <input type="text" class="form-control" placeholder="Destino" readonly id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
+                        <input type="text" class="form-control" placeholder="Destino" readonly="" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
                     </div>               
                 </div>
             </div>       
            
            <!-- Data antigua-->
            <hr class="my-4">
-                    <div class="row">
-                                              
-                            <div class="col-sm-4 form-group">
-                                    <label>Cantidad (min:1, max: 20)</label>
-                                    <input type="text" class="form-control" readonly="" name="txtCantidadSobreOriginal" id="cantidadSobresOriginal" value="<c:out value="${tipoEncomienda.cantidad}" />" > 
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Peso(kg)(min:0.01, max:1.13)</label>
-                                    <input type="text" class="form-control " readonly=""  name="txtPesoSobreOriginal" id="pesoSobreOriginal" value="<c:out value="${tipoEncomienda.peso}" />" > 
+                    <div class="row">                                              
+                        <div class="col-sm-4 form-group">
+                                <label>Cantidad (min:1, max: 20)</label>
+                                <input type="text" class="form-control" readonly="" name="txtCantidadSobreOriginal" id="cantidadSobresOriginal" value="<c:out value="${tipoEncomienda.cantidad}" />" > 
+                        </div>
 
-                                         
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Precio S/.</label>
-                                    <input type="text"  class="form-control" readonly name="txtPrecioSobreOriginal"  id="precioSobreOriginal" value="<c:out value="${tipoEncomienda.precio}" />" > 
-                            </div>
+                        <div class="col-sm-4 form-group">
+                                <label>Peso(kg)(min:0.01, max:1.13)</label>
+                                <input type="text" class="form-control" readonly=""  name="txtPesoSobreOriginal" id="pesoSobreOriginal" value="<c:out value="${tipoEncomienda.peso}" />" >                                         
+                        </div>
+
+                        <div class="col-sm-4 form-group">
+                                <label>Precio S/.</label>
+                                <input type="text"  class="form-control" readonly="" name="txtPrecioSobreOriginal"  id="precioSobreOriginal" value="<c:out value="${tipoEncomienda.precio}" />" > 
+                        </div>
                     </div>            
            <!-- SOBRE-->
             <hr class="my-4">
-            <div class="row" id="div1" style="display:;">
+            <div class="row" >
                 <div class="col-sm-12">
                     <div class="row">
                    
@@ -85,40 +81,27 @@ HttpSession sesion = request.getSession();
                             <h4>Costo x Sobre S/. 10.00</h4>
                         </div>                        
                     </div>
-                    <div class="row">
-                                              
-                            <div class="col-sm-4 form-group">
-                                    <label>Cantidad (min:1, max: 20)</label>
-                                    <input type="text" class="form-control" name="txtCantidadSobre" id="cantidadSobres" >
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Peso(kg)(min:0.01, max:1.13)</label>
-                                    <input type="text" class="form-control "  name="txtPesoSobre" id="pesoSobre">
-
-                                         
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Precio S/.</label>
-                                    <input type="number"  class="form-control" readonly name="txtPrecioSobre"  id="precioSobre"> 
-                            </div>
+                    <div class="row">                                              
+                        <div class="col-sm-4 form-group">
+                                <label>Cantidad (min:1, max: 20)</label>
+                                <input type="text" class="form-control" name="txtCantidadSobre" id="cantidadSobres" >
+                        </div>
+                        <div class="col-sm-4 form-group">
+                                <label>Precio S/.</label>
+                                <input type="number"  class="form-control" readonly name="txtPrecioSobre"  id="precioSobre"> 
+                        </div>
                     </div>                                       
-            </div>
-
+                </div>
             </div>   
                         
             <div class="clearfix"></div>            
             <div class="row">
-                
-                <div class="col-sm-12">
-                    <div class="col-sm-6">
-                         <input type="submit" class="btn btn-primary  btn-responsive" id="editarSobre" name="btnEditarSobre" value="EditarSobre" >
-                    </div>              
-                    <div class="col-sm-6">
-                        <input type="reset" class="btn btn-danger btn-responsive" id="limpiar" name="btnLimpiar" value="Limpiar">
-                    </div>                    
-                </div>
+                <div class="col-xs-6">
+                    <input type="submit" class="btn-primary form-control" id="editarSobre1" name="btnEditarSobre" value="EditarSobre" >
+                </div>              
+                <div class="col-xs-6">
+                    <input type="reset" class="btn-danger form-control" id="limpiar" name="btnLimpiar" value="Limpiar">
+                </div>                    
             </div>
         </form>   
                                   

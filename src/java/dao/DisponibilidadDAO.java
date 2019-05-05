@@ -5,8 +5,10 @@ import entidad.Disponibilidad;
 import entidad.Encomienda;
 import entidad.Vehiculo;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,79 +16,41 @@ public class DisponibilidadDAO extends Conexion implements DAO{
     
     public static void main(String[] args) throws Exception {
         Disponibilidad disponibilidad = new Disponibilidad();
+        DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
         
         
-        int idVehiculo = 1;
-        int idTipoEncomienda = 1;
-        double pesoactual = 551;
-        java.util.Date d1 = new java.util.Date();  
-        java.sql.Timestamp date1 = new java.sql.Timestamp(d1.getTime());
-
-        Date date= new Date();
-	long time = date.getTime();
-        java.sql.Timestamp date11 = new java.sql.Timestamp(time);
-        
-        
-        Timestamp desde = date11;
-        
-        java.util.Date d2 = new java.util.Date();  
-        java.sql.Timestamp date2 = new java.sql.Timestamp(d2.getTime());
-
-        Timestamp hasta = date11;
-        
+        int idVehiculo = 3;
+        int idTipoEncomienda = 142;
+        double peso = 202.00;
+        double volumen = 2.00;        
         int situacion = 1;
-        
-      
+           
+        disponibilidad.setIdVehiculo(idVehiculo);
         disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
-        disponibilidad.setPesoactual(pesoactual);
-        disponibilidad.setDesde(desde);
-        disponibilidad.setHasta(hasta);
+        disponibilidad.setActualvolumen(volumen);
+        disponibilidad.setActualcapacidad(peso);        
         disponibilidad.setSituacion(situacion);
-                
-        DisponibilidadDAO DDAO = new DisponibilidadDAO();
-        VehiculoDAO vehiculoDAO = new VehiculoDAO(); 
         
-        Vehiculo vehiculo = new Vehiculo();
-        
-        vehiculo = vehiculoDAO.BuscarPorId(idVehiculo);
-        double capacidad = vehiculo.getCapacidad();
-        
-        List<Vehiculo> vehiList = vehiculoDAO.consultarPorPeso(capacidad);
-        
-        Vehiculo veh[] = new Vehiculo[vehiList.size()];
-        veh = vehiList.toArray(veh);            
-
-        for(int i = 0; i < veh.length; i++){
-
-             if(veh[i].getCapacidad() > pesoactual ){
-
-                 vehiculoDAO.insertar(disponibilidad);
-             }
-        }
-        
-        if(situacion == 0){
-        
-        }
-        
+        disponibilidadDAO.insertar(disponibilidad);
 }
 
     @Override
     public void insertar(Object obj) throws Exception {
         Disponibilidad c = (Disponibilidad) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO disponibilidad (idVehiculo, idTipoEncomienda, pesoactual, desde, hasta, situacion, fecharegistro) VALUES ( ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+        String sql="INSERT INTO disponibilidad (idVehiculo, idTipoEncomienda, actualvolumen, actualcapacidad, situacion, fecharegistro) VALUES ( ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
             pst.setInt(1, c.getIdVehiculo());
             pst.setInt(2, c.getIdTipoEncomienda());
-            pst.setDouble(3, c.getPesoactual());
-            pst.setTimestamp(4, c.getDesde());
-            pst.setTimestamp(5, c.getHasta());
-            pst.setInt(6, c.getSituacion() );
+            pst.setDouble(3, c.getActualvolumen());
+            pst.setDouble(4, c.getActualcapacidad());
+            pst.setInt(5, c.getSituacion());
             pst.executeUpdate();            
 
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();
@@ -100,7 +64,20 @@ public class DisponibilidadDAO extends Conexion implements DAO{
 
     @Override
     public void modificar(Object obj) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Disponibilidad disponibilidad = (Disponibilidad) obj;
+        PreparedStatement pst;
+        String sql="UPDATE vehiculos set actualvolumen = ?, actualcapacidad = ? WHERE id = ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            
+            
+            pst.executeUpdate();             
+        } catch ( SQLException e) {
+        }
+        finally{
+            this.cerrar();
+        }   
     }
 
     @Override
@@ -113,4 +90,32 @@ public class DisponibilidadDAO extends Conexion implements DAO{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+ public List<Disponibilidad> consultarPorIdVehiculo(int idVehiculo) throws Exception {
+        List<Disponibilidad> datos = new ArrayList<>();
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "SELECT id, idVehiculo, idTipoEncomienda, actualvolumen, actualcapacidad, situacion FROM disponibilidad WHERE estado = 1 AND idVehiculo = ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setDouble(1, idVehiculo);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                datos.add(new Disponibilidad(
+                        rs.getInt("id"),
+                        rs.getInt("idVehiculo"),
+                        rs.getInt("idTipoEncomienda"),
+                        rs.getDouble("actualvolumen"),
+                        rs.getDouble("actualcapacidad"),
+                        rs.getInt("situacion")
+                    )
+                );
+            }
+        } catch (SQLException e) {
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;     
+    }    
 }

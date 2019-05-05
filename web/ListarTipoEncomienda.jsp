@@ -20,6 +20,7 @@ HttpSession sesion = request.getSession();
             <input type=hidden value="<%= sesion.getAttribute("idEncomienda") %>"><br>
             <input type="hidden" value="<%= sesion.getAttribute("nivel") %>"><br>
             <input type="hidden" value="<%= sesion.getAttribute("peso") %>">
+            <input type="text" value="<%= sesion.getAttribute("usuario") %>">
             <h1>Lista de tipos de Envios  </h1>
              <h4> Encomienda #: <%= sesion.getAttribute("idEncomienda") %></h4>
                 <hr>                                
@@ -69,7 +70,7 @@ HttpSession sesion = request.getSession();
                                 </td>                               
                                 <td class="text-center">                                    
                                     <a href="SERVTipoEncomienda?action=edit&id=<c:out value="${tipoEncomienda.id}"/>"  class="btn btn-warning btn-sm">Editar</a>   
-                                    <a href="SERVTipoEncomienda?action=delete&id=<c:out value="${tipoEncomienda.id}"/>&idEncomienda=<%= sesion.getAttribute("idEncomienda") %>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
+                                    <a href="SERVTipoEncomienda?action=delete&id=<c:out value="${tipoEncomienda.id}"/>&usuario=<%= sesion.getAttribute("usuario") %>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
                                 </td>
                             </tr>
                         </c:forEach>                         

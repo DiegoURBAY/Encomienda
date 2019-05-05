@@ -133,6 +133,7 @@
         var altura = $('#altura').val();
         var anchura = $('#anchura').val();
         var pesoPaquete = $('#pesoPaquete').val();
+        var volumen = $('#volumen').val();
 
         var costoPesoKilo = 0.20;
         
@@ -161,6 +162,16 @@
 
 
         var dimensiones = altura*anchura*largo;
+        
+        var volumen =  Math.round(parseFloat(dimensiones*parseInt(cantidadPaquetes)/1000000)*100)/100;
+       
+        if(volumen > 0.01){
+            $('#volumen').val(volumen);
+        }
+        else if(volumen <= 0.01){
+            $('#volumen').val(0.01);
+        }        
+        
         var operacion = parseFloat(dimensiones/300).toFixed(2);
         
        if(!isNaN(operacion) ){
@@ -200,7 +211,14 @@
         
         console.log(peso);
         //console.log(pesoPaquete*parseFloat(costoPesoKilo).toFixed(2));
-         $("#precioPaquete").val(parseFloat(cantidadPaquetes*costoPesoKilo*peso).toFixed(2));
+                
+        var precio = Math.round(parseFloat(cantidadPaquetes*costoPesoKilo*peso))*100/100;
+        if(precio < 10){
+            precio = 10*cantidadPaquetes;
+        }
+
+        $("#precioPaquete").val(precio);         
+         
          
          if( parseFloat($("#precioPaquete").val()) > 0){
                  if (parseFloat( $('#pesoVolumen').val()) > parseFloat($('#pesoPaquete').val())){

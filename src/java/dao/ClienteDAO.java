@@ -143,6 +143,38 @@ public class ClienteDAO extends Conexion implements DAO{
            return c;
     }  
     
+    
+    public Cliente BuscarPorUsuario(String usuario) throws Exception{        
+           Cliente c = new Cliente();
+           PreparedStatement pst;
+           ResultSet res;
+           String sql = "SELECT * FROM clientes WHERE usuario =?";
+           try {
+               this.conectar();
+               pst = conexion.prepareStatement(sql);
+               pst.setString(1,usuario);                                
+               res = pst.executeQuery();               
+                if (res.next()) {
+                    c.setIdentificador(res.getString("identificador"));
+                    c.setNombre(res.getString("nombre"));            
+                    c.setEmail(res.getString("email"));
+                    c.setUsuario(res.getString("usuario"));
+                    c.setContraseña(res.getString("contraseña"));                    
+                    c.setTelefono(res.getString("telefono"));
+                    c.setNivel(res.getInt("nivel"));
+                    c.setFecharegistro(res.getDate("fecharegistro"));
+                    c.setId(res.getInt("id"));
+                }                   
+     
+           } catch ( SQLException e ) {
+               throw  e;
+           }
+           finally{
+               this.cerrar();
+           }
+           return c;
+    }  
+        
     public Cliente ConsultarByEmail(String email) throws SQLException{
         
         Cliente c = new Cliente();

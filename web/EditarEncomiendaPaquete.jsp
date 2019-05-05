@@ -12,7 +12,9 @@ HttpSession sesion = request.getSession();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Editar Paquete</title>
-        <jsp:include page="navbarCliente.jsp"/>
+        
+        
+        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>        
        
         
@@ -41,6 +43,8 @@ HttpSession sesion = request.getSession();
             <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
             <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
             <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
+            <input type="text" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
+            <input type="text" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-6 form-group">
@@ -94,24 +98,25 @@ HttpSession sesion = request.getSession();
                         </div>                           
                     </div>
                 </div>                             
-            </div>                
-                
-                                
+            </div>                                                                
              <hr class="my-4" >
             <!-- PAQUETE-->            
             <div class="row"  >
-                        <div class="col-sm-12">
+                <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-sm-3">
-                            <h5>Costo x kilo: S/ 0.20</h5>
+                        <div class="col-xs-3">
+                            <h5>CostoxKilo: S/0.20</h5>
                         </div>
-                        <div class="col-sm-5">
-                            <h5>Precio = (peso*cantidad*costoxkilo)</h5>
+                    </div>    
+                    <div class="row">    
+                        <div class="col-xs-6">
+                            <h5>Precio=(peso*cantidad*costoxkilo)</h5>
                         </div>                      
-                        <div class="col-sm-4">
-                            <h5>PesoVolumen = (alto*ancho*largo)</h5>
+                        <div class="col-xs-6">
+                            <h5>PesoVolumen=(alto*ancho*largo)/300</h5>
                         </div>                        
-                    </div>                            
+                    </div>
+                    <br>
                     <div class="row">                                                
                         <div class="col-xs-3">
                                 <label>Altura cm [10 - 25]</label>
@@ -128,7 +133,7 @@ HttpSession sesion = request.getSession();
                                 <input type="text"  class="form-control" name="txtLargo" id="largo"  value="0"> 
                         </div>
                         <div class="col-xs-3">
-                                <label>Volumen </label>
+                            <label>Volumen </label>
                                 <input type="text"  class="form-control " readonly="" name="txtVolumen" id="volumen" > 
                         </div>                          
                     </div> 
@@ -143,10 +148,7 @@ HttpSession sesion = request.getSession();
                                 <input type="text" class="form-control" name="txtCantidadPaquete" id="cantidadPaquetes" >                              
                         </div>                        
                         
-                        <div class="col-xs-3">
-                                <label>Peso(kg) [1.14 - 200]</label>
-                                <input type="text"  class="form-control" name="txtPesoPaquete"  id="pesoPaquete" > 
-                        </div>
+
                         <div class="col-xs-3">
                                 <label>Precio S/.</label>
                                 <input type="text"  class="form-control" readonly name="txtPrecioPaquete" id="precioPaquete">                            
@@ -166,16 +168,15 @@ HttpSession sesion = request.getSession();
             </div>                
                 
             </div>
+            
             <div class="clearfix"></div>            
-            <div class="row">                
-           
+            <div class="row">                           
                 <div class="col-xs-6">
-                     <input type="submit" class="btn-primary  form-control" id="editarPaquete" name="btnEditarPaquete" value="Editar" >                
+                     <input type="submit" class="btn-primary form-control" id="editarPaquete" name="btnEditarPaquete" value="Editar" >                
                 </div>              
                 <div class="col-xs-6">
                     <input type="reset" class="btn-danger form-control" id="limpiar" name="btnLimpiar" value="Limpiar">
-                </div>                    
-             
+                </div>                                 
             </div>
         </form>   
                                   

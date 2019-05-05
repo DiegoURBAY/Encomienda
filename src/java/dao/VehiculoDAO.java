@@ -1,6 +1,7 @@
 
 package dao;
 
+import entidad.Disponibilidad;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,90 +13,163 @@ public class VehiculoDAO extends Conexion implements DAO{
 
 /*
 public static void main(String[] args) throws Exception {
-        
-    Vehiculo vehiculo = new Vehiculo(); 
-    VehiculoDAO vehiculoDAO2 = new VehiculoDAO();
-    double capacidad = 100;
-    double volumen = 1;
+       
     
-    double actual_volumen;
-    double actual_capacidad;
-    double suma_volumen;
-    double suma_capacidad;
+ Vehiculo vehiculo = new Vehiculo(); 
+    VehiculoDAO vehiculoDAO2 = new VehiculoDAO();
+    DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
+    List<Disponibilidad> disponibilidadList = new ArrayList<>();
+    Disponibilidad disponibilidad = new Disponibilidad();
+    double capacidad = 100;
+    double volumen = 0.01;
+    
+    double volumen_max = 0;
+    double capacidad_max = 0;
+    double volumen_actual;
+    double capacidad_actual;
+    double suma_volumen = 0;
+    double suma_capacidad = 0;
+    double volumen_encomienda;
+    double capacidad_encomienda;
     int idVehiculo;
     List<Vehiculo>  vehiculo_list;
+   
+    int idTipoEncomienda = 160;
+    int situacion = 1;
     try {
        vehiculo_list= vehiculoDAO2.ElegirVehiculo(volumen, capacidad);
 
         for(int i = 0; i < vehiculo_list.size(); i++){
             
-            actual_volumen = vehiculo_list.get(i).getActualvolumen();
-            actual_capacidad = vehiculo_list.get(i).getActualcapacidad();
-
-            suma_volumen = actual_volumen + volumen;       
-            suma_capacidad = actual_capacidad + capacidad;
-
-            if(suma_volumen < vehiculo_list.get(i).getVolumen()
-                    && suma_capacidad < vehiculo_list.get(i).getCapacidad()){
-
-                idVehiculo =  vehiculo_list.get(i).getId();
-                vehiculo.setId(idVehiculo);
-                vehiculo.setActualvolumen(suma_volumen);
-                vehiculo.setActualcapacidad(suma_capacidad);
-                vehiculoDAO2.modificar(vehiculo);
-                break;
+            volumen_max = vehiculo_list.get(i).getVolumen();
+            capacidad_max = vehiculo_list.get(i).getCapacidad();
+            //capacidad_max = 1390.00
+            idVehiculo = vehiculo_list.get(i).getId();
+            //id 
+            disponibilidadList = disponibilidadDAO.consultarPorIdVehiculo(idVehiculo);
+            
+             double volumen_mayor = 0;
+             double capacidad_mayor = 0;
+            
+             
+            if(disponibilidadList.size() > 0){
+                
+                volumen_mayor = disponibilidadList.get(0).getActualvolumen();
+                capacidad_mayor = disponibilidadList.get(0).getActualcapacidad();
+             for(int j = 1; j < disponibilidadList.size(); j++){                                   
+                     double volumen_no_mayor = disponibilidadList.get(j).getActualvolumen();
+               double capacidad_no_mayor = disponibilidadList.get(j).getActualcapacidad();
+               
+                    if(volumen_no_mayor > volumen_mayor){
+                        volumen_mayor = volumen_no_mayor;                                                
+                    }
+                     if(capacidad_no_mayor > capacidad_mayor){
+                        capacidad_mayor = capacidad_no_mayor;                                                
+                    }
+                }
+             
+            suma_volumen = volumen_mayor;
+            suma_capacidad = capacidad_mayor;             
+            
             }
+           
+            volumen_encomienda = suma_volumen + volumen;            
+            capacidad_encomienda = suma_capacidad + capacidad;
+            
+            if( volumen_encomienda<  volumen_max  &&  capacidad_encomienda<  capacidad_max ){
+                
+                disponibilidad.setIdVehiculo(idVehiculo);
+                disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
+                disponibilidad.setActualvolumen(volumen_encomienda);
+                disponibilidad.setActualcapacidad(capacidad_encomienda);
+                disponibilidad.setSituacion(situacion);
+                disponibilidadDAO.insertar(disponibilidad);
+                
+                break;
+            }                   
             suma_volumen = 0;
-            actual_capacidad = 0;
+            suma_capacidad = 0;
+            volumen_encomienda = 0;
+            capacidad_encomienda = 0;
+            
+            
     }
     } catch (Exception e) {
     System.out.println ("El error es: " + e.getMessage());
     e.printStackTrace();
-}
-    
-
-
-/*
-    for(int i = 0; i < vehiculo_list.size(); i++){
-        
-       
-                if(i > 2){
-                                vehiculo.setActualvolumen(volumen);
-            vehiculo.setActualcapacidad(capacidad);
-            vehiculo.setId(5);
-            vehiculoDAO2.modificar(vehiculo);  
-                }
-       
-    
-       suma_volumen = Actualvolumen + volumen;       
-       suma_capacidad = Actualcapacidad + capacidad;
-       
-        if(suma_volumen < vehiculo_list.get(i).getVolumen()
-                && suma_capacidad < vehiculo_list.get(i).getCapacidad()){
-            
-            idVehiculo =  vehiculo_list.get(i).getId();
-            encomienda2.setId(idVehiculo);
-            encomienda2.setActualvolumen(volumen);
-            encomienda2.setActualcapacidad(capacidad);
-            vehiculoDAO2.modificar(encomienda2);
-        }
-     
     }
+       */ 
+    /*
+    Vehiculo vehiculo = new Vehiculo(); 
+    VehiculoDAO vehiculoDAO2 = new VehiculoDAO();
+    DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
+    List<Disponibilidad> disponibilidadList = new ArrayList<>();
+    Disponibilidad disponibilidad = new Disponibilidad();
+    double capacidad = 100;
+    double volumen = 0;
     
-        //Se busca y luego modifica
-    if(vehiculo_list !=null){
-        
-        //Conseguir el id 
-        //Se analiza la capacidad actual tanto de la capacidad y del vehiculo
-         vehiculoDAO2.modificar(encomienda2);
-    }
+    double volumen_max = 0;
+    double capacidad_max = 0;
+    double volumen_actual;
+    double capacidad_actual;
+    double suma_volumen = 0;
+    double suma_capacidad = 0;
+    double volumen_encomienda;
+    double capacidad_encomienda;
+    int idVehiculo;
+    List<Vehiculo>  vehiculo_list;
    
+    int idTipoEncomienda = 160;
+    int situacion = 1;
+    try {
+       vehiculo_list= vehiculoDAO2.ElegirVehiculo(volumen, capacidad);
+
+        for(int i = 0; i < vehiculo_list.size(); i++){
+            
+            volumen_max = vehiculo_list.get(i).getVolumen();
+            capacidad_max = vehiculo_list.get(i).getCapacidad();
+            //capacidad_max = 1390.00
+            idVehiculo = vehiculo_list.get(i).getId();
+            //id 
+            disponibilidadList = disponibilidadDAO.consultarPorIdVehiculo(idVehiculo);
+            
+            for(int j = 0; j < disponibilidadList.size(); j++){
+                suma_volumen =  suma_volumen + disponibilidadList.get(j).getActualvolumen();
+                suma_capacidad = suma_capacidad + disponibilidadList.get(j).getActualcapacidad();
+            }                          
+            volumen_encomienda = suma_volumen + volumen;            
+            capacidad_encomienda = suma_capacidad + capacidad;
+            
+            if( volumen_encomienda<  volumen_max  &&  capacidad_encomienda<  capacidad_max ){
+                
+                disponibilidad.setIdVehiculo(idVehiculo);
+                disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
+                disponibilidad.setActualvolumen(volumen_encomienda);
+                disponibilidad.setActualcapacidad(capacidad_encomienda);
+                disponibilidad.setSituacion(situacion);
+                disponibilidadDAO.insertar(disponibilidad);
+                
+                break;
+            }                   
+            suma_volumen = 0;
+            suma_capacidad = 0;
+            volumen_encomienda = 0;
+            capacidad_encomienda = 0;
+            
+            
+    }
+    } catch (Exception e) {
+    System.out.println ("El error es: " + e.getMessage());
+    e.printStackTrace();
+    }
+   } 
+*/
     
   
     
-}
 
-*/
+
+
    
     @Override
     public void insertar(Object obj) throws Exception {

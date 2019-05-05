@@ -113,65 +113,68 @@ HttpSession sesion = request.getSession();
                         
             <!-- PAQUETE-->            
             <div class="row" id="div2" style="display:none;"  >
-                        <div class="col-sm-12">
+                <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-sm-3 form-group">
-                            <h4>Costo x kilo: S/. 0.20</h4>
+                        <div class="col-xs-6">
+                            <h5>CostoxKilo: S/. 0.20</h5>
                         </div>
-                        <div class="col-sm-3 form-group">
-                            <h4>Precio = (peso*cantidad*costoxkilo)</h4>
+                        <div class="col-xs-6">
+                            <h5>Costo min: S/. 0.10</h5>
+                        </div>                        
+                    </div>                     
+                    <div class="row">
+                        <div class="col-xs-6">
+                             <h5>Precio=(peso*cantidad*costoxkilo)</h5>
                         </div>                      
-                        <div class="col-sm-3 form-group">
-                            <h4>PesoVolumen = (altura*anchura*largo)</h4>
+                        <div class="col-xs-6">
+                            <h5>PesoVolumen=(alto*ancho*largo)/300</h5>
                         </div>                        
                     </div>                            
                     <div class="row">                                                
-                            <div class="col-sm-4 form-group">
-                                    <label>Altura cm (min: 10, max: 25)</label>
-                                    <input type="text" class="form-control" name="txtAltura" id="altura"  value="0"> 
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Anchura cm (min:5, max:31)</label>
-                                    <input type="text"  class="form-control" name="txtAnchura" id="anchura"  value="0"> 
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Largo cm (min:14, max:75)</label>
-                                    <input type="text"  class="form-control" name="txtLargo" id="largo"  value="0"> 
-                            </div>
+                        <div class="col-xs-3">
+                                <label>Altura cm [10 - 25]</label>
+                                <input type="text" class="form-control" name="txtAltura" id="altura"  value="0"> 
+                        </div>
+                        <div class="col-xs-3">
+                                <label>Anchura cm [5 - 31]</label>
+                                <input type="text"  class="form-control" name="txtAnchura" id="anchura"  value="0"> 
+                        </div>
+                        <div class="col-xs-3">
+                                <label>Largo cm [14 - 75]</label>
+                                <input type="text"  class="form-control" name="txtLargo" id="largo"  value="0"> 
+                        </div>
+                        <div class="col-xs-3">
+                            <label>Volumen </label>
+                            <input type="text"  class="form-control " readonly="" name="txtVolumen" id="volumen" > 
+                        </div>                         
                     </div> 
-                    <div class="row">                                                
-                        <div class="col-sm-4 form-group">
+                    <br>
+                    <div class="row">                        
+                        <div class="col-xs-3">
                                 <label>Peso Volumétrico</label>
                                 <input type="text" class="form-control" readonly name="txtPesoVolumen" id="pesoVolumen" >  
-
                         </div>
-
-                        <div class="col-sm-4 form-group">
-                                <label>Cantidad (min:1, max:8)</label>
+                        <div class="col-xs-3">
+                                <label>Cantidad [1 - 8]</label>
                                 <input type="text" class="form-control" name="txtCantidadPaquete" id="cantidadPaquetes" >                              
                         </div>                        
                         
-                        <div class="col-sm-4 form-group">
-                                <label>Peso(kg) (min:1.14, max:200)</label>
+                        <div class="col-xs-3">
+                                <label>Peso(kg) [1.14 - 200]</label>
                                 <input type="text"  class="form-control" name="txtPesoPaquete"  id="pesoPaquete" > 
                         </div>
-
-
+                        <div class="col-xs-3">
+                                <label>Precio S/.</label>
+                                <input type="text"  class="form-control" readonly name="txtPrecioPaquete" id="precioPaquete">                            
+                        </div>
                     </div>    
-                    <div class="row">                                                
-                            <div class="col-sm-4 form-group">
-                                    <label>Precio S/.</label>
-                                    <input type="text"  class="form-control" readonly name="txtPrecioPaquete" id="precioPaquete">                            
-                            </div>
-                        
-                            <div class="col-sm-8 form-group">
-                                <br>
-                                <label id="mensaje_error" class="control-label text-danger" style="display: block;">
-                                    Se usa peso volumétrico en el precio</label>
-                            </div>
-                            
+                    <br>
+                    <div class="row">                                                                        
+                        <div class="col-sm-8 form-group">
+                            <br>
+                            <label id="mensaje_error" class="control-label text-danger" style="display: block;">
+                                Se usa peso volumétrico en el precio</label>
+                        </div>                            
                     </div>
                                             
             </div>                
@@ -181,11 +184,11 @@ HttpSession sesion = request.getSession();
             <div class="row">
                 
                 <div class="col-sm-12">
-                    <div class="col-sm-6">
-                         <input type="submit" class="btn btn-primary  btn-responsive" id="registrar1" name="btnRegistrarPrueba" value="Registrar" >                
+                    <div class="col-xs-6">
+                         <input type="submit" class="btn-primary form-control" id="registrar1" name="btnRegistrarPrueba" value="Registrar" >                
                     </div>              
-                    <div class="col-sm-6">
-                        <input type="reset" class="btn btn-danger btn-responsive" id="limpiar" name="btnLimpiar" value="Limpiar">
+                    <div class="col-xs-6">
+                        <input type="reset" class="btn-danger form-control" id="limpiar" name="btnLimpiar" value="Limpiar">
                     </div>                    
                 </div>
             </div>

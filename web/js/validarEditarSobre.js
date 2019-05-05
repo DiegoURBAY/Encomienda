@@ -1,39 +1,7 @@
 
-
-$('input[type="submit"]').attr('disabled','disabled');
-
-
-/*
-      $(function() {
-        $.datepicker.regional['es'] = {
-            closeText: 'Cerrar',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié;', 'Juv', 'Vie', 'Sáb'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''
-            };
-        $.datepicker.setDefaults($.datepicker.regional["es"]);
-        $("#envio, #llegada").datepicker({ 
-            numberOfMonths: 1, 
-            showButtonPanel: true,
-            minDate: 0
-
-        });                                
-    });      
- */     
    $(document).ready(function(){              
-       
-       
+     
+     /*  
        $('#pesoSobre, #pesoSobreOriginal').change(function (){
       var pesoSobreOriginal = $("#pesoSobreOriginal").val();
       var pesoSobre = $("#pesoSobre").val();
@@ -45,8 +13,8 @@ $('input[type="submit"]').attr('disabled','disabled');
         $('#pesoSobre').val(0);     
       }
 });
+*/
 
-        $('#mensaje_error').hide(); 
 /*
         $( function() {                   
         var availableTags = new Array();
@@ -98,6 +66,7 @@ $('input[type="submit"]').attr('disabled','disabled');
         }
     });
  */ 
+/*
     $("input[type=radio]").click(function(event){
         var valor = $(event.target).val();
         if(valor === "sobre"){
@@ -121,8 +90,8 @@ $('input[type="submit"]').attr('disabled','disabled');
             // Otra cosa
         }
     });    
-    
-    $('#cantidadSobres, #cantidadPaquetes, #largo,#altura,#anchura ').keyup(function () {
+    */
+    $('#cantidadSobres').keyup(function () {
         this.value = this.value.replace(/[^0-9]/g,''); 
     });
     
@@ -143,205 +112,8 @@ $('input[type="submit"]').attr('disabled','disabled');
         catch(e) {}
       });    
 
+
 /*
-
-     $('#cantidadPaquetes, #largo, #altura, #anchura ,#pesoPaquete, #precioPaquete').change( function () {
-        var cantidadPaquetes = $('#cantidadPaquetes').val();
-        var largo = $('#largo').val();
-        var altura = $('#altura').val();
-        var anchura = $('#anchura').val();
-        var pesoPaquete = $('#pesoPaquete').val();
-
-        var costoPesoKilo = 0.20;
-        
-        var pesoVolumetrico = 0;
-        var pesoPaquete_float = 0;
-        var peso ;     
- 
-        try{
-        //Calculamos el número escrito:
-        if(cantidadPaquetes >25){
-            cantidadPaquetes = $("#cantidadPaquetes").val(0);
-        }
-        
-        if(altura < 10 || altura > 25){
-           altura = $('#altura').val(0);
-       
-        }       
-        if(anchura < 5 || anchura > 31){
-           anchura = $('#anchura').val(0);
-           
-        }
-        if(largo < 14 || largo > 75){
-            largo =  $('#largo').val(0);          
-            
-        }
-
-
-        var dimensiones = altura*anchura*largo;
-        var operacion = parseFloat(dimensiones/300).toFixed(2);
-        
-       if(!isNaN(operacion) ){
-           pesoVolumetrico = $('#pesoVolumen').val(operacion);
-       }
-       else {
-           pesoVolumetrico = $('#pesoVolumen').val('Altura*Anchura*Largo');
-       }
-       
-       console.log(pesoVolumetrico);
-        
-           
-        pesoPaquete_float = parseFloat(pesoPaquete).toFixed(2);
-        console.log(pesoPaquete_float); 
-        if(pesoPaquete_float < 1.14 || pesoPaquete_float > 200){
-           pesoPaquete_float = $('#pesoPaquete').val(0);           
-        }
-        if(pesoPaquete_float >= 1.14 || pesoPaquete_float <= 200){
-            if (pesoPaquete % 1 !== 0){
-                var pesoPaquete_split = pesoPaquete.split(".");
-                var pesoPaquete_decimal = pesoPaquete_split[1];
-
-                if(pesoPaquete_decimal.length > 2){
-                    $('#pesoPaquete').val(0);
-                }            
-            }               
-        }
-
-        
-        if (parseFloat( $('#pesoVolumen').val()) > parseFloat($('#pesoPaquete').val())){
-          peso = $('#pesoVolumen').val();
-
-        }else  {
-           peso = $('#pesoPaquete').val();
-
-        }   
-        
-        console.log(peso);
-        //console.log(pesoPaquete*parseFloat(costoPesoKilo).toFixed(2));
-         $("#precioPaquete").val(parseFloat(cantidadPaquetes*costoPesoKilo*peso).toFixed(2));
-         
-         if( parseFloat($("#precioPaquete").val()) > 0){
-                 if (parseFloat( $('#pesoVolumen').val()) > parseFloat($('#pesoPaquete').val())){
-                     alert('El peso volumen se usará en el precio');
-                 }
-                 else{
-                     alert('El peso volumen NO se usará en el precio');
-                 }
-         }
-        
-        }
-        //Si se produce un error no hacemos nada
-        catch(e) {}
-
-    });
-    */  
-       $('#pesoSobre, #pesoPaquete').change( function () {
-            var pesoSobre = $('#pesoSobre').val();           
-            var pesoPaquete = $('#pesoPaquete').val();
-           
-           // console.log(parseInt(pesoSobre));
-            var pesoSobre_float = parseFloat(pesoSobre).toFixed(2);
-         //   console.log(pesoSobre_float);
-          //  var pesoPaquete_float = parseFloat(pesoPaquete).toFixed(2);
-                
-            if(pesoSobre_float < 0.01 || pesoSobre_float > 1.13){
-                
-                $('#pesoSobre').val(0);
-            }
-            if(pesoSobre_float >= 0.01 || pesoSobre_float <= 1.13){
-                if(pesoSobre % 1 !== 0){
-                    var pesoSobre_split = pesoSobre.split(".");
-                    var pesoSobre_decimal = pesoSobre_split[1];
-                    if(pesoSobre_decimal.length > 2){                    
-                        $('#pesoSobre').val(0);
-                    } 
-                }
-            }
-            /*
-            if(pesoPaquete_float < 1.13 || pesoPaquete_float > 200){
-                $('#pesoPaquete').val(0);
-            }    
-            */
-            console.log(pesoSobre);
-
-
-            /*
-            if(!(pesoPaquete % 1 === 0)){
-                if(pesoPaquete.split(".") !== null || pesoPaquete !== 0){
-                    var pesoPaquete_split = pesoPaquete.split(".");
-                    var pesoPaquete_decimal = pesoPaquete_split[1];
-
-                    if(pesoPaquete_decimal.length > 2){
-                        $('#pesoPaquete').val(0);
-                    }                    
-                }    
-          
-            }
-          */  
-    /*         
-        //console.log(decimal);        
-        if(entero.length > 1){
-              $('#pesoSobre').val(0);
-        }
-         entero = parseInt(entero);    
-        if(entero > 1){
-              $('#pesoSobre').val(0);
-        }        
-        //decimal string
-        if(decimal.length > 2){
-            $('#pesoSobre').val(0);
-        }
-        //decimal como numero     
-        decimal = parseInt(decimal);        
-        if(decimal > 13 && entero >=1){
-            $('#pesoSobre').val(0);
-        }
-*/
-/*
-        regexp = /.{1}[0-9]{2}$/;
-        regexp3 = /[a-zA-ZÑáéíóúüñ]$/;
-        re = new RegExp(regexp);
-        re3 = new RegExp(regexp3);
-        if (!(pesoSobre.match(re)) || /\s+$/.test(pesoSobre)|| pesoSobre.match(re3 )){           
-            $('#pesoSobre').val(0);        
-        }  
-             /*
-        regexp2 = /.{1}[0-9]{2}$/;
-       
- 
-        re2 = new RegExp(regexp2);
-        if (!(pesoPaquete.match(re2)) || /\s+$/.test(pesoPaquete)){           
-            $('#pesoPaquete').val(0);        
-        }               
-             */
-      }); 
-
-    /* 
-   $('#pesoPaquete, #altura, #anchura, #largo').change( function () {
-        var placa = $('#pesoPaquete').val();           
-        var x = placa.split(".");
-
-        var entero = x[0];
-        var decimal = x[1];
-        console.log(parseInt(placa));
-
-        console.log(parseFloat(placa).toFixed(2));
-        if(parseFloat(placa).toFixed(2) < 0.01){
-            $('#pesoSobre').val(0);
-        }
-        if(parseFloat(placa).toFixed(2) > 1.13){
-            $('#pesoSobre').val(0);
-        }  
-
-        regexp = /.{1}[0-9]{2}$/;
-
-        re = new RegExp(regexp);
-        if (!(placa.match(re)) || /\s+$/.test(placa)){           
-            $('#pesoSobre').val(0);        
-        }              
-  }); 
-      
-*/
     $("#registrar").click(function() {
 
         var origen = $('#origen').val();
@@ -390,21 +162,13 @@ $('input[type="submit"]').attr('disabled','disabled');
    
         return true;
     });    
-    
-    $("#editarSobre").click(function() {
+    */
+    $("#editarSobre1").click(function() {
 
-        var origen = $('#origen').val();
-        var destino = $('#destino').val();
-        var opciones = document.getElementsByName("pago1"); 
+        //var origen = $('#origen').val();
+      //  var destino = $('#destino').val();
         var cantidadSobre = $('#cantidadSobres').val();
-        var pesoSobre = $('#pesoSobre').val();    
-        var pesoSobre_decimal = $('#pesoSobre').val();
-        var altura = $('#altura').val();
-        var anchura = $('#anchura').val();
-        var largo = $('#largo').val();
-        var cantidadPaquete = $('#cantidadPaquetes').val();
-        var pesoPaquete = $('#pesoPaquete').val();
-                        
+    /*                    
         if( origen === null || origen.length === 0 || /^\s+$/.test(origen) ) {
             alert('[Aviso] El origen no puede quedar vacío');
             $('#origen').css("border", "1px solid red");
@@ -429,49 +193,29 @@ $('input[type="submit"]').attr('disabled','disabled');
             $("#destino").focus();            
             return false; 
         }      
-        
+      */  
         if( cantidadSobre === null || cantidadSobre.length === 0 || /^\s+$/.test(cantidadSobre) ) {
              alert('[Aviso] La cantidad del sobre no puede quedar vacío');
             $('#cantidadSobres').css("border", "1px solid red");
             $("#cantidadSobres").focus();   
               return false;              
         }
-        else{
+        else {
              $('#cantidadSobres').css("border", "");
+             return false;   
         }
-        cantidadSobre = parseInt(cantidadSobre);
-
-        if( cantidadSobre < 1 ) {
-            alert('[Aviso] La cantidad no puede ser cero');
+        cantidadSobre = parseInt(cantidadSobre);       
+        if(cantidadSobre < 1) {
+            alert('[Aviso] La cantidad del sobre no puede ser cero');
             $('#cantidadSobres').css("border", "1px solid red");
-            $("#cantidadSobres").focus();   
+            $("#cantidadSobres").focus();                               
             return false;              
-        }       
-        else{
-             $('#cantidadSobres').css("border", "");
-        }
-
-        if( pesoSobre === null || pesoSobre.length === 0 ) {
-            alert('[Aviso] El peso del sobre no puede quedar vacío');                        
-            $('#pesoSobre').css("border", "1px solid red");
-            $("#pesoSobre").focus();                          
-            return false;              
-        }
-        else{
-            $('#pesoSobre').css("border", "");
-        }                    
-
-        pesoSobre = parseFloat(pesoSobre).toFixed(2);
-        if(pesoSobre < 0.01) {
-            alert('[Aviso] El peso no puede ser cero');
-            $('#pesoSobre').css("border", "1px solid red");
-            $("#pesoSobre").focus();                            
-            return false;              
-        }
-        else{
-            $('#pesoSobre').css("border", "");
-        }                 
-               
+        } 
+        else if(cantidadSobre >= 1){
+            $('#cantidadSobre').css("border", "");
+             return false; 
+        }         
+        
        var answer = confirm('¿Seguro que desea registrar?');
        if (answer)
         {

@@ -8,7 +8,8 @@ public class Disponibilidad {
     private int id;
     private int idVehiculo;
     private int idTipoEncomienda;
-    private double pesoactual;
+    private double actualvolumen;
+    private double actualcapacidad;  
     private Timestamp desde;
     private Timestamp hasta;
     private int situacion;
@@ -18,16 +19,25 @@ public class Disponibilidad {
     public Disponibilidad() {
     }
 
-    public Disponibilidad(int id, int idVehiculo, int idTipoEncomienda, double pesoactual, Timestamp desde, Timestamp hasta, int situacion) {
+    public Disponibilidad(int id, int idVehiculo, int idTipoEncomienda, double actualvolumen, double actualcapacidad, Timestamp desde, Timestamp hasta, int situacion) {
         this.id = id;
         this.idVehiculo = idVehiculo;
         this.idTipoEncomienda = idTipoEncomienda;
-        this.pesoactual = pesoactual;
+        this.actualvolumen = actualvolumen;
+        this.actualcapacidad = actualcapacidad;
         this.desde = desde;
         this.hasta = hasta;
         this.situacion = situacion;
     }
 
+        public Disponibilidad(int id, int idVehiculo, int idTipoEncomienda, double actualvolumen, double actualcapacidad, int situacion) {
+        this.id = id;
+        this.idVehiculo = idVehiculo;
+        this.idTipoEncomienda = idTipoEncomienda;
+        this.actualvolumen = actualvolumen;
+        this.actualcapacidad = actualcapacidad;
+        this.situacion = situacion;
+    }
     public int getId() {
         return id;
     }
@@ -52,12 +62,20 @@ public class Disponibilidad {
         this.idTipoEncomienda = idTipoEncomienda;
     }
 
-    public double getPesoactual() {
-        return pesoactual;
+    public double getActualvolumen() {
+        return actualvolumen;
     }
 
-    public void setPesoactual(double pesoactual) {
-        this.pesoactual = pesoactual;
+    public void setActualvolumen(double actualvolumen) {
+        this.actualvolumen = actualvolumen;
+    }
+
+    public double getActualcapacidad() {
+        return actualcapacidad;
+    }
+
+    public void setActualcapacidad(double actualcapacidad) {
+        this.actualcapacidad = actualcapacidad;
     }
 
     public Timestamp getDesde() {
@@ -84,8 +102,15 @@ public class Disponibilidad {
         this.situacion = situacion;
     }
 
- 
+    public Timestamp getFecharegistro() {
+        return fecharegistro;
+    }
+
+    public void setFecharegistro(Timestamp fecharegistro) {
+        this.fecharegistro = fecharegistro;
+    }
     
     
+
 }
 //INSERT INTO `disponibilidad` (`id`, `idVehiculo`, `idTipoEncomienda`, `pesoactual`, `desde`, `hasta`, `situacion`, `fecharegistro`, `estado`) VALUES (NULL, '1', '1', '0.21', '2019-04-09 11:23:21', '2019-04-10 09:20:13', '1', '2019-04-09 13:25:22', '1');

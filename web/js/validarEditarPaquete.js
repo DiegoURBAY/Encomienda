@@ -169,13 +169,13 @@
         var dimensiones = altura*anchura*largo;
         
         var volumen =  Math.round(parseFloat(dimensiones*parseInt(cantidadPaquetes)/1000000)*100)/100;
-         $('#volumen').val(volumen);
-    /*    if(volumen > 0.01){
+       
+        if(volumen > 0.01){
             $('#volumen').val(volumen);
         }
         else if(volumen <= 0.01){
             $('#volumen').val(0.01);
-        }*/
+        }
           var operacion =  Math.round(parseFloat(dimensiones/300)*100)/100;
      //   var operacion = parseFloat(dimensiones/300).toFixed(2);
         
@@ -203,20 +203,19 @@
                     $('#pesoPaquete').val(0);
                 }            
             }               
-        }
-
-        
-        if (parseFloat( $('#pesoVolumen').val()) > parseFloat($('#pesoPaquete').val())){
+        }               
           peso = $('#pesoVolumen').val();
-
-        }else  {
-           peso = $('#pesoPaquete').val();
-
-        }   
+        
         
         console.log(peso);
         //console.log(pesoPaquete*parseFloat(costoPesoKilo).toFixed(2));
-         $("#precioPaquete").val(parseFloat(cantidadPaquetes*costoPesoKilo*peso).toFixed(2));
+        
+        var precio = Math.round(parseFloat(cantidadPaquetes*costoPesoKilo*peso))*100/100;
+        if(precio < 10){
+            precio = 10*cantidadPaquetes;
+        }
+
+         $("#precioPaquete").val(precio);
          
          if( parseFloat($("#precioPaquete").val()) > 0){
                  if (parseFloat( $('#pesoVolumen').val()) > parseFloat($('#pesoPaquete').val())){
@@ -238,7 +237,7 @@
             var pesoPaquete = $('#pesoPaquete').val();
            
            // console.log(parseInt(pesoSobre));
-            var pesoSobre_float = parseFloat(pesoSobre).toFixed(2);
+            var pesoSobre_float = Math.round(parseFloat(pesoSobre)*100)/100;
          //   console.log(pesoSobre_float);
           //  var pesoPaquete_float = parseFloat(pesoPaquete).toFixed(2);
                 
@@ -340,7 +339,9 @@
   }); 
       
 */
-    $("#registrar").click(function() {
+
+/*
+    $("#editarPaquete").click(function() {
 
         var origen = $('#origen').val();
         var destino = $('#destino').val();
@@ -387,9 +388,10 @@
         }
    
         return true;
-    });    
+    });
+       */
     
-    $("#registrar1").click(function() {
+    $("#editarPaquete").click(function() {
 
         var origen = $('#origen').val();
         var destino = $('#destino').val();
@@ -503,7 +505,8 @@
         } 
         else{
             $('#cantidadPaquetes').css("border", "");
-        }                     
+        }  
+        /*
         if( pesoPaquete === null || pesoPaquete.length === 0 || /^\s+$/.test(pesoPaquete) ) {
             alert('[Aviso] El peso del paquete no puede quedar vacío');
             $('#pesoPaquete').css("border", "1px solid red");
@@ -523,38 +526,47 @@
         else{
             $('#pesoPaquete').css("border", "");
         }                     
-        
-        var mensaje = '';
-        var mensaje2 = '';
-        var pesonormal = parseFloat($("#precioPaquete").val());
-        var pesovolumen = parseFloat( $('#pesoVolumen').val());
-        var pesooriginal = parseFloat($('#pesoPaqueteOriginal').val());
+       */
+      //  var pesonormal = Math.round( parseFloat($("#pesoPaquete").val())*100)/100;
+        var pesovolumen = Math.round( parseFloat($("#pesoVolumen").val())*100)/100;
+        var pesooriginal = Math.round( parseFloat($("#pesoPaqueteOriginal").val())*100)/100;
         var pesofinal = 0;
         
-        var volumenoriginal = parseFloat($("#volumenOriginal").val());
-        var volumenactual = parseFloat($("#volumen").val());
-        
+        var volumenoriginal = Math.round( parseFloat($("#volumenOriginal").val())*100)/100;
+        var volumenactual = Math.round( parseFloat($("#volumen").val())*100)/100;
+    /*    
         if( pesonormal > 0){
                  if ( pesovolumen > pesonormal){
-                  pesofinal = parseFloat(pesovolumen);
+                  pesofinal =Math.round( parseFloat($("#pesoVolumen").val())*100)/100;
                     
                  }
                  if ( pesovolumen < pesonormal){
-                    pesofinal = parseFloat(pesonormal);
+                    pesofinal =  Math.round( parseFloat($("#precioPaquete").val())*100)/100;
                  }
+        }    /*    
+        else if(pesofinal > pesooriginal && volumenactual < volumenoriginal){              
+              alert('El peso ha aumentado. Tendra que hacer otra encomienda');
+              return false;
+        }  */      
+        if ( pesovolumen > pesooriginal){
+            alert('El peso ha aumentado. Tendra que hacer otra encomienda');
+            $('#pesoVolumen').css("border", "1px solid red");
+            $("#pesoVolumen").focus();
+              return false;
+
         }        
-        if(pesofinal > pesooriginal && volumenactual < volumenoriginal){
-              mensaje = ' El peso ha aumentado, podría afectar la llegada de su envío';
-        }                
-        if(volumenactual > volumenoriginal && pesofinal < pesooriginal){
-              mensaje = ' El volumen ha aumentado, podría afectar la llegada de su envío';
-        }        
-        if(pesofinal > pesooriginal && volumenactual > volumenoriginal){
-              mensaje = ' El peso o el volumen han aumentado, podrían afectar la llegada de su envío';
+        else if(volumenactual > volumenoriginal ){
+              alert('El volumen ha aumentado. Tendra que hacer otra encomienda');
+              return false;
+        }       
+      
+               /*
+        if(pesofinal > pesooriginal || volumenactual > volumenoriginal){
+            alert(' El peso o el volumen han aumentado. Tendrá que hacer otra encomienda');
+            return false;
         }   
-        
-        
-       var answer = confirm('¿Seguro que desea editar?'+ mensaje);
+               */ 
+       var answer = confirm('¿Seguro que desea editar?');
        if (answer)
         {
           console.log('yes');
