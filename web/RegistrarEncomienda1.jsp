@@ -46,7 +46,7 @@ HttpSession sesion = request.getSession();
                     <div class="col-sm-6 form-group">
                         <label for="destino">Destino</label>
                         <input type="text" class="form-control" placeholder="Destino" id="destino" name="txtDestino">
-                    </div>               
+                    </div>
                 </div>
             </div>               
                         
@@ -55,24 +55,26 @@ HttpSession sesion = request.getSession();
                 <div class="col-sm-12">
                     
                     <div class="row">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-xs-4">
                             <label >¿Qué desea registar?</label>
                         </div>                        
-                        <div class="col-sm-4 form-group">
+                        <div class="col-xs-4">
                             <label class="radio-inline">
                                 <input checked="checked" name="pago1" type="radio" value="sobre"/>
                                     <span class="auto-style4"> 
                                         Sobre
                                     </span>
-                            </label>
-            
+                            </label>           
                             <label class="radio-inline">
                                <input name="pago1" type="radio" value="paquete"/>
                                     <span class="auto-style4"> 
                                         Paquete
                                     </span>
                             </label>
-                        </div>                             
+                        </div>
+                        <div class="checkbox-inline col-xs-4">
+                            <label><input type="checkbox" name="txtDelicado" value="1">Delicado</label>
+                        </div>                        
                     </div>                    
                 </div>   
             </div>                                   

@@ -11,23 +11,24 @@ import entidad.TipoEncomienda;
 
 public class TipoEncomiendaDAO extends Conexion implements DAO{
     
- /*  
+
     public static void main(String[] args) throws Exception {
         TipoEncomienda tipoEncomienda = new TipoEncomienda();
-        tipoEncomienda.setTipo("sobre");
-        tipoEncomienda.setAltura(0);
-        tipoEncomienda.setAnchura(0);
-        tipoEncomienda.setLargo(0);
+        tipoEncomienda.setTipo("paquete");
+        tipoEncomienda.setAltura(1);
+        tipoEncomienda.setAnchura(1);
+        tipoEncomienda.setLargo(1);
         tipoEncomienda.setCantidad(11111);
         tipoEncomienda.setPeso(11111);
         tipoEncomienda.setPrecio(1111);
-        tipoEncomienda.setIdEncomienda(14);
+        tipoEncomienda.setDelicado(1);
+        tipoEncomienda.setIdEncomienda(124);
+        tipoEncomienda.setId(184);
         
         TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
-        tipoEncomiendaDAO.insertar(tipoEncomienda);
+        tipoEncomiendaDAO.modificar(tipoEncomienda);
     }
-*/
-    
+ 
 /*
     public static void main(String[] args) throws Exception {
         TipoEncomienda tipoEncomiendaSobre = new TipoEncomienda();       
@@ -62,7 +63,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception {
         TipoEncomienda te = (TipoEncomienda) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO tiposencomiendas (tipo, altura, anchura, largo, cantidad, peso, precio, idEncomienda, fecharegistro) VALUES (?, ?, ?, ?, ?, ?, ?,?, CURDATE())";
+        String sql="INSERT INTO tiposencomiendas (tipo, altura, anchura, largo, cantidad, peso, precio, delicado, idEncomienda, fecharegistro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURDATE())";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -73,10 +74,12 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
             pst.setInt(5, te.getCantidad());
             pst.setDouble(6, te.getPeso());
             pst.setDouble(7, te.getPrecio());
-            pst.setInt(8, te.getIdEncomienda());
+            pst.setInt(8, te.getDelicado());
+            pst.setInt(9, te.getIdEncomienda());
             pst.executeUpdate();      
 
         } catch (SQLException e) {
+            throw  e;
         }
         finally{
             this.cerrar();
@@ -95,6 +98,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
             pst.executeUpdate();            
                   
         } catch (SQLException e) {
+            throw  e;
         }
         finally{
             this.cerrar();
@@ -105,7 +109,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
     public void modificar(Object obj) throws Exception {
         TipoEncomienda te = (TipoEncomienda) obj;
         PreparedStatement pst;
-        String sql="UPDATE tiposencomiendas set tipo = ?, altura = ?, anchura = ?, largo = ?, cantidad = ?, precio = ?, idEncomienda = ? WHERE id = ?";
+        String sql="UPDATE tiposencomiendas set tipo = ?, altura = ?, anchura = ?, largo = ?, cantidad = ?, precio = ?, delicado = ?, idEncomienda = ? WHERE id = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -115,8 +119,9 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
             pst.setDouble(4, te.getLargo());
             pst.setInt(5, te.getCantidad());
             pst.setDouble(6, te.getPrecio());
-            pst.setInt(7, te.getIdEncomienda());
-            pst.setInt(8, te.getId());
+            pst.setInt(7, te.getDelicado());
+            pst.setInt(8, te.getIdEncomienda());
+            pst.setInt(9, te.getId());
             pst.executeUpdate();            
                     
         } catch (SQLException e) {
@@ -132,7 +137,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
         List<TipoEncomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, tipo, altura, anchura, largo, cantidad, peso, precio, idEncomienda FROM tiposencomiendas WHERE estado = 1";
+        String sql = "SELECT id, tipo, altura, anchura, largo, cantidad, peso, precio, delicado, idEncomienda FROM tiposencomiendas WHERE estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -148,11 +153,13 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
                         rs.getInt("cantidad"),
                         rs.getDouble("preso"),
                         rs.getDouble("precio"),
+                        rs.getInt("delicado"),
                         rs.getInt("idEncomienda")
                     )
                 );
             }
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();
@@ -164,7 +171,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
         List<TipoEncomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT te.id, te.tipo, te.altura, te.anchura, te.largo, te.cantidad, te.peso, te.precio, te.idEncomienda FROM tiposencomiendas te, encomiendas e WHERE te.estado = 1 AND te.idEncomienda = e.id AND te.idEncomienda = ?";
+        String sql = "SELECT te.id, te.tipo, te.altura, te.anchura, te.largo, te.cantidad, te.peso, te.precio, te.delicado, te.idEncomienda FROM tiposencomiendas te, encomiendas e WHERE te.estado = 1 AND te.idEncomienda = e.id AND te.idEncomienda = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -180,6 +187,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
                         rs.getInt("te.cantidad"),
                         rs.getDouble("te.peso"),
                         rs.getDouble("te.precio"),
+                        rs.getInt("te.delicado"),
                         rs.getInt("te.idEncomienda")
                     )
                 );
@@ -196,7 +204,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
         TipoEncomienda tipoEncomienda = new TipoEncomienda();
         PreparedStatement pst;
         ResultSet res;
-        String sql = "SELECT te.id, te.tipo, te.altura, te.anchura, te.largo, te.cantidad, te.peso, te.precio, te.idEncomienda FROM tiposencomiendas te, encomiendas e WHERE te.estado = 1 AND te.idEncomienda = e.id AND te.idEncomienda = ?";
+        String sql = "SELECT te.id, te.tipo, te.altura, te.anchura, te.largo, te.cantidad, te.peso, te.precio, te.delicado, te.idEncomienda FROM tiposencomiendas te, encomiendas e WHERE te.estado = 1 AND te.idEncomienda = e.id AND te.idEncomienda = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -211,6 +219,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
                tipoEncomienda.setCantidad(res.getInt("te.cantidad"));
                tipoEncomienda.setPeso(res.getDouble("te.peso"));
                tipoEncomienda.setPrecio(res.getDouble("te.precio"));
+               tipoEncomienda.setDelicado(res.getInt("te.delicado"));                 
                tipoEncomienda.setIdEncomienda(res.getInt("te.idEncomienda"));                 
             }
         } catch (SQLException e) {
@@ -227,7 +236,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
            TipoEncomienda tu = new TipoEncomienda();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT id, tipo, altura, anchura, largo, cantidad, peso, precio, idEncomienda FROM tiposencomiendas WHERE id =?";
+           String sql = "SELECT id, tipo, altura, anchura, largo, cantidad, peso, precio, delicado, idEncomienda FROM tiposencomiendas WHERE id =?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -242,6 +251,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
                     tu.setCantidad(res.getInt("cantidad"));
                     tu.setPeso(res.getDouble("peso"));
                     tu.setPrecio(res.getDouble("precio"));
+                    tu.setDelicado(res.getInt("delicado"));
                     tu.setIdEncomienda(res.getInt("idEncomienda"));
                     
                 }                        
@@ -319,7 +329,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
            TipoEncomienda tipoEncomienda = new TipoEncomienda();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT MAX(id) AS id, tipo, altura, anchura, largo, cantidad, peso, precio FROM tiposencomiendas WHERE idEncomienda = ?";
+           String sql = "SELECT MAX(id) AS id, tipo, altura, anchura, largo, cantidad, peso, precio, delicado  FROM tiposencomiendas WHERE idEncomienda = ?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -334,9 +344,11 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
                     tipoEncomienda.setCantidad(res.getInt("cantidad"));
                     tipoEncomienda.setPeso(res.getDouble("peso"));
                     tipoEncomienda.setPrecio(res.getDouble("precio"));
+                    tipoEncomienda.setDelicado(res.getInt("delicado"));
                 }                   
      
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();
@@ -349,7 +361,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
            TipoEncomienda tipoEncomienda = new TipoEncomienda();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT  tp.id, tp.tipo, tp.altura, tp.anchura, tp.largo, tp.cantidad, tp.peso, tp.precio, tp.idEncomienda FROM tiposencomiendas tp, encomiendas e Where e.id = tp.idEncomienda AND tp.estado = 1 AND tp.idEncomienda = ?";
+           String sql = "SELECT  tp.id, tp.tipo, tp.altura, tp.anchura, tp.largo, tp.cantidad, tp.peso, tp.precio, tp.delicado, tp.idEncomienda FROM tiposencomiendas tp, encomiendas e Where e.id = tp.idEncomienda AND tp.estado = 1 AND tp.idEncomienda = ?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -364,6 +376,7 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
                     tipoEncomienda.setCantidad(res.getInt("tp.cantidad"));
                     tipoEncomienda.setPeso(res.getDouble("tp.peso"));
                     tipoEncomienda.setPrecio(res.getDouble("tp.precio"));
+                    tipoEncomienda.setDelicado(res.getInt("tp.delicado"));
                     tipoEncomienda.setIdEncomienda(res.getInt("tp.idEncomienda"));
                 }                   
      

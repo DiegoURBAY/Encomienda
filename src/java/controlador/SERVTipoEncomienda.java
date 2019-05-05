@@ -158,6 +158,8 @@ public class SERVTipoEncomienda extends HttpServlet {
                 int idEncomienda = 0;
                 double volumen = 0;
                 double volumen_aprox = 0;
+                int delicado = 0;
+                String delicadoString = null;
                 try {
                     forward = edit;                   
                  //   SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -171,6 +173,7 @@ public class SERVTipoEncomienda extends HttpServlet {
                     if(volumen_aprox < 0.01){
                         volumen_aprox = 0.01;
                     }
+                   
                     /*
                          if(encomienda.getEnvio() != null || encomienda.getLlegada()!= null){
                            
@@ -230,7 +233,7 @@ public class SERVTipoEncomienda extends HttpServlet {
             
             //LISTAR O ACTUALIZAR ENCOMIENDA
             else if(action.equalsIgnoreCase("refresh")){
-                
+                List<TipoEncomienda> tipos = null;
                 forward = list_encomienda;
                 //int id = Integer.parseInt(request.getParameter("id")); 
                                 int idEncomienda= 0;
@@ -241,13 +244,29 @@ public class SERVTipoEncomienda extends HttpServlet {
                 if(request.getParameter("id")!=null){
                      idEncomienda = Integer.parseInt(request.getParameter("id")); 
                 }
+                
+                String delicadoString = null;
                                                                     
                 try { 
-                    List tipos = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomienda);
+                    tipos = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomienda);
+                    
+                    for(int i = 0; i < tipos.size(); i++){
+
+                            if(tipos.get(i).getDelicado() == 1){
+                                delicadoString = "Si";
+                            }
+                            else if(tipos.get(i).getDelicado() == 0)
+                            {
+                                delicadoString = "No";
+                            }
+
+                            tipos.get(i).setDelicadoString(delicadoString);
+                    }                      
 
                 } catch (Exception ex) {
                     Logger.getLogger(SERVTipoEncomienda.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                request.setAttribute("tipoEncomienda", tipos);   
                 RequestDispatcher view = request.getRequestDispatcher(forward);
                 view.forward(request, response);     
 
@@ -256,16 +275,30 @@ public class SERVTipoEncomienda extends HttpServlet {
         
             else if(action.equalsIgnoreCase("refresh2")){
                  HttpSession sesion = request.getSession();
-                 
+                 List<TipoEncomienda> tipos;
                 forward = list_encomienda;
                 //int id = Integer.parseInt(request.getParameter("id")); 
                 int idEncomienda= 0;
                 if(request.getParameter("idEncomienda")!=null){
                      idEncomienda = Integer.parseInt(request.getParameter("idEncomienda")); 
+                                          
+                String delicadoString = null;
                      
                     try { 
-                        List tipos = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomienda);
+                         tipos = tipoEncomiendaDAO.consultarTipoPorEncomienda(idEncomienda);
+                        
+                    for(int i = 0; i < tipos.size(); i++){
 
+                            if(tipos.get(i).getDelicado() == 1){
+                                delicadoString = "Si";
+                            }
+                            else if(tipos.get(i).getDelicado() == 0)
+                            {
+                                delicadoString = "No";
+                            }
+
+                            tipos.get(i).setDelicadoString(delicadoString);
+                    }                          
                         //int idEncomienda2 =  tipoEncomiendaDAO.ConsultarTipoNombrePorEncomienda(idEncomienda);
                         double peso = tipoEncomiendaDAO.ConsultarPesoPorEncomiendaID(idEncomienda);
                         
@@ -333,7 +366,16 @@ public class SERVTipoEncomienda extends HttpServlet {
              rd.forward(request, response);  
         }                
    */
-        
+        int delicado = 0;
+
+            if(request.getParameter("txtDelicado")!=null) {
+            delicado = Integer.parseInt(request.getParameter("txtDelicado"));
+            if(delicado == 1){
+                delicado = 1;
+            }else{
+                delicado = 0;
+            }
+        }    
         if(request.getParameter("btnEditarSobre")!=null){
             TipoEncomienda tipoEncomiendaSobre = new TipoEncomienda();
             HttpSession sesion = request.getSession();
@@ -347,8 +389,8 @@ public class SERVTipoEncomienda extends HttpServlet {
             
             String usuario = null;
             int nivel = 0;
-            String vista = null;            
-            
+            String vista = null;         
+                       
             if(request.getParameter("txtTipoEncomienda")!=null){
                 idTipoEncomienda = Integer.parseInt(request.getParameter("txtTipoEncomienda"));
             }
@@ -363,11 +405,12 @@ public class SERVTipoEncomienda extends HttpServlet {
             if(request.getParameter("txtPrecioSobre")!=null){
                     precioSobreEditar = Double.parseDouble(String.valueOf(request.getParameter("txtPrecioSobre")));
             }                                                 
-           
+                  
             try {
                 
             tipoEncomiendaSobre.setCantidad(cantidadSobreEditar);
             tipoEncomiendaSobre.setPeso(pesoSobreEditar);
+            tipoEncomiendaSobre.setDelicado(delicado);
             tipoEncomiendaSobre.setPrecio(precioSobreEditar);
             tipoEncomiendaSobre.setAltura(0);
             tipoEncomiendaSobre.setAnchura(0);
@@ -444,7 +487,7 @@ public class SERVTipoEncomienda extends HttpServlet {
             String usuario = null;
             int nivel = 0;
             String vista = null;
-
+       
             if(request.getParameter("txtTipoEncomienda")!=null){
                 idTipoEncomienda = Integer.parseInt(request.getParameter("txtTipoEncomienda"));
             }
@@ -468,11 +511,14 @@ public class SERVTipoEncomienda extends HttpServlet {
             }                    
             
             int idCliente = 0;
+            
+    
         try {
                 
             tipoEncomiendaPaquete.setCantidad(cantidadPaqueteEditar);
         //    tipoEncomiendaPaquete.setPeso(peso);
             tipoEncomiendaPaquete.setPrecio(precioPaqueteEditar);
+           tipoEncomiendaPaquete.setDelicado(delicado);
             tipoEncomiendaPaquete.setAltura(altura);
             tipoEncomiendaPaquete.setAnchura(anchura);
             tipoEncomiendaPaquete.setLargo(largo);                

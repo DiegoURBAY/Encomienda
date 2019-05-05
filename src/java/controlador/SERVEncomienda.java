@@ -452,6 +452,16 @@ public class SERVEncomienda extends HttpServlet {
         int cantidad = 0;
         double peso = 0;
         double precio = 0;
+        int delicado = 0;
+        
+        if(request.getParameter("txtDelicado")!=null) {
+            delicado = Integer.parseInt(request.getParameter("txtDelicado"));
+            if(delicado == 1){
+                delicado = 1;
+            }else{
+                delicado = 0;
+            }
+        }
         
         if(request.getParameter("pago1")!=null) {
             tipo = request.getParameter("pago1");
@@ -541,6 +551,7 @@ public class SERVEncomienda extends HttpServlet {
             tipoEncomienda.setCantidad(cantidad);
             tipoEncomienda.setPeso(peso);
             tipoEncomienda.setPrecio(precio);
+            tipoEncomienda.setDelicado(delicado);
             tipoEncomienda.setIdEncomienda(idEncomienda);
        
             tipoEncomiendaDAO.insertar(tipoEncomienda);

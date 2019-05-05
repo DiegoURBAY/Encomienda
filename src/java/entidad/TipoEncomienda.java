@@ -10,12 +10,14 @@ public class TipoEncomienda {
     private int cantidad;
     private double peso;
     private double precio;
+    private int delicado;
     private int idEncomienda;
+    private String delicadoString;
 
     public TipoEncomienda() {
     }
 
-    public TipoEncomienda(int id, String tipo, double altura, double anchura, double largo, int cantidad, double peso, double precio, int idEncomienda) {
+    public TipoEncomienda(int id, String tipo, double altura, double anchura, double largo, int cantidad, double peso, double precio, int delicado, int idEncomienda) {
         this.id = id;
         this.tipo = tipo;
         this.altura = altura;
@@ -24,10 +26,9 @@ public class TipoEncomienda {
         this.cantidad = cantidad;
         this.peso = peso;
         this.precio = precio;
+        this.delicado = delicado;
         this.idEncomienda = idEncomienda;
     }
-
-
 
     public int getId() {
         return id;
@@ -99,6 +100,22 @@ public class TipoEncomienda {
 
     public void setIdEncomienda(int idEncomienda) {
         this.idEncomienda = idEncomienda;
+    }
+
+    public int getDelicado() {
+        return delicado;
+    }
+
+    public void setDelicado(int delicado) {
+        this.delicado = delicado;
+    }
+
+    public String getDelicadoString() {
+        return delicadoString;
+    }
+
+    public void setDelicadoString(String delicadoString) {
+        this.delicadoString = delicadoString;
     }
 
     

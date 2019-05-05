@@ -30,9 +30,11 @@ HttpSession sesion = request.getSession();
         <!--DATAPICKER 
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
         -->         
+    <script data-require="jquery@2.2.4" data-semver="2.2.4" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>        
         <!-- VALIDACIONES -->
         <script src="js/validarEditarPaquete.js" type="text/javascript"></script>
-        <link href="css/styles.css" rel="stylesheet" type="text/css"/>        
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>     
+        
     </head>
     <body>
 
@@ -54,7 +56,16 @@ HttpSession sesion = request.getSession();
                     <div class="col-sm-6 form-group">
                         <label for="destino">Destino</label>
                         <input type="text" class="form-control" placeholder="Destino" readonly="" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
-                    </div>               
+                    </div>
+                    <div class="checkbox-inline col-xs-4">                                                 
+                        <label>      
+
+                        <input type="checkbox" name="txtDelicado" id="status"
+                         value="1" ${tipoEncomienda.delicado== 1 ?'checked':''}>
+                        Delicado
+                        </label>
+
+                    </div>           
                 </div>
             </div>               
                         
