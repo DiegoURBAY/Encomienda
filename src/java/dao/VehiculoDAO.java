@@ -2,6 +2,7 @@
 package dao;
 
 import entidad.Disponibilidad;
+import entidad.TipoEncomienda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,10 +12,107 @@ import entidad.Vehiculo;
 
 public class VehiculoDAO extends Conexion implements DAO{
 
-/*
+  /*
 public static void main(String[] args) throws Exception {
        
-    
+   
+       Vehiculo vehiculo = new Vehiculo();     
+        Vehiculo vehiculo2 = new Vehiculo();
+        VehiculoDAO vehiculoDAO2 = new VehiculoDAO();
+        List<Vehiculo>  vehiculo_list;
+        DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
+        List<Disponibilidad> disponibilidadList = new ArrayList<>();
+        Disponibilidad disponibilidad = new Disponibilidad();
+        
+        //adicional
+         int idTipoEncomienda = 184;
+        TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
+        TipoEncomienda tipoEncomienda = new TipoEncomienda();
+        tipoEncomienda = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);
+               
+        double volumen = 0.30;
+        double capacidad = 200;        
+        
+        double volumen_max = 0;
+        double capacidad_max = 0;
+        double suma_volumen = 0;
+        double suma_capacidad = 0;
+        double volumen_encomienda;
+        double capacidad_encomienda;    
+        int situacion = 1;
+        int idVehiculo = 0;        
+               
+           try {
+         
+            vehiculo_list= vehiculoDAO2.ElegirVehiculo(volumen, capacidad);
+
+             for(int i = 0; i < vehiculo_list.size(); i++){
+
+                 volumen_max = vehiculo_list.get(i).getVolumen();
+                 capacidad_max = vehiculo_list.get(i).getCapacidad();
+
+                 idVehiculo = vehiculo_list.get(i).getId();
+
+                 disponibilidadList = disponibilidadDAO.consultarPorIdVehiculo(idVehiculo);
+
+             double volumen_mayor = 0;
+             double capacidad_mayor = 0;
+            
+             
+            if(disponibilidadList.size() > 0){
+                
+                volumen_mayor = disponibilidadList.get(0).getActualvolumen();
+                capacidad_mayor = disponibilidadList.get(0).getActualcapacidad();
+             for(int j = 1; j < disponibilidadList.size(); j++){                                   
+                     double volumen_no_mayor = disponibilidadList.get(j).getActualvolumen();
+               double capacidad_no_mayor = disponibilidadList.get(j).getActualcapacidad();
+               
+                    if(volumen_no_mayor > volumen_mayor){
+                        volumen_mayor = volumen_no_mayor;                                                
+                    }
+                     if(capacidad_no_mayor > capacidad_mayor){
+                        capacidad_mayor = capacidad_no_mayor;                                                
+                    }
+                }
+             
+            suma_volumen = volumen_mayor;
+            suma_capacidad = capacidad_mayor;             
+            
+            }                       
+                 
+                 volumen_encomienda = suma_volumen + volumen;
+                 capacidad_encomienda = suma_capacidad + capacidad;
+                 
+                 if( volumen_encomienda<  volumen_max &&  capacidad_encomienda<  capacidad_max ){
+
+                     disponibilidad.setIdVehiculo(idVehiculo);
+                     disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
+                     disponibilidad.setActualvolumen(volumen_encomienda);
+                     disponibilidad.setActualcapacidad(capacidad_encomienda);
+                     disponibilidad.setSituacion(situacion);
+                     disponibilidadDAO.insertar(disponibilidad);
+                     break;
+                 }                   
+                suma_volumen = 0;
+                suma_capacidad = 0;
+                volumen_encomienda = 0;
+                capacidad_encomienda = 0;         
+         }               
+               
+            Vehiculo vehiculo_buscado = vehiculoDAO2.BuscarPorId(idVehiculo);
+            
+            vehiculo2.setId(vehiculo_buscado.getId());
+            vehiculo2.setPlaca(vehiculo_buscado.getPlaca());
+            vehiculo2.setVolumen(vehiculo_buscado.getVolumen());
+            vehiculo2.setCapacidad(vehiculo_buscado.getCapacidad());           
+           } catch (Exception e) {
+           System.out.println ("El error es: " + e.getMessage());
+           e.printStackTrace();
+           }
+           
+        //     return vehiculo2;    
+    }    
+    /*
  Vehiculo vehiculo = new Vehiculo(); 
     VehiculoDAO vehiculoDAO2 = new VehiculoDAO();
     DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();

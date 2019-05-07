@@ -31,6 +31,10 @@
         <servlet-name>SERVLugar</servlet-name>
         <servlet-class>controlador.SERVLugar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SERVLocal</servlet-name>
+        <servlet-class>controlador.SERVLocal</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
@@ -58,6 +62,10 @@
     <servlet-mapping>
         <servlet-name>SERVLugar</servlet-name>
         <url-pattern>/SERVLugar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVLocal</servlet-name>
+        <url-pattern>/SERVLocal</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

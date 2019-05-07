@@ -25,7 +25,7 @@ HttpSession sesion = request.getSession();
         <!--DATAPICKER -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
         <!-- VALIDACIONES -->
-        <script src="js/validarRegistrarEncomienda.js" type="text/javascript"></script>
+        <script src="js/validarRegistrarEncomienda.js" type="text/javascript"></script>       
         <link href="css/styles.css" rel="stylesheet" type="text/css"/>        
     </head>
     <body>
@@ -48,6 +48,10 @@ HttpSession sesion = request.getSession();
                         <input type="text" class="form-control" placeholder="Destino" id="destino" name="txtDestino">
                     </div>
                 </div>
+<input id="origen1" type="text" readonly="" class="form-control" placeholder="origen1" >
+<input id="origen2" type="text" class="form-control" placeholder="origen2" >
+<input id="desA" type="text" class="form-control" placeholder="desA" >
+<input id="desB" type="text" readonly="" class="form-control" placeholder="desB" >
             </div>               
                         
             <hr class="my-4" >

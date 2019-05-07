@@ -25,29 +25,124 @@
 
         });                                
     });      
-      
+
    $(document).ready(function(){              
 
-        $('#mensaje_error').hide(); 
+    $('#mensaje_error').hide(); 
+    
+    //Array de departamentos
+    var availableTags = new Array();
 
-        $( function() {                   
-        var availableTags = new Array();
+    //Conseguir locales por departamento segun el origen
+    $('#origen').change(function (){
+        var origen = $('#origen').val();
+        var data = {nombre:$("#origen").val()} ;
+        $.getJSON(
+            "SERVLugar?action=ubicacion",  
+            data,
+            function ( res, est, jqXHR ) {
+                if(res.estado === "ok"){                      
+               //     availableTags.length = 0;
+                    if(availableTags.includes(origen) ) {
+                        var objeto = JSON.parse(res.mensaje);
+                        console.log(res);
+                        $("#origen1").val(objeto.cx +", "+ objeto.cy);
+                        $("#origen2").val(objeto.direccion);
+                    }
+                    /*
+                    $.each(objeto, function (i, item){
+                       // availableTags[i] = item.nombre;
+                  //  console.log(objeto);
+                        $("#origen1").val(item.nombre);
+                    });
+                    */
+                }
+                if(res.estado === "error"){
+                    alert("No hay departamentos disponibles");
+                }
+            }
+        );
+    });
+    
+    //Conseguir locales por departamento segun el destino
+        $('#destino').change(function (){
+        var destino = $('#destino').val();
+        var data = {nombre:$("#destino").val()} ;
+        $.getJSON(
+            "SERVLugar?action=ubicacion",  
+            data,
+            function ( res, est, jqXHR ) {
+                if(res.estado === "ok"){                      
+              //      availableTags.length = 0;   
+              //evita que busce con la letra que se introduce antes de ser eliminada por no estar en el array
+                    if(availableTags.includes(destino) ) {
+                        var objeto = JSON.parse(res.mensaje);
+                    console.log(objeto);
+                        $("#desA").val(objeto.cx +", "+ objeto.cy);
+                        $("#desB").val(objeto.direccion);
+                    }
 
-        var availableTags = [
-            "amazonas",
-            "ancash",
-            "apurimac",
-            "arequipa",
-            "ayacucho",
-            "cajamarca",
-            "callao",
-            "lima"
-        ];                   
-          $( "#origen, #destino" ).autocomplete({
-            source: availableTags,
-            minLength: 1
-          });
-          
+           /*         var objeto = JSON.parse(res.mensaje);
+                    $.each(objeto, function (i, item){
+                        availableTags[i] = item.nombre;
+                    });               
+                    */
+                }                   
+                if(res.estado === "error"){
+                    alert("No hay departamentos disponibles");
+                }
+            }
+        );
+    });
+
+      
+        
+        $('#origen').bind("keydown",function (event){
+           var data = {nombre:$("#origen").val()} ;
+                $.getJSON(
+                    "SERVLugar?action=completar",  
+                    data,
+                    function ( res, est, jqXHR ) {
+                        if(res.estado === "ok"){        
+                            console.log(res);
+                            availableTags.length = 0;
+                            var objeto = JSON.parse(res.mensaje);
+                            $.each(objeto, function (i, item){
+                                availableTags[i] = item.nombre;
+                            });
+                        }
+                        if(res.estado === "error"){
+                            alert("No hay departamentos disponibles");
+                        }
+                    }
+                );
+        });
+        
+        $('#destino').bind("keydown",function (event){
+           var data = {nombre:$("#destino").val()} ;
+                $.getJSON(
+                    "SERVLugar?action=completar",  
+                    data,
+                    function ( res, est, jqXHR ) {
+                        if(res.estado === "ok"){                      
+                            availableTags.length = 0;
+                            var objeto = JSON.parse(res.mensaje);
+                            $.each(objeto, function (i, item){
+                                availableTags[i] = item.nombre;
+                            });
+                        }
+                        if(res.estado === "error"){
+                            alert("No hay departamentos disponibles");
+                        }
+                    }
+                );
+        });        
+        
+        
+         $('#origen, #destino').autocomplete({
+            source: availableTags           
+         });
+  
         $('#origen, #destino').change( function () {
             var origen = $('#origen').val();
             var destino = $('#destino').val();
@@ -70,13 +165,12 @@
                 }
 
         });          
-          
-        } );                    
         
+  
     $('#origen, #destino').keyup( function () {
-        $(this).val($(this).val().toLowerCase());
-        if (!/^[a-záéíóúüñ]*$/i.test(this.value)) {
-            this.value = this.value.replace(/[^a-záéíóúüñ]+/ig,"");
+        $(this).val($(this).val());
+        if (!/^[ a-zA-ZáéíóúüñÁÉÍÓÚ]*$/i.test(this.value)) {
+            this.value = this.value.replace(/[^ a-zA-ZáéíóúüñÁÉÍÓÚ]+/ig,"");
         }
     });
 

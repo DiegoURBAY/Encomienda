@@ -1,7 +1,7 @@
 
    $(document).ready(function(){              
      
-     /*  
+   
        $('#pesoSobre, #pesoSobreOriginal').change(function (){
       var pesoSobreOriginal = $("#pesoSobreOriginal").val();
       var pesoSobre = $("#pesoSobre").val();
@@ -13,9 +13,7 @@
         $('#pesoSobre').val(0);     
       }
 });
-*/
 
-/*
         $( function() {                   
         var availableTags = new Array();
 
@@ -65,8 +63,7 @@
             this.value = this.value.replace(/[^a-záéíóúüñ]+/ig,"");
         }
     });
- */ 
-/*
+
     $("input[type=radio]").click(function(event){
         var valor = $(event.target).val();
         if(valor === "sobre"){
@@ -90,7 +87,7 @@
             // Otra cosa
         }
     });    
-    */
+
     $('#cantidadSobres').keyup(function () {
         this.value = this.value.replace(/[^0-9]/g,''); 
     });
@@ -113,7 +110,7 @@
       });    
 
 
-/*
+
     $("#registrar").click(function() {
 
         var origen = $('#origen').val();
@@ -162,13 +159,12 @@
    
         return true;
     });    
-    */
+  
     $("#editarSobre1").click(function() {
 
-        //var origen = $('#origen').val();
-      //  var destino = $('#destino').val();
-        var cantidadSobre = $('#cantidadSobres').val();
-    /*                    
+       var origen = $('#origen').val();
+       var destino = $('#destino').val();
+                   
         if( origen === null || origen.length === 0 || /^\s+$/.test(origen) ) {
             alert('[Aviso] El origen no puede quedar vacío');
             $('#origen').css("border", "1px solid red");
@@ -193,7 +189,7 @@
             $("#destino").focus();            
             return false; 
         }      
-      */  
+
         if( cantidadSobre === null || cantidadSobre.length === 0 || /^\s+$/.test(cantidadSobre) ) {
              alert('[Aviso] La cantidad del sobre no puede quedar vacío');
             $('#cantidadSobres').css("border", "1px solid red");

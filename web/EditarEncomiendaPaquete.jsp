@@ -11,9 +11,7 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Editar Paquete</title>
-        
-        
+        <title>Editar Paquete</title>                
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>        
        
@@ -49,23 +47,23 @@ HttpSession sesion = request.getSession();
             <input type="text" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="col-sm-6 form-group">
+                    <div class="row">
+                    <div class="col-xs-4">
                         <label for="origen">Origen</label>
                         <input type="text" class="form-control" placeholder="Origen" readonly="" id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
                     </div>
-                    <div class="col-sm-6 form-group">
+                    <div class="col-xs-4">
                         <label for="destino">Destino</label>
                         <input type="text" class="form-control" placeholder="Destino" readonly="" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
                     </div>
                     <div class="checkbox-inline col-xs-4">                                                 
                         <label>      
-
                         <input type="checkbox" name="txtDelicado" id="status"
                          value="1" ${tipoEncomienda.delicado== 1 ?'checked':''}>
                         Delicado
                         </label>
-
-                    </div>           
+                    </div>                          
+                    </div>
                 </div>
             </div>               
                         

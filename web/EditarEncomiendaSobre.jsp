@@ -12,9 +12,9 @@ HttpSession sesion = request.getSession();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Editar Sobre</title>
+         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>        
-       <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        
+              
         <!--DATAPICKER Y AUTOCOMPLETAR    
          <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -26,7 +26,7 @@ HttpSession sesion = request.getSession();
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
         <!-- VALIDACIONES -->
         
-        <script src="js/validarEditarSobre.js" type="text/javascript"></script>
+        <script src="js/validarEditarSobre2.js" type="text/javascript"></script>
         <link href="css/styles.css" rel="stylesheet" type="text/css"/>        
     </head>
     <body>
@@ -35,21 +35,28 @@ HttpSession sesion = request.getSession();
         <h2>Editar Sobre</h2>
         <form method="POST" action="SERVTipoEncomienda" autocomplete="off">
    
-            <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
-            <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
-            <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  > 
+            
             <input type="text" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
             <input type="text" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="col-sm-6 form-group">
-                        <label for="origen">Origen</label>
-                        <input type="text" class="form-control" placeholder="Origen" readonly="" id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="destino">Destino</label>
-                        <input type="text" class="form-control" placeholder="Destino" readonly="" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
-                    </div>               
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label for="origen">Origen</label>
+                            <input type="text" class="form-control" placeholder="Origen" readonly="" id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
+                        </div>
+                        <div class="col-xs-4">
+                            <label for="destino">Destino</label>
+                            <input type="text" class="form-control" placeholder="Destino" readonly="" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
+                        </div>
+                        <div class="checkbox-inline col-xs-4">                                                 
+                            <label for="status">      
+                            <input type="checkbox" name="txtDelicado" id="status"
+                             value="1" ${tipoEncomienda.delicado== 1 ?'checked':''}>
+                            Delicado
+                            </label>
+                        </div>  
+                    </div> 
                 </div>
             </div>       
            
@@ -88,7 +95,7 @@ HttpSession sesion = request.getSession();
                         </div>
                         <div class="col-sm-4 form-group">
                                 <label>Precio S/.</label>
-                                <input type="number"  class="form-control" readonly name="txtPrecioSobre"  id="precioSobre"> 
+                                <input type="number"  class="form-control" readonly="" name="txtPrecioSobre"  id="precioSobre"> 
                         </div>
                     </div>                                       
                 </div>
@@ -97,7 +104,7 @@ HttpSession sesion = request.getSession();
             <div class="clearfix"></div>            
             <div class="row">
                 <div class="col-xs-6">
-                    <input type="submit" class="btn-primary form-control" id="editarSobre1" name="btnEditarSobre" value="EditarSobre" >
+                    <input type="submit" class="btn-primary form-control" id="editarSobre" name="btnEditarSobre" value="EditarSobre" >
                 </div>              
                 <div class="col-xs-6">
                     <input type="reset" class="btn-danger form-control" id="limpiar" name="btnLimpiar" value="Limpiar">
