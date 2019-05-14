@@ -20,7 +20,7 @@ HttpSession sesion = request.getSession();
             <input type=hidden value="<%= sesion.getAttribute("idEncomienda") %>"><br>
             <input type="hidden" value="<%= sesion.getAttribute("nivel") %>"><br>
             <input type="hidden" value="<%= sesion.getAttribute("peso") %>">
-            <input type="text" value="<%= sesion.getAttribute("usuario") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("usuario") %>">
             <h1>Lista de tipos de Envios  </h1>
              <h4> Encomienda #: <%= sesion.getAttribute("idEncomienda") %></h4>
                 <hr>                                

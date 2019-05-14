@@ -6,6 +6,7 @@ import dao.ClienteDAO;
 import dao.DisponibilidadDAO;
 import dao.EncomiendaDAO;
 import dao.Envio;
+import dao.LugarDAO;
 import dao.TipoEncomiendaDAO;
 import dao.VehiculoDAO;
 import entidad.Cliente;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import entidad.Encomienda;
+import entidad.Lugar;
 import entidad.TipoEncomienda;
 import entidad.Vehiculo;
 import java.sql.Timestamp;
@@ -43,7 +45,8 @@ public class SERVEncomienda extends HttpServlet {
     private EncomiendaDAO encomiendadao;
     private TipoEncomiendaDAO tipoEncomiendaDAO;
     private VehiculoDAO vehiculoDAO;
-    private ClienteDAO clientedao;       
+    private ClienteDAO clientedao;
+    private LugarDAO lugarDAO;
     Encomienda enc = new Encomienda();
 
             
@@ -52,6 +55,7 @@ public class SERVEncomienda extends HttpServlet {
     	encomiendadao = new EncomiendaDAO(){};
         vehiculoDAO = new VehiculoDAO(){};
         clientedao = new ClienteDAO(){};
+        lugarDAO = new LugarDAO(){};
     }         
      
     @Override
@@ -92,7 +96,13 @@ public class SERVEncomienda extends HttpServlet {
                              
                             String fecha_string = sdf.format(envio_date);                                                            
                                                         
-                            encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);                      
+                            encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);  
+                            
+                            
+                            Lugar lugar_origen = lugarDAO.BuscarPorId( encomienda_list.get(i).getOrigen());
+                            Lugar lugar_destino = lugarDAO.BuscarPorId( encomienda_list.get(i).getDestino());
+                              encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
+                              encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                               
                          }
                     }      
                     
@@ -143,7 +153,12 @@ public class SERVEncomienda extends HttpServlet {
                              
                             String fecha_string = sdf.format(envio_date);                                                            
                                                         
-                            encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);                      
+                            encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);
+                            
+                            Lugar lugar_origen = lugarDAO.BuscarPorId( encomienda_list.get(i).getOrigen());
+                            Lugar lugar_destino = lugarDAO.BuscarPorId( encomienda_list.get(i).getDestino());
+                              encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
+                              encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                              
                          }
                     }                                       
                 
@@ -180,6 +195,11 @@ public class SERVEncomienda extends HttpServlet {
                     
                     cliente = clientedao.BuscarPorUsuario(Usuario);
                     int nivel =cliente.getNivel();
+                    
+                    Lugar lugar_origen = lugarDAO.BuscarPorId(encomienda.getOrigen());
+                    Lugar lugar_destino = lugarDAO.BuscarPorId(encomienda.getDestino());
+                     encomienda.setOrigenS( lugar_origen.getNombre());
+                     encomienda.setDestinoS(lugar_destino.getNombre());                  
                     
                     /*
                          if(encomienda.getEnvio() != null || encomienda.getLlegada()!= null){
@@ -241,25 +261,26 @@ public class SERVEncomienda extends HttpServlet {
                 try {
                     forward = list_encomienda;                              
                     
-                    List<Encomienda> encomienda = encomiendadao.consultarEncomiendaPorIdCliente(idCliente);
-     
-     
-                    Encomienda enco[] = new Encomienda[encomienda.size()];
-                    enco = encomienda.toArray(enco);            
+                    List<Encomienda> encomienda_list = encomiendadao.consultarEncomiendaPorIdCliente(idCliente);
+                  
                     DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     
-                    for(int i = 0; i < enco.length; i++){
+                    for(int i = 0; i < encomienda_list.size(); i++){
 
-                         if(enco[i].getFechaRegistroTime() != null ){
+                         if(encomienda_list.get(i).getFechaRegistroTime() != null ){
                            
-                            Date envio_date = enco[i].getFechaRegistroTime();     
+                            Date envio_date = encomienda_list.get(i).getFechaRegistroTime();     
                              
                             String fecha_string = sdf.format(envio_date);                                                            
                                                         
-                            enco[i].setFechaRegistroTimeString(fecha_string);                      
+                            encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);
+                            
+                            Lugar lugar_origen = lugarDAO.BuscarPorId( encomienda_list.get(i).getOrigen());
+                            Lugar lugar_destino = lugarDAO.BuscarPorId( encomienda_list.get(i).getDestino());
+                              encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
+                              encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                               
                          }
-                    }
-                    List<Encomienda> con_filtro = new ArrayList(Arrays.asList(enco));                    
+                    }                
                     
              /*       
                     Encomienda enco[] = new Encomienda[encomienda.size()];
@@ -282,7 +303,7 @@ public class SERVEncomienda extends HttpServlet {
                     }
                     List<Encomienda> con_filtro = new ArrayList(Arrays.asList(enco));
                 */    
-                    request.setAttribute("encomienda", con_filtro); 
+                    request.setAttribute("encomienda", encomienda_list); 
                  
                  //   sesion.setAttribute("nivel", request);
                 } catch (Exception e) {
@@ -341,7 +362,7 @@ public class SERVEncomienda extends HttpServlet {
                 int idEncomienda_buscar = 0;
                 int idCliente_buscar = 0;
                  int nivel = 0;
-                Encomienda enco[] = null;
+               List<Encomienda> encomiendaList = null;
                 /*
                 if(request.getParameter("txtCodigo")!=null){
                     idEncomienda_buscar = Integer.parseInt(request.getParameter("txtCodigo"));  
@@ -353,25 +374,28 @@ public class SERVEncomienda extends HttpServlet {
                 
                 try {
                    // idCliente_buscar = encomiendadao.consultarClienteIdPorEncomiendaId(idEncomienda_buscar);
-                    List<Encomienda> encomiendaList = encomiendadao.consultarEncomiendaPorIdCliente(idCliente_buscar);
+                   encomiendaList = encomiendadao.consultarEncomiendaPorIdCliente(idCliente_buscar);
                     Cliente cliente = clientedao.BuscarPorId(idCliente_buscar);
                    nivel = cliente.getNivel();
-                    
-        
-                enco = new Encomienda[encomiendaList.size()];
-                enco = encomiendaList.toArray(enco);            
+                            
                 DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-                    for(int i = 0; i < enco.length; i++){
+                    for(int i = 0; i < encomiendaList.size(); i++){
 
-                         if(enco[i].getFechaRegistroTime() != null ){
+                        if(encomiendaList.get(i).getFechaRegistroTime() != null ){
 
-                            Date envio_date = enco[i].getFechaRegistroTime();     
+                           Date envio_date = encomiendaList.get(i).getFechaRegistroTime();     
 
-                            String fecha_string = sdf.format(envio_date);                                                            
+                           String fecha_string = sdf.format(envio_date);                                                            
 
-                            enco[i].setFechaRegistroTimeString(fecha_string);                      
-                         }
+                            encomiendaList.get(i).setFechaRegistroTimeString(fecha_string);                      
+                        }
+                        
+                       
+                        Lugar lugar_origen = lugarDAO.BuscarPorId(encomiendaList.get(i).getOrigen());
+                        Lugar lugar_destino = lugarDAO.BuscarPorId(encomiendaList.get(i).getDestino());
+                         encomiendaList.get(i).setOrigenS( lugar_origen.getNombre());
+                         encomiendaList.get(i).setDestinoS(lugar_destino.getNombre());
                     }
                 }
                 catch (Exception ex) {               
@@ -383,9 +407,8 @@ public class SERVEncomienda extends HttpServlet {
                 }
                 if(nivel == 2){
                     vista = "ListarEncomienda1.jsp";
-                }
-            List<Encomienda> con_filtro = new ArrayList(Arrays.asList(enco));    
-            request.setAttribute("encomienda", con_filtro); 
+                }               
+            request.setAttribute("encomienda", encomiendaList); 
           //  request.setAttribute("idEncomienda", idEncomienda_buscar);
             request.setAttribute("idCliente", idCliente_buscar);           
             RequestDispatcher view = request.getRequestDispatcher(vista);
@@ -531,10 +554,17 @@ public class SERVEncomienda extends HttpServlet {
         if(request.getParameter("btnRegistrarPrueba")!=null){
        
         try {
+            
+         
+            Lugar lugar_origen = lugarDAO.ConsultarPorNombre(origen);
+            Lugar lugar_destino = lugarDAO.ConsultarPorNombre(destino);
+            
+            int idOrigen = lugar_origen.getId();
+            int idDestino = lugar_destino.getId();
            
             Encomienda encomienda = new Encomienda();
-            encomienda.setOrigen(origen);            
-            encomienda.setDestino(destino);
+            encomienda.setOrigen(idOrigen);            
+            encomienda.setDestino(idDestino);
             encomienda.setIdCliente(idCliente);
 
             encomiendadao.insertar(encomienda);
@@ -573,14 +603,14 @@ public class SERVEncomienda extends HttpServlet {
             idVehiculo = vehiculo1.getId();
             matricula = vehiculo1.getPlaca();
                 
-            ticket = ""+idCliente+"."+idEncomienda+"."+idVehiculo;
+
             
             Envio envio = new Envio();
             Cliente  cliente1 = new Cliente();
             
             cliente1 = clientedao.BuscarPorId(idCliente);
             String email = cliente1.getEmail();
-            envio.EnviarCodigo(ticket , idCliente , idEncomienda, idVehiculo, matricula, email);
+            envio.EnviarCodigo(idCliente , idEncomienda, idVehiculo, matricula, email);
 
             } catch (Exception ex) {
                

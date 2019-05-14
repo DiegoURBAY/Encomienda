@@ -11,21 +11,7 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
-        <title>Barra de Navegación</title>
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <!-- Versión compilada y comprimida del CSS de Bootstrap -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <!-- Tema opcional -->
-        <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-        <!-- Versión compilada y comprimida del JavaScript de Bootstrap -->
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        
-        <!-- Referencias para el DataTable -->
-        <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>  
-        <link href="css/responsive.dataTables.min.css" rel="stylesheet" type="text/css"/>
-        <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>   
-        <script src="js/dataTables.responsive.min.js" type="text/javascript"></script>
-        <script src="js/dataTable.js" type="text/javascript"></script>            
+        <title>Barra de Navegación</title>        
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
@@ -53,7 +39,7 @@ HttpSession sesion = request.getSession();
                 <ul class="dropdown-menu">                    
                     <li><a href="SERVCliente?action=refreshCliente">Gestionar Clientes</a></li>
                     <li><a href="GestionarLocal.jsp">Gestionar Locales</a></li>
-                    <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>                    
+                    <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>                                      
                     <li><a href="nuevoLocal.jsp">Nuevo Local</a></li>
                 </ul>
               </li>                  

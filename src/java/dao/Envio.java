@@ -80,7 +80,7 @@ public static void main(String[] args) throws Exception {
     }
     
     
-    public void EnviarCodigo(String codigo, int idcliente, int idencomienda, int vehiculo, String placaVehiculo, String receptor) throws MessagingException{
+    public void EnviarCodigo(int idcliente, int idencomienda, int vehiculo, String placaVehiculo, String receptor) throws MessagingException{
         try {
             Properties props = new Properties();
 
@@ -95,14 +95,11 @@ public static void main(String[] args) throws Exception {
             String correoRemitente = "larcroco@gmail.com";
             String passwordRemitente = "Daniel941J";
             String correoReceptor = receptor;
-            String key = codigo;
-            String asunto = "CODIGO ";
+            String asunto = "Registro de Encomienda";
             String mensaje = "Hola, "+receptor+"\n"
                     + "Número de cliente: " + idcliente +"\n"
-                    + "Número de encomienda: " + idencomienda +"\n"
-                    + "Matricula de vehiculo: " + placaVehiculo +"\n"
-                    + "Su código de encomienda es :"+key;
-            
+                    + "Identificador de encomienda: " + idencomienda +"\n"
+                    + "Matricula de vehiculo: " + placaVehiculo +"\n";                       
  
             MimeMessage message = new MimeMessage(session);
 
@@ -130,6 +127,51 @@ public static void main(String[] args) throws Exception {
                 
     }    
     
+    
+    public void EdicionDeEncomienda(int idencomienda, String receptor) throws MessagingException{
+        try {
+            Properties props = new Properties();
+
+            props.setProperty("mail.smtp.host", "smtp.gmail.com");
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.port", "587");
+            props.setProperty("mail.smtp.auth", "true");
+            
+            Session session = Session.getDefaultInstance(props);
+            
+            //declaracion de variables string con nuestro datos
+            String correoRemitente = "larcroco@gmail.com";
+            String passwordRemitente = "Daniel941J";
+            String correoReceptor = receptor;
+            String asunto = "Edición de envío ";
+            String mensaje = "Hola, "+receptor+"\n"
+                    +"Se he editado su encomienda con el id :"+idencomienda+"\n";
+            
+            MimeMessage message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(correoRemitente));
+
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoReceptor));
+            //Para enviar una copia
+            message.addRecipient(Message.RecipientType.CC, new InternetAddress(correoRemitente));
+
+            message.setSubject(asunto);
+            message.setText(mensaje);
+            
+            //se elige el tipo de transporte
+            Transport t = session.getTransport("smtp");
+
+            t.connect(correoRemitente, passwordRemitente);
+            t.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            t.close();
+            
+            JOptionPane.showMessageDialog(null, "correo enviado");
+            
+        } catch (AddressException ex) {
+            Logger.getLogger(Envio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+    }      
    public void RecuperarContraseña(String email, String contra) throws MessagingException{
         try {
             Properties props = new Properties();

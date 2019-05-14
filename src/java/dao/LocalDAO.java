@@ -25,8 +25,7 @@ public class LocalDAO extends Conexion implements DAO{
         for (int i = 0; i < tipoEncomienda2.size(); i++) {
             System.out.println(tipoEncomienda2.get(i).getTitulo());
         }
-        
-       */ 
+           
  LocalDAO localDAO = new LocalDAO();
 
         tipoEncomienda.setTitulo("sobre");
@@ -38,7 +37,8 @@ public class LocalDAO extends Conexion implements DAO{
               localDAO.insertar(tipoEncomienda);
           } catch (Exception e) {
               throw e;
-          }
+          } 
+        */ 
     }    
 
     @Override
@@ -153,7 +153,7 @@ public class LocalDAO extends Conexion implements DAO{
         PreparedStatement pst = null;
         ResultSet rs = null;
         try {
-            String sql = "SELECT * FROM locales WHERE titulo LIKE ?";
+            String sql = "SELECT * FROM locales WHERE estado = 1 AND titulo LIKE ?";
             this.conectar();
             pst = conexion.prepareStatement(sql);
             pst.setString(1, find+"%"); 

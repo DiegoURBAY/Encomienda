@@ -17,17 +17,17 @@ public class LugarDAO  extends Conexion implements DAO{
     
 public static void main(String[] args) throws Exception {
         
-        String lugar = "a";
+        String lugar = "Lima";
     
         Lugar tipoEncomienda = new Lugar();
-        tipoEncomienda.setNombre("L");
+        
 
         
         
         LugarDAO tipoEncomiendaDAO = new LugarDAO();
-        tipoEncomiendaDAO.ConsultarDepartamento(lugar);
+     Lugar departamento =   tipoEncomiendaDAO.ConsultarPorNombre(lugar);
         
-       System.out.print(tipoEncomiendaDAO.ConsultarDepartamento(lugar));
+       System.out.print(departamento.getId() +","+ departamento.getNombre());
 }    
 
     @Override

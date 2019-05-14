@@ -4,7 +4,7 @@
 <%
 HttpSession sesion = request.getSession();
     if(sesion.getAttribute("usuario")==null){
-      response.sendRedirect("index.jsp");      
+    response.sendRedirect("index.jsp"); 
     }
 %>
 <!DOCTYPE html>
@@ -17,9 +17,10 @@ HttpSession sesion = request.getSession();
     <body>
         <div class="container">
             <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
-            <input type="text" value="<%= sesion.getAttribute("usuario") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("usuario") %>">
             <input type="hidden" value="<%= sesion.getAttribute("email") %>"> <br>
            <input type="hidden" id="cliente" value="<%= sesion.getAttribute("idCliente") %>">
+           
                 <h1>Lista de Encomiendas  Modo Cliente</h1>
                 <hr>                
                 <br>
@@ -43,10 +44,10 @@ HttpSession sesion = request.getSession();
                                         <c:out value="${encomienda.id}"/>
                                 </td>                                
                                 <td>                                    
-                                           <c:out value="${encomienda.origen}"   />                                                                                           
+                                           <c:out value="${encomienda.origenS}"   />                                                                                           
                                 </td>
                                 <td>
-                                        <c:out value="${encomienda.destino}"/>
+                                        <c:out value="${encomienda.destinoS}"/>
                                 </td> 
                                 <td>
                                         <c:out value="${encomienda.fechaRegistroTimeString}"/>

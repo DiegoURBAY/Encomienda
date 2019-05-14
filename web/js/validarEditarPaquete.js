@@ -570,7 +570,7 @@
        if (answer)
         {
           console.log('yes');
-          alert('Recibirá en su email los datos de su encomienda');
+          alert('Su encomienda ha sido editada con éxito');
           return true;
         }
         else

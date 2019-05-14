@@ -1,8 +1,63 @@
+
+    function limpiar_marcadores(lista)
+    {
+        for(i in lista)
+        {
+            //QUITAR MARCADOR DEL MAPA
+            lista[i].setMap(null);
+        }
+    }
+
 $(document).ready(function (){
     
-    
-    
-    	
+    $('#idencomienda').keyup(function () {
+        this.value = this.value.replace(/[^0-9]/g,''); 
+    });    
+        
+        //Conseguir locales por departamento segun el origen
+    $('#idencomienda').change(function (){
+                                      
+        var encomienda = $('#idencomienda').val();
+        
+                if(encomienda.length>=11){              
+                   $('#idencomienda').val(null);
+                   
+                }        
+                
+        var data = {idEncomienda:encomienda} ;
+        $.getJSON(
+            "SERVLugar?action=buscar",  
+            data,
+            function ( res, est, jqXHR ) {
+                if(res.estado === "ok"){                      
+               var     objeto = JSON.parse(res.mensaje);
+                var     objetoOrigen = JSON.parse(res.localOrigen);
+                 var     objetoDestino = JSON.parse(res.localDestino);
+                    console.log(res);
+                        console.log(res.localOrigen);
+                            console.log(res.localDestino);
+                $("#origen").val(objeto.origenS);
+                $("#destino").val(objeto.destinoS);
+
+                $("#origen1").val(objetoOrigen.cx +", "+ objetoOrigen.cy);
+                $("#origen2").val(objetoOrigen.direccion);
+
+                 $("#desA").val(objetoDestino.cx +", "+ objetoDestino.cy);
+                $("#desB").val(objetoDestino.direccion);
+
+                          
+                }
+                if(res.estado === "error"){
+                    alert("No existe ese id");
+                   $('#idencomienda').val(null);
+                   
+                }
+            }
+        );
+
+                     
+   });     
+
    var map;
    var geocoder;
    var directionsService;
@@ -31,45 +86,33 @@ $(document).ready(function (){
     google.maps.event.addDomListener(window, 'load', initialize);
 
 
-//autocompletar
-
-/*
-    var inputa = document.getElementById("input-ubicacion-a");
-    autocomplete = new google.maps.places.Autocomplete(inputa);
-
-    var inputb = document.getElementById("input-ubicacion-b");
-    autocomplete = new google.maps.places.Autocomplete(inputb);
-    */
-  //calcular el tiempo estimado   
     $("#btn-calcular-tiempo").click(function(event){
- /*       
-        var origin1 = new google.maps.LatLng(-9.931171250440583,  -76.23922254118077);
-var origin2 = 'Jirón Hermilio Valdizan 545, Huánuco 10001, Perú';
-var destinationA = 'Los Cedros, Pucallpa 25002, Perú';
-var destinationB = new google.maps.LatLng(-8.395239029464815, -74.57373714535942);
-
-*/
- var origin1 = $("#origen1").val();
-  var destinationB =  $("#desB").val();
-                                        var coordenadas = origin1.toString();
-                                        var lista = coordenadas.split(",");
-                                         var coordenadas2 = destinationB.toString();
-                                        var lista2 = coordenadas2.split(",");
+         var encomienda = $('#idencomienda').val();
+        if (encomienda ===  null || encomienda.length ===  0 || /^\s+$/.test(encomienda) ) {
+            alert('[Aviso] Ingrese una identificador(id) válido');
+            return false;
+        }
+   
+        var origin1 = $("#origen1").val();
+        var destinationB =  $("#desB").val();
+        var coordenadas = origin1.toString();
+        var lista = coordenadas.split(",");
+        var coordenadas2 = destinationB.toString();
+        var lista2 = coordenadas2.split(",");
                                         
-     var origin1_corde = new google.maps.LatLng(lista[0],  lista[1]);
-      var destinationB_corde = new google.maps.LatLng(lista2[0], lista2[1]);                                  
-   $("#div-resultado").html("Calculando..<br />");
-  // var ubicaciona = $("#input-ubicacion-a").val();
-  // var ubicacionb = $("#input-ubicacion-b").val();
-   var service = new google.maps.DistanceMatrixService();
+        var origin1_corde = new google.maps.LatLng(lista[0],  lista[1]);
+        var destinationB_corde = new google.maps.LatLng(lista2[0], lista2[1]);                                  
+        $("#div-resultado").html("Calculando..<br />");
+        // var ubicaciona = $("#input-ubicacion-a").val();
+        // var ubicacionb = $("#input-ubicacion-b").val();
+        var service = new google.maps.DistanceMatrixService();
    
-   
-   service.getDistanceMatrix({
-    origins: [origin1_corde, $("#origen2").val()],
-    destinations: [$("#desA").val(),destinationB_corde],
-     travelMode: google.maps.TravelMode.DRIVING,
-     unitSystem: google.maps.UnitSystem.METRIC
-   },callback);
+        service.getDistanceMatrix({
+            origins: [origin1_corde, $("#origen2").val()],
+            destinations: [$("#desA").val(),destinationB_corde],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+        },callback);
    
    //extra
         calculateAndDisplayRoute(directionsService, directionsDisplay);
@@ -89,21 +132,33 @@ function callback(respuesta, status) {
  
       for (var i = 0; i < origen.length; i++) {
          var results = respuesta.rows[i].elements;
+         
+         console.log(results);
          addMarker(origen[i], false);
          for (var j = 0; j < results.length; j++) {
             addMarker(destino[j], true);
-            $("#div-resultado").append('Desde ' + origen[i] + ' hasta ' + destino[j]
+/*
+ 
+                             $("#div-resultado").append('Desde ' + origen[i] + ' hasta ' + destino[j]
             + ' son <code>' + results[j].distance.text + '</code> y el tiempo estimado es de <code>'
             + results[j].duration.text + '</code><br />');
+                 */
+     $("#tiempo").val(results[j].duration.text);
+     $("#distancia").val(results[j].distance.text);
          }
       }
+      
    }
 }
+
+ var no_deseado = ["ChIJd9MB_UCStocRKGKxmSyDMzs"
+
+                                         ];
 var bounds = new google.maps.LatLngBounds();
 
         var markersArray = [];
-   //     var destinationIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=B|00FF00|000000';
-   //     var originIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=A|FFFF00|000000';
+    //   var destinationIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=B|00FF00|000000';
+   //    var originIcon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=A|FFFF00|000000';
 
         function addMarker(location, isDestination) {
 /*        var icon;
@@ -114,12 +169,24 @@ var bounds = new google.maps.LatLngBounds();
         }
         */
         geocoder.geocode({'address': location}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-        bounds.extend(results[0].geometry.location);
-        map.fitBounds(bounds);
+        if (status === google.maps.GeocoderStatus.OK) {
+             $("#div-resultado").html("listo!!<br />");
+    //    console.log(results[0].geometry.location);
+    //    console.log(results[0]["place_id"]);
+        
+         var idLugar =results[0]['place_id'];
+         
+              //      alert(results[0]['place_id']);
+              
+        if(!no_deseado.includes(idLugar)){
+                 bounds.extend(results[0].geometry.location);
+                  map.fitBounds(bounds);
+        }
+        
         var marker = new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location
+            map: map,
+            
+            position: results[0].geometry.location
         });
         markersArray.push(marker);
         } else {
@@ -139,8 +206,6 @@ var bounds = new google.maps.LatLngBounds();
         
      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 
-var origin2 = 'Jirón Hermilio Valdizan 545, Huánuco 10001, Perú';
-var destinationA = 'Los Cedros, Pucallpa 25002, Perú';
         directionsService.route({
           origin: $("#origen2").val(),
           destination: $("#desA").val(),

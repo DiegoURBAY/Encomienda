@@ -16,8 +16,8 @@ HttpSession sesion = request.getSession();
     </head>    
     <body>
         <div class="container">
-            <input type="text" value="<%= sesion.getAttribute("nivel") %>">
-            <input type="text" value="<%= sesion.getAttribute("usuario") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("nivel") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("usuario") %>">
             <input type="hidden" value="<%= sesion.getAttribute("email") %>"> <br>
            <input type="hidden" id="cliente" value="<%= sesion.getAttribute("idCliente") %>">
                 <h1>Lista de Encomiendas Modo Administrador</h1>
@@ -43,10 +43,10 @@ HttpSession sesion = request.getSession();
                                         <c:out value="${encomienda.id}"/>
                                 </td>                                
                                 <td>                                    
-                                           <c:out value="${encomienda.origen}"   />                                                                                           
+                                         <c:out value="${encomienda.origenS}"   />                                                                                           
                                 </td>
                                 <td>
-                                        <c:out value="${encomienda.destino}"/>
+                                        <c:out value="${encomienda.destinoS}"/>
                                 </td> 
                                 <td>
                                         <c:out value="${encomienda.fechaRegistroTimeString}"/>

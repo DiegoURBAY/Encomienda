@@ -12,8 +12,25 @@ import entidad.TipoEncomienda;
 
 public class EncomiendaDAO extends Conexion implements DAO{ 
 
-    /*
+   
         public static void main(String[] args) throws Exception {
+            
+            
+              EncomiendaDAO encomiendaDAO = new  EncomiendaDAO();
+              int id = 126;
+              String mensaje = "";
+              Encomienda encomienda = encomiendaDAO.BuscarPorId(id);
+                      
+               if(encomienda.getId() == id){
+                   mensaje = "existe";
+                   
+               }
+               else{
+                   mensaje = "no existe";
+               }
+               
+               System.out.print(mensaje);
+            /*
         Encomienda encomienda = new Encomienda();
         encomienda.setOrigen("aaa");
         encomienda.setDestino("aa");
@@ -52,10 +69,10 @@ public class EncomiendaDAO extends Conexion implements DAO{
         encomienda.setIdCliente(28);
         EncomiendaDAO encomiendaDAO = new EncomiendaDAO();
         encomiendaDAO.insertar(encomienda);
-        
+     */   
         
     }
-    */
+  
     
     
     @Override
@@ -66,8 +83,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, c.getOrigen());
-            pst.setString(2, c.getDestino());            
+            pst.setInt(1, c.getOrigen());
+            pst.setInt(2, c.getDestino());            
             pst.setInt(3, c.getIdCliente());
             pst.executeUpdate();            
 
@@ -105,8 +122,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, c.getOrigen());
-            pst.setString(2, c.getDestino());            
+            pst.setInt(1, c.getOrigen());
+            pst.setInt(2, c.getDestino());            
           //  pst.setDate(3, c.getEnvio());
          //   pst.setDate(4, c.getLlegada());
             pst.setInt(5, c.getIdCliente());
@@ -133,8 +150,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
             while(rs.next()){
                 datos.add(new Encomienda(
                         rs.getInt("id"),
-                        rs.getString("origen"),
-                        rs.getString("destino"),
+                        rs.getInt("origen"),
+                        rs.getInt("destino"),
                         rs.getDate("envio"),
                         rs.getDate("llegada"),                                              
                         rs.getInt("idCliente")
@@ -162,8 +179,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
             while(rs.next()){
                 datos.add(new Encomienda(
                         rs.getInt("id"),
-                        rs.getString("origen"),
-                        rs.getString("destino"),
+                        rs.getInt("origen"),
+                        rs.getInt("destino"),
                      //  rs.getDate("envio"),
                       //  rs.getDate("llegada"),                                              
                         rs.getInt("idCliente"),
@@ -214,8 +231,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
                res = pst.executeQuery();                                    
                 if (res.next()) {          
                     c.setId(res.getInt("id"));
-                    c.setOrigen(res.getString("origen"));            
-                    c.setDestino(res.getString("destino"));                               
+                    c.setOrigen(res.getInt("origen"));            
+                    c.setDestino(res.getInt("destino"));                               
                //     c.setEnvio(res.getDate("envio"));   
                  //   c.setLlegada(res.getDate("llegada")); 
                     c.setIdCliente(res.getInt("idCliente"));
@@ -242,8 +259,8 @@ public class EncomiendaDAO extends Conexion implements DAO{
                res = pst.executeQuery();                                    
                 if (res.next()) {          
                     c.setId(res.getInt("id"));
-                    c.setOrigen(res.getString("origen"));            
-                    c.setDestino(res.getString("destino"));                                
+                    c.setOrigen(res.getInt("origen"));            
+                    c.setDestino(res.getInt("destino"));                                
                     c.setIdCliente(res.getInt("idCliente"));
                 }                   
      

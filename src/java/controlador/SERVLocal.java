@@ -12,10 +12,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,6 +89,21 @@ public class SERVLocal extends HttpServlet {
                 mensaje = new Gson().toJson(ubicacion);                                            
             }
             
+            //LISTAR O ACTUALIZAR UBICACIÓN rapida
+            else if(action.equalsIgnoreCase("refreshRapido")){                 
+                estado = "ok";                                
+                List<Local> ubicacion = ubicaciondao.consultar();
+             
+                for (int i = 0; i < ubicacion.size(); i++) {
+                    int idLugar = ubicacion.get(i).getIdLugar();
+                    Lugar lugar = lugarDAO.BuscarPorId(idLugar);
+                    lugar.getNombre();                    
+                    ubicacion.get(i).setLugarString(lugar.getNombre());                    
+                }
+                
+                mensaje = new Gson().toJson(ubicacion);                                            
+            }            
+            
         } catch (Exception ex) {
             Logger.getLogger(SERVLocal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -103,7 +120,25 @@ public class SERVLocal extends HttpServlet {
             } catch (JSONException ex) {
                 Logger.getLogger(SERVLocal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }     
+        }
+        
+        
+           if(action.equalsIgnoreCase("local")){
+             HttpSession sesion = request.getSession();
+               sesion.setAttribute("idUsuario", 1);             
+                    
+                RequestDispatcher view = request.getRequestDispatcher("GestionarLocal.jsp");
+                view.forward(request, response);                           
+       
+     
+           }
+           if(action.equalsIgnoreCase("ruta")){
+                            HttpSession sesion = request.getSession();
+               sesion.setAttribute("idUsuario", 1);
+
+RequestDispatcher view = request.getRequestDispatcher("GestionarRuta.jsp");
+                view.forward(request, response);                     
+           }           
     }
 
     @Override

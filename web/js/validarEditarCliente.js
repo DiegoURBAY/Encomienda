@@ -57,7 +57,7 @@ $(document).ready(function (){
         var contra = $('#inputPassword').val();  
         var respuestaRucDni = $('#ReportarRucDni').text().trim();
         var respuestaEmail = $('#ReportarEmail').text().trim();
-         var respuestaUsuario = $('#ReportarNombre').text().trim()
+         var respuestaUsuario = $('#ReportarNombre').text().trim();
         var condicion = 'Ya existe';   
                         
         var seleccionado = false;

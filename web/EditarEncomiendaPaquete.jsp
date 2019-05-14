@@ -43,18 +43,20 @@ HttpSession sesion = request.getSession();
             <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
             <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
             <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
-            <input type="text" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
-            <input type="text" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
+            <input type="hidden" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
+            <input type="hidden" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
             <div class="row">
                 <div class="col-sm-12">
                     <div class="row">
                     <div class="col-xs-4">
                         <label for="origen">Origen</label>
-                        <input type="text" class="form-control" placeholder="Origen" readonly="" id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
+                        <input type="hidden" class="form-control" id="origen" name="txtOrigen" value="<c:out value="${encomienda.origen}" />" > 
+                        <input type="text" class="form-control" readonly="" id="origen2" name="txtOrigen2" value="<c:out value="${encomienda.origenS}" />">
                     </div>
                     <div class="col-xs-4">
                         <label for="destino">Destino</label>
-                        <input type="text" class="form-control" placeholder="Destino" readonly="" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
+                        <input type="hidden" class="form-control" id="destino" name="txtDestino" value="<c:out value="${encomienda.destino}" />" > 
+                        <input type="text" class="form-control" readonly="" id="destino2" name="txtDestino2" value="<c:out value="${encomienda.destinoS}" />" > 
                     </div>
                     <div class="checkbox-inline col-xs-4">                                                 
                         <label>      
@@ -86,8 +88,8 @@ HttpSession sesion = request.getSession();
                                 <input type="text"  class="form-control" readonly="" name="txtLargoOriginal" id="largoOriginal"  value="<c:out value="${tipoEncomienda.largo}" />" > 
                         </div>
                         <div class="col-xs-3">
-                                <label>Volumen </label>
-                                <input type="text"  class="form-control " readonly="" name="txtVolumenOriginal" id="volumenOriginal" value="<c:out value="${volumen}" />" > 
+                             
+                                <input type="hidden"  class="form-control "  name="txtVolumenOriginal" id="volumenOriginal" value="<c:out value="${volumen}" />" > 
                         </div>                                
                                      
                     </div>   

@@ -7,13 +7,15 @@ import java.sql.Date;
 public class Encomienda {
     
     private int id;
-    private String origen;
-    private String destino;    
+    private int origen;
+    private int destino;    
     private Date envio;
     private Date llegada;
     private int idCliente;
     private Timestamp fechaRegistroTime;
     
+    private String origenS;
+    private String destinoS;    
     private String envioS;
     private String llegadaS;
     private String fechaRegistroTimeString;
@@ -21,7 +23,7 @@ public class Encomienda {
     public Encomienda() {
     }
     //Originalmente, ya no se usa
-    public Encomienda(int id, String origen, String destino, Date envio, Date llegada, int idCliente) {
+    public Encomienda(int id, int origen, int destino, Date envio, Date llegada, int idCliente) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
@@ -30,7 +32,7 @@ public class Encomienda {
         this.idCliente = idCliente;
     }   
     //Se usaba para mostrar bien las fechas
-    public Encomienda(int id, String origen, String destino, int idCliente, String envioS, String llegadaS) {
+    public Encomienda(int id, int origen, int destino, int idCliente, String envioS, String llegadaS) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
@@ -40,14 +42,14 @@ public class Encomienda {
     }
 
     //el unico q se usa actualmente
-    public Encomienda(int id, String origen, String destino, int idCliente) {
+    public Encomienda(int id, int origen, int destino, int idCliente) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
         this.idCliente = idCliente;
     }
 
-    public Encomienda(int id, String origen, String destino, int idCliente,Timestamp fechaRegistroTime) {
+    public Encomienda(int id, int origen, int destino, int idCliente,Timestamp fechaRegistroTime) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
@@ -55,7 +57,7 @@ public class Encomienda {
         this.fechaRegistroTime = fechaRegistroTime;
     }
 
-    public Encomienda(int id, String origen, String destino, int idCliente, String fechaRegistroTimeString) {
+    public Encomienda(int id, int origen, int destino, int idCliente, String fechaRegistroTimeString) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
@@ -71,22 +73,6 @@ public class Encomienda {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getOrigen() {
-        return origen;
-    }
-
-    public void setOrigen(String origen) {
-        this.origen = origen;
-    }
-
-    public String getDestino() {
-        return destino;
-    }
-
-    public void setDestino(String destino) {
-        this.destino = destino;
     }
 
     public Date getEnvio() {
@@ -143,6 +129,38 @@ public class Encomienda {
 
     public void setFechaRegistroTimeString(String fechaRegistroTimeString) {
         this.fechaRegistroTimeString = fechaRegistroTimeString;
+    }
+
+    public int getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(int origen) {
+        this.origen = origen;
+    }
+
+    public int getDestino() {
+        return destino;
+    }
+
+    public void setDestino(int destino) {
+        this.destino = destino;
+    }
+
+    public String getOrigenS() {
+        return origenS;
+    }
+
+    public void setOrigenS(String origenS) {
+        this.origenS = origenS;
+    }
+
+    public String getDestinoS() {
+        return destinoS;
+    }
+
+    public void setDestinoS(String destinoS) {
+        this.destinoS = destinoS;
     }
 
        

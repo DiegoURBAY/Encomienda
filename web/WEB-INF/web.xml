@@ -35,6 +35,10 @@
         <servlet-name>SERVLocal</servlet-name>
         <servlet-class>controlador.SERVLocal</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReverseServlet</servlet-name>
+        <servlet-class>controlador.ReverseServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
@@ -66,6 +70,10 @@
     <servlet-mapping>
         <servlet-name>SERVLocal</servlet-name>
         <url-pattern>/SERVLocal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReverseServlet</servlet-name>
+        <url-pattern>/ReverseServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
