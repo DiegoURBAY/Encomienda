@@ -12,7 +12,7 @@
         <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <link href="css/ubicacion.css" rel="stylesheet" type="text/css"/>
-        <script src="js/validarLocal2.js" type="text/javascript"></script>
+        <script src="js/validarLocal.js" type="text/javascript"></script>
        
     </head>
     <body  style="background-color: #BDBDBD">

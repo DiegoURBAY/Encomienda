@@ -52,9 +52,7 @@ public class Vehiculo {
 
     public void setPlaca(String placa) {
         this.placa = placa;
-    }
-
-    
+    }  
 
     public double getCapacidad() {
         return capacidad;

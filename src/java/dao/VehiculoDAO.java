@@ -12,7 +12,7 @@ import entidad.Vehiculo;
 
 public class VehiculoDAO extends Conexion implements DAO{
 
-  /*
+
 public static void main(String[] args) throws Exception {
        
    
@@ -27,11 +27,11 @@ public static void main(String[] args) throws Exception {
         //adicional
          int idTipoEncomienda = 184;
         TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
-        TipoEncomienda tipoEncomienda = new TipoEncomienda();
-        tipoEncomienda = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);
+        TipoEncomienda tipoEncomienda = tipoEncomienda = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);
+        
                
-        double volumen = 0.30;
-        double capacidad = 200;        
+        double volumen = 0.47;
+        double capacidad = 400;        
         
         double volumen_max = 0;
         double capacidad_max = 0;
@@ -44,6 +44,7 @@ public static void main(String[] args) throws Exception {
                
            try {
          
+               //Lista de vehiculos
             vehiculo_list= vehiculoDAO2.ElegirVehiculo(volumen, capacidad);
 
              for(int i = 0; i < vehiculo_list.size(); i++){
@@ -54,11 +55,22 @@ public static void main(String[] args) throws Exception {
                  idVehiculo = vehiculo_list.get(i).getId();
 
                  disponibilidadList = disponibilidadDAO.consultarPorIdVehiculo(idVehiculo);
+                 
+                 
+                 
+                for(int j = 0; j < disponibilidadList.size(); j++){
+                    if(disponibilidadList.get(j).getEstado() != 0){
+                        suma_volumen = suma_volumen + disponibilidadList.get(j).getActualvolumen();
+                    suma_capacidad = suma_capacidad + disponibilidadList.get(j).getActualcapacidad();  
+                    }
 
-             double volumen_mayor = 0;
-             double capacidad_mayor = 0;
+                }
+                 
+
+           //  double volumen_mayor = 0;
+         //    double capacidad_mayor = 0;
             
-             
+             /*
             if(disponibilidadList.size() > 0){
                 
                 volumen_mayor = disponibilidadList.get(0).getActualvolumen();
@@ -74,12 +86,14 @@ public static void main(String[] args) throws Exception {
                         capacidad_mayor = capacidad_no_mayor;                                                
                     }
                 }
-             
+            
             suma_volumen = volumen_mayor;
             suma_capacidad = capacidad_mayor;             
             
             }                       
-                 
+             */
+             
+             
                  volumen_encomienda = suma_volumen + volumen;
                  capacidad_encomienda = suma_capacidad + capacidad;
                  
@@ -87,8 +101,8 @@ public static void main(String[] args) throws Exception {
 
                      disponibilidad.setIdVehiculo(idVehiculo);
                      disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
-                     disponibilidad.setActualvolumen(volumen_encomienda);
-                     disponibilidad.setActualcapacidad(capacidad_encomienda);
+                     disponibilidad.setActualvolumen(volumen);
+                     disponibilidad.setActualcapacidad(capacidad);
                      disponibilidad.setSituacion(situacion);
                      disponibilidadDAO.insertar(disponibilidad);
                      break;
@@ -98,13 +112,14 @@ public static void main(String[] args) throws Exception {
                 volumen_encomienda = 0;
                 capacidad_encomienda = 0;         
          }               
-               
+             /*  
             Vehiculo vehiculo_buscado = vehiculoDAO2.BuscarPorId(idVehiculo);
             
             vehiculo2.setId(vehiculo_buscado.getId());
             vehiculo2.setPlaca(vehiculo_buscado.getPlaca());
             vehiculo2.setVolumen(vehiculo_buscado.getVolumen());
-            vehiculo2.setCapacidad(vehiculo_buscado.getCapacidad());           
+            vehiculo2.setCapacidad(vehiculo_buscado.getCapacidad());    
+             */
            } catch (Exception e) {
            System.out.println ("El error es: " + e.getMessage());
            e.printStackTrace();

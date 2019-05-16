@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 public class SERVCliente extends HttpServlet {
     
     private static final String insert= "/RegistrarCliente.jsp";
@@ -262,7 +261,7 @@ public class SERVCliente extends HttpServlet {
                     request.setAttribute("cliente", clienteDAO.consultar()); 
                 } catch (Exception e) {
                 }
-                                                 RequestDispatcher view = request.getRequestDispatcher("ListarCliente.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("ListarCliente.jsp");
             view.forward(request, response);
             }        
         

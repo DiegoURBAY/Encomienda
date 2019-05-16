@@ -27,7 +27,7 @@
     });      
 
    $(document).ready(function(){          
-       
+  /*     
           	
    var map;
    var geocoder;
@@ -55,34 +55,8 @@
     }   
    
      google.maps.event.addDomListener(window, 'load', initialize);
-    
-    $("#btn-calcular-tiempo").click(function(event){
-        var origin1 = $("#origen1").val();
-        var destinationB =  $("#desB").val();
-        
-        var coordenadas = origin1.toString();
-        var lista = coordenadas.split(",");
-        var coordenadas2 = destinationB.toString();
-        var lista2 = coordenadas2.split(",");
-                                        
-        var origin1_corde = new google.maps.LatLng(lista[0],  lista[1]);
-        var destinationB_corde = new google.maps.LatLng(lista2[0], lista2[1]);
-      
-        $("#div-resultado").html("Calculando..<br />");
+     
 
-        var service = new google.maps.DistanceMatrixService();
-
-        service.getDistanceMatrix({
-            origins: [origin1_corde, $("#origen2").val()],
-            destinations: [$("#desA").val(),destinationB_corde],
-            travelMode: google.maps.TravelMode.DRIVING,
-            unitSystem: google.maps.UnitSystem.METRIC
-        },callback);
-   
-   //extra
-        calculateAndDisplayRoute(directionsService, directionsDisplay);   
-        
-    });
     
     function callback(respuesta, status) {
        if (status !== google.maps.DistanceMatrixStatus.OK) {
@@ -97,9 +71,11 @@
              addMarker(origen[i], false);
              for (var j = 0; j < results.length; j++) {
                 addMarker(destino[j], true);
-                $("#div-resultado").append('Desde ' + origen[i] + ' hasta ' + destino[j]
-                + ' son <code>' + results[j].distance.text + '</code> y el tiempo estimado es de <code>'
-                + results[j].duration.text + '</code><br />');
+                 $("#recorrido").val(results[j].distance.text);
+                 $("#tiempo").val(results[j].duration.text);
+            //    $("#div-resultado").append('Desde ' + origen[i] + ' hasta ' + destino[j]
+             //   + ' son <code>' + results[j].distance.text + '</code> y el tiempo estimado es de <code>'
+             //   + results[j].duration.text + '</code><br />');
              }
           }
        }
@@ -108,7 +84,7 @@
     var bounds = new google.maps.LatLngBounds();
 
         var markersArray = [];
-        function addMarker(location, isDestination) {
+        function addMarker(location) {
             
             geocoder.geocode({'address': location}, function(results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
@@ -133,26 +109,8 @@
             }
             markersArray = [];
         }
-            
-            
-     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-
-        directionsService.route({
-            origin: $("#origen2").val(),
-            destination: $("#desA").val(),
-            optimizeWaypoints: true,
-            travelMode: 'DRIVING'
-          
-        }, function(response, status) {
-            if (status === 'OK') {
-              directionsDisplay.setDirections(response);         
-
-            } else {
-              window.alert('Solicitud de indicaciones fallida debido a ' + status);
-            }
-        });        
-    }            
-
+                             
+*/
     $('#mensaje_error').hide(); 
     
     //Array de departamentos
@@ -270,28 +228,226 @@
   
         $('#origen, #destino').change( function () {
             var origen = $('#origen').val();
-            var destino = $('#destino').val();
+            var destino = $('#destino').val(); 
+             $('#tiempo').val(null);
+            $('#recorrido').val(null); 
+            
+         
                 if( origen === destino){
                     alert('Origen y Destino deben ser diferentes');
                      $('#origen').val(null);
                      $('#destino').val(null);
                      $('#origen').css("border", "1px solid red");
-                     $('#destino').css("border", "1px solid red");
+                     $('#destino').css("border", "1px solid red");                   
                 }
                 if(origen !== destino){
                     $('#origen').css("border", "");
                     $('#destino').css("border", "");
                 }
                 if(!availableTags.includes(origen)){                    
-                    $('#origen').val(null);
+                    $('#origen').val(null);                 
                 }
                 if(!availableTags.includes(destino)){
-                    $('#destino').val(null);
+                    $('#destino').val(null);                   
+                }   /*
+                if(origen !== destino && origen.length !== 0 && destino.length !== 0 && sobres.length !== 0){
+                    datos();
+                    $("#cantidadSobres").val(sobres);
+                }
+            */
+              //   setTimeout(datos(),10000);
+        });        
+        
+
+
+    var map;
+   var geocoder;
+   var directionsService;
+   var directionsDisplay ;
+ 
+    function initialize() {
+        
+        //extras
+        directionsService = new google.maps.DirectionsService;
+        directionsDisplay = new google.maps.DirectionsRenderer;
+                
+        var punto = new google.maps.LatLng(-10.156036, -75.127738);        
+        var opts = {
+            center: punto,
+            zoom: 5,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map($("#map-canvas")[0], opts);
+        
+        //extra       
+        directionsDisplay.setMap(map);
+        
+        geocoder = new google.maps.Geocoder();
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+        
+    /*    
+          $('#origen, #destino').change( function () {
+                   
+            var origen2 = $('#origen2').val();
+            var destino = $('#desB').val();
+
+            if( origen2 !== destino){
+                //$("#btn-calcular-tiempo").click();
+                alert("bien");
+                setTimeout(datos(),10000);
+            }                                  
+  
+        });
+  */
+ $('#calcularTR').click(function (){
+        var origen = $('#origen').val();
+        var destino = $('#destino').val();
+                                
+        if( origen === null || origen.length === 0 || /^\s+$/.test(origen) ) {
+            alert('[Aviso] El origen no puede quedar vacío');
+            $('#origen').css("border", "1px solid red");
+            $("#origen").focus();
+            return false;              
+        }   
+        else if(!(origen.length <=30) || /^\s+$/.test(origen)){
+            alert('[Aviso] El origen no puede exceder los 30 dígitos');
+            $('#origen').css("border", "1px solid red");
+            $("#origen").focus();
+            return false; 
+        }   
+        else if( destino === null || destino.length === 0 || /^\s+$/.test(destino) ) {
+            alert('[Aviso] El destino no puede quedar vacío');
+            $('#destino').css("border", "1px solid red");
+            $("#destino").focus();
+            return false;              
+        }
+     datos();
+ });
+         
+   function datos (){
+               
+          // $('#desB').prop('readonly',false);
+
+        var origin1 = $('input:hidden#origen1').val();
+        var destinationB =  $('#desB').val();
+        
+        var coordenadas = origin1.toString();
+        var lista = coordenadas.split(",");
+        var coordenadas2 = destinationB.toString();
+        var lista2 = coordenadas2.split(",");
+                                        
+        var origin1_corde = new google.maps.LatLng(lista[0],  lista[1]);
+        var destinationB_corde = new google.maps.LatLng(lista2[0], lista2[1]);
+        
+       $("#div-resultado").html("Calculando..<br />");
+        var service = new google.maps.DistanceMatrixService();
+
+        service.getDistanceMatrix({
+            origins: [origin1_corde, $("#origen2").val()],
+            destinations: [$("#desA").val(),destinationB_corde],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+        },callback);
+
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+              
+ };
+
+    function callback(respuesta, status) {
+        if (status !== google.maps.DistanceMatrixStatus.OK) {
+          $("#div-resultado").append('Error: ' + status);
+        }
+        else {
+          var origen = respuesta.originAddresses;
+          var destino = respuesta.destinationAddresses;
+          deleteOverlays();
+
+            for (var i = 0; i < origen.length; i++) {
+                 var results = respuesta.rows[i].elements;
+
+                console.log(results);
+                addMarker(origen[i], false);
+                for (var j = 0; j < results.length; j++) {
+                   addMarker(destino[j], true);
+                   console.log(results[j]);
+                    $("#tiempo").val(results[j].duration.text);
+                    $("#recorrido").val(results[j].distance.text);                
+                    var dur =results[j].duration.text;
+                    
+                    var dura = dur.match(/\d+/g); // take all "grouped" number
+                    // dura ["2", "10"]
+
+                    dura = dura[0] * 60 + (+dura[1]); 
+                    $("#tiempoConvertido").val(dura);
+                    alert("dura:"+dura);
+
+                }
+            }
+       }
+    }
+
+        var no_deseado = ["ChIJd9MB_UCStocRKGKxmSyDMzs" ];
+        
+        var bounds = new google.maps.LatLngBounds();
+
+        var markersArray = [];
+
+        function addMarker(location) {
+            geocoder.geocode({'address': location}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                     $("#div-resultado").html("listo!!<br />");
+
+                 var idLugar =results[0]['place_id'];
+
+                if(!no_deseado.includes(idLugar)){
+                         bounds.extend(results[0].geometry.location);
+                          map.fitBounds(bounds);
                 }
 
-        });          
+                var marker = new google.maps.Marker({
+                    map: map,
+
+                    position: results[0].geometry.location
+                });
+                markersArray.push(marker);
+                } else {
+                    $("#div-resultado").append('Error al obtener el Geocode: ' + status);
+                }
+            });
+        }
+
+        function deleteOverlays() {
+        for (var i = 0; i < markersArray.length; i++) {
+        markersArray[i].setMap(null);
+        }
+        markersArray = [];
+        }
         
-  
+        
+        
+     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+ //$('#origen2').prop('readonly',false);
+
+        directionsService.route({
+           
+          origin: $('#origen2').val(),
+          destination:  $('input:hidden#desA').val(),
+          optimizeWaypoints: true,
+          travelMode: 'DRIVING'
+          
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);         
+           
+          } else {
+            window.alert('Solicitud de indicaciones fallida debido a ' + status);
+          }
+        });        
+        }
+
+
     $('#origen, #destino').keyup( function () {
         $(this).val($(this).val());
         if (!/^[ a-zA-ZáéíóúüñÁÉÍÓÚ]*$/i.test(this.value)) {
@@ -613,10 +769,11 @@
 
         var origen = $('#origen').val();
         var destino = $('#destino').val();
+        var tiempo = $('#tiempo').val();
+        var recorrido = $('#recorrido').val();
         var opciones = document.getElementsByName("pago1"); 
         var cantidadSobre = $('#cantidadSobres').val();
         var pesoSobre = $('#pesoSobre').val();    
-        var pesoSobre_decimal = $('#pesoSobre').val();
         var altura = $('#altura').val();
         var anchura = $('#anchura').val();
         var largo = $('#largo').val();
@@ -646,7 +803,19 @@
             $('#destino').css("border", "1px solid red");
             $("#destino").focus();            
             return false; 
-        }      
+        }  
+        else if( tiempo === null || tiempo.length === 0 || /^\s+$/.test(tiempo) ) {
+            alert('[Aviso] El tiempo no puede quedar vacío');
+            $('#tiempo').css("border", "1px solid red");
+            $("#tiempo").focus();
+            return false;              
+        }           
+        else if( recorrido === null || tiempo.recorrido === 0 || /^\s+$/.test(recorrido) ) {
+            alert('[Aviso] El recorrido no puede quedar vacío');
+            $('#recorrido').css("border", "1px solid red");
+            $("#recorrido").focus();
+            return false;              
+        }          
         
         for(x = 0; x < opciones.length; x++){
             if(opciones[x].checked){
@@ -692,7 +861,7 @@
                     }
                     else{
                         $('#pesoSobre').css("border", "");
-                    }
+                    }                    
                 }  
                 else if( opciones[x].value === 'paquete'){
                     if( altura === null || altura.length === 0 || /^\s+$/.test(altura) ) {
@@ -793,7 +962,8 @@
                 }                
             } 
         }           
-       var answer = confirm('¿Seguro que desea registrar?');
+     
+       var answer = confirm('El tiempo estimado es '+ $("#tiempo").val()+'. ¿Seguro que desea registrar?');
        if (answer)
         {
           console.log('yes');
@@ -806,10 +976,6 @@
           alert('Ha cancelado el registro');
           return false;
         }
-       //  confirm('¿Seguro que desea registrar?');
-      //  alert('Recibirá en su email los datos de su encomienda');
-      //  return ;
-      
     });        
     
     /*    

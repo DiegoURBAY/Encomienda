@@ -9,27 +9,51 @@ import java.util.List;
 import entidad.Conductor;
 
 public class ConductorDAO extends Conexion implements DAO{    
+    
+    public static void main(String[] args) throws Exception {
+        Conductor conductor = new Conductor();
+        ConductorDAO conductorDAO = new ConductorDAO();
+        List<Conductor> conductors = conductorDAO.consultar();
+        
+   /*     conductor.setId(1);
+        conductor.setDni("1111");
+        conductor.setNom("QWa");
+        conductor.setApe("QWEa");
+        conductor.setLic("QWEa");
+        conductor.setEmail("QWEa");
+        conductor.setTel("QWEa");     
+        
+     */ 
+           for (int i = 0; i < conductors.size(); i++) {
+                   System.out.println(conductors.get(i).getNom());
+        System.out.println(conductors.get(i).getApe());
+        System.out.println(conductors.get(i).getLic());
+        }
 
+
+      //  conductorDAO.modificar(conductor);
+        
+ 
+    }
+    
     @Override
     public void insertar(Object obj) throws Exception{
         Conductor c = (Conductor) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO conductores ( nom, ape, dni, lic, email, tel, direc, distr, id_tipo) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql="INSERT INTO conductores (dni, nom, ape, lic, email, tel, fechatime) VALUES(?,?,?,?,?,?, CURRENT_TIMESTAMP)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, c.getNom());
-            pst.setString(2, c.getApe());
-            pst.setString(3, c.getDni());
+            pst.setString(1, c.getDni());
+            pst.setString(2, c.getNom());
+            pst.setString(3, c.getApe());
             pst.setString(4, c.getLic());
             pst.setString(5, c.getEmail());
             pst.setString(6, c.getTel());
-            pst.setString(7, c.getDirec());
-            pst.setString(8, c.getDistr());
-            pst.setString(9, c.getTipo());
             pst.executeUpdate();            
 
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();
@@ -48,6 +72,7 @@ public class ConductorDAO extends Conexion implements DAO{
             pst.executeUpdate();            
           
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();
@@ -58,23 +83,20 @@ public class ConductorDAO extends Conexion implements DAO{
     public void modificar(Object obj) throws Exception{
         Conductor c = (Conductor) obj;
         PreparedStatement pst;
-        String sql="UPDATE conductores SET nom=?, ape=?, dni=?, lic=?, email=?, tel=?, direc=?, distr=?, id_tipo=? WHERE id=?";
+        String sql="UPDATE conductores SET dni=?, nom=?, ape=?, lic=?, email=?, tel=? WHERE id=?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, c.getNom());
-            pst.setString(2, c.getApe());
-            pst.setString(3, c.getDni());
+            pst.setString(1, c.getDni());
+            pst.setString(2, c.getNom());
+            pst.setString(3, c.getApe());
             pst.setString(4, c.getLic());
             pst.setString(5, c.getEmail());
-            pst.setString(6, c.getTel());
-            pst.setString(7, c.getDirec());
-            pst.setString(8, c.getDistr());
-            pst.setString(9, c.getTipo());            
-            pst.setInt(10, c.getId());
-            pst.executeUpdate();      
-            
+            pst.setString(6, c.getTel());          
+            pst.setInt(7, c.getId());
+            pst.executeUpdate();                  
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();
@@ -86,22 +108,21 @@ public class ConductorDAO extends Conexion implements DAO{
            Conductor c = new Conductor();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT c.id, c.nom, c.ape, c.dni, c.lic, c.email, c.tel, c.direc, c.distr, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.id=? AND c.estado = 1";
+          // String sql = "SELECT c.id, c.nom, c.ape, c.dni, c.lic, c.email, c.tel, c.direc, c.distr, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.id=? AND c.estado = 1";
+          String sql = "SELECT * FROM conductores WHERE estado = 1 AND id = ?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
                pst.setInt(1,id);                 
                res = pst.executeQuery();                                    
                 if (res.next()) {                                     
-                    c.setNom(res.getString("c.nom"));            
-                    c.setApe(res.getString("c.ape"));      
-                    c.setDni(res.getString("c.dni"));
-                    c.setLic(res.getString("c.lic"));                       
-                    c.setEmail(res.getString("c.email"));
-                    c.setTel(res.getString("c.tel"));                    
-                    c.setDirec(res.getString("c.direc"));
-                    c.setDistr(res.getString("c.distr"));
-                    c.setTipo(res.getString("tc.nom"));
+                    c.setId(res.getInt("id"));
+                    c.setDni(res.getString("dni"));
+                    c.setNom(res.getString("nom"));            
+                    c.setApe(res.getString("ape"));                         
+                    c.setLic(res.getString("lic"));                       
+                    c.setEmail(res.getString("email"));
+                    c.setTel(res.getString("tel"));                    
                     c.setId(res.getInt("c.id"));
                 }                   
      
@@ -118,26 +139,26 @@ public class ConductorDAO extends Conexion implements DAO{
         List<Conductor> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT c.id, c.nom, c.ape, c.dni, c.lic, c.email, c.tel, c.direc, c.distr, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.estado = 1";
+       // String sql = "SELECT c.id, c.nom, c.ape, c.dni, c.lic, c.email, c.tel, c.direc, c.distr, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.estado = 1";
+       String sql = "SELECT * FROM conductores WHERE estado = 1 ";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
             rs = pst.executeQuery();
             while(rs.next()){
                 datos.add(new Conductor(
-                        rs.getInt("c.id"),
-                        rs.getString("c.nom"),
-                        rs.getString("c.ape"),
-                        rs.getString("c.dni"),
-                        rs.getString("c.lic"),                                                                        
-                        rs.getString("c.email"),
-                        rs.getString("c.tel"),
-                        rs.getString("c.direc"),
-                        rs.getString("c.distr"),
-                        rs.getString("tc.nom"))
+                        rs.getInt("id"),
+                        rs.getString("dni"),
+                        rs.getString("nom"),
+                        rs.getString("ape"),                        
+                        rs.getString("lic"),                                                                        
+                        rs.getString("email"),
+                        rs.getString("tel")
+                    )
                 );
             }
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();
@@ -145,10 +166,7 @@ public class ConductorDAO extends Conexion implements DAO{
         return datos;
     }
 
-    public boolean ConsultarNombre(String nom) throws SQLException{
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+
     public boolean ConsultarDNI(String nombre) throws SQLException{
         PreparedStatement pst;
         ResultSet res = null;

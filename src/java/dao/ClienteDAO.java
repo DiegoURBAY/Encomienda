@@ -51,8 +51,7 @@ public class ClienteDAO extends Conexion implements DAO{
         }
         finally{
                 this.cerrar();
-        }
-        
+        }        
     }
 
     @Override

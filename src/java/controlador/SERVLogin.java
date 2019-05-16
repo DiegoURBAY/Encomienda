@@ -107,18 +107,14 @@ public class SERVLogin extends HttpServlet {
             out.close();
         }
 
-        HttpSession sesion = request.getSession();
-        
-        Cliente cliente = new Cliente();
-        
+        HttpSession sesion = request.getSession();        
+    
         String usuario = null;
         String email;
         String contra;
-        String select;
         int nivel = 0;
         int idUsuario = 0;
         Acceso acc = new Acceso();            
-        String forward = "";
 
         if(request.getParameter("btnIniciarUsuario")!=null){
             email = request.getParameter("txtEmail");
@@ -126,22 +122,20 @@ public class SERVLogin extends HttpServlet {
             idUsuario = acc.getClienteID(email, contra);
                 
             try {
-                cliente = clienteDAO.ConsultarByEmail(email);
+                Cliente cliente = clienteDAO.ConsultarByEmail(email);
                 usuario = cliente.getUsuario();
                 nivel = cliente.getNivel();
                 //usuario = clienteDAO.UsuarioByEmail(email);
             } catch (SQLException ex) {
                 Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            Envio envio = new Envio();
-            
+           
             //nivel 1 = administrador
 
             if(idUsuario > 0){
 
                 sesion.setAttribute("idUsuario", idUsuario);
-                sesion.setAttribute("usuario", usuario);
+               sesion.setAttribute("usuario", usuario);
                 
                 if(nivel == 2 ){
                     response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
@@ -154,7 +148,7 @@ public class SERVLogin extends HttpServlet {
             } 
             else{
                 rd = request.getRequestDispatcher("index.jsp");
-                 rd.forward(request, response);  
+                rd.forward(request, response);  
             }                
         }
                 
@@ -170,7 +164,6 @@ public class SERVLogin extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                   Envio envio = new Envio();
 
                 if(nivel > 0){
                     
@@ -209,11 +202,6 @@ public class SERVLogin extends HttpServlet {
                 }
             }
             
-                 
-      
-                    
-                    String index = "/index.jsp";
-                     String vista = index;
        /*              
             if(request.getParameter("btnRecuperar")!=null){                                                               
 

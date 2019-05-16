@@ -2,11 +2,13 @@
 package controlador;
 
 import dao.ClienteDAO;
+import dao.DisponibilidadDAO;
 import dao.EncomiendaDAO;
 import dao.Envio;
 import dao.LugarDAO;
 import dao.TipoEncomiendaDAO;
 import entidad.Cliente;
+import entidad.Disponibilidad;
 import entidad.Encomienda;
 import entidad.Lugar;
 import entidad.TipoEncomienda;
@@ -65,19 +67,98 @@ public class SERVTipoEncomienda extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         String forward = "";   
         String action = request.getParameter("action");
                 
             //ELIMINAR CLIENTE
+            
             if (action.equalsIgnoreCase("delete")) {                 
                 HttpSession sesion = request.getSession();
-                
+                DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
+                Disponibilidad disponibilidad = new Disponibilidad();
+                List<Encomienda> encomienda_list = new ArrayList<Encomienda>();                 
+                String Usuario = "";
+                String vista = "";               
+                if(sesion.getAttribute("usuario")!= null){
+                    Usuario = String.valueOf(sesion.getAttribute("usuario"));
+                }
+                int idTipoEncomienda = 0;
+                if(request.getParameter("id")!= null){
+                    idTipoEncomienda = Integer.parseInt(request.getParameter("id"));
+                }                             
+                try {              
+
+                   TipoEncomienda tipoEncomienda2 = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);
+                   int idEncomienda = tipoEncomienda2.getIdEncomienda();      
+                   Encomienda encomienda2 = new  Encomienda();                   
+                   encomienda2.setId(idEncomienda);
+                                      
+                   //Cliente cliente = clienteDAO.BuscarPorUsuario(Usuario);
+                    Encomienda encomienda_encontrada =  encomiendaDAO.BuscarPorId(idEncomienda);
+                   
+                   int idCliente = encomienda_encontrada.getIdCliente();      
+                   Cliente cliente_encontrado = clienteDAO.BuscarPorId(idCliente);
+                   int nivel = cliente_encontrado.getNivel();
+                   
+                    switch (nivel) {
+                        case 1:
+                            vista = "ListarEncomienda.jsp";
+                            break;
+                        case 2:
+                            vista = "ListarEncomienda1.jsp";
+                            break;
+                        default:
+                            vista = "error.jsp";
+                            break;
+                    }
+                    disponibilidad.setIdTipoEncomienda(tipoEncomienda2.getId());                    
+                    disponibilidadDAO.eliminarPorTipoEncomienda(disponibilidad);
+                                     
+                   encomiendaDAO.eliminar(encomienda2);           
+                   tipoEncomiendaDAO.eliminar(tipoEncomienda2); 
+                    
+                   encomienda_list = encomiendaDAO.consultarEncomiendaPorIdCliente(idCliente);
+                   
+                    DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+                    for(int i = 0; i < encomienda_list.size(); i++){
+
+                        if(encomienda_list.get(i).getFechaRegistroTime() != null ){
+
+                            Date envio_date = encomienda_list.get(i).getFechaRegistroTime();     
+
+                            String fecha_string = sdf.format(envio_date);                                                            
+
+                            encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);  
+                            
+                        Lugar lugar_origen = lugarDAO.BuscarPorId(encomienda_list.get(i).getOrigen());
+                        Lugar lugar_destino = lugarDAO.BuscarPorId(encomienda_list.get(i).getDestino());
+                        encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
+                        encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                               
+                        }
+                    }    
+                   
+                } catch (Exception ex) {
+                    Logger.getLogger(SERVTipoEncomienda.class.getName()).log(Level.SEVERE, null, ex);
+                    vista = "error.jsp";
+                }
+                finally{
+                    request.setAttribute("encomienda", encomienda_list);
+                    sesion.setAttribute("usuario",  Usuario);
+                    RequestDispatcher view = request.getRequestDispatcher(vista);
+                    view.forward(request, response);    
+                }
+            }            
+            /*
+            if (action.equalsIgnoreCase("delete")) {                 
+                HttpSession sesion = request.getSession();
+                DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
+                Disponibilidad disponibilidad = new Disponibilidad();
                 List<Encomienda> encomienda_list = null;                 
                 String Usuario = null;
                 String vista = null;
-                int nivel = 0;
-                int idCliente = 0;   
+                int nivel = 0;  
                 if(sesion.getAttribute("usuario")!= null){
                     Usuario = String.valueOf(sesion.getAttribute("usuario"));
                 }
@@ -89,13 +170,18 @@ public class SERVTipoEncomienda extends HttpServlet {
                 try {              
 
                    TipoEncomienda tipoEncomienda2 = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);
-                   int idEncomienda = tipoEncomienda2.getIdEncomienda();
-                   tipoEncomiendaDAO.eliminar(tipoEncomienda2); 
-                   Encomienda encomienda2 = new  Encomienda();
+                   int idEncomienda = tipoEncomienda2.getIdEncomienda();      
+                   Encomienda encomienda2 = new  Encomienda();                   
                    encomienda2.setId(idEncomienda);
-                   encomiendaDAO.eliminar(encomienda2);                   
+                   
+                    disponibilidad.setIdTipoEncomienda(tipoEncomienda2.getId());                    
+                    disponibilidadDAO.eliminarPorTipoEncomienda(disponibilidad);
+                                     
+                   encomiendaDAO.eliminar(encomienda2);           
+                   tipoEncomiendaDAO.eliminar(tipoEncomienda2); 
+                   
                    Cliente cliente = clienteDAO.BuscarPorUsuario(Usuario);
-                   idCliente = cliente.getId();                   
+                   int idCliente = cliente.getId();                   
                    nivel = cliente.getNivel();
                    encomienda_list = encomiendaDAO.consultarEncomiendaPorIdCliente(idCliente);
                    
@@ -103,7 +189,7 @@ public class SERVTipoEncomienda extends HttpServlet {
 
                     for(int i = 0; i < encomienda_list.size(); i++){
 
-                         if(encomienda_list.get(i).getFechaRegistroTime() != null ){
+                        if(encomienda_list.get(i).getFechaRegistroTime() != null ){
 
                             Date envio_date = encomienda_list.get(i).getFechaRegistroTime();     
 
@@ -113,9 +199,9 @@ public class SERVTipoEncomienda extends HttpServlet {
                             
                         Lugar lugar_origen = lugarDAO.BuscarPorId(encomienda_list.get(i).getOrigen());
                         Lugar lugar_destino = lugarDAO.BuscarPorId(encomienda_list.get(i).getDestino());
-                         encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
-                         encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                               
-                         }
+                        encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
+                        encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                               
+                        }
                     }    
                    
                 } catch (Exception ex) {

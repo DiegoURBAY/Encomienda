@@ -59,7 +59,21 @@ public class DisponibilidadDAO extends Conexion implements DAO{
 
     @Override
     public void eliminar(Object obj) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Disponibilidad disponibilidad = (Disponibilidad) obj;
+        PreparedStatement pst;
+        String sql="UPDATE disponibilidad set estado = 0 WHERE id = ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setInt(1, disponibilidad.getId());
+            pst.executeUpdate();            
+                      
+        } catch (SQLException e) {
+            throw e;
+        }
+        finally{
+                this.cerrar();
+        }            
     }
 
     @Override
@@ -94,7 +108,7 @@ public class DisponibilidadDAO extends Conexion implements DAO{
         List<Disponibilidad> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, idVehiculo, idTipoEncomienda, actualvolumen, actualcapacidad, situacion FROM disponibilidad WHERE estado = 1 AND idVehiculo = ?";
+        String sql = "SELECT id, idVehiculo, idTipoEncomienda, actualvolumen, actualcapacidad, situacion, estado FROM disponibilidad WHERE estado = 1 AND idVehiculo = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -107,7 +121,8 @@ public class DisponibilidadDAO extends Conexion implements DAO{
                         rs.getInt("idTipoEncomienda"),
                         rs.getDouble("actualvolumen"),
                         rs.getDouble("actualcapacidad"),
-                        rs.getInt("situacion")
+                        rs.getInt("situacion"),
+                        rs.getInt("estado")
                     )
                 );
             }
@@ -118,4 +133,22 @@ public class DisponibilidadDAO extends Conexion implements DAO{
         }
         return datos;     
     }    
+ 
+    public void eliminarPorTipoEncomienda(Object obj) throws Exception {
+        Disponibilidad disponibilidad = (Disponibilidad) obj;
+        PreparedStatement pst;
+        String sql="UPDATE disponibilidad set estado = 0 WHERE idTipoEncomienda = ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setInt(1, disponibilidad.getIdTipoEncomienda());
+            pst.executeUpdate();            
+                      
+        } catch (SQLException e) {
+            throw e;
+        }
+        finally{
+                this.cerrar();
+        }            
+    } 
 }

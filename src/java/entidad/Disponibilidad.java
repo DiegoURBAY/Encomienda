@@ -14,6 +14,7 @@ public class Disponibilidad {
     private Timestamp hasta;
     private int situacion;
     private Timestamp fecharegistro;
+    private int estado;
 
 
     public Disponibilidad() {
@@ -30,13 +31,14 @@ public class Disponibilidad {
         this.situacion = situacion;
     }
 
-        public Disponibilidad(int id, int idVehiculo, int idTipoEncomienda, double actualvolumen, double actualcapacidad, int situacion) {
+        public Disponibilidad(int id, int idVehiculo, int idTipoEncomienda, double actualvolumen, double actualcapacidad, int situacion, int estado) {
         this.id = id;
         this.idVehiculo = idVehiculo;
         this.idTipoEncomienda = idTipoEncomienda;
         this.actualvolumen = actualvolumen;
         this.actualcapacidad = actualcapacidad;
         this.situacion = situacion;
+        this.estado = estado;
     }
     public int getId() {
         return id;
@@ -108,6 +110,14 @@ public class Disponibilidad {
 
     public void setFecharegistro(Timestamp fecharegistro) {
         this.fecharegistro = fecharegistro;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
     
     

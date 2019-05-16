@@ -13,7 +13,7 @@ HttpSession sesion = request.getSession();
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registrar Encomienda</title>
         <jsp:include page="navbarCliente.jsp"/>
-        <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Pta07pYlzbICVniGLYta4MLCrUrXrHE&v=3.exp&signed_in=true&libraries=places'></script>
+        <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Pta07pYlzbICVniGLYta4MLCrUrXrHE&sensor=false&libraries=geometry&v=3.4'></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js" ></script>        
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>        
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
@@ -28,7 +28,15 @@ HttpSession sesion = request.getSession();
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
         <!-- VALIDACIONES -->
         <script src="js/validarRegistrarEncomienda.js" type="text/javascript"></script>       
-        <link href="css/styles.css" rel="stylesheet" type="text/css"/>        
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>    
+        <style>
+                #map-canvas{
+    width: 600px;
+    height: 500px;
+    float:left;
+    background: green;
+    }
+        </style>
     </head>
     <body>
 
@@ -54,22 +62,43 @@ HttpSession sesion = request.getSession();
                     <div class="col-xs-12">
                         <input id="origen1" type="hidden" class="form-control">
                         <label for="origen2">Dirección de Origen</label>
-                        <input id="origen2" type="text" readonly="" class="form-control" placeholder="Dirección de Origen" >
+                        <input id="origen2" type="text" readonly=""  class="form-control" placeholder="Dirección de Origen" >
                     </div>                    
                 </div>
                 <br>
                 <div class="col-sm-12">
-                    <div class="col-xs-12">
-                         <label for="desB">Dirección de Destino</label>
+                    <div class="col-xs-12">                        
                         <input id="desA" type="hidden" class="form-control" >
+                        <label for="desB">Dirección de Destino</label>
                         <input id="desB" type="text" readonly="" class="form-control" placeholder="Dirección de Destino" >
                     </div>                    
-                </div>                
-
-
-            </div>               
+                </div>       
+               
+                <div class="col-sm-12"> <br>
+                    <div class="col-xs-3 ">
+                        <label for="tiempo">Tiempo</label>
+                        <input type="text" class="form-control" readonly="" placeholder="Tiempo" id="tiempo" name="txtTiempo">
+                        <input type="text" class="form-control" id="tiempoConvertido" name="txtTiempoConvertido">
+                    </div>
+                    <div class="col-xs-3 ">
+                        <label for="recorrido">Kilometros</label>
+                        <input type="text" class="form-control" readonly="" placeholder="Recorrido" id="recorrido" name="txtRecorrido">
+                    </div>          
+                    <div class="col-xs-3">
+                         <label for="calcularTR"></label>
+                        <input type="button" class="btn-primary form-control" id="calcularTR" name="txtCalcularTR" value="Calcular">
+                    </div>                      
+                </div>
+                <br>
+            </div>
+            <hr class="my-4" >
+            <div class="row">
+                <div class="col-sm-12">
                   <div id="div-resultado"></div>
                   <div id="map-canvas"></div>
+                </div>
+            </div>
+
             <hr class="my-4" >
             <div class="row">
                 <div class="col-sm-12">
@@ -110,24 +139,21 @@ HttpSession sesion = request.getSession();
                         </div>                        
                     </div>
                     <div class="row">
-                      
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Cantidad (min:1, max: 20)</label>
-                                    <input type="text" class="form-control" name="txtCantidadSobre" id="cantidadSobres" >
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Peso(kg)(min:0.01, max:1.13)</label>
-                                    <input type="text" class="form-control "  name="txtPesoSobre" id="pesoSobre">
+                                              
+                        <div class="col-sm-4 form-group">
+                                <label>Cantidad (min:1, max: 20)</label>
+                                <input type="text" class="form-control" name="txtCantidadSobre" id="cantidadSobres" >
+                        </div>
 
-                                         
-                            </div>
-                        
-                            <div class="col-sm-4 form-group">
-                                    <label>Precio S/.</label>
-                                    <input type="number"  class="form-control" readonly name="txtPrecioSobre"  id="precioSobre"> 
-                            </div>
+                        <div class="col-sm-4 form-group">
+                                <label>Peso(kg)(min:0.01, max:1.13)</label>
+                                <input type="text" class="form-control "  name="txtPesoSobre" id="pesoSobre">                                        
+                        </div>
+
+                        <div class="col-sm-4 form-group">
+                                <label>Precio S/.</label>
+                                <input type="number"  class="form-control" readonly name="txtPrecioSobre"  id="precioSobre"> 
+                        </div>
                     </div>                                       
             </div>
 

@@ -31,9 +31,9 @@ HttpSession sesion = request.getSession();
                 <table id="tableUser" class="display responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
-                           <th class="text-center">ID</th>                
-                           <th class="text-center">NOMBRES</th>                                    
+                           <th class="text-center">ID</th>           
                            <th class="text-center">IDENTIFICADOR</th> 
+                           <th class="text-center">NOMBRES</th>                                                               
                            <th class="text-center">EMAIL</th>      
                            <th class="text-center">USUARIO</th>      
                            <th class="text-center">CONTRASEÑA</th>      

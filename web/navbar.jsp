@@ -54,7 +54,8 @@ HttpSession sesion = request.getSession();
                     <li><a href="SERVCliente?action=refreshCliente">Gestionar Clientes</a></li>
                     <li><a href="GestionarLocal.jsp">Gestionar Locales</a></li>
                     <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>                    
-                    <li><a href="nuevoLocal.jsp">Nuevo Local</a></li>
+                    <li><a href="SERVConductor?action=refresh">Gestionar Conductor</a></li>
+                    <li><a href="EditarConductor.jsp">Editar Conductor</a></li>
                 </ul>
               </li>                  
               </ul>

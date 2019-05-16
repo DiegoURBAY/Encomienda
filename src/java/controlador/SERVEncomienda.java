@@ -1,7 +1,6 @@
 
 package controlador;
 
-
 import dao.ClienteDAO;
 import dao.DisponibilidadDAO;
 import dao.EncomiendaDAO;
@@ -25,16 +24,11 @@ import entidad.Encomienda;
 import entidad.Lugar;
 import entidad.TipoEncomienda;
 import entidad.Vehiculo;
-import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import javax.servlet.http.HttpSession;
-
 
 public class SERVEncomienda extends HttpServlet {
 
@@ -69,7 +63,9 @@ public class SERVEncomienda extends HttpServlet {
                  HttpSession sesion = request.getSession();
                  
                 Encomienda encomienda = new Encomienda();
-                Encomienda encomienda2 = new Encomienda();
+                DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
+                 Disponibilidad disponibilidad = new Disponibilidad();
+         //       Encomienda encomienda2 = new Encomienda();
                 int idEncomienda = 0;
                 int idCliente = 0;
                 List<Encomienda> encomienda_list = null;
@@ -80,10 +76,18 @@ public class SERVEncomienda extends HttpServlet {
                 encomienda.setId(idEncomienda);
                                                           
               try {                
-                    encomienda2 = encomiendadao.BuscarPorId(idEncomienda);
-                    idCliente = encomienda2.getIdCliente();
-                    encomiendadao.eliminar(encomienda);                                                             
-                                               
+                    Encomienda encomienda_encontrada  = encomiendadao.BuscarPorId(idEncomienda);
+                    idCliente = encomienda_encontrada.getIdCliente();
+                    
+                    TipoEncomienda tipoEncomienda = tipoEncomiendaDAO.consultarPorEncomienda(idEncomienda);                    
+                    disponibilidad.setIdTipoEncomienda(tipoEncomienda.getId());                    
+                    disponibilidadDAO.eliminarPorTipoEncomienda(disponibilidad);
+                    
+                    encomiendadao.eliminar(encomienda);       
+                    tipoEncomiendaDAO.eliminar(tipoEncomienda);
+                    
+                //    TipoEncomienda tipoEncomienda = tipoEncomiendaDAO.consultarPorEncomienda(idEncomienda);
+                 //   disponibilidadDAO.eliminarPorTipoEncomienda(tipoEncomienda.getId());                          
                     encomienda_list= encomiendadao.consultarEncomiendaPorIdCliente(idCliente);
                               
                     DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -121,9 +125,10 @@ public class SERVEncomienda extends HttpServlet {
             //ELIMINAR ENCOMIENDA COMO CLIENTE
             if (action.equalsIgnoreCase("delete2")) {  
                  HttpSession sesion = request.getSession();
-                 
+                  Disponibilidad disponibilidad = new Disponibilidad();
                 Encomienda encomienda = new Encomienda();
-                Encomienda encomienda2 = new Encomienda();
+          //      Encomienda encomienda2 = new Encomienda();
+                DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
                 int idEncomienda = 0;
                 int idCliente = 0;
                 List<Encomienda> encomienda_list = null;
@@ -132,17 +137,21 @@ public class SERVEncomienda extends HttpServlet {
                 }                                               
                
                 encomienda.setId(idEncomienda);
-                                                          
+                                                                          
               try {                
-                    encomienda2 = encomiendadao.BuscarPorId(idEncomienda);
-                    idCliente = encomienda2.getIdCliente();
-                    encomiendadao.eliminar(encomienda);                                                             
-                    tipoEncomiendaDAO.consultarPorEncomienda(idEncomienda);
-                    TipoEncomienda tipoEncomienda = tipoEncomiendaDAO.consultarPorEncomienda(idEncomienda);
-                    tipoEncomiendaDAO.eliminar(tipoEncomienda);
-                    encomienda_list= encomiendadao.consultarEncomiendaPorIdCliente(idCliente);
+                    Encomienda encomienda_encontrada = encomiendadao.BuscarPorId(idEncomienda);
+                    idCliente = encomienda_encontrada.getIdCliente();
                     
-          
+                    tipoEncomiendaDAO.consultarPorEncomienda(idEncomienda);
+                    TipoEncomienda tipoEncomienda = tipoEncomiendaDAO.consultarPorEncomienda(idEncomienda);   
+                   
+                    disponibilidad.setIdTipoEncomienda(tipoEncomienda.getId());
+                    disponibilidadDAO.eliminarPorTipoEncomienda(disponibilidad);
+                    encomiendadao.eliminar(encomienda);                                                                                
+                    tipoEncomiendaDAO.eliminar(tipoEncomienda);
+           //         disponibilidadDAO.eliminarPorTipoEncomienda(tipoEncomienda.getId());
+                    encomienda_list= encomiendadao.consultarEncomiendaPorIdCliente(idCliente);
+                              
                     DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     
                     for(int i = 0; i < encomienda_list.size(); i++){
@@ -319,7 +328,7 @@ public class SERVEncomienda extends HttpServlet {
                 
                 Cliente cliente = new Cliente();
                 String  usuario_de_login = null;
-                String usuario = null ;
+                String usuario ;
                 int idUsuario = 0;
             
                 if(sesion.getAttribute("idUsuario")!=null){
@@ -441,6 +450,8 @@ public class SERVEncomienda extends HttpServlet {
         String tipo = null;
         String origen = null;
         String destino = null;
+        String tiempoConvertido = "";
+        String recorrido = "";
         int idCliente = 0;
         int idEncomienda = 0;
         int cantidadSobre = 0;
@@ -465,6 +476,12 @@ public class SERVEncomienda extends HttpServlet {
         }
         if(request.getParameter("txtDestino")!=null) {
             destino = request.getParameter("txtDestino");
+        }
+        if(request.getParameter("txtTiempoConvertido")!=null) {
+            tiempoConvertido = request.getParameter("txtTiempoConvertido");
+        }
+        if(request.getParameter("txtRecorrido")!=null) {
+            recorrido = request.getParameter("txtRecorrido");
         }
         if(request.getParameter("txtIdCliente2")!=null) {
             idCliente = Integer.parseInt(request.getParameter("txtIdCliente2"));
@@ -588,28 +605,26 @@ public class SERVEncomienda extends HttpServlet {
             
             TipoEncomienda te = tipoEncomiendaDAO.buscarTipoEncomiendaPorEncomiendaID(idEncomienda);
             
-            int idTipoEncomienda = te.getId();
-            Vehiculo vehiculo1 = new Vehiculo();     
-            
-            double volumen = altura*anchura*largo/1000000;
+            int idTipoEncomienda = te.getId();           
+             double volumen = altura*anchura*largo*cantidad/1000000;
+          //  double volumen = 25*31*75*cantidad/1000000;
             
             double volumen_aprox = redondearDecimales(volumen, 2);
-                    if(volumen_aprox < 0.01){
-                        volumen_aprox = 0.01;
-                    }            
+            if(volumen_aprox < 0.01){
+                volumen_aprox = 0.01;
+            }            
             
-            vehiculo1 =  EscogerVehiculo(volumen_aprox, peso, idTipoEncomienda);
+            Vehiculo vehiculo_seleccionado =  EscogerVehiculo(volumen_aprox, peso, idTipoEncomienda);
             
-            idVehiculo = vehiculo1.getId();
-            matricula = vehiculo1.getPlaca();
+            idVehiculo = vehiculo_seleccionado.getId();
+            matricula = vehiculo_seleccionado.getPlaca();
                 
-
+            int estado = determinarAyundate(tiempoConvertido);
+            
             
             Envio envio = new Envio();
-            Cliente  cliente1 = new Cliente();
-            
-            cliente1 = clientedao.BuscarPorId(idCliente);
-            String email = cliente1.getEmail();
+            Cliente  cliente_encontrado = clientedao.BuscarPorId(idCliente);                        
+            String email = cliente_encontrado.getEmail();                        
             envio.EnviarCodigo(idCliente , idEncomienda, idVehiculo, matricula, email);
 
             } catch (Exception ex) {
@@ -756,12 +771,10 @@ public class SERVEncomienda extends HttpServlet {
     
      
     public Vehiculo EscogerVehiculo(double volumen, double capacidad, int idTipoEncomienda){
-        Vehiculo vehiculo = new Vehiculo();     
-        Vehiculo vehiculo2 = new Vehiculo();
+        Vehiculo vehiculo = new Vehiculo();             
         VehiculoDAO vehiculoDAO2 = new VehiculoDAO();
         List<Vehiculo>  vehiculo_list;
-        DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();
-        List<Disponibilidad> disponibilidadList = new ArrayList<>();
+        DisponibilidadDAO disponibilidadDAO = new DisponibilidadDAO();        
         Disponibilidad disponibilidad = new Disponibilidad();
         
         double volumen_max = 0;
@@ -779,51 +792,34 @@ public class SERVEncomienda extends HttpServlet {
 
              for(int i = 0; i < vehiculo_list.size(); i++){
 
-                 volumen_max = vehiculo_list.get(i).getVolumen();
-                 capacidad_max = vehiculo_list.get(i).getCapacidad();
+            volumen_max = vehiculo_list.get(i).getVolumen();
+            capacidad_max = vehiculo_list.get(i).getCapacidad();
 
-                 idVehiculo = vehiculo_list.get(i).getId();
+            idVehiculo = vehiculo_list.get(i).getId();
 
-                 disponibilidadList = disponibilidadDAO.consultarPorIdVehiculo(idVehiculo);
+            List<Disponibilidad>   disponibilidadList = disponibilidadDAO.consultarPorIdVehiculo(idVehiculo);
 
-             double volumen_mayor = 0;
-             double capacidad_mayor = 0;
-            
-             
-            if(disponibilidadList.size() > 0){
-                
-                volumen_mayor = disponibilidadList.get(0).getActualvolumen();
-                capacidad_mayor = disponibilidadList.get(0).getActualcapacidad();
-             for(int j = 1; j < disponibilidadList.size(); j++){                                   
-                     double volumen_no_mayor = disponibilidadList.get(j).getActualvolumen();
-               double capacidad_no_mayor = disponibilidadList.get(j).getActualcapacidad();
-               
-                    if(volumen_no_mayor > volumen_mayor){
-                        volumen_mayor = volumen_no_mayor;                                                
+                for(int j = 0; j < disponibilidadList.size(); j++){
+                    if(disponibilidadList.get(j).getEstado() != 0){
+                        suma_volumen = suma_volumen + disponibilidadList.get(j).getActualvolumen();
+                        suma_capacidad = suma_capacidad + disponibilidadList.get(j).getActualcapacidad();  
                     }
-                     if(capacidad_no_mayor > capacidad_mayor){
-                        capacidad_mayor = capacidad_no_mayor;                                                
-                    }
-                }
-             
-            suma_volumen = volumen_mayor;
-            suma_capacidad = capacidad_mayor;             
-            
-            }                       
-                 
-                 volumen_encomienda = suma_volumen + volumen;
-                 capacidad_encomienda = suma_capacidad + capacidad;
-                 
-                 if( volumen_encomienda<  volumen_max &&  capacidad_encomienda<  capacidad_max ){
 
-                     disponibilidad.setIdVehiculo(idVehiculo);
-                     disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
-                     disponibilidad.setActualvolumen(volumen_encomienda);
-                     disponibilidad.setActualcapacidad(capacidad_encomienda);
-                     disponibilidad.setSituacion(situacion);
-                     disponibilidadDAO.insertar(disponibilidad);
-                     break;
-                 }                   
+                }                                          
+                 
+                volumen_encomienda = suma_volumen + volumen;
+                capacidad_encomienda = suma_capacidad + capacidad;
+
+                if( volumen_encomienda<  volumen_max &&  capacidad_encomienda<  capacidad_max ){
+
+                    disponibilidad.setIdVehiculo(idVehiculo);
+                    disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
+                    disponibilidad.setActualvolumen(volumen);
+                    disponibilidad.setActualcapacidad(capacidad);
+                    disponibilidad.setSituacion(situacion);
+                    disponibilidadDAO.insertar(disponibilidad);
+                    break;
+                }                   
                 suma_volumen = 0;
                 suma_capacidad = 0;
                 volumen_encomienda = 0;
@@ -832,19 +828,50 @@ public class SERVEncomienda extends HttpServlet {
                
             Vehiculo vehiculo_buscado = vehiculoDAO2.BuscarPorId(idVehiculo);
             
-            vehiculo2.setId(vehiculo_buscado.getId());
-            vehiculo2.setPlaca(vehiculo_buscado.getPlaca());
-            vehiculo2.setVolumen(vehiculo_buscado.getVolumen());
-            vehiculo2.setCapacidad(vehiculo_buscado.getCapacidad());           
+            vehiculo.setId(vehiculo_buscado.getId());
+            vehiculo.setPlaca(vehiculo_buscado.getPlaca());
+            vehiculo.setVolumen(vehiculo_buscado.getVolumen());
+            vehiculo.setCapacidad(vehiculo_buscado.getCapacidad());           
            } catch (Exception e) {
            System.out.println ("El error es: " + e.getMessage());
            e.printStackTrace();
            }
            
-             return vehiculo2;    
+             return vehiculo;    
     }          
         
-     
+    public static void main(String[] args) throws Exception {
+
+        String tiempoConvertido ="536min";
+        String[] tiempoSplit = tiempoConvertido.split("min");
+        String minutos = tiempoSplit[0];
+        int minutosEntero = Integer.parseInt(minutos);
+        int minuto_maximo = 480;
+        
+        String respuesta = " no agregar ayudante";
+        if(minutosEntero > minuto_maximo){
+            respuesta = "  agregar ayudante";
+        }
+        System.out.println(respuesta);
+
+    }
+    
+    public int determinarAyundate(String tiempoConvertido){
+        int estado = 0;
+        
+        String[] tiempoSplit = tiempoConvertido.split("min");
+        String minutos = tiempoSplit[0];
+        int minutosEntero = Integer.parseInt(minutos);
+        int minuto_maximo = 480;
+        
+        String respuesta = " no agregar ayudante";
+        if(minutosEntero > minuto_maximo){
+            respuesta = "  agregar ayudante";
+            estado = 1;
+        }        
+        
+        return estado;
+    }
   /*  
     public Vehiculo EscogerVehiculo(double volumen, double capacidad, int id){
            Vehiculo vehiculo = new Vehiculo();     
