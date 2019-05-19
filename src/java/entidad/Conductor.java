@@ -15,7 +15,7 @@ public class Conductor {
     public Conductor() {
     }
 
-    public Conductor(int id, String dni, String nom, String ape, String lic, String email, String tel) {
+    public Conductor(int id, String dni, String nom, String ape, String lic, String email, String tel, int disp) {
         this.id = id;
         this.dni = dni;
         this.nom = nom;
@@ -23,6 +23,7 @@ public class Conductor {
         this.lic = lic;
         this.email = email;
         this.tel = tel;
+        this.disp = disp;
     }   
 
     public int getId() {

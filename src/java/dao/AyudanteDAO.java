@@ -14,7 +14,7 @@ public class AyudanteDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception{
         Ayudante ayudante = (Ayudante) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO ayudantes (nom, ape, dni, email, tel, direc, distr) VALUES(?,?,?,?,?,?,?)";
+        String sql="INSERT INTO ayudantes (nom, ape, dni, email, tel) VALUES(?,?,?,?,?)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -22,9 +22,7 @@ public class AyudanteDAO extends Conexion implements DAO{
             pst.setString(2, ayudante.getApe());
             pst.setString(3, ayudante.getDni());
             pst.setString(4, ayudante.getEmail());            
-            pst.setString(5, ayudante.getTel());            
-            pst.setString(6, ayudante.getDirec());
-            pst.setString(7, ayudante.getDistr());            
+            pst.setString(5, ayudante.getTel());                  
             pst.executeUpdate();           
             
         } catch (SQLException e) {
@@ -56,7 +54,7 @@ public class AyudanteDAO extends Conexion implements DAO{
     public void modificar(Object obj) throws Exception{
         Ayudante ayudante = (Ayudante) obj;
         PreparedStatement pst;
-        String sql="UPDATE ayudantes SET dni=?, nom=?, ape=?, direc=?, tel=?, email=? WHERE id=?";
+        String sql="UPDATE ayudantes SET dni=?, nom=?, ape=?, tel=?, email=? WHERE id=?";
 
         try {
             this.conectar();
@@ -64,10 +62,9 @@ public class AyudanteDAO extends Conexion implements DAO{
             pst.setString(1, ayudante.getDni());
             pst.setString(2, ayudante.getNom());
             pst.setString(3, ayudante.getApe());
-            pst.setString(4, ayudante.getDirec());
-            pst.setString(5, ayudante.getTel());
-            pst.setString(6, ayudante.getEmail());            
-            pst.setInt(7, ayudante.getId());
+            pst.setString(4, ayudante.getTel());
+            pst.setString(5, ayudante.getEmail());            
+            pst.setInt(6, ayudante.getId());
             pst.executeUpdate();       
             
         } catch (SQLException e) {
@@ -82,20 +79,20 @@ public class AyudanteDAO extends Conexion implements DAO{
            Ayudante ayudante = new Ayudante();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT * FROM ayudantes WHERE id = ?";
+           String sql = "SELECT * FROM conductores WHERE id = ?";
            try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
                pst.setInt(1,id);  
                res = pst.executeQuery();                                    
                 if (res.next()) {
-                    ayudante.setNom(res.getString("nom"));            
-                    ayudante.setApe(res.getString("ape"));      
                     ayudante.setDni(res.getString("dni"));    
+                    ayudante.setNom(res.getString("nom"));            
+                    ayudante.setApe(res.getString("ape"));                          
+                    ayudante.setLic(res.getString("lic"));   
                     ayudante.setEmail(res.getString("email"));
-                    ayudante.setTel(res.getString("tel"));    
-                    ayudante.setDirec(res.getString("direc"));                                                                           
-                    ayudante.setDistr(res.getString("distr"));                    
+                    ayudante.setTel(res.getString("tel"));                      
+                    ayudante.setDisp(res.getInt("disp"));                      
                     ayudante.setId(res.getInt("id"));
                 }                   
      
@@ -112,7 +109,7 @@ public class AyudanteDAO extends Conexion implements DAO{
         List<Ayudante> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT * FROM ayudantes WHERE estado = 1";
+        String sql = "SELECT * FROM conductores WHERE estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -120,14 +117,14 @@ public class AyudanteDAO extends Conexion implements DAO{
             while(rs.next()){
                 datos.add(new Ayudante(
                         rs.getInt("id"),                       
+                        rs.getString("dni"),
                         rs.getString("nom"),
                         rs.getString("ape"),
-                        rs.getString("dni"),
+                        rs.getString("lic"),
                         rs.getString("email"),                        
                         rs.getString("tel"),
-                        rs.getString("direc"),
-                        rs.getString("distr"))
-                        
+                        rs.getInt("disp")
+                )                        
                 );
             }
         } catch (SQLException e) {

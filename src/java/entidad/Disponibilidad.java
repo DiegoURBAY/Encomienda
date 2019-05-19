@@ -1,13 +1,15 @@
 
 package entidad;
 
-import java.sql.Date;
+
 import java.sql.Timestamp;
 
 public class Disponibilidad {
     private int id;
     private int idVehiculo;
     private int idTipoEncomienda;
+    private int idConductor;
+    private int idAyudante;    
     private double actualvolumen;
     private double actualcapacidad;  
     private Timestamp desde;
@@ -31,15 +33,18 @@ public class Disponibilidad {
         this.situacion = situacion;
     }
 
-        public Disponibilidad(int id, int idVehiculo, int idTipoEncomienda, double actualvolumen, double actualcapacidad, int situacion, int estado) {
+    public Disponibilidad(int id, int idVehiculo, int idTipoEncomienda, int idConductor, int idAyudante, double actualvolumen, double actualcapacidad, int situacion, int estado) {
         this.id = id;
         this.idVehiculo = idVehiculo;
         this.idTipoEncomienda = idTipoEncomienda;
+        this.idConductor = idConductor;
+        this.idAyudante = idAyudante;
         this.actualvolumen = actualvolumen;
         this.actualcapacidad = actualcapacidad;
         this.situacion = situacion;
         this.estado = estado;
-    }
+    }    
+        
     public int getId() {
         return id;
     }
@@ -118,6 +123,22 @@ public class Disponibilidad {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    public int getIdConductor() {
+        return idConductor;
+    }
+
+    public void setIdConductor(int idConductor) {
+        this.idConductor = idConductor;
+    }
+
+    public int getIdAyudante() {
+        return idAyudante;
+    }
+
+    public void setIdAyudante(int idAyudante) {
+        this.idAyudante = idAyudante;
     }
     
     

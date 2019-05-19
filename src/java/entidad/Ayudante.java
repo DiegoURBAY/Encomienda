@@ -1,29 +1,30 @@
 package entidad;
 
 public class Ayudante {
-    private int id;
-    private String nom;
-    private String ape;
+    private int id;  
     private String dni;
+    private String nom;
+    private String ape;   
+    private String lic;      
     private String email;
     private String tel;    
-    private String direc;
-    private String distr;
-
+    private String tipo;
+    private int disp;
+    private int estado;
+    
     public Ayudante() {
     }
 
-    public Ayudante(int id, String nom, String ape, String dni, String email, String tel, String direc, String distr) {
+    public Ayudante(int id, String dni, String nom, String ape, String lic, String email, String tel, int disp) {
         this.id = id;
+        this.dni = dni;
         this.nom = nom;
         this.ape = ape;
-        this.dni = dni;
+        this.lic = lic;
         this.email = email;
         this.tel = tel;
-        this.direc = direc;
-        this.distr = distr;
-    }
-   
+        this.disp = disp;
+    }   
 
     public int getId() {
         return id;
@@ -57,20 +58,12 @@ public class Ayudante {
         this.dni = dni;
     }
 
-    public String getDirec() {
-        return direc;
+    public String getLic() {
+        return lic;
     }
 
-    public void setDirec(String direc) {
-        this.direc = direc;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setLic(String lic) {
+        this.lic = lic;
     }
 
     public String getEmail() {
@@ -81,14 +74,38 @@ public class Ayudante {
         this.email = email;
     }
 
-    public String getDistr() {
-        return distr;
+    public String getTel() {
+        return tel;
     }
 
-    public void setDistr(String distr) {
-        this.distr = distr;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
-    
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getDisp() {
+        return disp;
+    }
+
+    public void setDisp(int disp) {
+        this.disp = disp;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+ 
     
     
 }

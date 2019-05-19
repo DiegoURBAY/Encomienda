@@ -20,13 +20,15 @@ public class DisponibilidadDAO extends Conexion implements DAO{
         
         
         int idVehiculo = 3;
-        int idTipoEncomienda = 142;
+        int idTipoEncomienda = 210;
         double peso = 202.00;
         double volumen = 2.00;        
         int situacion = 1;
            
         disponibilidad.setIdVehiculo(idVehiculo);
         disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
+        disponibilidad.setIdConductor(1);
+        disponibilidad.setIdAyudante(2);
         disponibilidad.setActualvolumen(volumen);
         disponibilidad.setActualcapacidad(peso);        
         disponibilidad.setSituacion(situacion);
@@ -38,15 +40,17 @@ public class DisponibilidadDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception {
         Disponibilidad c = (Disponibilidad) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO disponibilidad (idVehiculo, idTipoEncomienda, actualvolumen, actualcapacidad, situacion, fecharegistro) VALUES ( ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+        String sql="INSERT INTO disponibilidad (idVehiculo, idTipoEncomienda, idConductor, idAyudante, actualvolumen, actualcapacidad, situacion, fecharegistro) VALUES ( ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
             pst.setInt(1, c.getIdVehiculo());
             pst.setInt(2, c.getIdTipoEncomienda());
-            pst.setDouble(3, c.getActualvolumen());
-            pst.setDouble(4, c.getActualcapacidad());
-            pst.setInt(5, c.getSituacion());
+            pst.setInt(3, c.getIdConductor());
+            pst.setInt(4, c.getIdAyudante());
+            pst.setDouble(5, c.getActualvolumen());
+            pst.setDouble(6, c.getActualcapacidad());
+            pst.setInt(7, c.getSituacion());
             pst.executeUpdate();            
 
         } catch (SQLException e) {
@@ -108,7 +112,7 @@ public class DisponibilidadDAO extends Conexion implements DAO{
         List<Disponibilidad> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, idVehiculo, idTipoEncomienda, actualvolumen, actualcapacidad, situacion, estado FROM disponibilidad WHERE estado = 1 AND idVehiculo = ?";
+        String sql = "SELECT id, idVehiculo, idTipoEncomienda, idConductor, idAyudante, actualvolumen, actualcapacidad, situacion, estado FROM disponibilidad WHERE estado = 1 AND idVehiculo = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -119,14 +123,17 @@ public class DisponibilidadDAO extends Conexion implements DAO{
                         rs.getInt("id"),
                         rs.getInt("idVehiculo"),
                         rs.getInt("idTipoEncomienda"),
+                        rs.getInt("idConductor"),
+                        rs.getInt("idAyudante"),                            
                         rs.getDouble("actualvolumen"),
-                        rs.getDouble("actualcapacidad"),
+                        rs.getDouble("actualcapacidad"),                    
                         rs.getInt("situacion"),
                         rs.getInt("estado")
                     )
                 );
             }
         } catch (SQLException e) {
+            throw e;
         }
         finally{
             this.cerrar();

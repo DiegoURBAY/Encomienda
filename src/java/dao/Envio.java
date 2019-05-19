@@ -1,6 +1,8 @@
 
 package dao;
 
+import entidad.Ayudante;
+import entidad.Conductor;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,8 +82,22 @@ public static void main(String[] args) throws Exception {
     }
     
     
-    public void EnviarCodigo(int idcliente, int idencomienda, int vehiculo, String placaVehiculo, String receptor) throws MessagingException{
+    public void EnviarCodigo(int idcliente, int idencomienda, int idConductor, int idAyudante, int vehiculo, String placaVehiculo, String receptor) throws MessagingException, Exception{
+                
+       ConductorDAO conductorDAO = new ConductorDAO();        
+       AyudanteDAO ayudanteDAO = new AyudanteDAO();        
+                
         try {
+            
+           Conductor conductor = conductorDAO.BuscarPorId(idConductor);
+           String mensaje_extra = "";
+           if(idAyudante > 0){
+               Ayudante ayudante = ayudanteDAO.BuscarPorId(idAyudante);
+               mensaje_extra = "Identificador de Ayudante: " + ayudante.getId()+"\n"
+                    + "Nombre de Ayudante: " + ayudante.getNom() +" "+ ayudante.getApe() +"\n"
+                       ;
+           }
+            
             Properties props = new Properties();
 
             props.setProperty("mail.smtp.host", "smtp.gmail.com");
@@ -99,7 +115,13 @@ public static void main(String[] args) throws Exception {
             String mensaje = "Hola, "+receptor+"\n"
                     + "Número de cliente: " + idcliente +"\n"
                     + "Identificador de encomienda: " + idencomienda +"\n"
-                    + "Matricula de vehiculo: " + placaVehiculo +"\n";                       
+                    + "Matricula de vehiculo: " + placaVehiculo +"\n"
+                    + "Identificador de Conductor: " + conductor.getId()+"\n"
+                    + "Nombre de conductor: " + conductor.getNom() +" "+ conductor.getApe() +"\n"+
+                    mensaje_extra
+                //    + "Identificador de Ayudante: " + ayudante.getId()+"\n"
+                 //   + "Nombre de Ayudante: " + ayudante.getNom() +" "+ ayudante.getApe() +"\n"
+                    ;                       
  
             MimeMessage message = new MimeMessage(session);
 

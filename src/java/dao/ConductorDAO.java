@@ -78,6 +78,24 @@ public class ConductorDAO extends Conexion implements DAO{
             this.cerrar();
         }   
     }
+    
+    public void eliminarDisponiblidad(Object obj) throws Exception{
+        Conductor c = (Conductor) obj;
+        PreparedStatement pst;
+        String sql="UPDATE conductores SET disp = 0 WHERE id = ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setInt(1, c.getId());
+            pst.executeUpdate();            
+          
+        } catch (SQLException e) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }   
+    }    
 
     @Override
     public void modificar(Object obj) throws Exception{
@@ -153,7 +171,8 @@ public class ConductorDAO extends Conexion implements DAO{
                         rs.getString("ape"),                        
                         rs.getString("lic"),                                                                        
                         rs.getString("email"),
-                        rs.getString("tel")
+                        rs.getString("tel"),
+                        rs.getInt("disp")
                     )
                 );
             }

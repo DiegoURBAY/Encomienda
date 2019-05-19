@@ -2,6 +2,7 @@
 package controlador;
 
 import dao.ClienteDAO;
+import dao.ConductorDAO;
 import dao.DisponibilidadDAO;
 import dao.EncomiendaDAO;
 import dao.Envio;
@@ -9,6 +10,7 @@ import dao.LugarDAO;
 import dao.TipoEncomiendaDAO;
 import dao.VehiculoDAO;
 import entidad.Cliente;
+import entidad.Conductor;
 import entidad.Disponibilidad;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -41,6 +43,7 @@ public class SERVEncomienda extends HttpServlet {
     private VehiculoDAO vehiculoDAO;
     private ClienteDAO clientedao;
     private LugarDAO lugarDAO;
+    private ConductorDAO conductorDAO;
     Encomienda enc = new Encomienda();
 
             
@@ -50,6 +53,7 @@ public class SERVEncomienda extends HttpServlet {
         vehiculoDAO = new VehiculoDAO(){};
         clientedao = new ClienteDAO(){};
         lugarDAO = new LugarDAO(){};
+        conductorDAO = new ConductorDAO(){};
     }         
      
     @Override
@@ -614,18 +618,45 @@ public class SERVEncomienda extends HttpServlet {
                 volumen_aprox = 0.01;
             }            
             
-            Vehiculo vehiculo_seleccionado =  EscogerVehiculo(volumen_aprox, peso, idTipoEncomienda);
+        
+            List<Conductor> conductorList = conductorDAO.consultar();
+            int idConductor = 0;
+            for (int i = 0; i < conductorList.size(); i++) {
+                if(conductorList.get(i).getDisp() > 0){
+                   idConductor =  conductorList.get(i).getId();
+                   Conductor conductor_eliminado = conductorDAO.BuscarPorId(idConductor);
+                   conductorDAO.eliminarDisponiblidad(conductor_eliminado);
+                    break;
+                }
+            }      
+              
+            int estado = determinarAyundate(tiempoConvertido);
+            int idAyudante = 0;
+            if(estado == 1){
+                  List<Conductor> ayudanteList  = conductorDAO.consultar();
+                for (int i = 0; i < ayudanteList.size(); i++) {
+                    if(ayudanteList.get(i).getDisp() > 0){
+                       idAyudante =  ayudanteList.get(i).getId();
+                        Conductor ayudante_eliminado = conductorDAO.BuscarPorId(idAyudante);
+                        conductorDAO.eliminarDisponiblidad(ayudante_eliminado);                       
+                        break;
+                    }
+                } 
+            }            
+         
+            //Vehiculo vehiculo_seleccionado =  EscogerVehiculo(volumen_aprox, peso, idTipoEncomienda, idConductor, idAyudante);
+        //    int idConductor = 1;
+           // int idAyudante = 0;
+            Vehiculo vehiculo_seleccionado =  EscogerVehiculo(volumen_aprox, peso, idTipoEncomienda, idConductor, idAyudante);
             
             idVehiculo = vehiculo_seleccionado.getId();
             matricula = vehiculo_seleccionado.getPlaca();
-                
-            int estado = determinarAyundate(tiempoConvertido);
-            
             
             Envio envio = new Envio();
             Cliente  cliente_encontrado = clientedao.BuscarPorId(idCliente);                        
             String email = cliente_encontrado.getEmail();                        
-            envio.EnviarCodigo(idCliente , idEncomienda, idVehiculo, matricula, email);
+            //envio.EnviarCodigo(idCliente , idEncomienda, idConductor, idAyudante,idVehiculo, matricula, email);
+            envio.EnviarCodigo(idCliente , idEncomienda, idConductor, idAyudante, idVehiculo, matricula, email);
 
             } catch (Exception ex) {
                
@@ -638,88 +669,6 @@ public class SERVEncomienda extends HttpServlet {
         
           response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar");
         }
-    /*   
-        if(request.getParameter("btnBuscar")!=null){      
-            
-            String forward = list_encomienda; 
-            int idEncomienda_buscar = 0;
-            int idCliente_buscar = 0;
-             Encomienda enco[] = null;
-            if(request.getParameter("txtCodigo")!=null){
-                idEncomienda_buscar = Integer.parseInt(request.getParameter("txtCodigo"));  
-            }    
-            try {
-                idCliente_buscar = encomiendadao.consultarClienteIdPorEncomiendaId(idEncomienda_buscar);
-                List<Encomienda> encomiendaList = encomiendadao.consultarEncomiendaPorIdCliente(idCliente_buscar);
-      
-            enco = new Encomienda[encomiendaList.size()];
-            enco = encomiendaList.toArray(enco);            
-            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    
-            for(int i = 0; i < enco.length; i++){
-
-                 if(enco[i].getFechaRegistroTime() != null ){
-
-                    Date envio_date = enco[i].getFechaRegistroTime();     
-
-                    String fecha_string = sdf.format(envio_date);                                                            
-
-                    enco[i].setFechaRegistroTimeString(fecha_string);                      
-                 }
-            }
-            
-             
-
-
-                           
-            } catch (Exception ex) {
-                Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
-            }            
-            List<Encomienda> con_filtro = new ArrayList(Arrays.asList(enco));    
-            request.setAttribute("encomienda", con_filtro); 
-            request.setAttribute("idEncomienda", idEncomienda_buscar);
-            request.setAttribute("idCliente", idCliente_buscar);           
-            RequestDispatcher view = request.getRequestDispatcher(forward);
-            view.forward(request, response);                        
-            
-        }
-       */
-   
-        //String origen = request.getParameter("txtOrigen");
-       // String destino = request.getParameter("txtDestino");                        
-       
-        /*
-        try {
-            
-            List<java.sql.Date> cambio = Fechas(envio, llegada);
-                        
-            Encomienda encomienda = new Encomienda();
-            encomienda.setOrigen(origen);            
-            encomienda.setDestino(destino);      
-            encomienda.setEnvio(cambio.get(0));      
-            encomienda.setLlegada(cambio.get(1));            
-            encomienda.setIdCliente(idCliente);
-           
-                if (id == null || id.isEmpty()) {
-                    try {
-                        encomiendadao.insertar(encomienda);
-                    } catch (Exception ex) {
-                        
-                    }
-                } else {                    
-                    try {
-                        encomienda.setId(Integer.parseInt(id));
-                        encomiendadao.modificar(encomienda);
-                    } catch (Exception ex) {
-                                            
-                    }
-                } 
-        } catch (Exception e) {
-        }
-                   
-        response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+idCliente);   
-
-*/
     }
 
     @Override
@@ -768,9 +717,9 @@ public class SERVEncomienda extends HttpServlet {
         resultado=(resultado/Math.pow(10, numeroDecimales))+parteEntera;
         return resultado;
     }
-    
-     
-    public Vehiculo EscogerVehiculo(double volumen, double capacidad, int idTipoEncomienda){
+          
+    public Vehiculo EscogerVehiculo(double volumen, double capacidad, int idTipoEncomienda, int idConductor, int idAyudante){
+        
         Vehiculo vehiculo = new Vehiculo();             
         VehiculoDAO vehiculoDAO2 = new VehiculoDAO();
         List<Vehiculo>  vehiculo_list;
@@ -804,7 +753,6 @@ public class SERVEncomienda extends HttpServlet {
                         suma_volumen = suma_volumen + disponibilidadList.get(j).getActualvolumen();
                         suma_capacidad = suma_capacidad + disponibilidadList.get(j).getActualcapacidad();  
                     }
-
                 }                                          
                  
                 volumen_encomienda = suma_volumen + volumen;
@@ -814,6 +762,8 @@ public class SERVEncomienda extends HttpServlet {
 
                     disponibilidad.setIdVehiculo(idVehiculo);
                     disponibilidad.setIdTipoEncomienda(idTipoEncomienda);
+                    disponibilidad.setIdConductor(idConductor);
+                    disponibilidad.setIdAyudante(idAyudante);                    
                     disponibilidad.setActualvolumen(volumen);
                     disponibilidad.setActualcapacidad(capacidad);
                     disponibilidad.setSituacion(situacion);
@@ -841,27 +791,42 @@ public class SERVEncomienda extends HttpServlet {
     }          
         
     public static void main(String[] args) throws Exception {
-
-        String tiempoConvertido ="536min";
-        String[] tiempoSplit = tiempoConvertido.split("min");
-        String minutos = tiempoSplit[0];
-        int minutosEntero = Integer.parseInt(minutos);
+        
+        String tiempoConvertido = "1382";
+        int estado = 0;       
+        int minutosEntero = Integer.parseInt(tiempoConvertido);
         int minuto_maximo = 480;
         
         String respuesta = " no agregar ayudante";
         if(minutosEntero > minuto_maximo){
             respuesta = "  agregar ayudante";
-        }
-        System.out.println(respuesta);
+            estado = 1;
+        }             
+        /*
+            ConductorDAO conductorDAO = new ConductorDAO();
+            
+            List<Conductor> conductorList = conductorDAO.consultar();
+            int idConductor = 0;
+            for (int i = 0; i < conductorList.size(); i++) {
+                
+                if(conductorList.get(i).getDisp() > 0){
+                  
+                 idConductor =  conductorList.get(i).getId();
+                   Conductor conductor_eliminado = conductorDAO.BuscarPorId(idConductor);
+                   
+                  conductorDAO.eliminarDisponiblidad(conductor_eliminado);
+                   break;
+                }
+            }      
+        */
+         System.out.println(estado);
 
     }
     
     public int determinarAyundate(String tiempoConvertido){
         int estado = 0;
         
-        String[] tiempoSplit = tiempoConvertido.split("min");
-        String minutos = tiempoSplit[0];
-        int minutosEntero = Integer.parseInt(minutos);
+        int minutosEntero = Integer.parseInt(tiempoConvertido);
         int minuto_maximo = 480;
         
         String respuesta = " no agregar ayudante";

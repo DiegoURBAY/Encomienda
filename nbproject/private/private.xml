@@ -3,15 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/entidad/Conductor.java</file>
             <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/dao/ConductorDAO.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarEncomiendaSobre.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/RegistrarEncomienda1.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ListarConductor.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarConductor.jsp</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/entidad/Disponibilidad.java</file>
             <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVEncomienda.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVCliente.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVConductor.java</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/dao/DisponibilidadDAO.java</file>
         </group>
     </open-files>
 </project-private>

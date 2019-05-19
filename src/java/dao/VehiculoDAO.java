@@ -25,7 +25,7 @@ public static void main(String[] args) throws Exception {
         Disponibilidad disponibilidad = new Disponibilidad();
         
         //adicional
-         int idTipoEncomienda = 184;
+         int idTipoEncomienda = 210;
         TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
         TipoEncomienda tipoEncomienda = tipoEncomienda = tipoEncomiendaDAO.BuscarPorId(idTipoEncomienda);
         
@@ -122,7 +122,7 @@ public static void main(String[] args) throws Exception {
              */
            } catch (Exception e) {
            System.out.println ("El error es: " + e.getMessage());
-           e.printStackTrace();
+            e.printStackTrace();
            }
            
         //     return vehiculo2;    
