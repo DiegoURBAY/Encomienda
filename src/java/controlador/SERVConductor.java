@@ -5,6 +5,7 @@ import dao.ConductorDAO;
 import entidad.Conductor;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,7 @@ public class SERVConductor extends HttpServlet {
 
     private ConductorDAO conductorDAO;
  
-     public SERVConductor() {
+    public SERVConductor() {
         conductorDAO = new ConductorDAO(){};
     }   
      
@@ -47,32 +48,36 @@ public class SERVConductor extends HttpServlet {
             throws ServletException, IOException {
         
         String vista = "";
-        
+        HttpSession sesion = request.getSession();
         String action = request.getParameter("action");
         
         try {
-            if(action.equalsIgnoreCase("refresh")){
-                List<Conductor> conductorList = conductorDAO.consultar();
-             
-                vista = "ListarConductor.jsp";
-                
-                request.setAttribute("conductor", conductorList); 
+            if(sesion.getAttribute("usuario")!=null){
+                if(action.equalsIgnoreCase("refresh")){
+                    List<Conductor> conductorList = conductorDAO.consultar();
+
+                    vista = "ListarConductor.jsp";
+
+                    request.setAttribute("conductor", conductorList); 
+                }
+                else if(action.equalsIgnoreCase("insert")){
+                    vista = "RegistrarConductor.jsp";
+                }
+                else if(action.equalsIgnoreCase("edit")){
+
+
+                    int idConductor = Integer.parseInt(request.getParameter("id"));
+                    Conductor conductor = conductorDAO.BuscarPorId(idConductor);
+                    vista = "EditarConductor.jsp";
+                    request.setAttribute("conductor", conductor); 
+                }
+                else if(action.equalsIgnoreCase("delete")){
+                   vista = "exito.jsp";
+                }                             
             }
-            else if(action.equalsIgnoreCase("insert")){
-                vista = "RegistrarConductor.jsp";
-            }
-            else if(action.equalsIgnoreCase("edit")){
-                
-                
-                int idConductor = Integer.parseInt(request.getParameter("id"));
-                Conductor conductor = conductorDAO.BuscarPorId(idConductor);
-                vista = "EditarConductor.jsp";
-                request.setAttribute("conductor", conductor); 
-            }
-            else if(action.equalsIgnoreCase("delete")){
-               vista = "exito.jsp";
-            }            
-            
+            else{
+                vista = "/index.jsp";
+            }                        
         } catch (Exception e) {
             vista = "error.jsp";
             Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, e);
@@ -92,7 +97,7 @@ public class SERVConductor extends HttpServlet {
         HttpSession sesion = request.getSession();
         
         Conductor conductor = new Conductor();
-         List<Conductor> conductorList = null;
+         List<Conductor> conductorList = new ArrayList<>();
          
         String id = request.getParameter("txtId");
         String dni = request.getParameter("txtDni");
@@ -103,30 +108,32 @@ public class SERVConductor extends HttpServlet {
         String telefono = request.getParameter("txtTelefono");
         
         try {
+            if(sesion.getAttribute("usuario")!=null){
                 conductor.setDni(dni);
                 conductor.setNom(nombre);
                 conductor.setApe(apellido);
                 conductor.setLic(licencia);
                 conductor.setEmail(email);
-                conductor.setTel(telefono);   
-                
-           conductorList = conductorDAO.consultar();
-            if(request.getParameter("btnRegistrar")!=null){
-         
-                conductorDAO.insertar(conductor);
-                vista = "/ListarConductor.jsp";
+                conductor.setTel(telefono);                             
+                if(request.getParameter("btnRegistrar")!=null){
+                    conductorDAO.insertar(conductor);
+                    vista = "/ListarConductor.jsp";
+                }
+                else if(request.getParameter("btnEditar")!= null){
+                    conductor.setId(Integer.parseInt(id));
+                    conductorDAO.modificar(conductor);
+                    vista = "/ListarConductor.jsp";
+                }
+                conductorList = conductorDAO.consultar();                
             }
-            else if(request.getParameter("btnEditar")!= null){
-                conductor.setId(Integer.parseInt(id));
-                conductorDAO.modificar(conductor);
-                vista = "/ListarConductor.jsp";
+            else{
+                vista = "/index.jsp";
             }
         } catch (Exception e) {
             vista = "/error.jsp";
            Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, e);
         }
-        finally{
-            
+        finally{             
             sesion.setAttribute("conductor", conductorList);
             response.sendRedirect(request.getContextPath() + vista); 
         }

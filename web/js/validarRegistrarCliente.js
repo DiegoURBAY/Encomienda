@@ -186,8 +186,5 @@ $(document).ready(function (){
            alert('Ha evitado regresar');
            return false;
         }    
-    });
-     
-     
-     
+    });               
 });

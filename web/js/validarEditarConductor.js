@@ -15,30 +15,32 @@ jQuery(function ($) {
        $(this).val($(this).val().toLowerCase());
     });
     
-    
     $("#dni").change(function(){        
         var palabra_buscar = $("#dni").val();
+        var palabra_original = $("#dniOriginal").val();
         var mensaje = "[AVISO] Dni a registrar ya existe. Se le devolverá el valor original";
         var tipo = 1;
-        verificar_ajax(tipo,palabra_buscar,mensaje);
+        verificar_ajax(tipo,palabra_buscar, palabra_original,mensaje);
     });     
     
     $("#email").change(function(){
         var palabra_buscar = $("#email").val();
+        var palabra_original = $("#emailOriginal").val();
         var mensaje = "[AVISO] Email a registrar ya existe. Se le devolverá el valor original";
         var tipo = 2;        
-         verificar_ajax(tipo,palabra_buscar,mensaje);
+         verificar_ajax(tipo,palabra_buscar, palabra_original,mensaje);
     });
     
     
     $("#licencia").change(function(){        
        var palabra_buscar = $("#licencia").val();
+       var palabra_original = $("#licenciaOriginal").val();
        var mensaje = "[AVISO] Licencia a registrar ya existe. Se le devolverá el valor original";
        var tipo = 3;
-       verificar_ajax(tipo,palabra_buscar,mensaje);
+       verificar_ajax(tipo,palabra_buscar, palabra_original,mensaje);
     });         
     
-    function verificar_ajax(tipo, palabra_buscar, mensaje){
+    function verificar_ajax(tipo, palabra_buscar,palabra_original, mensaje){
         var palabra  = "";
 
         if(tipo === 1){
@@ -59,18 +61,20 @@ jQuery(function ($) {
               if(data.estado === "ok")
               {                     
                 console.log(data.mensaje);
+                if(palabra_buscar !== palabra_original){
                     if(data.mensaje === "existe"){
                     alert(mensaje);                 
                     if(tipo === 1){
-                        $("#dni").val(null);
+                        $("#dni").val(palabra_original);
                     }
                     if(tipo === 2){
-                        $("#email").val(null);
+                        $("#email").val(palabra_original);
                     }                    
                     if(tipo === 3){
-                        $("#licencia").val(null);
+                        $("#licencia").val(palabra_original);
                     }                    
                    }
+                }
               }
             },
             beforeSend: function(){
@@ -80,9 +84,9 @@ jQuery(function ($) {
 
             }
         });
-    }    
+    }
     
-    $('#registrar').click(function (){
+    $('#editar').click(function (){
         var dni = $('#dni').val();
         var nombre = $('#nombre').val();
         var apellido = $('#apellido').val();        

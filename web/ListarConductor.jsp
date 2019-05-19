@@ -4,7 +4,7 @@
 
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("idUsuario")==null){
+    if(sesion.getAttribute("usuario")==null){
         response.sendRedirect("index.jsp");
     }
     
@@ -19,58 +19,61 @@ HttpSession sesion = request.getSession();
     </head>    
     <body> 
         <div class="container">
-                <h1>Lista de Conductores</h1>
-                <hr>
-                   
-                <br>
-                <br>
-            <form method="POST">
-                <table id="tableUser" class="display responsive nowrap" style="width:100%">
-                    <thead>
-                        <tr>
-                           <th class="text-center">ID</th>           
-                           <th class="text-center">DNI</th> 
-                           <th class="text-center">NOMBRES</th>
-                           <th class="text-center">APELLIDOS</th>
-                           <th class="text-center">LICENCIA</th>  
-                           <th class="text-center">EMAIL</th>         
-                           <th class="text-center">TELEFONO</th>
-                           <th class="text-center">FECHA DE REGISTRO</th>
-                           <th class="text-center">DISPONIBLIDAD</th>
-                       </tr>                       
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${conductor}" var="conductor">
-                            <tr>
-                              <td>
-                                        <c:out value="${conductor.id}"/>
-                                </td>
-                                <td>
-                                        <c:out value="${conductor.dni}"/>
-                                </td>
-                                <td>
-                                        <c:out value="${conductor.nom}"/>
-                                </td>                                                     
-                                <td>
-                                        <c:out value="${conductor.ape}"/>
-                                </td>                                                                
-                                <td>
-                                        <c:out value="${conductor.lic}"/>
-                                </td>                    
-                                <td>
-                                        <c:out value="${conductor.email}"/>
-                                </td>                                                        
-                                <td>
-                                        <c:out value="${conductor.tel}"/>
-                                </td>                                     
-                                <td class="text-center">
-                                    <a href="SERVConductor?action=edit&id=<c:out value="${conductor.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
-                                    <a href="SERVConductor?action=delete&id=<c:out value="${conductor.id}"/>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')"  class="btn btn-danger btn-sm">Eliminar</a>
-                                </td>
-                            </tr>
-                        </c:forEach>                         
-                    </tbody>                                             
-                </table>                 
+            <form method="POST">    
+                <div class="row">
+                    <h1>Lista de Conductores</h1>
+                    <hr>        
+                        <a class="btn btn-success btn-lg" href="SERVConductor?action=insert">Nuevo Registro</a>
+                    <br>
+                    <br>
+                    <div  class="col-sm-12">
+                        <table id="tableUser" class="display responsive nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                   <th class="text-center">ID</th>           
+                                   <th class="text-center">DNI</th> 
+                                   <th class="text-center">NOMBRES</th>
+                                   <th class="text-center">APELLIDOS</th>
+                                   <th class="text-center">LICENCIA</th>  
+                                   <th class="text-center">EMAIL</th>         
+                                   <th class="text-center">TELEFONO</th>
+                                   <th class="text-center">FECHA DE REGISTRO</th>
+                               </tr>                       
+                            </thead>
+                            <tbody>                        
+                                <c:forEach items="${conductor}" var="item">
+                                    <tr>
+                                        <td>
+                                            <c:out value="${item.id}"/>
+                                        </td>
+                                        <td>
+                                            <c:out value="${item.dni}"/>
+                                        </td>
+                                        <td>
+                                            <c:out value="${item.nom}"/>
+                                        </td>                                                     
+                                        <td>
+                                            <c:out value="${item.ape}"/>
+                                        </td>                    
+                                        <td>
+                                            <c:out value="${item.lic}"/>
+                                        </td>                    
+                                        <td>
+                                            <c:out value="${item.email}"/>
+                                        </td>                                        
+                                        <td>
+                                            <c:out value="${item.tel}"/>
+                                        </td>                                    
+                                        <td class="text-center">
+                                            <a href="SERVConductor?action=edit&id=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
+                                            <a href="SERVConductor?action=delete&id=<c:out value="${item.id}"/>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')"  class="btn btn-danger btn-sm">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>                         
+                            </tbody>                                             
+                        </table>                        
+                    </div>
+                </div>                             
             </form> 
         </div>        
     </body>

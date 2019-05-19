@@ -4,8 +4,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registrar Conductor</title>
+        <title>Conductor</title>
+        <!--
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        -->
         <jsp:include page="navbar.jsp"/>
+        <script src="js/validarRegistrarConductor.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
@@ -70,6 +77,10 @@
             <input type="submit" id="registrar" name="btnRegistrar" class="btn-success form-control" value="Registrar">
             <br>
             <input type="reset" id="limpiar" name="btnLimpiar" class="btn-warning form-control" value="Limpiar">
+            <br>
+            <a class="btn-danger form-control" href="SERVConductor?action=refresh" id="regresar">
+                <div align="center">  Regresar</div>
+            </a>
           </div>
         </div>
 

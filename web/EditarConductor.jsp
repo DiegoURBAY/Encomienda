@@ -6,8 +6,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registrar Conductor</title>
+        <title>Conductor</title>
         <jsp:include page="navbar.jsp"/>
+        <script src="js/validarEditarConductor.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
@@ -15,13 +16,13 @@
         <fieldset>
 
         <!-- Form Name -->
-        <legend>Registro de Conductor</legend>
+        <legend>Editar de Conductor</legend>
         
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="dni">ID</label>  
+          <label class="col-md-4 control-label" for="id">ID</label>  
           <div class="col-md-4">
-          <input id="id" name="txtId" type="text" placeholder="Id" class="form-control input-md" value="<c:out value="${conductor.id}" />" > 
+              <input id="id" name="txtId" type="text" placeholder="Id" readonly="" class="form-control input-md" value="<c:out value="${conductor.id}" />" > 
           </div>
         </div>        
 
@@ -30,6 +31,7 @@
           <label class="col-md-4 control-label" for="dni">DNI</label>  
           <div class="col-md-4">
           <input id="dni" name="txtDni" type="text" placeholder="Dni" class="form-control input-md" value="<c:out value="${conductor.dni}" />" > 
+          <input id="dniOriginal" name="txtDniOrginal" type="hidden" value="<c:out value="${conductor.dni}" />" > 
           </div>
         </div>
 
@@ -54,6 +56,7 @@
           <label class="col-md-4 control-label" for="licencia">Licencia</label>  
           <div class="col-md-4">
           <input id="licencia" name="txtLicencia" type="text" placeholder="Licencia" class="form-control input-md" value="<c:out value="${conductor.lic}" />" > 
+          <input id="licenciaOriginal" name="txtLicenciaOriginal" type="hidden" value="<c:out value="${conductor.lic}" />" > 
           </div>
         </div>
 
@@ -62,6 +65,7 @@
           <label class="col-md-4 control-label" for="email">Email</label>  
           <div class="col-md-4">
           <input id="email" name="txtEmail" type="text" placeholder="Email" class="form-control input-md"  value="<c:out value="${conductor.email}" />" > 
+          <input id="emailOriginal" name="txtEmailOriginal" type="hidden"  value="<c:out value="${conductor.email}" />" > 
           </div>
         </div>
 
@@ -77,9 +81,13 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="registrar">Botones</label>
           <div class="col-md-4">
-            <input type="submit" id="registrar" name="btnEditar" class="btn-success form-control" value="Editar">
+            <input type="submit" id="editar" name="btnEditar" class="btn-success form-control" value="Editar">
             <br>
             <input type="reset" id="limpiar" name="btnLimpiar" class="btn-warning form-control" value="Limpiar">
+            <br>
+            <a class="btn-danger form-control" href="SERVConductor?action=refresh" id="regresar">
+                <div align="center">  Regresar</div>
+            </a>            
           </div>
         </div>
 
