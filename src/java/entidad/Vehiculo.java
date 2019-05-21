@@ -8,19 +8,20 @@ public class Vehiculo {
     private double volumen;
     private double capacidad;
     private double actualvolumen;
-    private double actualcapacidad;    
-    private int idencomienda;
-
+    private double actualcapacidad;   
+    private int idConductor;
+    private int idAyudante;
+    
     public Vehiculo() {
     }
-
+/*
     public Vehiculo(int id, String placa, double capacidad, int idencomienda) {
         this.id = id;
         this.placa = placa;
         this.capacidad = capacidad;
         this.idencomienda = idencomienda;
     }
-
+*/
     public Vehiculo(int id, String placa, double volumen, double capacidad) {
         this.id = id;
         this.placa = placa;
@@ -36,8 +37,16 @@ public class Vehiculo {
         this.actualvolumen = actualvolumen;
         this.actualcapacidad = actualcapacidad;
     }
-    
-    
+
+    public Vehiculo(int id, String placa, double volumen, double capacidad, int idConductor, int idAyudante ) {
+        this.id = id;
+        this.placa = placa;
+        this.volumen = volumen;
+        this.capacidad = capacidad;        
+        this.idConductor = idConductor;
+        this.idAyudante = idAyudante;
+    }
+
     public int getId() {
         return id;
     }
@@ -60,14 +69,6 @@ public class Vehiculo {
 
     public void setCapacidad(double capacidad) {
         this.capacidad = capacidad;
-    }
-
-    public int getIdencomienda() {
-        return idencomienda;
-    }
-
-    public void setIdencomienda(int idencomienda) {
-        this.idencomienda = idencomienda;
     }
 
     public double getVolumen() {
@@ -93,5 +94,22 @@ public class Vehiculo {
     public void setActualcapacidad(double actualcapacidad) {
         this.actualcapacidad = actualcapacidad;
     }
+
+    public int getIdConductor() {
+        return idConductor;
+    }
+
+    public void setIdConductor(int idConductor) {
+        this.idConductor = idConductor;
+    }
+
+    public int getIdAyudante() {
+        return idAyudante;
+    }
+
+    public void setIdAyudante(int idAyudante) {
+        this.idAyudante = idAyudante;
+    }
+    
     
 }

@@ -99,8 +99,37 @@ public class DisponibilidadDAO extends Conexion implements DAO{
     }
 
     @Override
-    public List consultar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Disponibilidad> consultar() throws Exception {
+        List<Disponibilidad> datos = new ArrayList<>();
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "SELECT id, idVehiculo, idTipoEncomienda, idConductor, idAyudante, actualvolumen, actualcapacidad, situacion, estado FROM disponibilidad WHERE estado = 1";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                datos.add(new Disponibilidad(
+                        rs.getInt("id"),
+                        rs.getInt("idVehiculo"),
+                        rs.getInt("idTipoEncomienda"),
+                        rs.getInt("idConductor"),
+                        rs.getInt("idAyudante"),                            
+                        rs.getDouble("actualvolumen"),
+                        rs.getDouble("actualcapacidad"),                    
+                        rs.getInt("situacion"),
+                        rs.getInt("estado")
+                    )
+                );
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;     
+         
     }
 
     @Override
@@ -141,6 +170,38 @@ public class DisponibilidadDAO extends Conexion implements DAO{
         return datos;     
     }    
  
+  public Disponibilidad consultarPorIdTipoEncomienta(int idTipoEncomienda) throws Exception {
+        Disponibilidad disponibilidad = new Disponibilidad();
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "SELECT id, idVehiculo, idTipoEncomienda, idConductor, idAyudante, actualvolumen, actualcapacidad, situacion, estado FROM disponibilidad WHERE estado = 1 AND idTipoEncomienda = ?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            pst.setDouble(1, idTipoEncomienda);
+            rs = pst.executeQuery();
+            if(rs.next()){
+
+                disponibilidad.setId(rs.getInt("id"));
+                disponibilidad.setIdVehiculo(rs.getInt("idVehiculo"));
+                disponibilidad.setIdTipoEncomienda(rs.getInt("idTipoEncomienda"));
+                disponibilidad.setIdConductor(rs.getInt("idConductor"));
+                disponibilidad.setIdAyudante(rs.getInt("idAyudante"));                        
+                disponibilidad.setActualvolumen(rs.getInt("actualvolumen"));
+                disponibilidad.setActualcapacidad(rs.getInt("actualcapacidad"));
+                disponibilidad.setSituacion(rs.getInt("situacion"));
+                disponibilidad.setEstado(rs.getInt("estado"));                   
+
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return disponibilidad;     
+    }  
+  
     public void eliminarPorTipoEncomienda(Object obj) throws Exception {
         Disponibilidad disponibilidad = (Disponibilidad) obj;
         PreparedStatement pst;

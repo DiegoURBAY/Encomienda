@@ -32,7 +32,8 @@ public class ConductorDAO extends Conexion implements DAO{
 
 
       //  conductorDAO.modificar(conductor);
-        
+      conductor.setId(2);
+        conductorDAO.eliminarDisponiblidad(conductor);
  
     }
     
@@ -141,7 +142,7 @@ public class ConductorDAO extends Conexion implements DAO{
                     c.setLic(res.getString("lic"));                       
                     c.setEmail(res.getString("email"));
                     c.setTel(res.getString("tel"));                    
-                    c.setId(res.getInt("c.id"));
+                    c.setEstado(res.getInt("disp"));
                 }                   
      
         } catch (SQLException e) {
