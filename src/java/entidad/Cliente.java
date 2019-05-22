@@ -12,6 +12,7 @@ public class Cliente {
     private String usuario;
     private String contraseña;    
     private String telefono;
+    private Date fechacumple;
     private int nivel;
     private Date fecharegistro;
 
@@ -30,6 +31,18 @@ public class Cliente {
         this.fecharegistro = fecharegistro;
     }
 
+    public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, Date fechacumple, Date fecharegistro) {
+        this.id = id;
+        this.identificador = identificador;
+        this.nombre = nombre;
+        this.email = email;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
+        this.telefono = telefono;
+        this.fechacumple = fechacumple;
+        this.fecharegistro = fecharegistro;
+    }    
+    
     public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, int nivel) {
         this.id = id;
         this.identificador = identificador;
@@ -113,6 +126,14 @@ public class Cliente {
 
     public void setNivel(int nivel) {
         this.nivel = nivel;
+    }
+
+    public Date getFechacumple() {
+        return fechacumple;
+    }
+
+    public void setFechacumple(Date fechacumple) {
+        this.fechacumple = fechacumple;
     }
 
 

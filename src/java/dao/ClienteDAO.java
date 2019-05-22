@@ -8,15 +8,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entidad.Cliente;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class ClienteDAO extends Conexion implements DAO{
     
+    public static void main(String[] args) throws Exception {
+      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString = "1995-02-01";
+         Date date = (Date) formatter.parse(dateInString);
+            System.out.println(date);
+         //   System.out.println(formatter.format(date))
+        java.util.Date d = new java.util.Date();  
+   
+        java.sql.Date fechacumple = new java.sql.Date(d.getTime());
+        
+        Cliente cliente = new Cliente();
+        cliente.setIdentificador("11");
+        cliente.setNombre("demo");
+        cliente.setEmail("la@gmail.com");
+        cliente.setUsuario("demousuario");
+        cliente.setContraseña("123");
+        cliente.setTelefono("999999999");       
+        cliente.setFechacumple(date);
+        ClienteDAO clienteDAO = new ClienteDAO();
+        clienteDAO.insertar(cliente);
+    }
  
     @Override
     public void insertar(Object obj) throws Exception {
         Cliente c = (Cliente) obj;
         PreparedStatement pst = null;
-        String sql="INSERT INTO clientes (identificador, nombre, email, usuario, contraseña, telefono, nivel, fecharegistro) VALUES(?,?,?,?,?,?,?, CURDATE())";
+        String sql="INSERT INTO clientes (identificador, nombre, email, usuario, contraseña, telefono, nivel, fechCumple, fecharegistro) VALUES(?,?,?,?,?,?,?,?, CURDATE())";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -27,9 +50,11 @@ public class ClienteDAO extends Conexion implements DAO{
             pst.setString(5, c.getContraseña());
             pst.setString(6, c.getTelefono());
             pst.setInt(7, c.getNivel());
+            pst.setDate(8, c.getFechacumple());
             pst.executeUpdate();            
                       
         } catch ( SQLException e) {           
+            throw e;
         }
         finally{
                 this.cerrar();
