@@ -37,7 +37,7 @@ HttpSession sesion = request.getSession();
                                    <th class="text-center">LICENCIA</th>  
                                    <th class="text-center">EMAIL</th>         
                                    <th class="text-center">TELEFONO</th>
-                                   <th class="text-center">FECHA DE REGISTRO</th>
+                                   <th class="text-center">OPCION</th>
                                </tr>                       
                             </thead>
                             <tbody>                        
@@ -66,7 +66,7 @@ HttpSession sesion = request.getSession();
                                         </td>                                    
                                         <td class="text-center">
                                             <a href="SERVConductor?action=edit&id=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
-                                            <a href="SERVConductor?action=delete&id=<c:out value="${item.id}"/>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')"  class="btn btn-danger btn-sm">Eliminar</a>
+                                        
                                         </td>
                                     </tr>
                                 </c:forEach>                         

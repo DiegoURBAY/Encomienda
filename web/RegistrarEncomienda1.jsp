@@ -47,6 +47,7 @@ HttpSession sesion = request.getSession();
             <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
             <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
             <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
+            
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-6 form-group">
@@ -78,7 +79,7 @@ HttpSession sesion = request.getSession();
                     <div class="col-xs-3 ">
                         <label for="tiempo">Tiempo</label>
                         <input type="text" class="form-control" readonly="" placeholder="Tiempo" id="tiempo" name="txtTiempo">
-                        <input type="text" class="form-control" id="tiempoConvertido" name="txtTiempoConvertido">
+                        <input type="hidden" class="form-control" id="tiempoConvertido" name="txtTiempoConvertido">
                     </div>
                     <div class="col-xs-3 ">
                         <label for="recorrido">Kilometros</label>
@@ -132,11 +133,15 @@ HttpSession sesion = request.getSession();
             <hr class="my-4">
             <div class="row" id="div1" style="display:;">
                 <div class="col-sm-12">
-                    <div class="row">
-                   
-                        <div class="col-sm-12 form-group">
+                    <div class="row">                   
+                        <div class="col-sm-6 form-group">
                             <h4>Costo x Sobre S/. 10.00</h4>
-                        </div>                        
+                        </div>      
+                        <div class="col-sm-6 form-group">
+                            <label>Descuento de:                             
+                                <span style="color: red;" id="descuento"></span>%
+                             </label>
+                        </div>                          
                     </div>
                     <div class="row">
                                               

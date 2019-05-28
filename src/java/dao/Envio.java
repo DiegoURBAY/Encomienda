@@ -82,7 +82,7 @@ public static void main(String[] args) throws Exception {
     }
     
     
-    public void EnviarCodigo(int idcliente, int idencomienda, int idConductor, int idAyudante, int vehiculo, String placaVehiculo, String receptor) throws MessagingException, Exception{
+    public void EnviarCodigo(int idcliente, int idencomienda, int idConductor, int idAyudante, int vehiculo, String placaVehiculo, String receptor, double precio) throws MessagingException, Exception{
                 
        ConductorDAO conductorDAO = new ConductorDAO();        
        AyudanteDAO ayudanteDAO = new AyudanteDAO();        
@@ -115,8 +115,9 @@ public static void main(String[] args) throws Exception {
             String mensaje = "Hola, "+receptor+"\n"
                     + "Número de cliente: " + idcliente +"\n"
                     + "Identificador de encomienda: " + idencomienda +"\n"
+                    + "Precio S/. : " + precio+"\n"
                     + "Matricula de vehiculo: " + placaVehiculo +"\n"
-                    + "Identificador de Conductor: " + conductor.getId()+"\n"
+                    + "Identificador de Conductor: " + conductor.getId()+"\n"                    
                     + "Nombre de conductor: " + conductor.getNom() +" "+ conductor.getApe() +"\n"+
                     mensaje_extra
                 //    + "Identificador de Ayudante: " + ayudante.getId()+"\n"

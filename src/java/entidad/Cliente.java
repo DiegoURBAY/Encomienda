@@ -12,15 +12,16 @@ public class Cliente {
     private String usuario;
     private String contraseña;    
     private String telefono;
-    private Date fechacumple;
     private int nivel;
+    private int promocion;
+    private Date fechapromo;
     private Date fecharegistro;
 
     public Cliente() {
+        
     }
 
-
-    public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, Date fecharegistro) {
+    public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, int promocion,Date fechapromo ,Date fecharegistro) {
         this.id = id;
         this.identificador = identificador;
         this.nombre = nombre;
@@ -28,20 +29,11 @@ public class Cliente {
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.telefono = telefono;
+        this.promocion = promocion;
+        this.fechapromo = fechapromo;        
         this.fecharegistro = fecharegistro;
     }
 
-    public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, Date fechacumple, Date fecharegistro) {
-        this.id = id;
-        this.identificador = identificador;
-        this.nombre = nombre;
-        this.email = email;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-        this.telefono = telefono;
-        this.fechacumple = fechacumple;
-        this.fecharegistro = fecharegistro;
-    }    
     
     public Cliente(int id, String identificador, String nombre, String email, String usuario, String contraseña, String telefono, int nivel) {
         this.id = id;
@@ -126,18 +118,22 @@ public class Cliente {
 
     public void setNivel(int nivel) {
         this.nivel = nivel;
+    }    
+
+    public int getPromocion() {
+        return promocion;
     }
 
-    public Date getFechacumple() {
-        return fechacumple;
+    public void setPromocion(int promocion) {
+        this.promocion = promocion;
     }
 
-    public void setFechacumple(Date fechacumple) {
-        this.fechacumple = fechacumple;
+    public Date getFechapromo() {
+        return fechapromo;
     }
 
-
-
-    
+    public void setFechapromo(Date fechapromo) {
+        this.fechapromo = fechapromo;
+    }
     
 }

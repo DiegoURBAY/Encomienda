@@ -43,6 +43,18 @@
         <servlet-name>SERVVerificar</servlet-name>
         <servlet-class>controlador.SERVVerificar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SERVPromocion</servlet-name>
+        <servlet-class>controlador.SERVPromocion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SERVEnvio</servlet-name>
+        <servlet-class>controlador.SERVEnvio</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SERVEncomienda2</servlet-name>
+        <servlet-class>controlador.SERVEncomienda2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
@@ -82,6 +94,18 @@
     <servlet-mapping>
         <servlet-name>SERVVerificar</servlet-name>
         <url-pattern>/SERVVerificar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVPromocion</servlet-name>
+        <url-pattern>/SERVPromocion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVEnvio</servlet-name>
+        <url-pattern>/SERVEnvio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVEncomienda2</servlet-name>
+        <url-pattern>/SERVEncomienda2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

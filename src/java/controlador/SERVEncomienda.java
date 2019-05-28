@@ -362,9 +362,7 @@ public class SERVEncomienda extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("RegistrarEncomienda1.jsp");
                 view.forward(request, response);  
                 }
-
                 
-
             }
             
         else if(action.equalsIgnoreCase("buscarEncomienda")){                        
@@ -655,10 +653,15 @@ public class SERVEncomienda extends HttpServlet {
              Vehiculo vehiculo_conductor_ayudante = vehiculoDAO.BuscarPorId(idVehiculo);
             
             Envio envio = new Envio();
-            Cliente  cliente_encontrado = clientedao.BuscarPorId(idCliente);                        
+            Cliente  cliente_encontrado = clientedao.BuscarPorId(idCliente);    
+            
+            if(cliente_encontrado.getPromocion()>0){
+                cliente_encontrado.setPromocion(0);
+            }
+            clientedao.modificar(cliente_encontrado);
+            clientedao.actualizarPromo(cliente_encontrado);
             String email = cliente_encontrado.getEmail();                        
-            //envio.EnviarCodigo(idCliente , idEncomienda, idConductor, idAyudante,idVehiculo, matricula, email);
-            envio.EnviarCodigo(idCliente , idEncomienda, vehiculo_conductor_ayudante.getIdConductor(), vehiculo_conductor_ayudante.getIdAyudante(), idVehiculo, matricula, email);
+            envio.EnviarCodigo(idCliente , idEncomienda, vehiculo_conductor_ayudante.getIdConductor(), vehiculo_conductor_ayudante.getIdAyudante(), idVehiculo, matricula, email, precio);
 
             } catch (Exception ex) {
                

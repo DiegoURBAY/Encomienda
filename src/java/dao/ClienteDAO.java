@@ -6,40 +6,59 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import entidad.Cliente;
-import java.sql.Date;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import java.util.Date;
+
+
 
 public class ClienteDAO extends Conexion implements DAO{
     
     public static void main(String[] args) throws Exception {
-      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString = "1995-02-01";
-         Date date = (Date) formatter.parse(dateInString);
-            System.out.println(date);
-         //   System.out.println(formatter.format(date))
-        java.util.Date d = new java.util.Date();  
-   
-        java.sql.Date fechacumple = new java.sql.Date(d.getTime());
-        
-        Cliente cliente = new Cliente();
-        cliente.setIdentificador("11");
-        cliente.setNombre("demo");
-        cliente.setEmail("la@gmail.com");
-        cliente.setUsuario("demousuario");
-        cliente.setContraseña("123");
-        cliente.setTelefono("999999999");       
-        cliente.setFechacumple(date);
+      //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         ClienteDAO clienteDAO = new ClienteDAO();
-        clienteDAO.insertar(cliente);
+        Cliente cliente = clienteDAO.BuscarPorId(28);
+        cliente.getFechapromo();
+        
+        Calendar ultima_promocion = Calendar.getInstance();
+        ultima_promocion.setTime( cliente.getFechapromo());
+        
+        Calendar fecha_actual = Calendar.getInstance();
+
+        int ultima_promocion_mes = ultima_promocion.get(Calendar.MONTH)+1;
+        int ultima_promocion_año = ultima_promocion.get(Calendar.YEAR);
+        int mes_actual = fecha_actual.get(Calendar.MONTH)+1;
+        int año_actual = fecha_actual.get(Calendar.YEAR);
+
+        System.out.println(ultima_promocion_mes);
+        System.out.println(ultima_promocion_año);
+        System.out.println(mes_actual);
+        System.out.println(año_actual);        
+
+        int estado = 0;
+
+        if(estado == 0){
+            if(año_actual > ultima_promocion_año){
+                 estado = 1;
+            }
+            else if(mes_actual > ultima_promocion_mes){
+                 estado = 1;
+            }  
+        }
+           System.out.println(estado);
     }
+
+
  
+    
     @Override
     public void insertar(Object obj) throws Exception {
         Cliente c = (Cliente) obj;
         PreparedStatement pst = null;
-        String sql="INSERT INTO clientes (identificador, nombre, email, usuario, contraseña, telefono, nivel, fechCumple, fecharegistro) VALUES(?,?,?,?,?,?,?,?, CURDATE())";
+        String sql="INSERT INTO clientes (identificador, nombre, email, usuario, contraseña, telefono, nivel, fechaPromo, fecharegistro) VALUES(?,?,?,?,?,?,?, CURDATE(), CURDATE())";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -50,14 +69,14 @@ public class ClienteDAO extends Conexion implements DAO{
             pst.setString(5, c.getContraseña());
             pst.setString(6, c.getTelefono());
             pst.setInt(7, c.getNivel());
-            pst.setDate(8, c.getFechacumple());
+          //  pst.setDate(8, c.getFecharegistro());
             pst.executeUpdate();            
                       
         } catch ( SQLException e) {           
             throw e;
         }
         finally{
-                this.cerrar();
+            this.cerrar();
         }
     }
 
@@ -83,7 +102,7 @@ public class ClienteDAO extends Conexion implements DAO{
     public void modificar(Object obj) throws Exception{
         Cliente c = (Cliente) obj;
         PreparedStatement pst;
-        String sql="UPDATE clientes SET identificador=?, nombre=?, email=?, usuario=?, contraseña=?,  telefono=? WHERE id=?";
+        String sql="UPDATE clientes SET identificador=?, nombre=?, email=?, usuario=?, contraseña=?, telefono=?, promocion=? WHERE id=?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -93,7 +112,8 @@ public class ClienteDAO extends Conexion implements DAO{
             pst.setString(4, c.getUsuario());
             pst.setString(5, c.getContraseña());
             pst.setString(6, c.getTelefono());
-            pst.setInt(7, c.getId());
+            pst.setInt(7, c.getPromocion());
+            pst.setInt(8, c.getId());
 
              pst.executeUpdate();            
                        
@@ -104,6 +124,26 @@ public class ClienteDAO extends Conexion implements DAO{
         }
 
     }
+    
+    public void actualizarPromo(Object obj) throws Exception{
+        Cliente c = (Cliente) obj;
+        PreparedStatement pst;
+        String sql="UPDATE clientes SET fechaPromo=CURDATE() WHERE id=?";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);            
+            pst.setInt(1, c.getId());
+
+             pst.executeUpdate();            
+                       
+        } catch (SQLException e) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+
+    }    
 
     @Override
     public List<Cliente> consultar() throws Exception{
@@ -155,6 +195,8 @@ public class ClienteDAO extends Conexion implements DAO{
                     c.setContraseña(res.getString("contraseña"));                    
                     c.setTelefono(res.getString("telefono"));
                     c.setNivel(res.getInt("nivel"));
+                    c.setPromocion(res.getInt("promocion"));
+                    c.setFechapromo(res.getDate("fechaPromo"));
                     c.setFecharegistro(res.getDate("fecharegistro"));
                     c.setId(res.getInt("id"));
                 }                   
@@ -186,6 +228,8 @@ public class ClienteDAO extends Conexion implements DAO{
                     c.setContraseña(res.getString("contraseña"));                    
                     c.setTelefono(res.getString("telefono"));
                     c.setNivel(res.getInt("nivel"));
+                    c.setPromocion(res.getInt("promocion"));
+                    c.setFechapromo(res.getDate("fechaPromo"));
                     c.setFecharegistro(res.getDate("fecharegistro"));
                     c.setId(res.getInt("id"));
                 }                   

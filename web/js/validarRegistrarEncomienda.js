@@ -25,8 +25,50 @@
 
         });                                
     });      
+    
+$(document).ready(function(){          
+       
+    setTimeout(promotion(), 2);
+    
+    var descuento = Array();
 
-   $(document).ready(function(){          
+    function promotion(){        
+        var usuario = $("#cliente3").val();    
+        $.ajax({
+            type:"GET",
+            url:"SERVPromocion",
+            dataType:"JSON",
+            data:"&action=buscarCliente&usuario="+usuario,
+            success:function(data){
+            if(data.estado === "ok")
+            {
+                var objeto = JSON.parse(data.mensaje);  
+                var mensaje_completo = objeto.split(',');
+                if( mensaje_completo[0] === "1"){
+                     alert("hola, "+usuario+". Tiene "+ mensaje_completo[0]+ " descuento de "+mensaje_completo[1] +"%");                                     
+                    console.log(objeto);
+                    descuento.push(mensaje_completo[1]);                
+                    $("#descuento").text(mensaje_completo[1]);
+                    console.log(descuento);                     
+                    }
+                else{
+                     $("#descuento").text(0);
+                }    
+                
+            }
+            else{
+
+            }
+        },
+        beforeSend:function(){
+
+        },
+        complete:function(){
+
+        }
+        });       
+    }    
+       
   /*     
           	
    var map;
@@ -117,7 +159,7 @@
     var availableTags = new Array();
 
     //Conseguir locales por departamento segun el origen
-    $('#origen').change(function (){
+    $('#origen').change(function (){                
         var origen = $('#origen').val();
         var data = {nombre:$("#origen").val()} ;
         $.getJSON(
@@ -381,7 +423,7 @@
 
                     dura = dura[0] * 60 + (+dura[1]); 
                     $("#tiempoConvertido").val(dura);
-                    alert("dura:"+dura);
+                 //   alert("dura:"+dura);
 
                 }
             }
@@ -961,23 +1003,41 @@
                     }                     
                 }                
             } 
-        }           
-     
-       var answer = confirm('El tiempo estimado es '+ $("#tiempo").val()+'. ¿Seguro que desea registrar?');
+        }                      
+        
+       var answer = confirm('El tiempo estimado es '+ $("#tiempo").val()+'. ¿Seguro que desea registrar?');    
        if (answer)
         {
-          console.log('yes');
-          alert('Recibirá en su email los datos de su encomienda');
-          return true;
+            aplicar_descuento();
+            console.log('yes');
+            alert('Recibirá en su email los datos de su encomienda');
+            return true;
         }
         else
         {
-          console.log('cancel');
-          alert('Ha cancelado el registro');
-          return false;
-        }
+            console.log('cancel');          
+            alert('Ha cancelado el registro');
+            return false;
+        }       
+        
     });        
-    
+    function aplicar_descuento(){
+        
+        var precioSobre = $("#precioSobre").val();
+        var precioPaquete = $("#precioPaquete").val();
+        if(precioSobre > 0 && descuento > 0){
+        //    alert("con sobre: "+precioSobre+""+descuento);
+            var precio_descuento = parseFloat((100-descuento)*precioSobre/100);
+            $("#precioSobre").val(precio_descuento);
+            alert("Precio con descuento: S/. "+precio_descuento);
+        }
+        if(precioPaquete > 0 && descuento > 0){
+          //  alert("con paquete: "+precioPaquete+""+descuento);
+            var precio_descuento = parseFloat((100-descuento)*precioPaquete/100);
+            $("#precioPaquete").val(precio_descuento);
+            alert("Precio con descuento: S/. "+precio_descuento);            
+        }               
+    }
     /*    
     $("#calcular").click(function() {
         var largo = 0;

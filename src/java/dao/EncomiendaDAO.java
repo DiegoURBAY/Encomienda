@@ -16,6 +16,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
         public static void main(String[] args) throws Exception {
             
             
+
               EncomiendaDAO encomiendaDAO = new  EncomiendaDAO();
               int id = 126;
               String mensaje = "";
@@ -223,7 +224,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
            Encomienda c = new Encomienda();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT id, origen, destino, idCliente FROM encomiendas WHERE id = ?";
+           String sql = "SELECT id, origen, destino, idCliente, fechatime FROM encomiendas WHERE id = ?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -236,6 +237,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
                //     c.setEnvio(res.getDate("envio"));   
                  //   c.setLlegada(res.getDate("llegada")); 
                     c.setIdCliente(res.getInt("idCliente"));
+                    c.setFechaRegistroTime(res.getTimestamp("fechatime"));
                 }                   
      
         } catch (SQLException e) {
@@ -261,7 +263,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
                     c.setId(res.getInt("id"));
                     c.setOrigen(res.getInt("origen"));            
                     c.setDestino(res.getInt("destino"));                                
-                    c.setIdCliente(res.getInt("idCliente"));
+                    c.setIdCliente(res.getInt("idCliente"));                    
                 }                   
      
         } catch (SQLException e) {

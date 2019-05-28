@@ -139,6 +139,7 @@ public class SERVLogin extends HttpServlet {
                 
                 if(nivel == 2 ){
                     response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
+               //     response.sendRedirect(request.getContextPath() + "/SERVEncomienda2?action=refresh"); 
                 }
                 if(nivel == 1 ){
                     sesion.setAttribute("nivel", nivel);
