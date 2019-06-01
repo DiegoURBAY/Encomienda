@@ -2,7 +2,9 @@
 package controlador;
 
 import com.google.gson.Gson;
+import dao.ClienteDAO;
 import dao.ConductorDAO;
+import entidad.Cliente;
 import entidad.Conductor;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,9 +22,11 @@ import org.json.JSONObject;
 public class SERVVerificar extends HttpServlet {
 
     private ConductorDAO conductorDAO;
+    private ClienteDAO clienteDAO;
 
     public SERVVerificar() {
         conductorDAO = new ConductorDAO(){};
+        clienteDAO = new ClienteDAO(){};
     } 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -89,7 +93,50 @@ public class SERVVerificar extends HttpServlet {
                     mensaje = "existe";
                 }
                 estado = "ok";
-            }
+        }
+        else if(action.equalsIgnoreCase("verificarCliente")){
+                List<Cliente> clienteList = clienteDAO.consultar();  
+                int tipo = 0;
+                    String identificador = "";
+                    String email = "";
+                    String usuario = "";                    
+                if(request.getParameter("identificador")!=null){
+                    identificador = request.getParameter("identificador");
+                    tipo = 1;
+                }
+                if(request.getParameter("email")!=null){
+                    email = request.getParameter("email");
+                    tipo = 2;
+                }             
+                if(request.getParameter("usuario")!=null){
+                    usuario = request.getParameter("usuario");
+                    tipo = 3;
+                }                                 
+                int contador = 0;
+                for (int i = 0; i < clienteList.size(); i++) {
+                    if(tipo == 1){
+                        if(clienteList.get(i).getIdentificador().equalsIgnoreCase(identificador)){
+                            contador = i + 1;
+                        }
+                    }
+                    if(tipo == 2){
+                        if(clienteList.get(i).getEmail().equalsIgnoreCase(email)){
+                            contador = i + 1;
+                        }                        
+                    }
+                    if(tipo == 3){
+                        if(clienteList.get(i).getUsuario().equalsIgnoreCase(usuario)){
+                            contador = i + 1;
+                        }                        
+                    }                    
+                } 
+                if(contador > 0){
+                    mensaje = "existe";
+                }else{
+                    mensaje = "libre";
+                }                
+                estado = "ok";                
+        }
         } catch (Exception e) {
             estado = "error";
             mensaje = "error al grabar";          
@@ -113,7 +160,13 @@ public class SERVVerificar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            
+        } catch (Exception e) {
+        }
+         finally{
+            
+        }
     }
 
 

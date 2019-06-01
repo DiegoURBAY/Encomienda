@@ -55,9 +55,9 @@ public class ClienteDAO extends Conexion implements DAO{
  
     
     @Override
-    public void insertar(Object obj) throws Exception {
+    public void insertar(Object obj) throws SQLException {
         Cliente c = (Cliente) obj;
-        PreparedStatement pst = null;
+        PreparedStatement pst;
         String sql="INSERT INTO clientes (identificador, nombre, email, usuario, contraseña, telefono, nivel, fechaPromo, fecharegistro) VALUES(?,?,?,?,?,?,?, CURDATE(), CURDATE())";
         try {
             this.conectar();

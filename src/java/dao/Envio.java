@@ -27,7 +27,7 @@ public static void main(String[] args) throws Exception {
 }
 */
     
-    public void EnviarCorreo(String receptor) throws MessagingException{
+    public void EnviarCorreo(String receptor, String asunto, String mensaje) throws MessagingException{
         try {
             Properties props = new Properties();
             //Propiedades para la conexión a nuestra cuenta
@@ -47,8 +47,8 @@ public static void main(String[] args) throws Exception {
             String correoRemitente = "larcroco@gmail.com";
             String passwordRemitente = "Daniel941J";
             String correoReceptor = receptor;
-            String asunto = "Registro de cuenta";
-            String mensaje = "Se ha unido a Zurita SAC! Felicidades!!";
+        //    String asunto = "Registro de cuenta";
+          //  String mensaje = "Se ha unido a Zurita SAC! Felicidades!!";
             
             //Se envia la sesion
             MimeMessage message = new MimeMessage(session);

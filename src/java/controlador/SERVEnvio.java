@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import dao.CalificacionDAO;
 import dao.ClienteDAO;
 import dao.EncomiendaDAO;
+import dao.Envio;
 import dao.LugarDAO;
 import entidad.Calificacion;
 import entidad.Cliente;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -221,14 +223,17 @@ public class SERVEnvio extends HttpServlet {
                 
                 
         //       vista = "/exito.jsp";
-            }            
-        } catch (Exception e) {
+            }
+        }catch (Exception e) {
             estado = "error";
             mensaje = "error al grabar";      
            
             Logger.getLogger(SERVPromocion.class.getName()).log(Level.SEVERE, null, e);
       //      vista = "/error.jsp";
         }
+        //      vista = "/error.jsp";
+        
+        
         finally{
       //    response.sendRedirect(request.getContextPath() + vista);
           

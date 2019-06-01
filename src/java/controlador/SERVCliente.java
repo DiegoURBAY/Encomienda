@@ -389,7 +389,7 @@ public class SERVCliente extends HttpServlet {
             try {
                 cliente.setNivel(nivel);
                 clienteDAO.insertar(cliente);
-                envio.EnviarCorreo(email);
+//                envio.EnviarCorreo(email);
 
             } catch (Exception ex) {
                 Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);

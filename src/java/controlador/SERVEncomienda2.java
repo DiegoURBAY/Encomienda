@@ -68,11 +68,12 @@ public class SERVEncomienda2 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String action = request.getParameter("action");
-        
+        String action = request.getParameter("action");        
         String usuario_de_login = "";
         String vista = "";
         
+        List<Encomienda> encomienda_list = null;
+                         
         try {
             if (action.equalsIgnoreCase("delete")) { 
                 
@@ -84,12 +85,6 @@ public class SERVEncomienda2 extends HttpServlet {
                 
             }
             else if(action.equalsIgnoreCase("insert")) {  
-
-            }
-       //     else if(action.equalsIgnoreCase("refresh")){
-                
-      //      }
-            else if(action.equalsIgnoreCase("refresh")){
                 HttpSession sesion = request.getSession();
                 if(sesion.getAttribute("usuario")!=null){
                     usuario_de_login = String.valueOf(sesion.getAttribute("usuario"));
@@ -99,48 +94,74 @@ public class SERVEncomienda2 extends HttpServlet {
                         vista = "RegistrarEncomienda1.jsp";
                     }
                     else if(nivel == 1){
-                        List<Encomienda> encomienda_list = encomiendadao.consultarEncomiendaPorIdCliente(cliente.getId());
-                          
-                        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    
-                        for(int i = 0; i < encomienda_list.size(); i++){
 
-                             if(encomienda_list.get(i).getFechaRegistroTime() != null ){
-
-                                Date envio_date = encomienda_list.get(i).getFechaRegistroTime();     
-
-                                String fecha_string = sdf.format(envio_date);                                                            
-
-                                encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);
-
-                                Lugar lugar_origen = lugarDAO.BuscarPorId( encomienda_list.get(i).getOrigen());
-                                Lugar lugar_destino = lugarDAO.BuscarPorId( encomienda_list.get(i).getDestino());
-                                encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
-                                encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                               
-                             }
-                        }
-                        vista = "ListarEncomienda.jsp";
-                        request.setAttribute("encomienda", encomienda_list); 
                     }
                 }
                 else{
                     vista = "index.jsp";
-                }
+                }                   
+            }
+       //     else if(action.equalsIgnoreCase("refresh")){
                 
+      //      }
+            else if(action.equalsIgnoreCase("refresh")){
+                HttpSession sesion = request.getSession();                               
+                if(sesion.getAttribute("usuario")!=null){
+                    usuario_de_login = String.valueOf(sesion.getAttribute("usuario"));
+                    Cliente cliente = clientedao.BuscarPorUsuario(usuario_de_login);
+                    int nivel = cliente.getNivel();
+                    if(nivel == 2){                        
+                         vista = "ListarEncomienda1.jsp";
+                    }
+                    else if(nivel == 1){
+                        vista = "ListarEncomienda.jsp";                        
+                    }
+
+                    encomienda_list = encomiendadao.consultarEncomiendaPorIdCliente(cliente.getId());
+
+                    DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+                    for(int i = 0; i < encomienda_list.size(); i++){
+
+                        if(encomienda_list.get(i).getFechaRegistroTime() != null ){
+
+                           Date envio_date = encomienda_list.get(i).getFechaRegistroTime();     
+
+                           String fecha_string = sdf.format(envio_date);                                                            
+
+                           encomienda_list.get(i).setFechaRegistroTimeString(fecha_string);
+
+                           Lugar lugar_origen = lugarDAO.BuscarPorId( encomienda_list.get(i).getOrigen());
+                           Lugar lugar_destino = lugarDAO.BuscarPorId( encomienda_list.get(i).getDestino());
+                           encomienda_list.get(i).setOrigenS( lugar_origen.getNombre());
+                           encomienda_list.get(i).setDestinoS(lugar_destino.getNombre());                               
+                        }
+                    }                    
+                    
+                }
+                else{
+                    vista = "index.jsp";
+                }                
             }
             else if(action.equalsIgnoreCase("buscarEncomienda")){
                 
             }
+            else if(action.equalsIgnoreCase("cerrar")){
+                HttpSession sesion = request.getSession();
+                sesion.invalidate();
+                response.sendRedirect("index.jsp");
+            }            
         } catch (Exception e) {
             vista = "error.jsp";
              Logger.getLogger(SERVEncomienda2.class.getName()).log(Level.SEVERE, null, e);
         }
         finally{
                 request.setAttribute("usuario",  usuario_de_login);
+                request.setAttribute("encomienda", encomienda_list); 
                 RequestDispatcher view = request.getRequestDispatcher(vista);
                 view.forward(request, response);              
             
-        }
+        }       
     }
 
 

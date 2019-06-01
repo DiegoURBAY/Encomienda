@@ -224,17 +224,9 @@ RequestDispatcher view = request.getRequestDispatcher("GestionarRuta.jsp");
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-      public static void main(String[] json) throws Exception {
 /*
-         
-          Local tipoEncomienda = new Local();
-          String nombre = "s";
-        List<Local> tipoEncomienda2 = localDAO.ConsultarTitulo(nombre);
-         String mensaje = new Gson().toJson(tipoEncomienda2); 
-        JSONObject jsonObject=new  JSONObject();
-        jsonObject.put("mensaje", mensaje);         
-*/
+      public static void main(String[] json) throws Exception {
+
  LocalDAO localDAO = new LocalDAO();
 Local tipoEncomienda = new Local();
         tipoEncomienda.setId(21);
@@ -250,4 +242,5 @@ Local tipoEncomienda = new Local();
               throw e;
           }
 }    
+*/
 }

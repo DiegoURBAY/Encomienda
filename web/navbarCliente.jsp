@@ -3,12 +3,12 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();    
-    if(sesion.getAttribute("idUsuario")==null || sesion.getAttribute("usuarioPrueba")==null){
-       response.sendRedirect("index.jsp");
-    } 
-  //  if(sesion.getAttribute("usuarioPrueba")==null){
-    //    response.sendRedirect("index.jsp");
-    //}
+  //  if(sesion.getAttribute("idUsuario")==null || sesion.getAttribute("usuarioPrueba")==null){
+   //    response.sendRedirect("index.jsp");
+  //  } 
+    if(sesion.getAttribute("usuario")==null){
+        response.sendRedirect("index.jsp");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -54,14 +54,18 @@ HttpSession sesion = request.getSession();
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <!--¡Hola, <%= sesion.getAttribute("usuarioPrueba") %>!<b class="caret"></b>                   -->
-                  ¡Hola, <%= sesion.getAttribute("usuarioPrueba") %>!<b class="caret"></b>                  
+                  ¡Hola, <%= sesion.getAttribute("usuario") %>!<b class="caret"></b>                  
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="SERVCliente?action=buscarPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Editar cuenta? </a></li>
-                    <li><a href="SERVEncomienda?action=refreshPrueba">¿Nueva Encomienda? </a></li>
-                    <li><a href="SERVEncomienda?action=buscarEncomienda&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Buscar encomienda? </a></li> 
+                    <!--<li><a href="SERVCliente?action=buscarPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Editar cuenta? </a></li> -->
+                    <li><a href="SERVCliente2?action=edit" >¿Editar cuenta? </a></li> 
+                    <!-- <li><a href="SERVEncomienda?action=refreshPrueba">¿Nueva Encomienda? </a></li> -->
+                    <li><a href="SERVEncomienda2?action=insert">¿Nueva Encomienda? </a></li>
+                    <!-- <li><a href="SERVEncomienda?action=buscarEncomienda&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>" />" >¿Buscar encomienda? </a></li>  -->
+                    <li><a href="SERVEncomienda2?action=refresh" >¿Buscar encomienda? </a></li> 
                     <li><a href="EnviarCalificacion.jsp" >¿Calificar Encomienda? </a></li> 
-                    <li><a href="SERVEncomienda?action=cerrar">Cerrar Sesión</a></li> 
+                    <!-- <li><a href="SERVEncomienda?action=cerrar">Cerrar Sesión</a></li>  -->
+                    <li><a href="SERVCliente2?action=cerrar">Cerrar Sesión</a></li> 
                 </ul>
               </li>              
             </ul>

@@ -17,7 +17,7 @@
     </head>
     <body>
 <div class="signup-form">
-    <form action="SERVCliente" method="post"  autocomplete="off">
+    <form  method="POST"  autocomplete="off" id="formulario_registrar_cliente">
 		<h2>Registrar</h2>
 		<p class="hint-text">Solo le tomará unos segundos</p>
                 
@@ -59,8 +59,8 @@
                 </div>        	
         </div>                
         <div class="form-group">
-        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="registrar" name="btnRegistrarCliente" id="registrar">
-            <a href="SERVEncomienda?action=cerrar" class="btn btn-sm btn-secondary btn-block text-uppercase" id="regresar">Atrás</a>                 
+        <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="registrar" name="btnRegistrar" id="registrar">
+            <a href="SERVCliente2?action=cerrar" class="btn btn-sm btn-secondary btn-block text-uppercase" id="regresar">Atrás</a>                 
         </div>
     </form>
 </div>

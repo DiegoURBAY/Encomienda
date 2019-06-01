@@ -66,7 +66,10 @@ HttpSession sesion = request.getSession();
                   ¡Hola, <%= sesion.getAttribute("usuario") %>!<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
+                    <!--
+                        <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
+                    -->
+                    <li><a href="SERVCliente2?action=edit" >¿Editar cuenta? </a></li> 
                      <li><a href="SERVCliente?action=cerrar">Cerrar Sesión</a></li>                           
                 </ul>
               </li>              

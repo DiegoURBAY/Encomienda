@@ -55,6 +55,14 @@
         <servlet-name>SERVEncomienda2</servlet-name>
         <servlet-class>controlador.SERVEncomienda2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SERVCliente2</servlet-name>
+        <servlet-class>controlador.SERVCliente2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EJEMPLO</servlet-name>
+        <servlet-class>controlador.EJEMPLO</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
@@ -106,6 +114,14 @@
     <servlet-mapping>
         <servlet-name>SERVEncomienda2</servlet-name>
         <url-pattern>/SERVEncomienda2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVCliente2</servlet-name>
+        <url-pattern>/SERVCliente2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EJEMPLO</servlet-name>
+        <url-pattern>/EJEMPLO</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

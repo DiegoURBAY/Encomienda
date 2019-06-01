@@ -4,7 +4,8 @@
 
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("idUsuario")==null){
+    //if(sesion.getAttribute("idUsuario")==null){
+    if(sesion.getAttribute("usuario")==null){
         response.sendRedirect("index.jsp");
     }
     
@@ -16,12 +17,13 @@ HttpSession sesion = request.getSession();
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Lista de Cliente</title>
         <jsp:include page="navbar.jsp"/>
+        <script src="js/validarListarCliente.js" type="text/javascript"></script>
     </head>    
     <body> 
         <div class="container">
-            <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("nivel") %>"  >
-            <input type="hidden" id="cliente" name="txtIdCliente" value="<%= sesion.getAttribute("idUsuario") %>"  >
-            <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario") %>"  >
+            <input type="text" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("nivel") %>"  >
+            <input type="text" id="cliente" name="txtIdCliente" value="<%= sesion.getAttribute("idUsuario") %>"  >
+            <input type="text" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario") %>"  >
                 <h1>Lista de Clientes</h1>
                 <hr>
                    
@@ -55,7 +57,7 @@ HttpSession sesion = request.getSession();
                                         <c:out value="${item.nombre}"/>
                                 </td>                                                     
                                 <td>
-                                        <c:out value="${item.email}"/>
+                                        <c:out value="${item.email}" />
                                 </td>                    
                                 <td>
                                         <c:out value="${item.usuario}"/>
@@ -70,8 +72,15 @@ HttpSession sesion = request.getSession();
                                     <a href="SERVEncomienda?action=refresh&idCliente=<c:out value="${item.id}"/>"  class="btn btn-secondary btn-sm">Ver Envios</a>                                       
                                 </td>                                     
                                 <td class="text-center">
-                                    <a href="SERVCliente?action=buscarPorAdmin&idUsuarioPorAdmin=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
-                                    <a href="SERVCliente?action=deleteCliente&idClienteR=<c:out value="${item.id}"/>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')"  class="btn btn-danger btn-sm">Eliminar</a>
+                                    <a href="SERVCliente2?action=edit&email=<c:out value="${item.email}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
+                                    <!--
+                                    <a href="SERVCliente2?action=buscarPorAdmin&idUsuarioPorAdmin=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
+                                    <input type="text"  id="email_eliminar" value=" <c:out value="${item.email}" />">
+                                    <input type="button" class="btn btn-danger btn-sm" id="eliminar" value="Eliminar">
+                                    <a href="SERVCliente2?action=deleteCliente&idClienteR=<c:out value="${item.id}"/>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')"  class="btn btn-danger btn-sm">Eliminar</a>
+                                    
+                                    -->                                    
+                                    <a href="SERVCliente2?action=delete&email=<c:out value="${item.email}"/>" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro que desea eliminar el registro?')">Eliminar</a>                                    
                                 </td>
                             </tr>
                         </c:forEach>                         

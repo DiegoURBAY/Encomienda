@@ -53,20 +53,20 @@
 
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="licencia">Licencia</label>  
-          <div class="col-md-4">
-          <input id="licencia" name="txtLicencia" type="text" placeholder="Licencia" class="form-control input-md" value="<c:out value="${conductor.lic}" />" > 
-          <input id="licenciaOriginal" name="txtLicenciaOriginal" type="hidden" value="<c:out value="${conductor.lic}" />" > 
-          </div>
+            <label class="col-md-4 control-label" for="licencia">Licencia</label>  
+            <div class="col-md-4">
+                <input id="licencia" name="txtLicencia" type="text" placeholder="Licencia" class="form-control input-md" value="<c:out value="${conductor.lic}" />" > 
+                <input id="licenciaOriginal" name="txtLicenciaOriginal" type="hidden" value="<c:out value="${conductor.lic}" />" >
+            </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="email">Email</label>  
-          <div class="col-md-4">
-          <input id="email" name="txtEmail" type="text" placeholder="Email" class="form-control input-md"  value="<c:out value="${conductor.email}" />" > 
-          <input id="emailOriginal" name="txtEmailOriginal" type="hidden"  value="<c:out value="${conductor.email}" />" > 
-          </div>
+            <label class="col-md-4 control-label" for="email">Email</label>  
+            <div class="col-md-4">
+                <input id="email" name="txtEmail" type="text" placeholder="Email" class="form-control input-md"  value="<c:out value="${conductor.email}" />" > 
+                <input id="emailOriginal" name="txtEmailOriginal" type="hidden"  value="<c:out value="${conductor.email}" />" > 
+            </div>
         </div>
 
         <!-- Text input-->

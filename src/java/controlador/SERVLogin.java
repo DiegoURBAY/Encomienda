@@ -134,16 +134,17 @@ public class SERVLogin extends HttpServlet {
 
             if(idUsuario > 0){
 
-                sesion.setAttribute("idUsuario", idUsuario);
-               sesion.setAttribute("usuario", usuario);
+                //sesion.setAttribute("idUsuario", idUsuario);
+                sesion.setAttribute("usuario", usuario);
                 
                 if(nivel == 2 ){
-                    response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
-               //     response.sendRedirect(request.getContextPath() + "/SERVEncomienda2?action=refresh"); 
+                    //response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
+                    response.sendRedirect(request.getContextPath() + "/SERVEncomienda2?action=insert"); 
                 }
                 if(nivel == 1 ){
-                    sesion.setAttribute("nivel", nivel);
-                    response.sendRedirect(request.getContextPath() + "/SERVCliente?action=refreshCliente"); 
+               //     sesion.setAttribute("nivel", nivel);
+                    //response.sendRedirect(request.getContextPath() + "/SERVCliente?action=refreshCliente"); 
+                    response.sendRedirect(request.getContextPath() + "/SERVCliente2?action=refresh"); 
                 }                
               
             } 

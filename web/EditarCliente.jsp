@@ -4,7 +4,8 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("nivel")==null){
+//if(sesion.getAttribute("nivel")==null){
+    if(sesion.getAttribute("usuario")==null){
         response.sendRedirect("index.jsp");
     }
 %>
@@ -27,8 +28,8 @@ HttpSession sesion = request.getSession();
     </head>
     <body>
 <div class="signup-form">
-    <form action="SERVCliente" method="POST"  autocomplete="off">
-		<h2>Editar</h2>
+    <form action="SERVCliente2" method="POST"  autocomplete="off">
+		<h2>Editar como Administrador</h2>
 		<p class="hint-text">Solo le tomará unos segundos</p>
                 
               <input type="hidden" class="form-control" id="cliente_id" name="txtId" value="<c:out value="${cliente.id}" />" >  
@@ -69,7 +70,7 @@ HttpSession sesion = request.getSession();
         </div>                
         <div class="form-group">
         <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Editar" name="btnEditar" id="editar" onclick="return confirm('¿Seguro que desea editar')">
-        <a class="btn btn-sm btn-secondary btn-block text-uppercase" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')" >Atras</a>
+        <a class="btn btn-sm btn-secondary btn-block text-uppercase" href="SERVCliente2?action=refresh" onclick="return confirm('¿Seguro que desea salir de la edición?')" >Atras</a>
         </div>
                     
                      
