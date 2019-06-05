@@ -8,10 +8,6 @@
         <servlet-class>controlador.SERVLogin</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SERVCliente</servlet-name>
-        <servlet-class>controlador.SERVCliente</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SERVEncomienda</servlet-name>
         <servlet-class>controlador.SERVEncomienda</servlet-class>
     </servlet>
@@ -63,13 +59,13 @@
         <servlet-name>EJEMPLO</servlet-name>
         <servlet-class>controlador.EJEMPLO</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SERVReporte</servlet-name>
+        <servlet-class>controlador.SERVReporte</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SERVCliente</servlet-name>
-        <url-pattern>/SERVCliente</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SERVEncomienda</servlet-name>
@@ -122,6 +118,10 @@
     <servlet-mapping>
         <servlet-name>EJEMPLO</servlet-name>
         <url-pattern>/EJEMPLO</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVReporte</servlet-name>
+        <url-pattern>/SERVReporte</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

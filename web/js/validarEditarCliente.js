@@ -465,7 +465,7 @@ jQuery(function ($) {
             data:f.serialize()+"&action=edito&email="+email,
             success:function(data){
                 if(data.mensaje !==null){
-                    alert("Se ha enviado a su correo un aviso de edición. Regesará a la página de inicio");
+                    alert("Se ha enviado a su correo un aviso de edición. Regresará a la página de inicio");
                   //  $(location).attr('href',"http://localhost:9090/Encomienda/SERVCliente2&action=cerrar");
                     location.href = "http://localhost:9090/Encomienda/SERVCliente2?action=cerrar";
                 }

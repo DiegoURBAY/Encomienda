@@ -54,9 +54,13 @@ HttpSession sesion = request.getSession();
                                 <td class="text-center">
                                     <a href="SERVTipoEncomienda?action=refresh2&idEncomienda=<c:out value="${encomienda.id}"/>"  class="btn btn-secondary btn-sm">Ver tipo de envio</a>                                       
                                 </td>                                 
-                                <td class="text-center">                                    
+                                <td class="text-center">      
+                                    <!--
                                     <a href="SERVEncomienda?action=edit&id=<c:out value="${encomienda.id}"/>&usuario=<c:out value="<%= sesion.getAttribute("usuario") %>" />"  class="btn btn-warning btn-sm">Editar</a>   
                                     <a href="SERVEncomienda?action=delete&idEncomienda=<c:out value="${encomienda.id}"/>" onclick="return confirm('¿Seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
+                                    -->                                    
+                                    <a href="SERVEncomienda2?action=edit&id=<c:out value="${encomienda.id}"/>" class="btn btn-warning btn-sm">Editar</a>   
+                                    <a href="SERVEncomienda2?action=delete&id=<c:out value="${encomienda.id}"/>" onclick="return confirm('¿Seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
                                 </td>
                             </tr>
                         </c:forEach>                         

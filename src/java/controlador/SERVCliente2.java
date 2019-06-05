@@ -66,19 +66,21 @@ public class SERVCliente2 extends HttpServlet {
                             String email_cliente = request.getParameter("email");
                             cliente_buscado = clienteDAO.ConsultarByEmail(email_cliente);
                             if(cliente_buscado.getNivel() == 2){
-                                vista = "EditarCliente1.jsp";
+                                vista = "EditarCliente.jsp";
                             }
                             //si el administrador quiere editar a otro administrador
                             //entonces se le evita enviando sus propios datos al formulario
                             else{
                                  cliente_buscado = clienteDAO.BuscarPorUsuario(usuario_de_login);
-                                  vista = "EditarCliente.jsp";
+                              //    vista = "EditarCliente.jsp";
+                                vista = "EditarAdministrador.jsp";
                             }
                             
                         }
                         //si el administrador quiere editar su cuenta
                         else{
-                            vista = "EditarCliente.jsp";
+                           // vista = "EditarCliente.jsp";
+                           vista = "EditarAdministrador.jsp";
                         }
                     }
                     request.setAttribute("cliente", cliente_buscado);
@@ -230,19 +232,22 @@ public class SERVCliente2 extends HttpServlet {
                     
                     String id = request.getParameter("txtId");
                      
-
-                    cliente.setId(Integer.parseInt(id)); 
-                    clienteDAO.modificar(cliente);
                     int nivel = cliente_buscado.getNivel();
-                    estado = "ok";
-                    mensaje = "Edición exitosa";                    
+                 
                     
                     if(nivel == 2){
                         
-                    }
-                    else if(nivel == 1){
                         
                     }
+                    else if(nivel == 1){
+                                                                        
+                    }
+                    
+                    cliente.setId(Integer.parseInt(id)); 
+                    clienteDAO.modificar(cliente);
+                    
+                    estado = "ok";
+                    mensaje = "Edición exitosa";                       
                 }
             }
             else if(action.equalsIgnoreCase("registro")){

@@ -15,63 +15,46 @@ public class EncomiendaDAO extends Conexion implements DAO{
    
         public static void main(String[] args) throws Exception {
             
-            
-
-              EncomiendaDAO encomiendaDAO = new  EncomiendaDAO();
-              int id = 126;
-              String mensaje = "";
-              Encomienda encomienda = encomiendaDAO.BuscarPorId(id);
-                      
-               if(encomienda.getId() == id){
-                   mensaje = "existe";
-                   
-               }
-               else{
-                   mensaje = "no existe";
-               }
-               
-               System.out.print(mensaje);
-            /*
-        Encomienda encomienda = new Encomienda();
-        encomienda.setOrigen("aaa");
-        encomienda.setDestino("aa");
-        encomienda.setIdCliente(23);
-        
-        EncomiendaDAO encomiendaDAO = new  EncomiendaDAO();
-        encomiendaDAO.insertar(encomienda);
-        
-        //se necesita traer el id de encomienda que se acaba de crear
-        //se usará el idCliente??
-        encomienda = encomiendaDAO.getUltimoEncomiendaByIdCliente(23);
-        
-        encomienda.getId();
-  
-        TipoEncomienda tipoEncomienda = new TipoEncomienda();
-        tipoEncomienda.setTipo("sobre");
-        tipoEncomienda.setAltura(0);
-        tipoEncomienda.setAnchura(0);
-        tipoEncomienda.setLargo(0);
-        tipoEncomienda.setCantidad(11111);
-        tipoEncomienda.setPeso(11111);
-        tipoEncomienda.setPrecio(1111);
-        tipoEncomienda.setIdEncomienda(encomienda.getId());
-        
-        TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();
-        tipoEncomiendaDAO.insertar(tipoEncomienda);
-        
-    }
-    */
-    /*
-    public static void main(String[] args) throws Exception {
-        Encomienda encomienda = new Encomienda();
-        
-        encomienda.setOrigen("lua");
-        encomienda.setDestino("laaa");
-        encomienda.setIdCliente(28);
+        TipoEncomiendaDAO tipoEncomiendaDAO = new TipoEncomiendaDAO();    
         EncomiendaDAO encomiendaDAO = new EncomiendaDAO();
-        encomiendaDAO.insertar(encomienda);
-     */   
         
+        List<Integer> locales = new ArrayList<Integer>();
+        locales.add(26);
+        locales.add(34);
+        locales.add(9);
+        locales.add(25);
+        locales.add(23);
+        locales.add(35);
+        locales.add(37);
+        locales.add(10);
+        
+        Encomienda encomienda_nueva = new Encomienda();
+        
+        for (int i = 0; i < 5; i++) {
+            encomienda_nueva.setOrigen(37);            
+            encomienda_nueva.setDestino(24);
+            encomienda_nueva.setIdCliente(28);
+
+            encomiendaDAO.insertar(encomienda_nueva);                
+
+            encomienda_nueva = encomiendaDAO.getUltimoEncomiendaByIdCliente(28);
+
+            int idEncomienda = encomienda_nueva.getId();
+
+            TipoEncomienda tipoEncomienda = new TipoEncomienda();
+            tipoEncomienda.setTipo("paquete");
+            tipoEncomienda.setAltura(10);
+            tipoEncomienda.setAnchura(12);
+            tipoEncomienda.setLargo(14);
+            tipoEncomienda.setCantidad(2);
+            tipoEncomienda.setPeso(175);
+            tipoEncomienda.setPrecio(40);
+            tipoEncomienda.setDelicado(1);
+            tipoEncomienda.setIdEncomienda(idEncomienda);
+
+            tipoEncomiendaDAO.insertar(tipoEncomienda);                 
+        }
+
     }
   
     
@@ -80,7 +63,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception {
         Encomienda c = (Encomienda) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO encomiendas ( origen, destino, idCliente, fecharegistro, fechatime) VALUES (?,?,?, CURDATE(), CURRENT_TIMESTAMP)";
+        String sql="INSERT INTO encomiendas ( origen, destino, idCliente, fechatime) VALUES (?,?,?, CURRENT_TIMESTAMP)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);

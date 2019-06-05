@@ -13,8 +13,9 @@ body{
 #advanced-search-form{
     background-color: #fff;
     max-width: 800px;
-   /* margin: 160px auto 0; */
-    padding: 40px;
+   /* margin: 160px auto 0; 
+   */
+    padding: 70px;
     color: #858b8e;
     box-shadow: 6px 6px 6px rgba(0,0,0,0.2);
 }
@@ -55,7 +56,7 @@ body{
 #advanced-search-form .gender{
     width: 30%;
     margin-top: 30px;
-    padding-left: 20px
+    padding-left: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -121,4 +122,14 @@ body{
 .sinbordefondo {
 outline: none;
   border: 0;
+}
+
+.chartdiv {
+    width: 800px;
+    height: 400px
+}
+
+#chartdiv2 {
+    width: 750px;
+    height: 400px
 }

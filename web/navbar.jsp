@@ -56,6 +56,7 @@ HttpSession sesion = request.getSession();
                     <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>                    
                     <li><a href="SERVConductor?action=refresh">Gestionar Conductor</a></li>
                     <li><a href="GestionarPromocion.jsp">Gestionar Promoción</a></li>
+                    <li><a href="ReportarEncomienda.jsp">Encomiendas</a></li>
                 </ul>
               </li>                  
               </ul>
@@ -70,7 +71,7 @@ HttpSession sesion = request.getSession();
                         <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
                     -->
                     <li><a href="SERVCliente2?action=edit" >¿Editar cuenta? </a></li> 
-                     <li><a href="SERVCliente?action=cerrar">Cerrar Sesión</a></li>                           
+                     <li><a href="SERVCliente2?action=cerrar">Cerrar Sesión</a></li>                           
                 </ul>
               </li>              
             </ul>

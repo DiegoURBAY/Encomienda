@@ -3,7 +3,7 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-    if(session.getAttribute("idUsuario")==null){             
+    if(session.getAttribute("usuario")==null){             
         response.sendRedirect("index.jsp");
     }
 %>
@@ -11,7 +11,8 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Editar Paquete</title>                
+        <title>Editar Paquete</title>              
+        
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>        
        
@@ -43,7 +44,7 @@ HttpSession sesion = request.getSession();
             <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
             <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
             <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
-            <input type="hidden" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
+            <input type="text" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
             <input type="hidden" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
             <div class="row">
                 <div class="col-sm-12">

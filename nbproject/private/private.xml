@@ -3,15 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarCliente1.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVCliente2.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/RegistrarCliente.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarConductor.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/js/validarEditarCliente.js</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVEnvio.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/dao/Envio.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVCliente.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/js/validarRegistrarCliente.js</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/dao/ClienteDAO.java</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVReporte.java</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/js/validarReporteEncomienda2.js</file>
         </group>
     </open-files>
 </project-private>

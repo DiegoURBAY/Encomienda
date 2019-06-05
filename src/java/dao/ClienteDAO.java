@@ -243,6 +243,39 @@ public class ClienteDAO extends Conexion implements DAO{
            return c;
     }  
         
+    public Cliente BuscarPorDni(String dni) throws Exception{        
+           Cliente c = new Cliente();
+           PreparedStatement pst;
+           ResultSet res;
+           String sql = "SELECT * FROM clientes WHERE identificador=?";
+           try {
+               this.conectar();
+               pst = conexion.prepareStatement(sql);
+               pst.setString(1,dni);                                
+               res = pst.executeQuery();               
+                if (res.next()) {
+                    c.setIdentificador(res.getString("identificador"));
+                    c.setNombre(res.getString("nombre"));            
+                    c.setEmail(res.getString("email"));
+                    c.setUsuario(res.getString("usuario"));
+                    c.setContraseña(res.getString("contraseña"));                    
+                    c.setTelefono(res.getString("telefono"));
+                    c.setNivel(res.getInt("nivel"));
+                    c.setPromocion(res.getInt("promocion"));
+                    c.setFechapromo(res.getDate("fechaPromo"));
+                    c.setFecharegistro(res.getDate("fecharegistro"));
+                    c.setId(res.getInt("id"));
+                }                   
+     
+           } catch ( SQLException e ) {
+               throw  e;
+           }
+           finally{
+               this.cerrar();
+           }
+           return c;
+    }     
+    
     public Cliente ConsultarByEmail(String email) throws SQLException{
         
         Cliente c = new Cliente();
@@ -314,7 +347,7 @@ public class ClienteDAO extends Conexion implements DAO{
         
     }    
     
-    
+   /* 
    public boolean ConsultarRUCDNI(String nombre) throws SQLException{
         PreparedStatement pst;
         ResultSet rs = null;
@@ -347,7 +380,7 @@ public class ClienteDAO extends Conexion implements DAO{
         return rs.next();
         
     }   
-    
+    */
     public boolean ConsultarEmailContra(String email, String contraseña) throws SQLException{
     
         PreparedStatement pst;
@@ -366,7 +399,7 @@ public class ClienteDAO extends Conexion implements DAO{
         return rs.next();
         
     }         
-    
+    /*
     public boolean ConsultarUsuario(String usuario) throws SQLException{
 
         PreparedStatement pst;
@@ -385,5 +418,5 @@ public class ClienteDAO extends Conexion implements DAO{
         
     }    
     
-    
+    */
 }

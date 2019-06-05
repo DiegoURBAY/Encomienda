@@ -43,12 +43,12 @@ HttpSession sesion = request.getSession();
 
     <div class="container" id="advanced-search-form">
         <h2>Registrar Encomienda</h2>
-        <form method="POST" action="SERVEncomienda" autocomplete="off">
-   
-            <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
-            <input type="hidden" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
-            <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
-            
+        <form method="POST" action="SERVEncomienda2" autocomplete="off">
+   <!--
+            <input type="text" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  >
+            <input type="text" id="cliente" name="txtIdCliente" value="<%= request.getParameter("idUsuario") %>"  >
+            <input type="text" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
+       -->     
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-6 form-group">
@@ -239,7 +239,7 @@ HttpSession sesion = request.getSession();
                 
                 <div class="col-sm-12">
                     <div class="col-xs-6">
-                         <input type="submit" class="btn-primary form-control" id="registrar1" name="btnRegistrarPrueba" value="Registrar" >                
+                         <input type="submit" class="btn-primary form-control" id="registrar1" name="btnRegistrar" value="Registrar" >                
                     </div>              
                     <div class="col-xs-6">
                         <input type="reset" class="btn-danger form-control" id="limpiar" name="btnLimpiar" value="Limpiar">
