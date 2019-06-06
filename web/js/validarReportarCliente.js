@@ -5,110 +5,6 @@
 jQuery(function ($) {
      $("#div2").hide();
     //Cuando inicie sesion un administrador pueda ver q enomiendas ver
-    $("input[type=radio]").click(function(event){
-        var valor = $(event.target).val();
-        if(valor === "todo"){
-            $("#div1").hide();
-            $("#div3").hide();
-            $("#dni").val(null);
-            $("#ruc").val(null);
-            $("#ReportarIdentificador").text("");
-            $("#ReportarIdentificadorRuc").text("");
-        } else if (valor === "cliente") {
-            $("#div1").show();   
-            $("#div3").hide();  
-            $("#ruc").val(null);
-            $("#ReportarIdentificadorRuc").val(null);
-            $("#ReportarIdentificadorRuc").text("");
-            $("#dni").keyup(function(){            
-                var palabra_buscar = $('#dni').val();
-                var tipo = 1;
-                verificar_ajax(tipo,palabra_buscar);             
-            }); 
-        } else if (valor === "empresa") {
-            $("#div3").show();       
-            $("#div1").hide();
-            $("#dni").val(null);
-            $("#ReportarIdentificador").val(null);
-            $("#ReportarIdentificador").text("");            
-            $("#ruc").keyup(function(){            
-                var palabra_buscar = $('#ruc').val();
-                var tipo = 2;
-                verificar_ajax(tipo,palabra_buscar);             
-            }); 
-        }         
-    });
-    
-    $('#dni,#ruc').keyup(function () {
-        this.value = this.value.replace(/[^0-9]/g,''); 
-    }); 
-    
-        
-        
-function verificar_ajax(tipo, palabra_buscar){
-    
-        var palabra = "identificador";        
-        var mensaje = "";
-        $.ajax({
-            type:"GET",
-            dataType:"JSON",
-            url:"SERVVerificar",
-            data:"&action=verificarCliente&"+palabra+"="+palabra_buscar,
-            success: function(data){
-              if(data.estado === "ok")
-              {                     
-                console.log(data.mensaje);
-                
-                var color = "";
-                var estado;
-                if(data.mensaje === "existe"){                    
-                    mensaje = "existe";
-                    var color = "#33FF58";    
-                    estado = 1;
-                }
-                else if(data.mensaje === "libre"){
-                    mensaje = "no existe";
-                    var color = "#FF0000";
-                    estado = 0;
-                }
-                if(tipo === 1){
-                    if(palabra_buscar.length <= 8){
-                        $("#ReportarIdentificador").text("[Aviso] DNI "+mensaje);
-                        $("#ReportarIdentificador").val(estado);
-                        $('#ReportarIdentificador').css("color", color);                  
-                    }
-                    else if(palabra_buscar.length > 8){
-                        $("#ReportarIdentificador").text("[Aviso] DNI inválido");
-                        $('#ReportarIdentificador').css("color", "#FF0000");                   
-                    }
-                }
-                if(tipo === 2){
-                    if(palabra_buscar.length <= 11){
-                        $("#ReportarIdentificadorRuc").text("[Aviso] Ruc "+mensaje);
-                        $("#ReportarIdentificadorRuc").val(estado);
-                        $('#ReportarIdentificadorRuc').css("color", color);
-                        if(palabra_buscar.length ===8){
-                            $("#ReportarIdentificadorRuc").text("[Aviso] Ruc no existe");
-                            $('#ReportarIdentificadorRuc').css("color", "#FF0000");  
-                        }
-                    }
-                    else if(palabra_buscar.length > 11 ){
-                        $("#ReportarIdentificadorRuc").text("[Aviso] Ruc inválido");
-                        $('#ReportarIdentificadorRuc').css("color", "#FF0000");                     
-                    }
-
-                }                     
-
-              }
-            },
-            beforeSend: function(){
-           
-            },
-            complete: function(){
-
-            }
-        });        
-    }
     
     $(function() {
         $.datepicker.regional['es'] = {
@@ -140,13 +36,7 @@ function verificar_ajax(tipo, palabra_buscar){
             
             var from = $('#from').val();
             var to = $('#to').val();
-            var dni = $("#dni").val();
-            var ruc = $("#ruc").val();
-            var respuestaIdentificador = parseInt($('#ReportarIdentificador').val());
-            var respuestaIdentificadorRuc = parseInt($('#ReportarIdentificadorRuc').val());
-            var eleccion = $('input:radio[name=pago1]:checked').val();
-
-            var identificador = null;
+ 
             var color = "#FF0000";
             
             if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
@@ -170,46 +60,8 @@ function verificar_ajax(tipo, palabra_buscar){
                 alert("[Aviso] La fecha de envio no puede superar la fecha de llegada");
                 return false;   
             }   
-            if(eleccion ==="cliente"){
-                if (dni === null || dni.length === 0 || /^\s+$/.test(dni)){
-                    $("#ReportarIdentificador").text("[Aviso] DNI vacío");
-                    $('#ReportarIdentificador').css("color", color);   
-                    return false;   
-                }   
-                if (dni.length !== 8){
-                    $("#ReportarIdentificador").text("[Aviso] DNI inválido");
-                    return false;   
-                }                                
-                if(respuestaIdentificador === 0){
-                    //EN EL ajax verificar ya genera esta alerta
-                    //alert('[ERROR] Ingrese un DNI existente');
-                    $("#inputIdentificador").focus();
-                    return false;
-                }               
-                identificador =  $("#dni").val();
-            }
-            else if(eleccion ==="empresa"){
-                if (ruc === null || ruc.length === 0 || /^\s+$/.test(ruc)){
-                    $("#ReportarIdentificadorRuc").text("[Aviso] RUC vacío");
-                    $('#ReportarIdentificadorRuc').css("color", color);                    
-                    return false;   
-                }   
-                if (ruc.length !== 11){
-                    $("#ReportarIdentificadorRuc").text("[Aviso] RUC inválido");
-                    $('#ReportarIdentificadorRuc').css("color", color);
-                    return false;   
-                }                
-                if(respuestaIdentificadorRuc === 0){
-                    //EN EL ajax verificar ya genera esta alerta
-                    //alert('[ERROR] Ingrese un ruc existente');
-                    $("#inputIdentificadorRuc").focus();
-                    return false;
-                }
-                identificador =  $("#ruc").val();
 
-            }
-
-            getGraficoBarrasFecha1(identificador);
+            getGraficoBarrasFecha1();
         });          
             
             
@@ -223,67 +75,67 @@ function verificar_ajax(tipo, palabra_buscar){
         });       
     });    
            
-   getGraficoBarrasFecha1 = function (identificador) {       
+   getGraficoBarrasFecha1 = function () {       
         var fecha_inicio = $("#from").val();
         var fecha_final = $("#to").val();
-
+        var tipo = 1;
         $.ajax({
                 type: "POST",           
                 url: 'SERVReporte',
-                data: "&action=listarEncomiendaPorFecha&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&dni="+identificador,
+                data: "&action=listarClientePorFecha&tipo="+tipo+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final,
              //   data: busqueda,
                 dataType: 'json',
                 success: function (data) {
                     if(data.estado === "ok"){
                         if(data.mensaje !== "vacio"){                 
                             console.log(data.mensaje);
-                            alert("Hay encomiendas");   
+                          //  console.log(data.cantidad);
+                            alert("Hay clientes");
                             $("#div2").show();
-                            _private.setBarrasFecha1(data, fecha_inicio, fecha_final, identificador); 
+                            _private.setBarrasFecha1(data, fecha_inicio, fecha_final, data.cantidad); 
                                                                                                   
                         }else{
-                            alert("No hay encomiendas");   
+                            alert("No hay clientes");   
                      //    $("#div2").hide();
                          
                         }
                         
                     }
                     else{
-                        alert("No hay encomiendas");          
+                        alert("No hay clientes");          
                     }
                      
                 },
                 complete:function(){
                    
-                    getGraficoPieFecha1(identificador);
+                    getGraficoPieFecha1();
                 }
         });                
     }; 
       
-   getGraficoPieFecha1 = function (identificador) {       
+   getGraficoPieFecha1 = function () {       
         var fecha_inicio = $("#from").val();
         var fecha_final = $("#to").val();
-  //      var dni = $("#dni").val();
-   //     var ruc = $("#ruc").val();
+        var tipo = 2;
         
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorFecha2&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&dni="+identificador,
+            data: "&action=listarClientePorFecha&tipo="+tipo+"&&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final,
             dataType: 'json',
             success: function (data) {
                 if(data.estado === "ok"){
-                    if(data.mensaje !== "vacio"){                                           
+                    if(data.mensaje !== "vacio"){                                     
                         console.log(data.mensaje);                        
-                        _private.setPie1(data, fecha_inicio, fecha_final, identificador);                  
+                        _private.setPie1(data, fecha_inicio, fecha_final);                  
 
                     }else{
-                     alert("No hay encomiendas");                          
+                     alert("No hay clientes");                          
                     }
 
                 }
                 else{
-                    alert("No hay encomiendas");          
+                    alert("No hay clientes");          
                 }
 
             },
@@ -298,30 +150,27 @@ function verificar_ajax(tipo, palabra_buscar){
     
     var _private = {};
     var chart = {};    
-     _private.setBarrasFecha1 = function (data, fecha_inicio, fecha_final, identificador) {
+     _private.setBarrasFecha1 = function (data, fecha_inicio, fecha_final, cantidad) {
         var objeto = JSON.parse(data.mensaje);  
+        var objetocantidad = JSON.parse(cantidad);  
+        
+       
+        var cantidadEmpresa = objetocantidad[0];
+        var cantidadPersona = objetocantidad[1];
+        console.log("cantidadEmpresa: "+cantidadEmpresa);
+        console.log("cantidadPersona: "+cantidadPersona);
         
         for(var i=0; i< objeto.length; i++){
                delete objeto[i].total;
         }
      
         var arreglado = objeto.map( item => { 
-            return { mes: item.tiempo , sobre: item.sobre, paquete: item.paquete }; 
+            return { mes: item.tiempo , empresa: item.sobre, persona: item.paquete }; 
         });
 
         console.log(arreglado);                         
       
-        var titulo = "";
-        if(identificador !==null){
-            if(identificador.length <= 8){
-                titulo = "Reporte de cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final+" del DNI "+identificador;
-            }else  if(identificador.length > 8){
-                titulo = "Reporte de cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final+" del RUC "+identificador;
-            }
-            
-        }else{
-            titulo = "Reporte de % y cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final;
-        }
+        var titulo = "Reporte de cantidad de clientes registrados desde "+fecha_inicio+" hasta "+fecha_final;
 
         chart = AmCharts.makeChart("chartdiv1", {
             
@@ -344,19 +193,19 @@ function verificar_ajax(tipo, palabra_buscar){
                 "fillAlphas": 0.8,
                 "labelText": "[[value]]",
                 "lineAlpha": 0.3,
-                "title": "paquete",
+                "title": "empresa "+cantidadEmpresa,
                 "type": "column",
                 "color": "#000000",
-                "valueField": "paquete"
+                "valueField": "empresa" 
             }, {
                 "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
                 "fillAlphas": 0.8,
                 "labelText": "[[value]]",
                 "lineAlpha": 0.3,
-                "title": "sobre",
+                "title": "persona "+cantidadPersona,
                 "type": "column",
                 "color": "#000000",
-                "valueField": "sobre"
+                "valueField": "persona"
             }],
             "categoryField": "mes",
             "categoryAxis": {
@@ -399,7 +248,7 @@ function verificar_ajax(tipo, palabra_buscar){
         */
     };
     
-    _private.setPie1 = function (data, fecha_inicio, fecha_final, identificador) {
+    _private.setPie1 = function (data, fecha_inicio, fecha_final) {
         var objeto = JSON.parse(data.mensaje);         
         
         for(var i=0; i< objeto.length; i++){
@@ -409,22 +258,11 @@ function verificar_ajax(tipo, palabra_buscar){
         
         var arreglado = objeto.map( item => { 
             return { tipo: item.tiempo , total: item.total }; 
-        });        
+        });               
         
-        
-        var titulo = "";
-   
-        if(identificador !==null){
-            if(identificador.length <= 8){
-                titulo = "Reporte de cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final+" del DNI "+identificador;
-            }else  if(identificador.length > 8){                
-                titulo = "Reporte de cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final+" del RUC "+identificador;
-            }
-            
-        }else{
-            titulo = "Reporte de cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final;
-        }        
-         chart = AmCharts.makeChart("chartdiv2", {
+        var titulo = "Reporte de % y cantidad de clientes registrados desde "+fecha_inicio+" hasta "+fecha_final;
+           
+        chart = AmCharts.makeChart("chartdiv2", {
             "type": "pie",
             "theme": "light",
             "titles": [{
@@ -435,6 +273,7 @@ function verificar_ajax(tipo, palabra_buscar){
                 "horizontalGap": 10,
                 "maxColumns": 1,
                 "position": "right",
+                //cambia el color de los bordes por el de fondo
           //      "useGraphSettings": true,
                 "markerSize": 10
             },            
@@ -514,39 +353,19 @@ function verificar_ajax(tipo, palabra_buscar){
         
         var from = $('#from').val();
         var to = $('#to').val();      
-        var dni = $('#dni').val();    
-        var ruc = $('#ruc').val();
-        
+
         var addtext = "";
         
         
         
-        var titulo = "";
-        if(dni !==null && dni.length !== 0){
-            titulo = "Encomienda_Reporte_DNI_"+dni+".pdf";
-                    addtext = "Zurita Sac.\n\n\
-\n\
-\n\
-\n\
-REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to+" DEL DNI: "+dni;
-            
-        }else if(ruc !==null && ruc.length !== 0){
-                        titulo = "Encomienda_Reporte_RUC_"+dni+".pdf";
-                    addtext = "Zurita Sac.\n\n\
-\n\
-\n\
-\n\
-REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to+" DEL RUC: "+ruc;
-        }
-        else{
-            titulo = "Encomienda_Reporte.pdf";
+        var titulo = "Cliente_Reporte.pdf";
             
         addtext = "Zurita Sac.\n\n\
 \n\
 \n\
 \n\
-REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to;            
-        }
+REPORTE  DE  CLIENTES  REGISTRADOS  DESDE:  " + from + "   HASTA:  " + to;            
+      
         
         var layout = {
             "content": []
@@ -610,22 +429,7 @@ function exportXLSX() {
     
     function fc_generate_excel(x){ 
         
-        var dni = $('#dni').val();    
-        var ruc = $('#ruc').val();   
-        
-        var titulo = "";
-        if(dni !==null && dni.length !== 0){
-            titulo = "Encomienda_Reporte_"+x+"_DNI_"+dni+".xlsx";
-            
-        }
-        else if(ruc !==null && ruc.length !== 0){
-            titulo = "Encomienda_Reporte_"+x+"_RUC_"+ruc+".xlsx";
-            
-        }        
-        else{
-            titulo = "Encomienda_Reporte_"+x+".xlsx";
-         
-        }        
+        var titulo = "Cliente_Reporte_"+x+".xlsx";   
         
         chart.export.toXLSX({}, function(data) {
         this.download(data, this.defaults.formats.XLSX.mimeType, titulo);

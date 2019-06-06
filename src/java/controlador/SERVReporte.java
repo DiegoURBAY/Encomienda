@@ -72,6 +72,7 @@ public class SERVReporte extends HttpServlet {
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");                   
         String mensaje = "";        
+        String cantidad = "";     
         String estado = "";        
                 
         try {
@@ -93,12 +94,12 @@ public class SERVReporte extends HttpServlet {
                         reporte_para_cliente = reporteDAO.consultarEncomiendaPorFecha(cambio.get(0), cambio.get(1), cliente.getId());
                     }
                     else if(nivel == 1){
-                        //si se le envia el dni con un valor diferente de null hara esto
+                        //si se le envia el dni  lleno entonces se esta buscado una empresa o persona natural
                         if(request.getParameter("dni")!=null){
                             String dni = request.getParameter("dni");
                             Cliente cliente_por_dni = clientedao.BuscarPorDni(dni);
                             reporte_para_cliente = reporteDAO.consultarEncomiendaPorFecha(cambio.get(0), cambio.get(1), cliente_por_dni.getId());
-                        //de lo contrario
+                        //de lo contrario, si es nulo se esta buscando todas las encominedas
                         }else {
                             reporte_para_cliente = reporteDAO.consultarEncomiendaPorFecha(cambio.get(0), cambio.get(1), 0);
                         }
@@ -128,7 +129,7 @@ public class SERVReporte extends HttpServlet {
 
                     List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
 
-                   List<Reporte> reporte_para_cliente = new ArrayList<>();
+                    List<Reporte> reporte_para_cliente = new ArrayList<>();
                     if(nivel == 2){
                         reporte_para_cliente = reporteDAO.consultarEncomiendaPorFecha2(cambio.get(0), cambio.get(1), cliente.getId());
                     }
@@ -153,6 +154,84 @@ public class SERVReporte extends HttpServlet {
                 }            
 
             }
+            else if (action.equalsIgnoreCase("listarClientePorFecha")) {
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){            
+                    
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                    
+                    List<Reporte> reporte_para_cliente = new ArrayList<>();
+                    
+                    List<Integer> conteo =  new ArrayList<>();
+                    String tipo =  request.getParameter("tipo");
+
+                    if(tipo.equals("1")){
+                        reporte_para_cliente = reporteDAO.consultarClientePorFecha(cambio.get(0), cambio.get(1));
+                        
+                        int cont_empresa = 0;
+                        int cont_persona = 0;
+                        for (int i = 0; i < reporte_para_cliente.size(); i++) {
+                                cont_empresa = cont_empresa +reporte_para_cliente.get(i).getSobre();
+                                cont_persona = cont_persona +reporte_para_cliente.get(i).getPaquete();
+                        }
+                        conteo.add(cont_empresa);
+                        conteo.add(cont_persona);
+                        cantidad = new Gson().toJson(conteo); 
+                    }
+                    else if(tipo.equals("2")){
+                        reporte_para_cliente = reporteDAO.consultarClientePorFecha2(cambio.get(0), cambio.get(1));
+                    }                   
+                                       
+                    if(reporte_para_cliente.size() < 1){
+                        mensaje = "vacio";
+                    }else{
+                        mensaje = new Gson().toJson(reporte_para_cliente); 
+                    }                                        
+                    estado = "ok";
+                }
+                //consultarClientePorFecha
+            }
+            else if (action.equalsIgnoreCase("listarPrecioPorFecha")) {
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){ 
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                    
+                    List<Reporte> reporte_de_precios = new ArrayList<>();
+                    
+                    List<Integer> conteo =  new ArrayList<>();                    
+                     String tipo =  request.getParameter("tipo");
+                     
+                    if(tipo.equals("1")){
+                        reporte_de_precios = reporteDAO.consultarPrecioPorFecha(cambio.get(0), cambio.get(1));
+                        
+                        int sum_empresa = 0;
+                        int sum_persona = 0;
+                        for (int i = 0; i < reporte_de_precios.size(); i++) {                               
+                            sum_empresa = sum_empresa +reporte_de_precios.get(i).getSobre();                              
+                            sum_persona = sum_persona +reporte_de_precios.get(i).getPaquete();
+                        }
+                        conteo.add(sum_empresa);
+                        conteo.add(sum_persona);
+                        cantidad = new Gson().toJson(conteo); 
+                    }
+                    else if(tipo.equals("2")){
+                       reporte_de_precios = reporteDAO.consultarPrecioPorFecha2(cambio.get(0), cambio.get(1));
+                    }     
+                                       
+                    if(reporte_de_precios.size() < 1){
+                        mensaje = "vacio";
+                    }else{
+                        mensaje = new Gson().toJson(reporte_de_precios); 
+                    }                                        
+                    estado = "ok";                    
+                }    
+            }
         } catch (Exception e) {
             estado = "error";
             mensaje = "error: "+e;
@@ -162,6 +241,7 @@ public class SERVReporte extends HttpServlet {
                 JSONObject jsonObject=new  JSONObject();
                 jsonObject.put("estado", estado);                          
                 jsonObject.put("mensaje", mensaje);
+                jsonObject.put("cantidad", cantidad);                
                 response.setCharacterEncoding("utf8");
                 response.setContentType("application/json");
                 out.print(jsonObject);

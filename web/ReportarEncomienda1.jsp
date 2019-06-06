@@ -52,7 +52,17 @@ HttpSession sesion = request.getSession();
                     <div class="col-xs-3 ">
                         <label for="to">Hasta</label>
                         <input type="text" id="to" name="txtFechaFinal" class="form-control mask_date" placeholder="dd/mm/yyyy" autocomplete="off" maxlength="10" />
-                    </div>          
+                    </div>      
+                    <div class="col-xs-3 " id="div1" style="display:none;">
+                        <label for="to">Ingrese DNI</label>
+                        <input type="hidden" id="dni" class=" form-control" >
+                        <div id="ReportarIdentificador" class="outputTextArea"></div> 
+                    </div>                 
+                    <div class="col-xs-3 " id="div3" style="display:none;">
+                        <label for="to">Ingrese RUC</label>
+                        <input type="text" id="ruc" placeholder="20467534026" class=" form-control" >
+                        <div id="ReportarIdentificadorRuc" class="outputTextArea"></div> 
+                    </div>                      
                     <div class="col-xs-3">                        
                         <label for="btnGraficoFecha"></label>
                         <input type="button" class="btn-primary form-control" id="btnGraficoFecha"  value="Ver Por Fecha" >                                                        
@@ -63,8 +73,8 @@ HttpSession sesion = request.getSession();
 
             <hr class="my-4" >                         
                     
-            <!-- PAQUETE-->            
-            <div class="row" id="div2" style="display:none;"  >
+            <!-- PAQUETE style="display:none;" -->            
+            <div class="row" id="div2"  >
                 
                 <div class="col-sm-12"> <br>
 

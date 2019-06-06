@@ -124,5 +124,130 @@ public class ReporteDAO extends Conexion implements DAO{
         return datos;
     }     
     
-
+//SELECT monthname(c.fecharegistro) AS mes, SUM(CASE WHEN LENGTH(c.identificador)=11 THEN c.estado ELSE 0 END) AS empresa, SUM(CASE WHEN LENGTH(c.identificador)=8 THEN c.estado ELSE 0 END) AS persona FROM clientes c WHERE c.fecharegistro BETWEEN '2019-04-01' AND '2019-05-01' GROUP BY mes ORDER BY c.fecharegistro
+    
+    public List<Reporte> consultarClientePorFecha(Date inicio, Date fin) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";               
+        String sql = "SELECT monthname(c.fecharegistro) AS mes, SUM(CASE WHEN LENGTH(c.identificador)=11 THEN c.estado ELSE 0 END) AS empresa, SUM(CASE WHEN LENGTH(c.identificador)=8 THEN c.estado ELSE 0 END) AS persona FROM clientes c WHERE c.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY c.fecharegistro";        
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Reporte(
+                        rs.getString("mes"),
+                        rs.getInt("empresa"),
+                        rs.getInt("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
+    
+    public List<Reporte> consultarClientePorFecha2(Date inicio, Date fin) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";               
+        String sql ="SELECT monthname(c.fecharegistro) AS mes, SUM(c.estado) AS total FROM clientes c WHERE c.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY c.fecharegistro";
+        
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Reporte(
+                        rs.getString("mes"),
+                        rs.getInt("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }  
+    
+    public List<Reporte> consultarPrecioPorFecha(Date inicio, Date fin) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";               
+        String sql ="SELECT monthname(e.fechatime) AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN p.precio ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN p.precio ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE e.fechatime BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY e.fechatime";
+        
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Reporte(
+                        rs.getString("mes"),
+                        rs.getInt("empresa"),
+                        rs.getInt("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }      
+    
+    public List<Reporte> consultarPrecioPorFecha2(Date inicio, Date fin) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";               
+        String sql ="SELECT monthname(c.fecharegistro) AS mes, SUM(c.precio) AS total FROM tiposencomiendas c WHERE c.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY c.fecharegistro";
+        
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Reporte(
+                        rs.getString("mes"),
+                        rs.getInt("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }      
 }
