@@ -84,16 +84,16 @@ function verificar_ajax(tipo, palabra_buscar){
                 }
                 if(tipo === 2){
                     if(palabra_buscar.length <= 11){
-                        $("#ReportarIdentificadorRuc").text("[Aviso] Ruc "+mensaje);
+                        $("#ReportarIdentificadorRuc").text("[Aviso] ruc "+mensaje);
                         $("#ReportarIdentificadorRuc").val(estado);
                         $('#ReportarIdentificadorRuc').css("color", color);
                         if(palabra_buscar.length ===8){
-                            $("#ReportarIdentificadorRuc").text("[Aviso] Ruc no existe");
+                            $("#ReportarIdentificadorRuc").text("[Aviso] ruc no existe");
                             $('#ReportarIdentificadorRuc').css("color", "#FF0000");  
                         }
                     }
                     else if(palabra_buscar.length > 11 ){
-                        $("#ReportarIdentificadorRuc").text("[Aviso] Ruc inválido");
+                        $("#ReportarIdentificadorRuc").text("[Aviso] ruc inválido");
                         $('#ReportarIdentificadorRuc').css("color", "#FF0000");                     
                     }
 
@@ -190,12 +190,12 @@ function verificar_ajax(tipo, palabra_buscar){
             }
             else if(eleccion ==="empresa"){
                 if (ruc === null || ruc.length === 0 || /^\s+$/.test(ruc)){
-                    $("#ReportarIdentificadorRuc").text("[Aviso] RUC vacío");
+                    $("#ReportarIdentificadorRuc").text("[Aviso] ruc vacío");
                     $('#ReportarIdentificadorRuc').css("color", color);                    
                     return false;   
                 }   
                 if (ruc.length !== 11){
-                    $("#ReportarIdentificadorRuc").text("[Aviso] RUC inválido");
+                    $("#ReportarIdentificadorRuc").text("[Aviso] ruc inválido");
                     $('#ReportarIdentificadorRuc').css("color", color);
                     return false;   
                 }                
@@ -320,7 +320,7 @@ function verificar_ajax(tipo, palabra_buscar){
             }
             
         }else{
-            titulo = "Reporte de % y cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final;
+            titulo = "Reporte de cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final;
         }
 
         chart = AmCharts.makeChart("chartdiv1", {
@@ -422,7 +422,7 @@ function verificar_ajax(tipo, palabra_buscar){
             }
             
         }else{
-            titulo = "Reporte de cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final;
+            titulo = "Reporte en % y cantidad de encomiendas realizadas según el tipo desde "+fecha_inicio+" hasta "+fecha_final;
         }        
          chart = AmCharts.makeChart("chartdiv2", {
             "type": "pie",
@@ -528,7 +528,7 @@ function verificar_ajax(tipo, palabra_buscar){
 \n\
 \n\
 \n\
-REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to+" DEL DNI: "+dni;
+            REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to+" DEL DNI: "+dni;
             
         }else if(ruc !==null && ruc.length !== 0){
                         titulo = "Encomienda_Reporte_RUC_"+dni+".pdf";
@@ -536,7 +536,7 @@ REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to+" DE
 \n\
 \n\
 \n\
-REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to+" DEL RUC: "+ruc;
+            REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to+" DEL RUC: "+ruc;
         }
         else{
             titulo = "Encomienda_Reporte.pdf";

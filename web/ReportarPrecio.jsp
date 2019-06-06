@@ -40,7 +40,7 @@ HttpSession sesion = request.getSession();
     <body>
 
     <div class="container" id="advanced-search-form">
-        <h2>Reporte Precios</h2>
+        <h2>Reporte Ingresos</h2>
         <form method="POST" action="SERVReporte" autocomplete="off">
              
             <div class="row">

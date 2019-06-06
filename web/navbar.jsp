@@ -51,16 +51,24 @@ HttpSession sesion = request.getSession();
                   Modulos <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">                    
-                    <li><a href="SERVCliente?action=refreshCliente">Gestionar Clientes</a></li>
+                    <li><a href="SERVCliente2?action=refresh">Gestionar Clientes</a></li>
                     <li><a href="GestionarLocal.jsp">Gestionar Locales</a></li>
                     <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>                    
                     <li><a href="SERVConductor?action=refresh">Gestionar Conductor</a></li>
                     <li><a href="GestionarPromocion.jsp">Gestionar Promoción</a></li>
+
+                </ul>
+              </li>             
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  Reportes <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
                     <li><a href="ReportarEncomienda.jsp">Encomiendas</a></li>
                     <li><a href="ReportarCliente.jsp">Clientes</a></li>
-                    <li><a href="ReportarPrecio.jsp">Precio</a></li>
+                    <li><a href="ReportarPrecio.jsp">Ingresos</a></li>            
                 </ul>
-              </li>                  
+              </li>                
               </ul>
             <ul class="nav navbar-nav navbar-right">
 

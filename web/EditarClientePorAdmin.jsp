@@ -3,7 +3,9 @@
 <%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-
+    if(sesion.getAttribute("usuario")==null){
+        response.sendRedirect("index.jsp");
+    }
 %>
 <!DOCTYPE html>
 <html>

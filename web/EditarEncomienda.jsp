@@ -1,8 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page session="true"%>
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("nivel")==null){
+    if(sesion.getAttribute("usuario")==null){
         response.sendRedirect("index.jsp");
     }
 %>

@@ -21,9 +21,6 @@ HttpSession sesion = request.getSession();
     </head>    
     <body> 
         <div class="container">
-            <input type="text" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("nivel") %>"  >
-            <input type="text" id="cliente" name="txtIdCliente" value="<%= sesion.getAttribute("idUsuario") %>"  >
-            <input type="text" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario") %>"  >
                 <h1>Lista de Clientes</h1>
                 <hr>
                    

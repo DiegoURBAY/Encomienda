@@ -57,7 +57,6 @@ HttpSession sesion = request.getSession();
                       </a>
                       <ul class="dropdown-menu">                    
                           <li><a href="ReportarEncomienda1.jsp">Encomiendas</a></li>
-                          <li><a href="PruebaExcel.jsp">Encomiendas</a></li>
                       </ul>
                     </li>                  
                 </ul>

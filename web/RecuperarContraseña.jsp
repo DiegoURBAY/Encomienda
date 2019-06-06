@@ -1,10 +1,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page session="true"%>
+
 <%
 HttpSession sesion = request.getSession();
-    if(sesion.getAttribute("nivel")==null){
-       
+    if(sesion.getAttribute("usuario")==null){
+        response.sendRedirect("index.jsp");
     }
 %>
 <!DOCTYPE html>

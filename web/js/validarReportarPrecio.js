@@ -193,7 +193,7 @@ jQuery(function ($) {
                 "fillAlphas": 0.8,
                 "labelText": "[[value]]",
                 "lineAlpha": 0.3,
-                "title": "empresa "+cantidadEmpresa,
+                "title": "empresa S/. "+cantidadEmpresa,
                 "type": "column",
                 "color": "#000000",
                 "valueField": "empresa" 
@@ -202,7 +202,7 @@ jQuery(function ($) {
                 "fillAlphas": 0.8,
                 "labelText": "[[value]]",
                 "lineAlpha": 0.3,
-                "title": "persona "+cantidadPersona,
+                "title": "persona S/. "+cantidadPersona,
                 "type": "column",
                 "color": "#000000",
                 "valueField": "persona"
@@ -228,7 +228,7 @@ jQuery(function ($) {
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "Cantidad"
+                        "title": "Soles (S/.)"
                     }                
             ],
             "export": {
@@ -261,7 +261,7 @@ jQuery(function ($) {
         });               
         
         var titulo = "Reporte en % y en soles de ingresos desde "+fecha_inicio+" hasta "+fecha_final;
-           
+               
         chart = AmCharts.makeChart("chartdiv2", {
             "type": "pie",
             "theme": "none",
@@ -285,7 +285,7 @@ jQuery(function ($) {
             "labelRadius": 15,
             "innerRadius": "50%",
             "depth3D": 10,
-            "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+            "balloonText": "[[title]]<br><span style='font-size:14px'><b> S/. [[value]]</b> ([[percents]]%)</span>",
             "angle": 15,
             "export": {
                 "enabled": true,
@@ -364,7 +364,7 @@ jQuery(function ($) {
 \n\
 \n\
 \n\
-REPORTE  DE  INGRESOS DESDE:  " + from + "   HASTA:  " + to;            
+            REPORTE  DE  INGRESOS DESDE:  " + from + "   HASTA:  " + to;            
       
         
         var layout = {
