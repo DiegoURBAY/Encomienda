@@ -21,9 +21,11 @@ HttpSession sesion = request.getSession();
         <script src="amcharts/pie.js" type="text/javascript"></script>
         <script src="amcharts/themes/light.js" type="text/javascript"></script>
 
-        <script src="amcharts/plugins/export/export.min.js" type="text/javascript"></script>
+        <script src="amcharts/plugins/export/export.js" type="text/javascript"></script>
         <link href="amcharts/plugins/export/export.css" rel="stylesheet" type="text/css"/>
+
         <script src="amcharts/plugins/animate/animate.js" type="text/javascript"></script>
+
                              
         <!--DATAPICKER -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -33,7 +35,7 @@ HttpSession sesion = request.getSession();
         <!--DATAPICKER -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
         <!--VALIDACIÓN -->         
-        <script src="js/validarReportarEncomienda.js" type="text/javascript"></script>
+        <script src="js/validarReportarEncomienda2.js" type="text/javascript"></script>
         <link href="css/styles.css" rel="stylesheet" type="text/css"/>   
 
     </head>
@@ -130,6 +132,14 @@ HttpSession sesion = request.getSession();
                             </div>
                         </div>                       
                     </div>
+                    
+                    <div class="row"  id="div4">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <div id="chartdiv4" class="chartdiv"></div><br>                                                                                   
+                            </div>
+                        </div>                       
+                    </div>                    
                     <div class="row">
                         <h2>Segundo Reporte</h2>
                         <div id="chartdiv2" class="chartdiv"></div>                                                

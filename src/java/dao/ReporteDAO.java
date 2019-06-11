@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -18,6 +19,19 @@ import java.util.List;
  * @author usuario
  */
 public class ReporteDAO extends Conexion implements DAO{ 
+    
+     public static void main(String[] args) throws Exception {
+        ReporteDAO reporteDAO = new ReporteDAO();    
+        Reporte reporte = new Reporte();
+        
+        String fecha_original  ="2019-01-01";
+String[] fecha_total = fecha_original.split("-");
+String año_nuevo = fecha_total[0];
+String mes_nuevo = fecha_total[1];
+String dia_nuevo = fecha_total[2];
+String fecha_nueva = dia_nuevo+"/"+mes_nuevo+"/"+año_nuevo;    
+                                            System.out.println(fecha_nueva);
+     }
 
     @Override
     public void insertar(Object obj) throws Exception {
@@ -85,6 +99,62 @@ public class ReporteDAO extends Conexion implements DAO{
         }
         return datos;
     }         
+    
+    public List<Reporte> consultarEncomiendaPorMes(String tipo, String mes, Date inicio, Date fin, int idCliente) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";    
+        
+        String sql ;
+        //Si el idcliente es mayor que cero entonces la búsqueda lo hace el cliente
+        //SELECT p.fechatime AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN c.estado ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN c.estado ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE e.fechatime AND  monthname(c.fecharegistro) = "january" GROUP BY mes ORDER BY e.fechatime
+        if(idCliente > 0){
+//            sql = "SELECT monthname(e.fechatime) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN e.estado ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN e.estado ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE e.fechatime BETWEEN '"+inicio+"' and '"+fin+"' AND e.idCliente="+idCliente+" GROUP BY mes ORDER BY e.fechatime";             
+            if(mes ==null){  
+                sql = "SELECT p.fecharegistro AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN c.estado ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN c.estado ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE p.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' AND p.tipo ='"+tipo+"' AND e.idCliente="+idCliente+" GROUP BY mes ORDER BY p.fecharegistro";
+            }
+            else{
+                sql = "SELECT p.fecharegistro AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN c.estado ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN c.estado ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE  monthname(p.fecharegistro)='"+mes+"' AND p.tipo ='"+tipo+"' AND e.idCliente="+idCliente+" GROUP BY mes ORDER BY p.fecharegistro";
+                
+            }
+        }
+        //sino lo hace el administrador
+        else{
+           // sql = "SELECT p.fecharegistro AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN c.estado ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN c.estado ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE monthname(p.fecharegistro) = "+mes+" GROUP BY mes ORDER BY p.fecharegistro";
+           if(mes !=null){              
+               sql = "SELECT p.fecharegistro AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN c.estado ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN c.estado ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE  monthname(p.fecharegistro)='"+mes+"' AND p.tipo ='"+tipo+"' GROUP BY mes ORDER BY p.fecharegistro";
+           }
+           else{
+                sql = "SELECT p.fecharegistro AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN c.estado ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN c.estado ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE p.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' AND p.tipo ='"+tipo+"' GROUP BY mes ORDER BY p.fecharegistro";
+           }
+           
+        }
+        
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Reporte(
+                        rs.getString("mes"),
+                        rs.getInt("empresa"),
+                        rs.getInt("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }     
     
     //Lista que usa el cliente para el grafico de pastel
     public List<Reporte> consultarEncomiendaPorFecha2(Date inicio, Date fin, int idCliente) throws Exception  {

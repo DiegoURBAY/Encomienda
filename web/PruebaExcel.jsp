@@ -12,35 +12,23 @@
         <title>JSP Page</title>
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.js"></script>        
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>     
 <script src="js/pruebaReporte.js" type="text/javascript"></script>
 <style>
-
 #chartdiv {
-    width       : 100%;
-    height      : 500px;
-    font-size   : 11px;
-}     
-#chartdiv2{
-    width       : 100%;
-    height      : 500px;
-    font-size   : 11px;
-}        
+    width   : 100%;
+    height  : 500px;
+}                
 </style>
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.js"></script>
-<link href="https://www.amcharts.com/lib/3/plugins/export/export.css" rel="stylesheet" />
+
     </head>
     <body>
 
-<input type="button" value="XLSX" onclick="exportXLSX();" />
 
-<div id="chartdiv"></div>
+
+<div id="chartdiv"></div>  
 <br>
-<div id="chartdiv2"></div>
-
-
     </body>
 </html>

@@ -14,6 +14,15 @@ public class Reporte {
     private double total;
     private int paquete;
     private int sobre;
+    
+
+    public Reporte() {        
+    }    
+    
+    public Reporte(String tiempo) {
+        this.tiempo = tiempo;
+     
+    }    
 
     public Reporte(String tiempo,int sobre, int paquete) {
         this.tiempo = tiempo;
@@ -24,10 +33,7 @@ public class Reporte {
     public Reporte(String tiempo, double total) {
         this.tiempo = tiempo;
         this.total = total;
-    }
-
-    
-    
+    }      
     
     public String getTiempo() {
         return tiempo;

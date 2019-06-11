@@ -9,6 +9,7 @@ import entidad.Encomienda;
 import entidad.Reporte;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class SERVReporte extends HttpServlet {
                             String dni = request.getParameter("dni");
                             Cliente cliente_por_dni = clientedao.BuscarPorDni(dni);
                             reporte_para_cliente = reporteDAO.consultarEncomiendaPorFecha(cambio.get(0), cambio.get(1), cliente_por_dni.getId());
-                        //de lo contrario, si es nulo se esta buscando todas las encominedas
+                        //de lo contrario, si es nulo se esta buscando todas las encomiendas
                         }else {
                             reporte_para_cliente = reporteDAO.consultarEncomiendaPorFecha(cambio.get(0), cambio.get(1), 0);
                         }
@@ -114,7 +115,8 @@ public class SERVReporte extends HttpServlet {
                     estado = "ok";
                 }
                 
-            }   //consultarEncomiendaPorFecha2
+            }
+            //consultarEncomiendaPorFecha2
             else if (action.equalsIgnoreCase("listarEncomiendaPorFecha2")) {                
             HttpSession sesion = request.getSession();
             
@@ -141,6 +143,78 @@ public class SERVReporte extends HttpServlet {
                         }
                         else{
                             reporte_para_cliente = reporteDAO.consultarEncomiendaPorFecha2(cambio.get(0), cambio.get(1), 0);
+                        }
+                        
+                    }
+                                        
+                    if(reporte_para_cliente.size() < 1){
+                        mensaje = "vacio";
+                    }else{
+                        mensaje = new Gson().toJson(reporte_para_cliente); 
+                    }                                        
+                    estado = "ok";
+                }            
+
+            }            
+            //consultarEncomiendaPorFecha2
+            else if (action.equalsIgnoreCase("listarEncomiendaPorMes")) {                
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){            
+                    String usuario_de_login = String.valueOf(sesion.getAttribute("usuario"));
+                    Cliente cliente = clientedao.BuscarPorUsuario(usuario_de_login);     
+                    
+                    int nivel = cliente.getNivel();
+                                        
+                    String tipo = request.getParameter("tipo");
+                    String dni = request.getParameter("dni");
+                    
+                    int eleccion = 0;
+                    //eleccion = 1 cuando no hay dni
+                    //eso sirve para el administrador, el cliente no necesita
+                    if(dni == null || dni.isEmpty()){
+                        eleccion =1 ;
+                    }
+                    //Si no se le asigna null, el ReporteDAO no lo tomará como tal en caso sea así
+                    String mes = request.getParameter("mes");
+                    
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");         
+                    
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);                    
+
+                    List<Reporte> reporte_para_cliente = new ArrayList<>();
+                    if(nivel == 2){
+                        reporte_para_cliente = reporteDAO.consultarEncomiendaPorMes(tipo, mes , cambio.get(0), cambio.get(1), cliente.getId());
+                    }
+                    else if(nivel == 1){
+                  
+                        //ver reporte de todo (cliente y empresa)
+                        if(eleccion== 1){
+                            //ver reporte de un mes en especifico
+                            if(request.getParameter("mes") != null){
+                                
+                                reporte_para_cliente = reporteDAO.consultarEncomiendaPorMes(tipo, mes , cambio.get(0), cambio.get(1), 0);
+                            }
+                            //ver reporte con la fechas establecidas
+                            else{
+                                reporte_para_cliente = reporteDAO.consultarEncomiendaPorMes(tipo, mes , cambio.get(0), cambio.get(1), 0);
+                            } 
+                        }
+                        //ver reporte com cliente o empresa
+                        else{
+                            Cliente cliente_id = clientedao.BuscarPorDni(dni);
+                            
+                            //ver reporte  de un mes
+                            if(request.getParameter("mes") != null){
+                                mes = request.getParameter("mes");
+                                reporte_para_cliente = reporteDAO.consultarEncomiendaPorMes(tipo, mes , cambio.get(0), cambio.get(1), cliente_id.getId());
+                            }
+                            //ver reporte con la fechas establecidas
+                            else{
+                                reporte_para_cliente = reporteDAO.consultarEncomiendaPorMes(tipo, mes , cambio.get(0), cambio.get(1), cliente_id.getId());
+
+                            }                             
                         }
                         
                     }
