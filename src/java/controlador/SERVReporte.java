@@ -240,8 +240,8 @@ public class SERVReporte extends HttpServlet {
                     List<Reporte> reporte_para_cliente = new ArrayList<>();
                     
                     List<Integer> conteo =  new ArrayList<>();
-                    String tipo =  request.getParameter("tipo");
-
+                    String tipo = request.getParameter("tipo");
+                    
                     if(tipo.equals("1")){
                         reporte_para_cliente = reporteDAO.consultarClientePorFecha(cambio.get(0), cambio.get(1));
                         
@@ -257,8 +257,8 @@ public class SERVReporte extends HttpServlet {
                     }
                     else if(tipo.equals("2")){
                         reporte_para_cliente = reporteDAO.consultarClientePorFecha2(cambio.get(0), cambio.get(1));
-                    }                   
-                                       
+                    }                 
+                    
                     if(reporte_para_cliente.size() < 1){
                         mensaje = "vacio";
                     }else{
@@ -268,6 +268,48 @@ public class SERVReporte extends HttpServlet {
                 }
                 //consultarClientePorFecha
             }
+            else if (action.equalsIgnoreCase("listarClientePorFecha2")) {
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){            
+                    
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                    
+                    List<Reporte> reporte_para_cliente = new ArrayList<>();
+                    
+
+                    //cliente y mes para grafico detallado
+                    String cliente = request.getParameter("cliente");
+                    String mes = request.getParameter("mes");
+                    
+                    int tipo_cliente;
+
+                    if(cliente.equalsIgnoreCase("persona")){
+                        tipo_cliente = 8;
+                    }
+                    else{
+                        tipo_cliente =11;
+                    }
+
+                    if(request.getParameter("mes") != null){
+                        reporte_para_cliente = reporteDAO.consultarClientePorFecha3(tipo_cliente, mes ,cambio.get(0), cambio.get(1));
+                    }
+                    else  if(request.getParameter("mes") == null){
+                        reporte_para_cliente = reporteDAO.consultarClientePorFecha3(tipo_cliente, mes ,cambio.get(0), cambio.get(1));
+                    }
+
+                    
+                    if(reporte_para_cliente.size() < 1){
+                        mensaje = "vacio";
+                    }else{
+                        mensaje = new Gson().toJson(reporte_para_cliente); 
+                    }                                        
+                    estado = "ok";
+                }
+                //consultarClientePorFecha
+            }            
             else if (action.equalsIgnoreCase("listarPrecioPorFecha")) {
             HttpSession sesion = request.getSession();
             
