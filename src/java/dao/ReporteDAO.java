@@ -23,14 +23,21 @@ public class ReporteDAO extends Conexion implements DAO{
      public static void main(String[] args) throws Exception {
         ReporteDAO reporteDAO = new ReporteDAO();    
         Reporte reporte = new Reporte();
+
+
+        List<Reporte> lis_ingreso = reporteDAO.consultarPrecioPorFechaPrueba();
         
-        String fecha_original  ="2019-01-01";
-String[] fecha_total = fecha_original.split("-");
-String año_nuevo = fecha_total[0];
-String mes_nuevo = fecha_total[1];
-String dia_nuevo = fecha_total[2];
-String fecha_nueva = dia_nuevo+"/"+mes_nuevo+"/"+año_nuevo;    
-                                            System.out.println(fecha_nueva);
+         for (int j = 0; j < lis_ingreso.size(); j++) {
+             
+            for (int i = 0; i < 3; i++) {
+                
+                System.out.println("tiempo: "+lis_ingreso.get(i).getTiempo()+", total: "+lis_ingreso.get(i).getTotal()+", sobre: "+lis_ingreso.get(i).getSobre()+", paquete: "+lis_ingreso.get(i).getPaquete());
+
+            }
+     
+             
+         }
+                                            
      }
 
     @Override
@@ -326,6 +333,79 @@ String fecha_nueva = dia_nuevo+"/"+mes_nuevo+"/"+año_nuevo;
         }
         return datos;
     }      
+    
+    public List<Reporte> consultarPrecioPorFechaPrueba() throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";               
+        String sql ="SELECT monthname(e.fechatime) AS mes, SUM(CASE WHEN LENGTH(c.identificador) =8 THEN p.precio ELSE 0 END) AS persona, SUM(CASE WHEN LENGTH(c.identificador) =11 THEN p.precio ELSE 0 END) AS empresa FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE e.fechatime BETWEEN '2019-01-01' AND '2019-08-10' GROUP BY mes ORDER BY e.fechatime";
+        
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Reporte(
+                        rs.getString("mes"),
+                        rs.getInt("empresa"),
+                        rs.getInt("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }         
+    
+    public List<Reporte> consultarPrecioPorFecha3(int tipo_cliente, String mes, Date inicio, Date fin) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";               
+        
+        String sql;
+        
+        //String sql ="SELECT monthname(c.fecharegistro) AS mes, SUM(c.precio) AS total FROM tiposencomiendas c WHERE c.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY c.fecharegistro";
+        
+        if(mes ==null){                          
+//            sql = "SELECT c.fecharegistro AS mes, SUM(c.estado) AS total FROM clientes c WHERE c.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' AND LENGTH(c.identificador) ="+tipo_cliente+" GROUP BY mes ORDER BY c.fecharegistro";
+            sql = "SELECT p.fecharegistro AS mes, SUM(p.precio) AS total FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE p.fecharegistro BETWEEN '"+inicio+"' AND '"+fin+"' AND LENGTH(c.identificador) ="+tipo_cliente+" GROUP BY mes ORDER BY p.fecharegistro";
+        }
+        else{
+            sql = "SELECT p.fecharegistro AS mes, SUM(p.precio) AS total FROM clientes c INNER JOIN encomiendas e ON e.idCliente = c.id INNER JOIN tiposencomiendas p ON e.id = p.idEncomienda WHERE monthname(p.fecharegistro)='"+mes+"' AND LENGTH(c.identificador) ="+tipo_cliente+" GROUP BY mes ORDER BY p.fecharegistro";
+        }        
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Reporte(
+                        rs.getString("mes"),
+                        rs.getInt("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }     
     
     public List<Reporte> consultarPrecioPorFecha2(Date inicio, Date fin) throws Exception  {
         List<Reporte> datos = new ArrayList<>();

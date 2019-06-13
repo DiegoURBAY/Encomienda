@@ -826,12 +826,24 @@ function verificar_ajax(tipo, palabra_buscar){
         
         var addtext = "";
         
-        var d = new Date();
+        var momentoActual = new Date();
+        
+        var hora = momentoActual.getHours(); 
+        var minuto = momentoActual.getMinutes(); 
+        var segundo = momentoActual.getSeconds(); 
+        
+        
+        if (hora < 10) {hora = "0" + hora;}
+        if (minuto < 10) {minuto = "0" + minuto;}
+        if (segundo < 10) {segundo = "0" + segundo;}
 
-        var month = d.getMonth()+1;
-        var day = d.getDate();
+        var horaImprimible = hora + ":" + minuto + ":" + segundo;
+        
 
-        var fecha_actual = (day<10 ? '0' : '') + day +'/'+ (month<10 ? '0' : '') + month + '/'+ d.getFullYear();
+        var month = momentoActual.getMonth()+1;
+        var day = momentoActual.getDate();
+
+        var fecha_actual = (day<10 ? '0' : '') + day +'/'+ (month<10 ? '0' : '') + month + '/'+ momentoActual.getFullYear();
         
         var titulo = "";
         if(dni !==null && dni.length !== 0){
@@ -839,7 +851,7 @@ function verificar_ajax(tipo, palabra_buscar){
                     addtext = "Zurita Sac.\n\
         \n\
 \n\
-        Fecha de exportación: "+fecha_actual+"\n\
+        Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\
 \n\
 \n\
 \n\
@@ -850,7 +862,7 @@ function verificar_ajax(tipo, palabra_buscar){
                     addtext = "Zurita Sac.\n\
         \n\
 \n\
-        Fecha de exportación: "+fecha_actual+"\n\
+        Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\
 \n\
 \n\
 \n\
@@ -861,7 +873,7 @@ function verificar_ajax(tipo, palabra_buscar){
                     addtext = "Zurita Sac.\n\
         \n\
 \n\
-        Fecha de exportación: "+fecha_actual+"\n\
+        Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\
 \n\
 \n\
 \n\

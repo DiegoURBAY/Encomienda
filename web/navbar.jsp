@@ -67,7 +67,6 @@ HttpSession sesion = request.getSession();
                     <li><a href="ReportarEncomienda.jsp">Encomiendas</a></li>
                     <li><a href="ReportarCliente.jsp">Clientes</a></li>
                     <li><a href="ReportarPrecio.jsp">Ingresos</a></li>
-                    <li><a href="PruebaExcel.jsp">PRUEBA EXCEL</a></li>
                 </ul>
               </li>                
               </ul>

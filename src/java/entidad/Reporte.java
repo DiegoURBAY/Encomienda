@@ -68,5 +68,13 @@ public class Reporte {
     }
 
 
-    
+     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(tiempo);
+        sb.append(sobre);
+        sb.append(paquete);
+  
+        return sb.toString();
+    }   
 }

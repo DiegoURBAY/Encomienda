@@ -3,6 +3,7 @@ package controlador;
 
 import com.google.gson.Gson;
 import dao.ClienteDAO;
+import dao.ExcelDAO;
 import dao.ReporteDAO;
 import entidad.Cliente;
 import entidad.Encomienda;
@@ -347,6 +348,94 @@ public class SERVReporte extends HttpServlet {
                     }                                        
                     estado = "ok";                    
                 }    
+            }
+            else if (action.equalsIgnoreCase("listarPrecioPorFecha2")) {
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){ 
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                    
+                    List<Reporte> reporte_de_precios = new ArrayList<>();
+                    
+                    //cliente y mes para grafico detallado
+                    String cliente = request.getParameter("cliente");
+                    String mes = request.getParameter("mes");
+                    
+                    int tipo_cliente;
+
+                    if(cliente.equalsIgnoreCase("persona")){
+                        tipo_cliente = 8;
+                    }
+                    else{
+                        tipo_cliente =11;
+                    }
+
+                    if(request.getParameter("mes") != null){
+                        reporte_de_precios = reporteDAO.consultarPrecioPorFecha3(tipo_cliente, mes ,cambio.get(0), cambio.get(1));
+                    }
+                    else  if(request.getParameter("mes") == null){
+                        reporte_de_precios = reporteDAO.consultarPrecioPorFecha3(tipo_cliente, mes ,cambio.get(0), cambio.get(1));
+                    }
+                    
+                    if(reporte_de_precios.size() < 1){
+                        mensaje = "vacio";
+                    }else{
+                        mensaje = new Gson().toJson(reporte_de_precios); 
+                    }                                        
+                    estado = "ok";                    
+                }    
+            }        
+            else if (action.equalsIgnoreCase("generarIngresos")) {
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){ 
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                    
+                                    
+                ExcelDAO excelDAO = new ExcelDAO();
+                
+                String tipo =  request.getParameter("tipo");                
+                String cliente = request.getParameter("cliente");
+                String mes = request.getParameter("mes");
+
+                int tipo_cliente;
+                String tipo_cliente_string;
+
+                if(cliente.equalsIgnoreCase("persona")){
+                    tipo_cliente = 8;
+                    tipo_cliente_string = "persona";
+                }
+                else{
+                    tipo_cliente =11;
+                    tipo_cliente_string = "empresa";
+                }                
+                String situacion = "";
+                
+                //el tipo ayuda saber que excel exportar
+                if(tipo.equalsIgnoreCase("1")){
+                      situacion = excelDAO.generarIngresos(cambio.get(0), cambio.get(1));
+                }
+                else if(tipo.equalsIgnoreCase("2")){
+                     situacion = excelDAO.generarIngresos(cambio.get(0), cambio.get(1));
+                     excelDAO.generarIngresosDetallado(tipo_cliente_string, tipo_cliente, mes,  cambio.get(0), cambio.get(1));
+                }
+
+                
+                if(situacion.equalsIgnoreCase("ok")){
+                     estado = "ok";
+                    mensaje = "Se ha descargado excel"; 
+                }else{
+                    estado = "error";
+                    mensaje = "Se ha producido un error"+situacion; 
+                }
+               
+                    
+                }    
+
             }
         } catch (Exception e) {
             estado = "error";
