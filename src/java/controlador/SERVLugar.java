@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.json.Json;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,13 +38,15 @@ public class SERVLugar extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");                           
+        response.setContentType("text/html;charset=UTF-8");         
+        response.setHeader("X-Frame-Options", "DENY");
     }
 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
                 PrintWriter out = response.getWriter();
         String action = request.getParameter("action");          
         String estado = "";          
@@ -204,7 +205,7 @@ public class SERVLugar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-  
+  response.setHeader("X-Frame-Options", "DENY");
     }
 
     /**

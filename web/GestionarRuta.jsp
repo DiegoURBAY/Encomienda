@@ -12,7 +12,7 @@ HttpSession sesion = request.getSession();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>demo ruta</title>
-        <jsp:include page="navbar_1.jsp"/> 
+        <jsp:include  page="navbar1.jsp"/>
         <!--
         <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Pta07pYlzbICVniGLYta4MLCrUrXrHE&v=3.exp&signed_in=true&libraries=places'></script>
         -->

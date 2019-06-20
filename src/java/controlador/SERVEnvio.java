@@ -21,10 +21,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,7 +47,9 @@ public class SERVEnvio extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("X-Frame-Options", "DENY");
         response.setContentType("text/html;charset=UTF-8");
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -65,13 +69,24 @@ public class SERVEnvio extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        response.addHeader("X-Frame-Options", "DENY");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");          
         String estado = "";          
         String mensaje = "";
+        String vista = "";
+        String usuario_de_login = null;
         
+        int tipo_envio = 0;
         try {
-            if(action.equalsIgnoreCase("buscar")){
+            if(action.equalsIgnoreCase("sent")){
+                HttpSession sesion = request.getSession();   
+                if(sesion.getAttribute("usuario")!=null){ 
+                    vista = "EnviarCalificacion.jsp";
+                    tipo_envio = 1;
+                }
+            }
+            else if(action.equalsIgnoreCase("buscar")){
                 estado = "ok"; 
                 String usuario = request.getParameter("usuario");
                 int encomienda = Integer.parseInt(request.getParameter("encomienda"));
@@ -132,15 +147,23 @@ public class SERVEnvio extends HttpServlet {
             Logger.getLogger(SERVEnvio.class.getName()).log(Level.SEVERE, null, e);
         }
         finally{
-            try {
-                JSONObject jsonObject=new  JSONObject();
-                jsonObject.put("estado", estado);
-                jsonObject.put("mensaje", mensaje);            
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                out.print(jsonObject);            
-            } catch (JSONException ex) {
-                Logger.getLogger(SERVPromocion.class.getName()).log(Level.SEVERE, null, ex);
+            
+            if(tipo_envio == 1){
+                request.setAttribute("usuario",  usuario_de_login);
+                RequestDispatcher view = request.getRequestDispatcher(vista);
+                view.forward(request, response); 
+            }
+            else{
+                try {
+                    JSONObject jsonObject=new  JSONObject();
+                    jsonObject.put("estado", estado);
+                    jsonObject.put("mensaje", mensaje);            
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    out.print(jsonObject);            
+                } catch (JSONException ex) {
+                    Logger.getLogger(SERVPromocion.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -148,6 +171,8 @@ public class SERVEnvio extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        response.addHeader("X-Frame-Options", "DENY");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");      
         String estado = ""; 

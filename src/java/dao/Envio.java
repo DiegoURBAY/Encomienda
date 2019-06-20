@@ -195,6 +195,7 @@ public static void main(String[] args) throws Exception {
         }
                 
     }      
+    /*
    public void RecuperarContraseña(String email, String contra) throws MessagingException{
         try {
             Properties props = new Properties();
@@ -231,5 +232,6 @@ public static void main(String[] args) throws Exception {
         }
                 
     }    
-    
+*/    
 }
+

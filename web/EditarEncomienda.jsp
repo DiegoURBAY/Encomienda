@@ -30,7 +30,7 @@ HttpSession sesion = request.getSession();
     <body>
     <div class="container" id="advanced-search-form">
         <h2>Editar Encomienda <input type="text" readonly="" value="<c:out value="${encomienda.id}" />" class="sinbordefondo"  ></h2>
-        <form method="POST" action="SERVEncomienda">
+        <form method="POST" action="SERVEncomienda2">
             <input type="hidden" id="cliente" name="txtIdCliente" value="<%= sesion.getAttribute("nivel") %>"  >
             <input type="hidden" id="encomienda" name="txtId" value="<c:out value="${encomienda.id}" />" >
             <div class="form-group">
@@ -43,7 +43,7 @@ HttpSession sesion = request.getSession();
             </div>                     
             <div class="clearfix"></div>            
             <input type="submit" class="btn btn-info btn-lg btn-responsive" id="editar" name="btnEditar" value="Editar" onclick="return confirm('¿Seguro que desea editar el registro?')">
-            <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')">Regresar</a>               
+            <a class="btn btn-primary btn-lg" href="SERVEncomienda2?action=refresh&nivel=<c:out value="<%= sesion.getAttribute("nivel") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')">Regresar</a>               
         </form>
     </div>
     </body>

@@ -57,7 +57,9 @@ public class SERVEncomienda2 extends HttpServlet {
     }       
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("X-Frame-Options", "DENY");
         response.setContentType("text/html;charset=UTF-8");
+       
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -76,7 +78,7 @@ public class SERVEncomienda2 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.addHeader("X-Frame-Options", "DENY");
         String action = request.getParameter("action");        
         String usuario_de_login = "";
         String vista = "";
@@ -279,7 +281,7 @@ public class SERVEncomienda2 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.addHeader("X-Frame-Options", "DENY");
                        
         try {               
             HttpSession sesion = request.getSession();
@@ -678,7 +680,7 @@ public class SERVEncomienda2 extends HttpServlet {
             }  
             id_con_ayu.add(idAyudante);
         } catch (Exception e) {
-              Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, e);
+              Logger.getLogger(SERVEncomienda2.class.getName()).log(Level.SEVERE, null, e);
         }
          return id_con_ayu;        
     }    

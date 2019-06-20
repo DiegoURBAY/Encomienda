@@ -13,7 +13,7 @@ HttpSession sesion = request.getSession();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-          <jsp:include page="navbarCliente.jsp"/>
+        <jsp:include page="navbarCliente.jsp"/>
         <link href="css/styles.css" rel="stylesheet" type="text/css"/>
         <script src="js/validarCalificacion.js" type="text/javascript"></script>
         

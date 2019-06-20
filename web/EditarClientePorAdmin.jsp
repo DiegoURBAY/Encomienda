@@ -25,7 +25,6 @@ HttpSession sesion = request.getSession();
 <div class="signup-form">
     <form action="SERVCliente" method="POST"  autocomplete="off">
         <input type="hidden" id="nnivel" name="txtnivel" value="<%= sesion.getAttribute("nivel") %>"  ><br>
-         <input type="hidden" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  ><br>
          <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuarioPrueba") %>"  ><br>
           <input type="hidden" id="cliente4" name="txtIdCliente4" value="<%= sesion.getAttribute("usuario_de_login") %>"  ><br>
           <input type="hidden" class="form-control" id="cliente_id" name="txtId" value="<c:out value="${cliente.id}" />" > 

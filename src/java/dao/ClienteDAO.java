@@ -7,12 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entidad.Cliente;
+import java.sql.Connection;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import java.util.Date;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ClienteDAO extends Conexion implements DAO{
@@ -74,6 +73,8 @@ public class ClienteDAO extends Conexion implements DAO{
                       
         } catch ( SQLException e) {           
             throw e;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             this.cerrar();
@@ -92,9 +93,10 @@ public class ClienteDAO extends Conexion implements DAO{
             pst.executeUpdate();            
                       
         } catch (SQLException e) {
+             throw  e;
         }
         finally{
-                this.cerrar();
+            this.cerrar();
         }        
     }
 
@@ -118,6 +120,7 @@ public class ClienteDAO extends Conexion implements DAO{
              pst.executeUpdate();            
                        
         } catch (SQLException e) {
+             throw  e;
         }
         finally{
             this.cerrar();
@@ -157,18 +160,19 @@ public class ClienteDAO extends Conexion implements DAO{
             rs = pst.executeQuery();
             while(rs.next()){
                 datos.add(new Cliente(
-                        rs.getInt("id"),
-                        rs.getString("identificador"),
-                        rs.getString("nombre"),
-                        rs.getString("email"),
-                        rs.getString("usuario"),
-                        rs.getString("contraseña"),
-                        rs.getString("telefono"),
-                        rs.getInt("nivel")
+                    rs.getInt("id"),
+                    rs.getString("identificador"),
+                    rs.getString("nombre"),
+                    rs.getString("email"),
+                    rs.getString("usuario"),
+                    rs.getString("contraseña"),
+                    rs.getString("telefono"),
+                    rs.getInt("nivel")
                     )
                 );
             }
-        } catch (SQLException e ) {            
+        } catch (SQLException e ) {     
+             throw  e;
         }
         finally{
             this.cerrar();
@@ -202,6 +206,7 @@ public class ClienteDAO extends Conexion implements DAO{
                 }                   
      
            } catch ( SQLException e ) {
+                throw  e;
            }
            finally{
                this.cerrar();
@@ -280,30 +285,36 @@ public class ClienteDAO extends Conexion implements DAO{
         
         Cliente c = new Cliente();
         PreparedStatement pst;
-        ResultSet res = null;
+        ResultSet res;
         String sql = "SELECT id, identificador, nombre, email, usuario, contraseña, telefono, nivel FROM clientes WHERE email=?";
 
         try {
             this.conectar();
-               pst = conexion.prepareStatement(sql);
-               pst.setString(1,email);                                
-               res = pst.executeQuery();               
+            pst = conexion.prepareStatement(sql);
+            pst.setString(1,email);                                
+            res = pst.executeQuery();               
             if (res.next()) {
-                    c.setId(res.getInt("id"));
-                    c.setIdentificador(res.getString("identificador"));
-                    c.setNombre(res.getString("nombre"));            
-                    c.setEmail(res.getString("email"));
-                    c.setUsuario(res.getString("usuario"));
-                    c.setContraseña(res.getString("contraseña"));                    
-                    c.setTelefono(res.getString("telefono"));
-                    c.setNivel(res.getInt("nivel"));
+                c.setId(res.getInt("id"));
+                c.setIdentificador(res.getString("identificador"));
+                c.setNombre(res.getString("nombre"));            
+                c.setEmail(res.getString("email"));
+                c.setUsuario(res.getString("usuario"));
+                c.setContraseña(res.getString("contraseña"));                    
+                c.setTelefono(res.getString("telefono"));
+                c.setNivel(res.getInt("nivel"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            throw e;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return c;
+        finally{
+            this.cerrar();
+        }
+        return c;
     }
     
-    
+/*
     public String UsuarioByEmail(String email) throws SQLException{
         String result = null;
         PreparedStatement pst;
@@ -325,7 +336,7 @@ public class ClienteDAO extends Conexion implements DAO{
         
     }
     
-    
+    /* 
     public String ContraseñaByEmail(String email) throws SQLException{
         String result = null;
         PreparedStatement pst;
@@ -347,7 +358,7 @@ public class ClienteDAO extends Conexion implements DAO{
         
     }    
     
-   /* 
+  
    public boolean ConsultarRUCDNI(String nombre) throws SQLException{
         PreparedStatement pst;
         ResultSet rs = null;
@@ -381,23 +392,39 @@ public class ClienteDAO extends Conexion implements DAO{
         
     }   
     */
+    
+    //Utilizado para validar que usuario y contraseña existan
+    //Lo utiliza index y SERVverificar
     public boolean ConsultarEmailContra(String email, String contraseña) throws SQLException{
     
+        boolean resultado = false;
+        
         PreparedStatement pst;
-        ResultSet rs = null;
+        ResultSet rs;
         String sql = "SELECT email, contraseña FROM clientes WHERE email=? AND contraseña=?";
         
         try {
-            this.conectar();
-            pst = conexion.prepareCall(sql);
+            this.conectar(); 
+            pst = conexion.prepareStatement(sql);
             pst.setString(1, email);
             pst.setString(2, contraseña);
             rs = pst.executeQuery();  
+            
+            if(rs.next()){
+                resultado = true;
+            }
+            
         }
-        catch (Exception e) {            
+        catch (SQLException e) { 
+            resultado = false;
+            throw e;            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs.next();
-        
+        finally{
+            this.cerrar();
+        }
+        return resultado;             
     }         
     /*
     public boolean ConsultarUsuario(String usuario) throws SQLException{

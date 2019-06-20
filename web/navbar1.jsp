@@ -12,6 +12,17 @@ HttpSession sesion = request.getSession();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
         <title>Barra de Navegación</title>        
+        
+      <style id="antiClickjack" type="text/css">body{display:none !important;}</style>
+     <script type="text/javascript">
+         if (self === top) {
+             var antiClickjack = document.getElementById("antiClickjack");
+             antiClickjack.parentNode.removeChild(antiClickjack);
+         } else {
+             top.location = self.location;
+         }
+     </script>           
+        
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
@@ -37,13 +48,23 @@ HttpSession sesion = request.getSession();
                   Modulos <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">                    
-                    <li><a href="SERVCliente?action=refreshCliente">Gestionar Clientes</a></li>
+                    <li><a href="SERVCliente2?action=refresh">Gestionar Clientes</a></li>
                     <li><a href="GestionarLocal.jsp">Gestionar Locales</a></li>
-                    <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>   
+                    <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>                    
                     <li><a href="SERVConductor?action=refresh">Gestionar Conductor</a></li>
-                    <li><a href="GestionarPromocion.jsp">Gestionar Promoción</a></li>                    
+                    <li><a href="GestionarPromocion.jsp">Gestionar Promoción</a></li>                   
                 </ul>
-              </li>                  
+              </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Reportes <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a href="ReportarEncomienda.jsp">Encomiendas</a></li>
+                      <li><a href="ReportarCliente.jsp">Clientes</a></li>
+                      <li><a href="ReportarPrecio.jsp">Ingresos</a></li>
+                  </ul>
+                </li>                                  
               </ul>
             <ul class="nav navbar-nav navbar-right">
 
@@ -51,9 +72,9 @@ HttpSession sesion = request.getSession();
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   ¡Hola, <%= sesion.getAttribute("usuario") %>!<b class="caret"></b>
                 </a>
-                <ul class="dropdown-menu">
-                    <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
-                     <li><a href="SERVCliente?action=cerrar">Cerrar Sesión</a></li>                           
+                <ul class="dropdown-menu">  
+                    <li><a href="SERVCliente2?action=edit" >¿Editar cuenta? </a></li> 
+                    <li><a href="SERVCliente2?action=cerrar">Cerrar Sesión</a></li>                           
                 </ul>
               </li>              
             </ul>

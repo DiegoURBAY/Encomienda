@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import entidad.Encomienda;
 import entidad.TipoEncomienda;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EncomiendaDAO extends Conexion implements DAO{ 
 
@@ -250,7 +252,9 @@ public class EncomiendaDAO extends Conexion implements DAO{
                 }                   
      
         } catch (SQLException e) {
-        }
+        }   catch (ClassNotFoundException ex) {
+                Logger.getLogger(EncomiendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         finally{
             this.cerrar();
         }   

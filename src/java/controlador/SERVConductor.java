@@ -27,7 +27,9 @@ public class SERVConductor extends HttpServlet {
      
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.addHeader("X-Frame-Options", "DENY");
+        response.setContentType("text/html;charset=UTF-8");       
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -47,6 +49,7 @@ public class SERVConductor extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        response.addHeader("X-Frame-Options", "DENY");
         String vista = "";
         HttpSession sesion = request.getSession();
         String action = request.getParameter("action");
@@ -92,7 +95,8 @@ public class SERVConductor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        response.addHeader("X-Frame-Options", "DENY");
         String vista = "";
         HttpSession sesion = request.getSession();
         

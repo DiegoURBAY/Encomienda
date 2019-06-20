@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class LugarDAO  extends Conexion implements DAO{ 
@@ -95,7 +97,9 @@ public static void main(String[] args) throws Exception {
             }               
         } catch (SQLException e) {
             throw e;
-        }
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(LugarDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
          return lugares;
     }        
       
@@ -117,7 +121,9 @@ public static void main(String[] args) throws Exception {
             }           
         } catch (SQLException e) {
             throw e;
-        }
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(LugarDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
          return lugar;
     }      
     

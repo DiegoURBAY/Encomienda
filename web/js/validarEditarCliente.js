@@ -1,60 +1,10 @@
 
 jQuery(function ($) {
-    
-    /*
-            
+     
     //Permite ingresar solo letras y espacio vacios
     //Transforma las letras en minuscula
     // Los demás son eliminados segundos de ser escritos
-    $('#inputNombre').keyup( function () {
-        $(this).val($(this).val().toLowerCase());
-        if (!/^[ a-záéíóúüñ]*$/i.test(this.value)) {
-            this.value = this.value.replace(/[^ a-záéíóúüñ]+/ig,"");
-        }
-    });
-
-    //Permite ingresar solo numeros
-    //Los demás son eliminados segundos de ser escritos, incluyendo espacios vacios
-    $('#inputTelefono, #inputIdentificador').keyup(function () {
-        this.value = this.value.replace(/[^0-9]/g,''); 
-    });
-
-    //Transforma las letras en minuscula
-    $("#inputEmail").keyup(function() {
-       $(this).val($(this).val().toLowerCase());
-    });
-
-    //Busca el dni de manera asincrona
-    $("#inputIdentificador").keyup(function(){
-            $dni = $('#inputIdentificador').val();
-            $.post("SERVCliente", {ddni:$dni}, function(data) {               
-                    $("#ReportarRucDni").html(data);
-            });
-    }); 
-    
-    //Busca el correo de manera asincrona
-    $("#inputEmail").keyup(function(){
-            $email = $('#inputEmail').val();
-            $.post("SERVCliente", {eemail:$email}, function(data) {               
-                    $("#ReportarEmail").html(data);
-            });
-    });     
-    
-    //Busca el usuario de manera asincrona
-    $("#inputUserame").keyup(function(){
-            $nombre = $('#inputUserame').val();
-            $.post("SERVUsuario", {nnombre:$nombre}, function(data) {               
-                    $("#ReportarNombre").html(data);
-            });
-    });        
-    
-   */
-  
-  
-    //Permite ingresar solo letras y espacio vacios
-    //Transforma las letras en minuscula
-    // Los demás son eliminados segundos de ser escritos
-    $('#inputNombre').keyup( function () {
+    $('#inputNombre, #inputUserame').keyup( function () {
         $(this).val($(this).val().toLowerCase());
         if (!/^[ a-záéíóúüñ]*$/i.test(this.value)) {
             this.value = this.value.replace(/[^ a-záéíóúüñ]+/ig,"");
@@ -112,7 +62,7 @@ jQuery(function ($) {
             palabra = "usuario";
         }   
         $.ajax({
-            type:"GET",
+            type:"POST",
             dataType:"JSON",
             url:"SERVVerificar",
             data:"&action=verificarCliente&"+palabra+"="+palabra_buscar,

@@ -46,6 +46,7 @@ public class SERVPedido extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("X-Frame-Options", "DENY");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -64,7 +65,7 @@ public class SERVPedido extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
+            response.setHeader("X-Frame-Options", "DENY");
           String forward = "";   
             String action = request.getParameter("action");
             
@@ -153,7 +154,7 @@ public class SERVPedido extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+response.setHeader("X-Frame-Options", "DENY");
         HttpSession sesion = request.getSession();
         
 
@@ -184,7 +185,7 @@ public class SERVPedido extends HttpServlet {
                     }
                 }
         
-                response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refresh&nivel="+cliente.getId());   
+                response.sendRedirect(request.getContextPath() + "/SERVEncomienda2?action=refresh&nivel="+cliente.getId());   
     }
 
 

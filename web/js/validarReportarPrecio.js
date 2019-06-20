@@ -1,11 +1,14 @@
     
     var chart1, chart2;
-    var dateToday = new Date();    
+    var dateToday = new Date(); 
+    
+    var mes_array = new Array();
+    var tipo_cliente;
     
 jQuery(function ($) {
      $("#div2").hide();
-    //Cuando inicie sesion un administrador pueda ver q enomiendas ver
-    
+     //el div 4 esta dentro de 2
+     $("#div4").hide();  
     $(function() {
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
@@ -61,6 +64,8 @@ jQuery(function ($) {
                 return false;   
             }   
 
+            $("#chartdiv4").empty();
+            $("#div4").hide();
             getGraficoBarrasFecha1();
         });          
             
@@ -71,10 +76,12 @@ jQuery(function ($) {
         });            
         $('#btnExportChartsXSXL').click(function (){                                     
             //fc_export_pdf(); 
-            exportXLSX();
+            exportXLSX2();
         });       
     });    
-           
+    
+    
+    //imagen del primer reporte       
    getGraficoBarrasFecha1 = function () {       
         var fecha_inicio = $("#from").val();
         var fecha_final = $("#to").val();
@@ -90,7 +97,7 @@ jQuery(function ($) {
                         if(data.mensaje !== "vacio"){                 
                             console.log(data.mensaje);
                           //  console.log(data.cantidad);
-                            alert("Hay ingresos");
+                            alert("¡Hay ingresos! No olvide dar clic al primer reporte para ver más detalles");
                             $("#div2").show();
                             _private.setBarrasFecha1(data, fecha_inicio, fecha_final, data.cantidad); 
                                                                                                   
@@ -113,6 +120,51 @@ jQuery(function ($) {
         });                
     }; 
       
+      //imagen detallada del primer reporte
+   getGraficoBarrasFecha2 = function (tipo, mes) {       
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();
+
+        var url = "";
+
+        if(mes === null){
+            url = "&action=listarPrecioPorFecha2&cliente="+tipo+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final;
+        //no hay identificador pero si mes    
+        }else{           
+            url = "&action=listarPrecioPorFecha2&cliente="+tipo+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&mes="+mes;
+        }
+
+    //     alert("2 .-Hay encomiendas del mes: "+mes+" tipo: "+tipo+" iden: "+identificador);
+       $.ajax({
+                type: "POST",           
+                url: 'SERVReporte',
+                //data: "&action=listarEncomiendaPorMes&tipo="+tipo+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&dni="+identificador+"&mes="+mes,
+               data: url,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.estado === "ok"){
+                        if(data.mensaje !== "vacio"){                 
+                            console.log(data.mensaje);
+                            alert("Generado reporte detallado");
+                            $("#div4").show();
+                            _private.setBarrasFecha2(data, tipo, mes, fecha_inicio, fecha_final); 
+                                                                                                  
+                        }else{
+                         
+                        }
+                        
+                    }
+                    else{
+                    }
+                     
+                },
+                complete:function(){
+                    //se el envia el mes al array para ser tomado por el boton                        
+                }
+        });                
+    };        
+      
+      //imagen del segundo reporte
    getGraficoPieFecha1 = function () {       
         var fecha_inicio = $("#from").val();
         var fecha_final = $("#to").val();
@@ -145,9 +197,57 @@ jQuery(function ($) {
         });                
     };
     
-    
-    
-    
+    //el boton
+   exportXLSX2 = function () {       
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();
+        var tipo = 1;
+        
+        var url = "";
+        
+        //Saber si existe el grafico detallado
+        var tlist_3 = $('#chartdiv4').html().replace(/\s/ig, '').length;
+        if(tlist_3 !== 0){
+            
+            tipo = 2;
+            //Si existe, saber que tipo de grafico es             
+            if(mes_array.length === 0){
+                console.log("OPCION 1, long: "+mes_array.length);
+                url = "&action=generarIngresos&tipo="+tipo+"&cliente="+tipo_cliente+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final;
+            //no hay identificador pero si mes    
+            }else{
+                console.log("OPCION 2, long: "+mes_array.length);
+                var ultimo = mes_array[mes_array.length - 1];
+                console.log(ultimo);
+                url = "&action=generarIngresos&tipo="+tipo+"&cliente="+tipo_cliente+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&mes="+ultimo;
+            }                 
+        }
+        else{
+             url ="&action=generarIngresos&tipo="+tipo+"&cliente="+tipo_cliente+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final;
+        }
+       
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            //data: "&action=generarIngresos&tipo="+tipo+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final,
+            data: url,
+            dataType: 'json',
+            success: function (data) {
+                if(data.estado === "ok"){
+                                 
+                    alert(data.mensaje);
+                }
+                else{
+                    alert(data.mensaje);          
+                }
+
+            },
+            complete:function(){
+             //   getGraficoLineasFecha1();
+            }
+        });                
+    };    
+                
     var _private = {};
     var chart = {};    
      _private.setBarrasFecha1 = function (data, fecha_inicio, fecha_final, cantidad) {
@@ -196,7 +296,11 @@ jQuery(function ($) {
                 "title": "empresa S/. "+cantidadEmpresa,
                 "type": "column",
                 "color": "#000000",
-                "valueField": "empresa" 
+                "valueField": "empresa",
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": empresa
+                }]                  
             }, {
                 "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
                 "fillAlphas": 0.8,
@@ -205,7 +309,11 @@ jQuery(function ($) {
                 "title": "persona S/. "+cantidadPersona,
                 "type": "column",
                 "color": "#000000",
-                "valueField": "persona"
+                "valueField": "persona",
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": persona
+                }] 
             }],
             "categoryField": "mes",
             "categoryAxis": {
@@ -236,6 +344,67 @@ jQuery(function ($) {
                 "menu": []
              }
         });   
+        
+        
+        function empresa(e) {           
+            var cliente = "empresa";
+            tipo_cliente = "empresa";
+            var objeto_escogido = Object.values(e)[2]; 
+            var mes = objeto[objeto_escogido].tiempo;
+          //  console.log("mes "+mes_array[mes_array.length - 1]);            
+          //  alert("mes : "+mes+" cliente escogido: "+cliente);
+            //var answer = confirm("¿Seguro que desea ver el reporte de "+tipo+"s del mes de "+mes+" ?");
+            var answer = confirm("¿Ver reporte de "+cliente+"s del mes de "+mes+" ? Si cancela verá el reporte con el rango de fechas establecido");
+            if (answer)
+            {                             
+                console.log('yes');
+             //   alert('Ha aceptado, mes '+mes+", tipo: "+tipo+", ident: "+identificador2);
+                mes_array.push(mes);
+                console.log("mes "+mes_array.length);  
+                getGraficoBarrasFecha2(cliente, mes);
+                return false;
+            }
+            
+            else
+            {
+                console.log('cancel');                                   
+                var mes = null;
+                mes_array.splice(0, mes_array.length);
+                console.log("mes "+mes_array.length);  
+            //    alert('Ha cancelado, mes '+mes+", tipo: "+tipo);
+                getGraficoBarrasFecha2(cliente, mes);
+      //          return false;
+            }             
+        }
+        function persona(e) {                     
+            var cliente = "persona";
+             tipo_cliente = "persona";
+            var objeto_escogido = Object.values(e)[2]; 
+            var mes = objeto[objeto_escogido].tiempo;
+
+          //  console.log("mes "+mes_array[mes_array.length - 1]);     
+            //var answer = confirm("¿Seguro que desea ver el reporte de "+tipo+"s del mes de "+mes+" ?");
+            var answer = confirm("¿Ver reporte de "+cliente+"s del mes de "+mes+" ? Si cancela verá el reporte con el rango de fechas establecido");
+            if (answer)
+            {                             
+                console.log('yes');
+         //       alert('Ha aceptado, mes '+mes+", tipo: "+tipo);
+                mes_array.push(mes);
+                getGraficoBarrasFecha2(cliente, mes);
+                return false;
+            }
+            else
+            {
+                mes_array.splice(0, mes_array.length);
+   
+         //       console.log('cancel');                
+                var mes = null;
+              
+          //      alert('Ha cancelado, mes '+mes+", tipo: "+tipo);
+                getGraficoBarrasFecha2(cliente, mes);
+          //      return false;
+            }  
+        }         
     /*
   
         function exportXLSX() {
@@ -247,6 +416,98 @@ jQuery(function ($) {
         }    
         */
     };
+    
+    _private.setBarrasFecha2 = function (data, tipo, mes, fecha_inicio, fecha_final)  {
+        
+        var objeto = JSON.parse(data.mensaje);  
+            
+        var arreglado = objeto.map( item => { 
+            return { fecha: item.tiempo , cliente: item.total }; 
+        });               
+        
+  
+        console.log(arreglado);                         
+      
+        var titulo = "";
+                
+            if(mes !== null){
+                titulo = "Reporte de ingresos en soles de "+tipo+"s registrados durante el mes de "+mes;
+            }
+            else{
+                titulo = "Reporte de ingresos en soles de "+tipo+"s registrados  desde "+fecha_inicio+" hasta "+fecha_final;
+            }
+
+        chart = AmCharts.makeChart("chartdiv4", {
+            "type": "serial",
+            "titles": [{
+                    "text": titulo,
+                    "size": 14
+                }],             
+            "theme": "none",              
+            "marginRight":30,
+            "legend": {
+                "equalWidths": false,
+                "periodValueText": "total: [[value.sum]]",
+                "position": "top",
+                "valueAlign": "left",
+                "valueWidth": 100
+            },
+            "dataProvider": arreglado,
+            "valueAxes": [{
+                "stackType": "regular",
+                "gridAlpha": 0.07,
+                "position": "left",
+                "title": "ingresos (S/.)"
+            }],
+            "graphs": [ {
+                "balloonText": "<img src='https://www.amcharts.com/lib/3/images/motorcycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
+                "fillAlphas": 0.6,
+                "lineAlpha": 0.4,
+                "title": "cliente",
+                "valueField": "cliente"
+            }],
+            "plotAreaBorderAlpha": 0,
+            "marginTop": 10,
+            "marginLeft": 0,
+            "marginBottom": 0,
+            "chartScrollbar": {},
+            "chartCursor": {
+                "cursorAlpha": 0
+            },
+            "categoryField": "fecha",
+            "categoryAxis": {
+                "startOnAxis": true,
+                "axisColor": "#DADADA",
+                "gridAlpha": 0.07,
+                "title": "fechas",
+                "labelRotation": 90,
+                "guides": [{
+                    category: "2001",
+                    toCategory: "2003",
+                    lineColor: "#CC0000",
+                    lineAlpha: 1,
+                    fillAlpha: 0.2,
+                    fillColor: "#CC0000",
+                    dashLength: 2,
+                    inside: true,
+                    labelRotation: 90,
+                    label: "fines for speeding increased"
+                }, {
+                    category: "2007",
+                    lineColor: "#CC0000",
+                    lineAlpha: 1,
+                    dashLength: 2,
+                    inside: true,
+                    labelRotation: 90,
+                    label: "motorcycle fee introduced"
+                }]
+            },
+            "export": {
+                "enabled": true,
+                "menu": []
+             }
+        });          
+   };     
     
     _private.setPie1 = function (data, fecha_inicio, fecha_final) {
         var objeto = JSON.parse(data.mensaje);         
@@ -304,7 +565,15 @@ jQuery(function ($) {
             console.log("Starting export...");
 
             // Define IDs of the charts we want to include in the report
-            var ids = ["chartdiv1", "chartdiv2"];
+            var ids = [];
+            
+            var tlist_3 = $('#chartdiv4').html().replace(/\s/ig, '').length;
+            if(tlist_3 !== 0){
+                 var ids = ["chartdiv1", "chartdiv4", "chartdiv2"];
+            }else{
+                 
+                  var ids = ["chartdiv1", "chartdiv2"];
+            }
 
             // Collect actual chart objects out of the AmCharts.charts array
             var charts = {};
@@ -356,11 +625,29 @@ jQuery(function ($) {
 
         var addtext = "";
         
+       var momentoActual = new Date();
         
+        var hora = momentoActual.getHours(); 
+        var minuto = momentoActual.getMinutes(); 
+        var segundo = momentoActual.getSeconds(); 
+        
+        
+        if (hora < 10) {hora = "0" + hora;}
+        if (minuto < 10) {minuto = "0" + minuto;}
+        if (segundo < 10) {segundo = "0" + segundo;}
+
+        var horaImprimible = hora + ":" + minuto + ":" + segundo;
+        
+        var month = momentoActual.getMonth()+1;
+        var day = momentoActual.getDate();
+
+        var fecha_actual = (day<10 ? '0' : '') + day +'/'+ (month<10 ? '0' : '') + month + '/'+ momentoActual.getFullYear();       
         
         var titulo = "Ingreso_Reporte.pdf";
-            
-        addtext = "Zurita Sac.\n\n\
+                    addtext = "Zurita Sac.\n\
+        \n\
+\n\
+        Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\
 \n\
 \n\
 \n\
@@ -383,6 +670,14 @@ jQuery(function ($) {
             "fit": [ 523, 300 ]
         });
         
+        var tlist_3 = $('#chartdiv4').html().replace(/\s/ig, '').length;
+         if(tlist_3 !== 0){
+             layout.content.push({
+                 "image": charts["chartdiv4"].exportedImage,
+                 "fit": [ 523, 300 ]
+             }); 
+         }         
+        
         layout.content.push({
             "image": charts["chartdiv2"].exportedImage,
             "fit": [ 523, 300 ]
@@ -401,7 +696,7 @@ function exportXLSX() {
             console.log("Starting export...");
 
             // Define IDs of the charts we want to include in the report
-            var ids = ["chartdiv1", "chartdiv2"];
+             var ids = ["chartdiv1", "chartdiv4", "chartdiv2"];
 
             // Collect actual chart objects out of the AmCharts.charts array
             var charts = {};

@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-
+     
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -14,6 +14,16 @@
 <link href="css/registrarcliente.css" rel="stylesheet" type="text/css"/>
 <script src="js/validarRegistrarCliente.js" type="text/javascript"></script>
 
+      <style id="antiClickjack" type="text/css">body{display:none !important;}</style>
+     <script type="text/javascript">
+         if (self === top) {
+             var antiClickjack = document.getElementById("antiClickjack");
+             antiClickjack.parentNode.removeChild(antiClickjack);
+         } else {
+             top.location = self.location;
+         }
+     </script>   
+     
     </head>
     <body>
 <div class="signup-form">

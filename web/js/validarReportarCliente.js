@@ -2,6 +2,9 @@
     var chart1, chart2;
     var dateToday = new Date();    
     
+    var mes_array = new Array();
+    var tipo_cliente;    
+    
 jQuery(function ($) {
      $("#div2").hide();
      //el div 4 esta dentro de 2
@@ -72,7 +75,7 @@ jQuery(function ($) {
         });            
         $('#btnExportChartsXSXL').click(function (){                                     
             //fc_export_pdf(); 
-            exportXLSX();
+           exportXLSX2();
         });       
     });    
            
@@ -91,7 +94,7 @@ jQuery(function ($) {
                         if(data.mensaje !== "vacio"){                 
                             console.log(data.mensaje);
                           //  console.log(data.cantidad);
-                            alert("Hay clientes");
+                            alert("¡Hay clientes! No olvide dar clic al primer reporte para ver más detalles");
                             $("#div2").show();
                             _private.setBarrasFecha1(data, fecha_inicio, fecha_final, data.cantidad); 
                                                                                                   
@@ -189,7 +192,53 @@ jQuery(function ($) {
         });                
     };
     
-    
+   exportXLSX2 = function () {       
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();
+        var tipo = 1;
+        
+        var url = "";
+        
+        //Saber si existe el grafico detallado
+        var tlist_3 = $('#chartdiv4').html().replace(/\s/ig, '').length;
+        if(tlist_3 !== 0){
+            
+            tipo = 2;
+            //Si existe, saber que tipo de grafico es             
+            if(mes_array.length === 0){
+                url = "&action=generarCliente&tipo="+tipo+"&cliente="+tipo_cliente+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final;
+            //no hay identificador pero si mes    
+            }else{
+                var ultimo = mes_array[mes_array.length - 1];
+                console.log(ultimo);
+                url = "&action=generarCliente&tipo="+tipo+"&cliente="+tipo_cliente+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&mes="+ultimo;
+            }                 
+        }
+        else{
+             url ="&action=generarCliente&tipo="+tipo+"&cliente="+tipo_cliente+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final;
+        }
+       
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            //data: "&action=generarIngresos&tipo="+tipo+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final,
+            data: url,
+            dataType: 'json',
+            success: function (data) {
+                if(data.estado === "ok"){
+                                 
+                    alert(data.mensaje);
+                }
+                else{
+                    alert(data.mensaje);          
+                }
+
+            },
+            complete:function(){
+             //   getGraficoLineasFecha1();
+            }
+        });                
+    };    
     
     
     var _private = {};
@@ -290,6 +339,7 @@ jQuery(function ($) {
         
         function empresa(e) {           
             var cliente = "empresa";
+            tipo_cliente = "empresa"; 
             var objeto_escogido = Object.values(e)[2]; 
             var mes = objeto[objeto_escogido].tiempo;
     //        alert("mes : "+mes+" cliente escogido: "+cliente);
@@ -298,6 +348,7 @@ jQuery(function ($) {
             if (answer)
             {                             
                 console.log('yes');
+                mes_array.push(mes);
              //   alert('Ha aceptado, mes '+mes+", tipo: "+tipo+", ident: "+identificador2);
                 getGraficoBarrasFecha2(cliente, mes);
                 return false;
@@ -305,7 +356,8 @@ jQuery(function ($) {
             
             else
             {
-                console.log('cancel');                
+                console.log('cancel');     
+                mes_array.splice(0, mes_array.length);
                 var mes = null;
             //    alert('Ha cancelado, mes '+mes+", tipo: "+tipo);
                 getGraficoBarrasFecha2(cliente, mes);
@@ -314,14 +366,16 @@ jQuery(function ($) {
         }
         function persona(e) {                     
             var cliente = "persona";
+            tipo_cliente = "persona";            
             var objeto_escogido = Object.values(e)[2]; 
-            var mes = objeto[objeto_escogido].tiempo;
+            var mes = objeto[objeto_escogido].tiempo;            
             //var answer = confirm("¿Seguro que desea ver el reporte de "+tipo+"s del mes de "+mes+" ?");
             var answer = confirm("¿Ver reporte de "+cliente+"s del mes de "+mes+" ? Si cancela verá el reporte con el rango de fechas establecido");
             if (answer)
             {                             
                 console.log('yes');
          //       alert('Ha aceptado, mes '+mes+", tipo: "+tipo);
+                mes_array.push(mes);
                 getGraficoBarrasFecha2(cliente, mes);
                 return false;
             }
@@ -329,6 +383,7 @@ jQuery(function ($) {
             {
          //       console.log('cancel');                
                 var mes = null;
+                mes_array.splice(0, mes_array.length);
           //      alert('Ha cancelado, mes '+mes+", tipo: "+tipo);
                 getGraficoBarrasFecha2(cliente, mes);
           //      return false;

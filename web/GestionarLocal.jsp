@@ -12,7 +12,7 @@ HttpSession sesion = request.getSession();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Demo Local</title>
-        <jsp:include page="navbar_1.jsp"/> 
+        <jsp:include page="navbar1.jsp"/>
         <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Pta07pYlzbICVniGLYta4MLCrUrXrHE'></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js" ></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>

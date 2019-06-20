@@ -51,7 +51,7 @@ jQuery(function ($) {
             palabra = "licencia";
         }        
         $.ajax({
-            type:"GET",
+            type:"POST",
             dataType:"JSON",
             url:"SERVVerificar",
             data:"&action=verificarConductor&"+palabra+"="+palabra_buscar,

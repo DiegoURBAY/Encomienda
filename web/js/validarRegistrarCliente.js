@@ -4,7 +4,7 @@ $(document).ready(function (){
     //Permite ingresar solo letras y espacio vacios
     //Transforma las letras en minuscula
     // Los demás son eliminados segundos de ser escritos
-    $('#inputNombre').keyup( function () {
+    $('#inputNombre, #inputUserame').keyup( function () {
         $(this).val($(this).val().toLowerCase());
         if (!/^[ a-záéíóúüñ]*$/i.test(this.value)) {
             this.value = this.value.replace(/[^ a-záéíóúüñ]+/ig,"");
@@ -56,7 +56,7 @@ $(document).ready(function (){
             palabra = "usuario";
         }   
         $.ajax({
-            type:"GET",
+            type:"POST",
             dataType:"JSON",
             url:"SERVVerificar",
             data:"&action=verificarCliente&"+palabra+"="+palabra_buscar,
@@ -314,150 +314,7 @@ $(document).ready(function (){
             }
         }); 
     }    
-    
-    /*
-    $('#registrar').click(function (){
-        var opciones = document.getElementsByName("optradio"); 
-        var ruc_dni = $('#inputIdentificador').val();
-        var nombre = $('#inputNombre').val();
-        var usuario = $('#inputUserame').val();
-        var email = $('#inputEmail').val();                 
-        var celular = $('#inputTelefono').val();
-        var contra = $('#inputPassword').val();  
-        var respuestaIdentificador = parseInt($('#ReportarIdentificador').val());
-        var respuestaEmail = parseInt($('#ReportarEmail').val());
-        var respuestaUsuario = parseInt($('#ReportarUsuario').val());
-                            
-        var seleccionado = false;
-        for(var i=0; i<opciones.length; i++) {    
-          if(opciones[i].checked) {              
-            seleccionado = true;     
-            break;
-          }
-        }
 
-        if(!seleccionado) {
-            alert('[ERROR] Eliga entre RUC o DNI ');          
-            return false;
-        }  
-        
-        for(x = 0; x < opciones.length; x++){
-            if(opciones[x].checked){
-                if( opciones[x].value === '1' ){
-                    if(  ruc_dni === null || ruc_dni.length === 0 || /^\s+$/.test(ruc_dni)  ){
-                        alert('[ERROR] El RUC no puede quedar vacío ');
-                        $("#inputIdentificador").focus();   
-                        return false;
-                    }             
-                    else if(  !(ruc_dni.length === 11)|| /^\s+$/.test(ruc_dni) ){
-                        alert('[ERROR] El RUC debe tener 11 digitos');
-                        $("#inputIdentificador").focus();   
-                        return false;
-                    }  
-                }  
-                else if( opciones[x].value === '2'){
-                    if(  ruc_dni === null || ruc_dni.length === 0 || /^\s+$/.test(ruc_dni)  ){
-                        alert('[ERROR] El DNI no puede quedar vacío');
-                        $("#inputIdentificador").focus();   
-                        return false;
-                    }             
-                    else if(  !(ruc_dni.length === 8)|| /^\s+$/.test(ruc_dni) ){
-                        alert('[ERROR] El dni debe tener un valor de 8 dígitos.');   
-                        $("#inputIdentificador").focus();   
-                        return false;
-                    }  
-                }                
-            } 
-        }           
-        
-        if(respuestaIdentificador === 1){
-            alert('[ERROR] Ingrese un Ruc o DNI que no este registrado');
-            $("#inputIdentificador").focus();
-            return false;
-        }      
-        else if (nombre === null || nombre.length === 0 || /^\s+$/.test(nombre) ) {
-            alert('[ERROR] El nombre no puede quedar vacio');
-            $("#inputNombre").focus();
-            return false;
-        }
-        else if (!isNaN(nombre) || /^\s+$/.test(nombre) ) {
-            alert('[ERROR] El nombre no puede tener números');
-            $("#inputNombre").focus();
-            return false;
-        }
-        else if(!(nombre.length <=50) || /^\s+$/.test(nombre)){
-            alert('[ERROR] El nombre no puede exceder los 50 caracteres');
-            $("#inputNombre").focus();
-            return false;
-        }        
-        else if (email ===  null || email.length ===  0 || /^\s+$/.test(email) ) {
-            alert('[ERROR] El email no puede quedar vacío');
-            $("#inputEmail").focus();
-            return false;
-        }               
-        else if (!(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(email))) {
-            alert('[ERROR] Ingrese un email con formato adecuado');
-            $("#inputEmail").focus();
-            return false;
-        }
-        else if(!(email.length <=30) || /^\s+$/.test(email)){
-            alert('[ERROR] El email no puede exceder los 50 caracteres');
-            $("#inputEmail").focus();
-            return false;
-        }
-        else if(respuestaEmail === 1){
-            alert('[ERROR] Ingrese un email que no este registrado');
-            $("#inputEmail").focus();
-            return false;
-        }        
-        else if (celular ===  null || celular.length ===  0 || /^\s+$/.test(celular) ) {
-            alert('[ERROR] El teléfono celular no puede quedar vacío');
-            $("#inputTelefono").focus();
-            return false;
-        }           
-        else if (!(/^\d{9}$/.test(celular)) ) {        
-            alert('[ERROR] El telefono celular debe tener 9 digitos');
-            $("#inputTelefono").focus();
-            return false;
-        }        
-        
-        if( usuario === null || usuario.length === 0 || /^\s+$/.test(usuario) ) {
-            alert('[ERROR] El campo usuario no puede quedar vacío');
-            $("#inputUserame").focus();
-            return false; 
-              
-        }else if(!(usuario.length <=25) || !(usuario.length >=3) || /^\s+$/.test(usuario)){
-            alert('[ERROR] El usuario debe tener entre 3 a 25 letras');
-            $("#inputUserame").focus();
-            return false;
-        }
-        
-        else if(respuestaUsuario === 1){
-            alert('[ERROR] Ingrese un usuario que no este registrado');
-            $("#inputUserame").focus();
-            return false;
-        }
-        if (contra ===  null || contra.length ===  0 || /^\s+$/.test(contra) ) {
-            alert('[ERROR] La Contraseña no puede quedar vacío');
-            $("#inputPassword").focus();
-            return false;
-        }
-        
-        var answer = confirm('¿Seguro que desea registrar?');
-        if (answer)
-        {
-           console.log('yes');
-           alert('Recibirá en su email los datos de su encomienda');
-           return true;
-        }
-        else
-        {
-           console.log('cancel');
-           alert('Ha cancelado el registro');
-           return false;
-        }          
-     });
-     */
     $('#regresar').click(function (){
        confirm('¿Seguro que desea salir del registro?');
         var answer = confirm('¿Seguro que desea salir del registro?');

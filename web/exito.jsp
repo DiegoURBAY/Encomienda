@@ -12,7 +12,7 @@
             <input type="text" id="cliente" name="txtIdCliente" value="<%= session.getAttribute("usuario") %>"  >
             <input type="text" id="cliente2" name="txtIdCliente2" value="<%= request.getAttribute("encomienda") %>"  >
        
-            <a href="SERVEncomienda?action=refresh" > Exito!!! Continuar</a>
+            <a href="SERVEncomienda2?action=refresh" > Exito!!! Continuar</a>
         </form>       
     </body>
 </html>

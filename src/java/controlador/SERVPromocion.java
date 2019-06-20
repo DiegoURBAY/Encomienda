@@ -37,6 +37,7 @@ public class SERVPromocion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("X-Frame-Options", "DENY");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -55,6 +56,7 @@ public class SERVPromocion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");          
         String estado = "";          
@@ -116,6 +118,7 @@ public class SERVPromocion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");      
         String estado = ""; 

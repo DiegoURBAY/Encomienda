@@ -67,6 +67,8 @@ public class SERVTipoEncomienda extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                response.setHeader("X-Frame-Options", "DENY");
+
         response.setContentType("text/html;charset=UTF-8");
         String forward = "";   
         String action = request.getParameter("action");
@@ -434,7 +436,9 @@ public class SERVTipoEncomienda extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {        
+            throws ServletException, IOException {      
+                response.setHeader("X-Frame-Options", "DENY");
+
         request.setCharacterEncoding("UTF-8");
         /*
         int cantidadSobre = Integer.parseInt(request.getParameter("txtCantidadSobre"));
@@ -574,7 +578,7 @@ public class SERVTipoEncomienda extends HttpServlet {
           
             
             } catch (Exception ex) {
-                Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SERVTipoEncomienda.class.getName()).log(Level.SEVERE, null, ex);
                 vista="/error.jsp";
             }
             finally{               
@@ -686,7 +690,7 @@ public class SERVTipoEncomienda extends HttpServlet {
                          }
                     }
             } catch (Exception ex) {
-                Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SERVTipoEncomienda.class.getName()).log(Level.SEVERE, null, ex);
             }
         
             if(nivel == 1){
@@ -695,7 +699,7 @@ public class SERVTipoEncomienda extends HttpServlet {
             if(nivel == 2){
                 vista = "/ListarEncomienda1.jsp";
             }        
-           // sesion.setAttribute("idUsuario", idCliente);
+
            sesion.setAttribute("encomienda", encomienda_list);
             response.sendRedirect(request.getContextPath() + vista);
          //   response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=buscarEncomienda");            

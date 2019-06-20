@@ -27,13 +27,6 @@ HttpSession sesion = request.getSession();
     <body>
 <div class="signup-form">
     <form method="POST"  autocomplete="off"  id="formulario_editar_cliente">
-        <!-- 
-            <input type="text" id="nnivel" name="txtnivel" value="<%= sesion.getAttribute("nivel") %>"  ><br>
-            <input type="text" id="cliente2" name="txtIdCliente2" value="<%= sesion.getAttribute("idUsuario") %>"  ><br>
-            <input type="text" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuarioPrueba") %>"  ><br>
-            <input type="text" id="cliente4" name="txtIdCliente4" value="<%= sesion.getAttribute("usuario_de_login") %>"  ><br>        
-        -->
-         
            <input type="hidden" class="form-control" id="cliente_id" name="txtId" value="<c:out value="${cliente.id}" />" > 
 		<h2>Editar Administrador</h2>
 		<p class="hint-text">Solo le tomará unos segundos</p>                                                                             
@@ -69,13 +62,9 @@ HttpSession sesion = request.getSession();
                 </div>        	
         </div>                
         <div class="form-group">
-        <!--
-            <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Editar" name="btnEditarPrueba" id="editar" onclick="return confirm('¿Seguro que desea editar')">
-        -->
+
             <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Editar" name="btnEditar" id="editar">
-        <!--
-            <a class="btn btn-sm btn-secondary btn-block text-uppercase" href="SERVEncomienda?action=refreshPrueba&idUsuario=<c:out value="<%= sesion.getAttribute("idUsuario") %>"/>" onclick="return confirm('¿Seguro que desea salir de la edición?')" >Atras</a>        
-        -->
+
             <a class="btn btn-sm btn-secondary btn-block text-uppercase" href="SERVCliente2?action=refresh" >Atras</a>
         </div>
                     

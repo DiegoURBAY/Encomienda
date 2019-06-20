@@ -36,6 +36,8 @@ public class Acceso extends Conexion{
         }
         catch (SQLException e){
             System.err.println("Algo ha salido mal en autentificar "+e);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Acceso.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             try {
@@ -66,6 +68,8 @@ public class Acceso extends Conexion{
         }
         catch (SQLException e){
             System.err.println("Algo ha salido mal en autentificar "+e);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Acceso.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             try {

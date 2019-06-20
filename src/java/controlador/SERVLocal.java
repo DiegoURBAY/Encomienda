@@ -36,6 +36,7 @@ public class SERVLocal extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("X-Frame-Options", "DENY");
         response.setContentType("text/html;charset=UTF-8");
 
     }
@@ -43,6 +44,7 @@ public class SERVLocal extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         response.addHeader("X-Frame-Options", "DENY");
         processRequest(request, response);         
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");          
@@ -122,7 +124,7 @@ public class SERVLocal extends HttpServlet {
             }
         }
         
-        
+        /*
            if(action.equalsIgnoreCase("local")){
              HttpSession sesion = request.getSession();
                sesion.setAttribute("idUsuario", 1);             
@@ -138,12 +140,15 @@ public class SERVLocal extends HttpServlet {
 
 RequestDispatcher view = request.getRequestDispatcher("GestionarRuta.jsp");
                 view.forward(request, response);                     
-           }           
+           }          
+        */
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        response.addHeader("X-Frame-Options", "DENY");
         processRequest(request, response);
         
         request.setCharacterEncoding("UTF-8");

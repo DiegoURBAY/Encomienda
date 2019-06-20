@@ -4,7 +4,6 @@
 
 <%
 HttpSession sesion = request.getSession();
-    //if(sesion.getAttribute("idUsuario")==null){
     if(sesion.getAttribute("usuario")==null){
         response.sendRedirect("index.jsp");
     }
@@ -65,21 +64,11 @@ HttpSession sesion = request.getSession();
                                 <td>
                                         <c:out value="${item.telefono}"/>
                                 </td>   
-                                <td class="text-center">
-                                     <!--                                     
-                                    <a href="SERVEncomienda?action=refresh&idCliente=<c:out value="${item.id}"/>"  class="btn btn-secondary btn-sm">Ver Envios</a>
-                                     -->   
+                                <td class="text-center"> 
                                      <a href="SERVEncomienda2?action=refresh&id=<c:out value="${item.id}"/>"  class="btn btn-secondary btn-sm">Ver Envios</a>
                                 </td>                                     
                                 <td class="text-center">
-                                    <a href="SERVCliente2?action=edit&email=<c:out value="${item.email}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
-                                    <!--
-                                    <a href="SERVCliente2?action=buscarPorAdmin&idUsuarioPorAdmin=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
-                                    <input type="text"  id="email_eliminar" value=" <c:out value="${item.email}" />">
-                                    <input type="button" class="btn btn-danger btn-sm" id="eliminar" value="Eliminar">
-                                    <a href="SERVCliente2?action=deleteCliente&idClienteR=<c:out value="${item.id}"/>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')"  class="btn btn-danger btn-sm">Eliminar</a>
-                                    
-                                    -->                                    
+                                    <a href="SERVCliente2?action=edit&email=<c:out value="${item.email}"/>"  class="btn btn-warning btn-sm" >Editar</a>                                      
                                     <a href="SERVCliente2?action=delete&email=<c:out value="${item.email}"/>" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro que desea eliminar el registro?')">Eliminar</a>                                    
                                 </td>
                             </tr>

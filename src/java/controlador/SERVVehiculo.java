@@ -33,6 +33,8 @@ public class SERVVehiculo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+                response.setHeader("X-Frame-Options", "DENY");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -101,6 +103,8 @@ public class SERVVehiculo extends HttpServlet {
      @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                response.setHeader("X-Frame-Options", "DENY");
+
         processRequest(request, response);
     }
 

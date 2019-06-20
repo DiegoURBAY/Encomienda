@@ -1,6 +1,10 @@
     
     var chart1, chart2;
     var dateToday = new Date();    
+    
+    var mes_array = new Array();
+    var tipo_encomienda;    
+    var identificador_array = new Array();
 
 jQuery(function ($) {
      $("#div2").hide();
@@ -150,6 +154,7 @@ function verificar_ajax(tipo, palabra_buscar){
 
             var identificador = null;
             var color = "#FF0000";
+            identificador_array.splice(0, identificador_array.length);
             
             if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
                 alert('[Aviso] Ingrese fecha de inicio');
@@ -189,6 +194,7 @@ function verificar_ajax(tipo, palabra_buscar){
                     return false;
                 }               
                 identificador =  $("#dni").val();
+                identificador_array.push(identificador);
             }
             else if(eleccion ==="empresa"){
                 if (ruc === null || ruc.length === 0 || /^\s+$/.test(ruc)){
@@ -208,10 +214,11 @@ function verificar_ajax(tipo, palabra_buscar){
                     return false;
                 }
                 identificador =  $("#ruc").val();
-
+                identificador_array.push(identificador);
             }
             $("#chartdiv4").empty();
             $("#div4").hide();
+                       
             getGraficoBarrasFecha1(identificador);
         });          
             
@@ -222,7 +229,7 @@ function verificar_ajax(tipo, palabra_buscar){
         });            
         $('#btnExportChartsXSXL').click(function (){                                     
             //fc_export_pdf(); 
-            exportXLSX();
+           exportXLSX2();
         });       
     });    
            
@@ -240,7 +247,7 @@ function verificar_ajax(tipo, palabra_buscar){
                     if(data.estado === "ok"){
                         if(data.mensaje !== "vacio"){                 
                             console.log(data.mensaje);
-                            alert("Hay encomiendas");   
+                             alert("¡Hay encomiendas! No olvide dar clic al primer reporte para ver más detalles");
                             $("#div2").show();
                             _private.setBarrasFecha1(data, fecha_inicio, fecha_final, identificador); 
                                                                                                   
@@ -356,7 +363,87 @@ function verificar_ajax(tipo, palabra_buscar){
     };
     
     
-    
+    //el boton
+   exportXLSX2 = function () {       
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();
+        var tipo = 1;
+        
+        var url = "";
+
+        //Saber si existe el grafico detallado
+        var tlist_3 = $('#chartdiv4').html().replace(/\s/ig, '').length;
+        if(tlist_3 !== 0){
+             tipo = 2;
+              if(identificador_array.length === 0 ){
+                  var ultimo_identificador = identificador_array[identificador_array.length - 1];
+                  
+                    //Si existe, saber que tipo de grafico es             
+                    if(mes_array.length === 0){
+                        console.log("OPCION 1, long mes: "+mes_array.length);
+                        console.log("OPCION 1, long dni: "+identificador_array.length);
+                        url = "&action=generarEncomienda&tipo="+tipo+"&encomienda="+tipo_encomienda+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&dni="+ultimo_identificador;
+                    //no hay identificador pero si mes    
+                    }else{
+                        console.log("OPCION 2, long: "+mes_array.length);
+                        console.log("OPCION 2, long dni: "+identificador_array.length);
+                        var ultimo = mes_array[mes_array.length - 1];                        
+                        console.log(ultimo);
+                        url = "&action=generarEncomienda&tipo="+tipo+"&encomienda="+tipo_encomienda+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&mes="+ultimo+"&dni="+ultimo_identificador;
+                    }   
+              }
+              else{           
+                    //Si existe, saber que tipo de grafico es             
+                    if(mes_array.length === 0){
+                        console.log("OPCION 3, long: "+mes_array.length);
+                         console.log("OPCION 3, long dni: "+identificador_array.length);
+                        url = "&action=generarEncomienda&tipo="+tipo+"&encomienda="+tipo_encomienda+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final;                       
+                    //no hay identificador pero si mes    
+                    }else{
+                        console.log("OPCION 4, long: "+mes_array.length);
+                          console.log("OPCION 4, long dni: "+identificador_array.length);
+                        var ultimo = mes_array[mes_array.length - 1];
+                        console.log(ultimo);
+                        url = "&action=generarEncomienda&tipo="+tipo+"&encomienda="+tipo_encomienda+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&mes="+ultimo;
+                    }                     
+              }
+              
+        }
+        else{
+            if(identificador_array.length === 0 ){                
+                 console.log("OPCION 5, long: mes"+mes_array.length);
+                          console.log("OPCION 5, long dni: "+identificador_array.length);
+                url ="&action=generarEncomienda&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final;
+            }else{
+                  var ultimo_identificador = identificador_array[identificador_array.length - 1];
+                   console.log("OPCION 6, long: "+mes_array.length);
+                          console.log("OPCION 6, long dni: "+identificador_array.length);
+                url ="&action=generarEncomienda&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final+"&dni="+ultimo_identificador;;
+            }
+
+        }
+       
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            //data: "&action=generarIngresos&tipo="+tipo+"&fechaInicio="+fecha_inicio+"&fechaFinal="+fecha_final,
+            data: url,
+            dataType: 'json',
+            success: function (data) {
+                if(data.estado === "ok"){
+                                 
+                    alert(data.mensaje);
+                }
+                else{
+                    alert(data.mensaje);          
+                }
+
+            },
+            complete:function(){
+             //   getGraficoLineasFecha1();
+            }
+        });                
+    };        
     
     var _private = {};
     var chart = {};    
@@ -477,6 +564,7 @@ function verificar_ajax(tipo, palabra_buscar){
    */   
         function paquete(e) {           
             var tipo = "paquete";
+            tipo_encomienda = "paquete";
             var objeto_escogido = Object.values(e)[2]; 
             var mes = objeto[objeto_escogido].tiempo;
             //var answer = confirm("¿Seguro que desea ver el reporte de "+tipo+"s del mes de "+mes+" ?");
@@ -484,6 +572,7 @@ function verificar_ajax(tipo, palabra_buscar){
             if (answer)
             {                             
                 console.log('yes');
+                mes_array.push(mes);
              //   alert('Ha aceptado, mes '+mes+", tipo: "+tipo+", ident: "+identificador2);
                 getGraficoBarrasFecha2(tipo, mes, identificador2);
                 return false;
@@ -493,6 +582,7 @@ function verificar_ajax(tipo, palabra_buscar){
             {
                 console.log('cancel');                
                 var mes = null;
+                 mes_array.splice(0, mes_array.length);
             //    alert('Ha cancelado, mes '+mes+", tipo: "+tipo);
                 getGraficoBarrasFecha2(tipo, mes, identificador2);
       //          return false;
@@ -500,6 +590,7 @@ function verificar_ajax(tipo, palabra_buscar){
         }
         function sobre(e) {                     
             var tipo = "sobre";
+            tipo_encomienda = "sobre";
             var objeto_escogido = Object.values(e)[2]; 
             var mes = objeto[objeto_escogido].tiempo;
             //var answer = confirm("¿Seguro que desea ver el reporte de "+tipo+"s del mes de "+mes+" ?");
@@ -507,6 +598,7 @@ function verificar_ajax(tipo, palabra_buscar){
             if (answer)
             {                             
                 console.log('yes');
+                mes_array.push(mes);
          //       alert('Ha aceptado, mes '+mes+", tipo: "+tipo);
                 getGraficoBarrasFecha2(tipo, mes, identificador);
                 return false;
@@ -515,6 +607,7 @@ function verificar_ajax(tipo, palabra_buscar){
             {
          //       console.log('cancel');                
                 var mes = null;
+                mes_array.splice(0, mes_array.length);
           //      alert('Ha cancelado, mes '+mes+", tipo: "+tipo);
                 getGraficoBarrasFecha2(tipo, mes, identificador);
           //      return false;
@@ -915,7 +1008,7 @@ REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to;
         }           
         
     }
-    
+    /*
 function exportXLSX() {
     
     try {
@@ -975,6 +1068,7 @@ function exportXLSX() {
     chart.export.toXLSX({}, function(data) {
         this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
     });
-*/
+
 }
 
+*/

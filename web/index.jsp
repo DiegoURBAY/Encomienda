@@ -13,6 +13,16 @@
         <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
 
+     <style id="antiClickjack" type="text/css">body{display:none !important;}</style>
+     <script type="text/javascript">
+         if (self === top) {
+             var antiClickjack = document.getElementById("antiClickjack");
+             antiClickjack.parentNode.removeChild(antiClickjack);
+         } else {
+             top.location = self.location;
+         }
+     </script>
+     
         <!-- Plugin CSS -->
         <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
 
@@ -22,6 +32,7 @@
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="js/validarIndex.js" type="text/javascript"></script>
 
+        
     </head>
     <body id="page-top">
 
@@ -262,7 +273,7 @@
                                                 <div class="form-group">
                                                         <label>Correo</label>                     
                                                         <input type="text" class="form-control"  name="txtEmail" id="emailLogin">
-                                                       
+                                                        <div id="ReportarEmail" class="outputTextArea"></div> 
                                                 </div>
                                                 <div class="form-group">
                                                         <div class="clearfix">
@@ -277,7 +288,7 @@
                                         </div>
                                         <div class="modal-footer">
                                              
-                                            <label class="text-left"><a href="RegistrarCliente.jsp">¿Crear cuenta nueva?</a></label>                     
+                                            <label class="text-left"><a href="SERVCliente2?action=insertar">¿Crear cuenta nueva?</a></label>                     
                                             <input type="submit" class="btn btn-primary btn-right" value="ingresar" name="btnIniciarUsuario" id="ingresar" >
                                         </div>
                                 </form>

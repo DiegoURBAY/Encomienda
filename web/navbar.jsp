@@ -25,7 +25,18 @@ HttpSession sesion = request.getSession();
         <link href="css/responsive.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>   
         <script src="js/dataTables.responsive.min.js" type="text/javascript"></script>
-        <script src="js/dataTable.js" type="text/javascript"></script>            
+        <script src="js/dataTable.js" type="text/javascript"></script>
+        
+        <style id="antiClickjack" type="text/css">body{display:none !important;}</style>
+     <script type="text/javascript">
+         if (self === top) {
+             var antiClickjack = document.getElementById("antiClickjack");
+             antiClickjack.parentNode.removeChild(antiClickjack);
+         } else {
+             top.location = self.location;
+         }
+     </script>           
+        
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
@@ -56,7 +67,6 @@ HttpSession sesion = request.getSession();
                     <li><a href="GestionarRuta.jsp">Gestionar Ruta</a></li>                    
                     <li><a href="SERVConductor?action=refresh">Gestionar Conductor</a></li>
                     <li><a href="GestionarPromocion.jsp">Gestionar Promoción</a></li>
-
                 </ul>
               </li>             
               <li class="dropdown">
@@ -77,11 +87,8 @@ HttpSession sesion = request.getSession();
                   ¡Hola, <%= sesion.getAttribute("usuario") %>!<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <!--
-                        <li><a href="SERVCliente?action=buscar&id=<c:out value="<%= sesion.getAttribute("nivel") %>" />" >¿Editar cuenta? </a></li> 
-                    -->
                     <li><a href="SERVCliente2?action=edit" >¿Editar cuenta? </a></li> 
-                     <li><a href="SERVCliente2?action=cerrar">Cerrar Sesión</a></li>                           
+                    <li><a href="SERVCliente2?action=cerrar">Cerrar Sesión</a></li>                           
                 </ul>
               </li>              
             </ul>

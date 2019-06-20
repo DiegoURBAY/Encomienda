@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entidad.TipoEncomienda;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TipoEncomiendaDAO extends Conexion implements DAO{
     
@@ -349,6 +351,8 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
      
         } catch (SQLException e) {
             throw e;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TipoEncomiendaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             this.cerrar();
@@ -381,6 +385,8 @@ public class TipoEncomiendaDAO extends Conexion implements DAO{
                 }                   
      
         } catch (SQLException e) {
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TipoEncomiendaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             this.cerrar();

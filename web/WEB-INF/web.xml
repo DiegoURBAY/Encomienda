@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
     <servlet>
         <servlet-name>SERVLogin</servlet-name>
         <servlet-class>controlador.SERVLogin</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SERVEncomienda</servlet-name>
-        <servlet-class>controlador.SERVEncomienda</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SERVTipoEncomienda</servlet-name>
@@ -56,20 +49,12 @@
         <servlet-class>controlador.SERVCliente2</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>EJEMPLO</servlet-name>
-        <servlet-class>controlador.EJEMPLO</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SERVReporte</servlet-name>
         <servlet-class>controlador.SERVReporte</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SERVLogin</servlet-name>
         <url-pattern>/SERVLogin</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SERVEncomienda</servlet-name>
-        <url-pattern>/SERVEncomienda</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SERVTipoEncomienda</servlet-name>
@@ -114,10 +99,6 @@
     <servlet-mapping>
         <servlet-name>SERVCliente2</servlet-name>
         <url-pattern>/SERVCliente2</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>EJEMPLO</servlet-name>
-        <url-pattern>/EJEMPLO</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SERVReporte</servlet-name>

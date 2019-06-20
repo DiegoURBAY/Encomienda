@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class LocalDAO extends Conexion implements DAO{
@@ -205,6 +207,8 @@ public class LocalDAO extends Conexion implements DAO{
             }      
         } catch (SQLException e) {
             throw e;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LocalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
          return local;
     }            

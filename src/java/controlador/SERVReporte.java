@@ -6,11 +6,9 @@ import dao.ClienteDAO;
 import dao.ExcelDAO;
 import dao.ReporteDAO;
 import entidad.Cliente;
-import entidad.Encomienda;
 import entidad.Reporte;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +40,7 @@ public class SERVReporte extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          response.setContentType("text/html;charset=UTF-8");
+         response.setHeader("X-Frame-Options", "DENY");
         /*       
         try (PrintWriter out = response.getWriter()) {
              TODO output your page here. You may use following sample code. 
@@ -61,13 +60,18 @@ public class SERVReporte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                response.setHeader("X-Frame-Options", "DENY");
+
         processRequest(request, response);      
+        
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       response.setHeader("X-Frame-Options", "DENY");
+
         processRequest(request, response);
          
          
@@ -426,8 +430,8 @@ public class SERVReporte extends HttpServlet {
 
                 
                 if(situacion.equalsIgnoreCase("ok")){
-                     estado = "ok";
-                    mensaje = "Se ha descargado excel"; 
+                    estado = "ok";
+                    mensaje = "Se ha descargado excel en carpeta descargas (Downloads)"; 
                 }else{
                     estado = "error";
                     mensaje = "Se ha producido un error"+situacion; 
@@ -437,6 +441,130 @@ public class SERVReporte extends HttpServlet {
                 }    
 
             }
+            else if (action.equalsIgnoreCase("generarCliente")) {
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){ 
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                    
+                                    
+                ExcelDAO excelDAO = new ExcelDAO();
+                
+                String tipo =  request.getParameter("tipo");                
+                String cliente = request.getParameter("cliente");
+                String mes = request.getParameter("mes");
+
+                int tipo_cliente;
+                String tipo_cliente_string;
+
+                if(cliente.equalsIgnoreCase("persona")){
+                    tipo_cliente = 8;
+                    tipo_cliente_string = "persona";
+                }
+                else{
+                    tipo_cliente =11;
+                    tipo_cliente_string = "empresa";
+                }                
+                String situacion = "";
+                
+                //el tipo ayuda saber que excel exportar
+                if(tipo.equalsIgnoreCase("1")){
+                      situacion = excelDAO.generarClientes(cambio.get(0), cambio.get(1));
+                }
+                else if(tipo.equalsIgnoreCase("2")){
+                     situacion = excelDAO.generarClientes(cambio.get(0), cambio.get(1));
+                     excelDAO.generarClientesDetallado(tipo_cliente_string, tipo_cliente, mes,  cambio.get(0), cambio.get(1));
+                }
+
+                
+                if(situacion.equalsIgnoreCase("ok")){
+                     estado = "ok";
+                    mensaje = "Se ha descargado excel en carpeta descargas (Downloads)"; 
+                }else{
+                    estado = "error";
+                    mensaje = "Se ha producido un error"+situacion; 
+                }
+               
+                    
+                }    
+
+            }        
+            else if (action.equalsIgnoreCase("generarEncomienda")) {
+            HttpSession sesion = request.getSession();
+            
+                if(sesion.getAttribute("usuario")!=null){            
+                    String usuario_de_login = String.valueOf(sesion.getAttribute("usuario"));
+                    Cliente cliente = clientedao.BuscarPorUsuario(usuario_de_login);     
+                    
+                    int nivel = cliente.getNivel();
+                                        
+                    String tipo_encomienda = request.getParameter("encomienda");
+                    String dni = request.getParameter("dni");
+                    
+                    int eleccion = 0;
+                    //eleccion = 1 cuando no hay dni
+                    //eso sirve para el administrador, el cliente no necesita
+                    if(dni == null || dni.isEmpty()){
+                        eleccion =1 ;
+                    }
+                    //Si no se le asigna null, el ReporteDAO no lo tomará como tal en caso sea así
+                    String mes = request.getParameter("mes");
+                    
+                    String fech_ini = request.getParameter("fechaInicio");
+                    String fech_fin = request.getParameter("fechaFinal");         
+                    
+                    List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);   
+                     
+                    ExcelDAO excelDAO = new ExcelDAO();
+
+                    String situacion = "";
+                    if(nivel == 2){
+                        situacion = excelDAO.generarEncomiendas(tipo_encomienda, cambio.get(0), cambio.get(1), cliente.getId(), cliente.getIdentificador() );
+                    }
+                    else if(nivel == 1){
+                  
+                        //ver reporte de todo (cliente y empresa)
+                        if(eleccion== 1){
+                            //ver reporte de un mes en especifico
+                            if(request.getParameter("mes") != null){
+                                
+                    //            situacion = reporteDAO.consultarEncomiendaPorMes(tipo, mes , cambio.get(0), cambio.get(1), 0);
+                            }
+                            //ver reporte con la fechas establecidas
+                            else{
+                    //            situacion = reporteDAO.generarEncomiendas(tipo, mes , cambio.get(0), cambio.get(1), 0);
+                            } 
+                        }
+                        //ver reporte com cliente o empresa
+                        else{
+                            Cliente cliente_id = clientedao.BuscarPorDni(dni);
+                            
+                            //ver reporte  de un mes
+                            if(request.getParameter("mes") != null){
+                                mes = request.getParameter("mes");
+                        //        situacion = reporteDAO.consultarEncomiendaPorMes(tipo, mes , cambio.get(0), cambio.get(1), cliente_id.getId());
+                            }
+                            //ver reporte con la fechas establecidas
+                            else{
+                                situacion = excelDAO.generarEncomiendas(tipo_encomienda, cambio.get(0), cambio.get(1), cliente_id.getId(), cliente_id.getIdentificador());
+
+                            }                             
+                        }
+                        
+                    }
+                                        
+                    if(situacion.equalsIgnoreCase("ok")){
+                         estado = "ok";
+                        mensaje = "Se ha descargado excel en carpeta descargas (Downloads)"; 
+                    }else{
+                        estado = "error";
+                        mensaje = "Se ha producido un error"+situacion; 
+                    }
+                }            
+
+            }              
         } catch (Exception e) {
             estado = "error";
             mensaje = "error: "+e;

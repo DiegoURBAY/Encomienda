@@ -24,18 +24,27 @@ import javax.servlet.http.HttpSession;
 
 public class SERVLogin extends HttpServlet {
     
-    private static String ingresar= "/login.jsp";
-    //private static String registrar = "/RegistrarCliente.jsp";
-    private static String index = "/index.jsp";    
+    private static String ingresar= "/login.jsp";   
+    private static String registrar_encomienda = "/SERVEncomienda2?action=refreshPrueba";
+    private static String index = "/index.jsp";
+    private static String error = "/error.jsp";
+    private static String ingresar_administrador = "/SERVCliente2?action=refresh";
+    private static String ingresar_cliente = "/SERVEncomienda2?action=insert";
+    
+   // String cookie = "mycookie=test; Secure; HttpOnly";
+    
     ClienteDAO clienteDAO = new ClienteDAO();
-    
-    private static String registrar_encomienda = "/SERVEncomienda?action=refreshPrueba";
-    
+
     RequestDispatcher rd = null;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+       // response.addHeader("Set-Cookie", cookie);                
+        response.addHeader("X-XSS-Protection", "1; mode=block");
+        response.addHeader("X-Frame-Options", "DENY");
         response.setContentType("text/html;charset=UTF-8");
+    
         try (PrintWriter out = response.getWriter()) {
 
         }
@@ -45,182 +54,78 @@ public class SERVLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- response.setContentType("text/html;charset=UTF-8");
-        String vista = "";
+        
+    //   response.addHeader("Set-Cookie", cookie); 
+        response.addHeader("X-XSS-Protection", "1; mode=block");
+        response.addHeader("X-Frame-Options", "DENY");
         String action = request.getParameter("action");
-        
-        if(action.equalsIgnoreCase("adios")){
-        HttpSession sesion = request.getSession(false);        
-        request.setAttribute("idUsuario", null);
-            rd = request.getRequestDispatcher("index.jsp");
-            rd.forward(request, response); 
+        String vista = null;        
+        try {
+            if(action.equalsIgnoreCase("inicio")){
+                vista = index;
+            }
+        } catch (Exception ex) {
+            vista = error;        
+            Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(action.equalsIgnoreCase("ingresar")){
-            vista = ingresar;
-            rd = request.getRequestDispatcher(vista);
-                      rd.forward(request, response); 
-        }    
-/*        
-        if(action.equalsIgnoreCase("registrar")){
-            vista = registrar;
-            rd = request.getRequestDispatcher(vista);            
-            
+        finally{
+            RequestDispatcher view = request.getRequestDispatcher(vista);
+            view.forward(request, response);     
         }
-        */
-        if(action.equalsIgnoreCase("regresar")){
-            vista = index;
-            rd = request.getRequestDispatcher(vista);
-                      rd.forward(request, response); 
-        }             
-         
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
         
-            String eemail = null;
-            String ccontra = null;
-            if(request.getParameter("eemail2")!=null){
-                 eemail = request.getParameter("eemail2");
-            }                
-            if( request.getParameter("ccontra2")!=null ){
-                ccontra = request.getParameter("ccontra2");
-            }
-        
-        if(eemail != null && ccontra != null){
-            
-            String report = null;
+       // response.addHeader("Set-Cookie", cookie); 
+        response.addHeader("X-XSS-Protection", "1; mode=block");
+        response.addHeader("X-Frame-Options", "DENY");
 
-            try {
-                //report = VerificarEmail2(eemail);
-                report = VerificarEmail2(eemail,ccontra);
-            } catch (SQLException ex) {
-                Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            response.setContentType("text/plain");
-            out.println("" + report + "");
-            out.flush();
-            out.close();
-        }
-
-        HttpSession sesion = request.getSession();        
-    
-        String usuario = null;
-        String email;
-        String contra;
-        int nivel = 0;
-        int idUsuario = 0;
-        Acceso acc = new Acceso();            
-
-        if(request.getParameter("btnIniciarUsuario")!=null){
-            email = request.getParameter("txtEmail");
-            contra = request.getParameter("txtContra");
-            idUsuario = acc.getClienteID(email, contra);
+        int nivel;
+        String vista = null;
+                 
+        try {
+            if(request.getParameter("btnIniciarUsuario")!=null){
+                HttpSession sesion = request.getSession();   
+                Acceso acc = new Acceso();     
                 
-            try {
+                String email = request.getParameter("txtEmail");
+                String contra = request.getParameter("txtContra");
+                int idUsuario = acc.getClienteID(email, contra);
+
                 Cliente cliente = clienteDAO.ConsultarByEmail(email);
-                usuario = cliente.getUsuario();
+                String usuario = cliente.getUsuario();
                 nivel = cliente.getNivel();
-                //usuario = clienteDAO.UsuarioByEmail(email);
-            } catch (SQLException ex) {
-                Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           
-            //nivel 1 = administrador
 
-            if(idUsuario > 0){
+                //nivel 1 = administrador
 
-                //sesion.setAttribute("idUsuario", idUsuario);
-                sesion.setAttribute("usuario", usuario);
-                
-                if(nivel == 2 ){
-                    //response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=refreshPrueba"); 
-                    response.sendRedirect(request.getContextPath() + "/SERVEncomienda2?action=insert"); 
-                }
-                if(nivel == 1 ){
-               //     sesion.setAttribute("nivel", nivel);
-                    //response.sendRedirect(request.getContextPath() + "/SERVCliente?action=refreshCliente"); 
-                    response.sendRedirect(request.getContextPath() + "/SERVCliente2?action=refresh"); 
-                }                
-              
-            } 
-            else{
-                rd = request.getRequestDispatcher("index.jsp");
-                rd.forward(request, response);  
-            }                
-        }
-                
-            
-            if(request.getParameter("btnIniciar")!=null || request.getParameter("btnRecuperar")!=null){
-                
-                email = request.getParameter("txtEmail");
-                contra = request.getParameter("txtContra");
-                nivel = acc.validar(email, contra);
-                try {
-                    //nombre = acc.ExtraerNombre(email);
-                    usuario = clienteDAO.UsuarioByEmail(email);
-                } catch (SQLException ex) {
-                    Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                if(nivel > 0){
+                if(idUsuario > 0){
+   
+                    sesion.setAttribute("usuario", usuario);
                     
-                    request.setAttribute("usuario", usuario);
-                    request.setAttribute("nivel", nivel);
-                    rd = request.getRequestDispatcher("index.jsp");  
-                  //  rd = request.getRequestDispatcher("RegistrarCliente.jsp");
-                     rd.forward(request, response);  
-                } 
-                /*
-                if(contra==null){
-                    nivel = 0;
-                    email = request.getParameter("txtEmail");  
-                    try {
-                        contra = clienteDAO.ContraseñaByEmail(email);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    if(nivel == 2 ){                       
+                        //SERVEncomienda2?action=insert
+                        vista = ingresar_cliente;                        
                     }
-                    try {                    
-                        envio.RecuperarContraseña(email, contra);
-                    } catch (MessagingException ex) {
-                        Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        contra = clienteDAO.ContraseñaByEmail(email);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                     rd = request.getRequestDispatcher("index.jsp");
-                     rd.forward(request, response);  
-                }
-*/
-                else{
-                    rd = request.getRequestDispatcher("index.jsp");
-                     rd.forward(request, response);  
-                }
-            }
-            
-       /*              
-            if(request.getParameter("btnRecuperar")!=null){                                                               
+                    if(nivel == 1 ){
+                        //SERVCliente2?action=refresh
+                        vista = ingresar_administrador;                        
+                    }                
 
-                try {
-                   
-                    email = request.getParameter("txtEmail");                      
-                    contra = clienteDAO.ContraseñaByEmail(email);
-                    envio.RecuperarContraseña(email, contra);
-                } catch (MessagingException ex) {
-                    Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    response.sendRedirect(request.getContextPath() + "/SERVLogin?action=adios");          
-            }                       
-            
-        */   
+                } 
+                else{
+                    vista = index;
+                }                
+            }
+        } catch (SQLException ex) {
+            vista = index;
+            Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{
+            response.sendRedirect(request.getContextPath() + vista);            
+        }
+
     }
 
     /**
@@ -233,20 +138,5 @@ public class SERVLogin extends HttpServlet {
         return "Short description";
     }// </editor-fold>
      
-    
-    private String VerificarEmail2(String eemail, String ccontra) throws SQLException {
-        String report2 = null;
-        
-        if(ccontra.equals("")){
-            report2 = "";
-        }
-        else if(clienteDAO.ConsultarEmailContra(eemail, ccontra)){
-            report2 = "Ya existe";
-        }
-        else if(!clienteDAO.ConsultarEmailContra(eemail, ccontra)){
-            report2 = "Libre";
-        }
-        return report2;
 
-    }       
 }

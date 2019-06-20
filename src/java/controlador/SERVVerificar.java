@@ -31,6 +31,8 @@ public class SERVVerificar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+                response.setHeader("X-Frame-Options", "DENY");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -48,6 +50,9 @@ public class SERVVerificar extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                response.setHeader("X-Frame-Options", "DENY");
+
+        /*
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");          
         String estado = "";          
@@ -93,50 +98,50 @@ public class SERVVerificar extends HttpServlet {
                     mensaje = "existe";
                 }
                 estado = "ok";
-        }
-        else if(action.equalsIgnoreCase("verificarCliente")){
-                List<Cliente> clienteList = clienteDAO.consultar();  
-                int tipo = 0;
-                    String identificador = "";
-                    String email = "";
-                    String usuario = "";                    
-                if(request.getParameter("identificador")!=null){
-                    identificador = request.getParameter("identificador");
-                    tipo = 1;
-                }
-                if(request.getParameter("email")!=null){
-                    email = request.getParameter("email");
-                    tipo = 2;
-                }             
-                if(request.getParameter("usuario")!=null){
-                    usuario = request.getParameter("usuario");
-                    tipo = 3;
-                }                                 
-                int contador = 0;
-                for (int i = 0; i < clienteList.size(); i++) {
-                    if(tipo == 1){
-                        if(clienteList.get(i).getIdentificador().equalsIgnoreCase(identificador)){
-                            contador = i + 1;
+            }
+            else if(action.equalsIgnoreCase("verificarCliente")){
+                    List<Cliente> clienteList = clienteDAO.consultar();  
+                    int tipo = 0;
+                        String identificador = "";
+                        String email = "";
+                        String usuario = "";                    
+                    if(request.getParameter("identificador")!=null){
+                        identificador = request.getParameter("identificador");
+                        tipo = 1;
+                    }
+                    if(request.getParameter("email")!=null){
+                        email = request.getParameter("email");
+                        tipo = 2;
+                    }             
+                    if(request.getParameter("usuario")!=null){
+                        usuario = request.getParameter("usuario");
+                        tipo = 3;
+                    }                                 
+                    int contador = 0;
+                    for (int i = 0; i < clienteList.size(); i++) {
+                        if(tipo == 1){
+                            if(clienteList.get(i).getIdentificador().equalsIgnoreCase(identificador)){
+                                contador = i + 1;
+                            }
                         }
-                    }
-                    if(tipo == 2){
-                        if(clienteList.get(i).getEmail().equalsIgnoreCase(email)){
-                            contador = i + 1;
-                        }                        
-                    }
-                    if(tipo == 3){
-                        if(clienteList.get(i).getUsuario().equalsIgnoreCase(usuario)){
-                            contador = i + 1;
-                        }                        
-                    }                    
-                } 
-                if(contador > 0){
-                    mensaje = "existe";
-                }else{
-                    mensaje = "libre";
-                }                
-                estado = "ok";                
-        }
+                        if(tipo == 2){
+                            if(clienteList.get(i).getEmail().equalsIgnoreCase(email)){
+                                contador = i + 1;
+                            }                        
+                        }
+                        if(tipo == 3){
+                            if(clienteList.get(i).getUsuario().equalsIgnoreCase(usuario)){
+                                contador = i + 1;
+                            }                        
+                        }                    
+                    } 
+                    if(contador > 0){
+                        mensaje = "existe";
+                    }else{
+                        mensaje = "libre";
+                    }                
+                    estado = "ok";                
+            }                        
         } catch (Exception e) {
             estado = "error";
             mensaje = "error al grabar";          
@@ -154,17 +159,141 @@ public class SERVVerificar extends HttpServlet {
                 Logger.getLogger(SERVLugar.class.getName()).log(Level.SEVERE, null, e);
             }
         }
+*/
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                response.setHeader("X-Frame-Options", "DENY");
+
+        PrintWriter out = response.getWriter();
+        String action = request.getParameter("action");      
+        String estado = ""; 
+        String mensaje = "";
+        
         try {
-            
+            if(action.equalsIgnoreCase("verificarConductor")){
+                List<Conductor> conductorList = conductorDAO.consultar();  
+                int tipo = 0;
+                  String dni = "";
+                  String licencia = "";
+                  String email = "";
+                if(request.getParameter("dni")!=null){
+                    dni = request.getParameter("dni");
+                    tipo = 1;
+                }
+                if(request.getParameter("licencia")!=null){
+                    licencia = request.getParameter("licencia");
+                    tipo = 2;
+                }             
+                if(request.getParameter("email")!=null){
+                    email = request.getParameter("email");
+                    tipo = 3;
+                }                   
+                int contador = 0;
+                for (int i = 0; i < conductorList.size(); i++) {
+                    if(tipo == 1){
+                        if(conductorList.get(i).getDni().equalsIgnoreCase(dni)){
+                            contador = i + 1;
+                        }
+                    }
+                    if(tipo == 2){
+                        if(conductorList.get(i).getLic().equalsIgnoreCase(licencia)){
+                            contador = i + 1;
+                        }                        
+                    }
+                    if(tipo == 3){
+                        if(conductorList.get(i).getEmail().equalsIgnoreCase(email)){
+                            contador = i + 1;
+                        }                        
+                    }                    
+                } 
+                if(contador > 0){
+                    mensaje = "existe";
+                }
+                estado = "ok";
+            }
+            else if(action.equalsIgnoreCase("verificarCliente")){
+                    List<Cliente> clienteList = clienteDAO.consultar();  
+                    int tipo = 0;
+                        String identificador = "";
+                        String email = "";
+                        String usuario = "";                    
+                    if(request.getParameter("identificador")!=null){
+                        identificador = request.getParameter("identificador");
+                        tipo = 1;
+                    }
+                    if(request.getParameter("email")!=null){
+                        email = request.getParameter("email");
+                        tipo = 2;
+                    }             
+                    if(request.getParameter("usuario")!=null){
+                        usuario = request.getParameter("usuario");
+                        tipo = 3;
+                    }                                 
+                    int contador = 0;
+                    for (int i = 0; i < clienteList.size(); i++) {
+                        if(tipo == 1){
+                            if(clienteList.get(i).getIdentificador().equalsIgnoreCase(identificador)){
+                                contador = i + 1;
+                            }
+                        }
+                        if(tipo == 2){
+                            if(clienteList.get(i).getEmail().equalsIgnoreCase(email)){
+                                contador = i + 1;
+                            }                        
+                        }
+                        if(tipo == 3){
+                            if(clienteList.get(i).getUsuario().equalsIgnoreCase(usuario)){
+                                contador = i + 1;
+                            }                        
+                        }                    
+                    } 
+                    if(contador > 0){
+                        mensaje = "existe";
+                    }else{
+                        mensaje = "libre";
+                    }                
+                    estado = "ok";                
+            }           
+            else if(action.equalsIgnoreCase("verificarLogin")){
+                String email;
+                String contra;
+                if(request.getParameter("email")!=null && request.getParameter("contra")!=null){
+                    email = request.getParameter("email");
+                    contra = request.getParameter("contra");
+                    boolean decision = clienteDAO.ConsultarEmailContra(email, contra);
+
+                    if(decision == true){
+                        mensaje = "existe";
+                    }
+                    else{
+                        mensaje = "libre";
+                    }
+                    
+                    estado = "ok";             
+            }                                                     
+            }            
         } catch (Exception e) {
+            estado = "error";
+            mensaje = "error al grabar, "+e;      
+           
+            Logger.getLogger(SERVPromocion.class.getName()).log(Level.SEVERE, null, e);            
         }
-         finally{
+        finally{
+            try {
+                JSONObject jsonObject=new  JSONObject();
+                jsonObject.put("estado", estado);
+                jsonObject.put("mensaje", mensaje);
+                response.addHeader("Access-Control-Allow-Origin", "*");
+                response.setCharacterEncoding("utf8");
+                response.setContentType("application/json");
+                out.print(jsonObject);
+            } catch (JSONException ex) {
+                Logger.getLogger(SERVVerificar.class.getName()).log(Level.SEVERE, null, ex);
+            }            
             
         }
     }

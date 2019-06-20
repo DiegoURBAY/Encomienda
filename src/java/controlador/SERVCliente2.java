@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,21 +34,31 @@ public class SERVCliente2 extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+            response.addHeader("X-XSS-Protection", "1; mode=block");
+            response.addHeader("X-Frame-Options","DENY");
             response.setContentType("text/html;charset=UTF-8");
+            
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+         response.addHeader("X-XSS-Protection", "1; mode=block");
+        response.addHeader("X-Frame-Options","DENY");
         String action = request.getParameter("action");
-        String usuario_de_login = "";
-        String vista = "";                      
+        String usuario_de_login;
+        String vista = "";
         
         try {
+            
+            if(action.equalsIgnoreCase("insertar")){
+                vista = "RegistrarCliente.jsp";
+            }
             //Si un usuario intenta edit a  otro usuario a través del url
             //entonces va a editarse a si mismo
-            if(action.equalsIgnoreCase("edit")){
+            else if(action.equalsIgnoreCase("edit")){
                 HttpSession sesion = request.getSession();                
                 Cliente cliente_buscado ;
                 
@@ -84,6 +95,7 @@ public class SERVCliente2 extends HttpServlet {
                         }
                     }
                     request.setAttribute("cliente", cliente_buscado);
+                    request.setAttribute("usuario",  usuario_de_login);
                 }
                 else{
                     vista = "index.jsp";
@@ -115,6 +127,7 @@ public class SERVCliente2 extends HttpServlet {
                         }
                         vista = "ListarCliente.jsp";
                         request.setAttribute("cliente", cliente_lista);
+                        request.setAttribute("usuario",  usuario_de_login);
                     }
                                     
                 }
@@ -149,6 +162,7 @@ public class SERVCliente2 extends HttpServlet {
                     
                     vista = "ListarCliente.jsp";
                     request.setAttribute("cliente", cliente_lista);
+                    request.setAttribute("usuario",  usuario_de_login);
                 }   
                 else{
                     vista = "index.jsp";
@@ -156,15 +170,17 @@ public class SERVCliente2 extends HttpServlet {
             }
             else if(action.equalsIgnoreCase("cerrar")){
                 HttpSession sesion = request.getSession();
-                sesion.invalidate();
-                vista = "index.jsp";
+                if(sesion.getAttribute("usuario")!=null){
+                    vista = "index.jsp";
+                    sesion.invalidate();                   
+                }                
             }             
         } catch (Exception e) {
             vista = "error.jsp";
             Logger.getLogger(SERVCliente2.class.getName()).log(Level.SEVERE, null, e);            
         }        
         finally{           
-            request.setAttribute("usuario",  usuario_de_login);
+            //request.setAttribute("usuario",  usuario_de_login);
             RequestDispatcher view = request.getRequestDispatcher(vista);
             view.forward(request, response);            
         }                        
@@ -173,8 +189,11 @@ public class SERVCliente2 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
-        processRequest(request, response);     
         
+        response.addHeader("X-XSS-Protection", "1; mode=block");
+        response.addHeader("x-frame-options","DENY");
+        processRequest(request, response);     
+       
         request.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();    
         
@@ -212,7 +231,7 @@ public class SERVCliente2 extends HttpServlet {
         String estado = ""; 
         String mensaje = "";
         String asunto;
-        String mensaje_correo = "";
+        String mensaje_correo;
                 
         
         try {
@@ -270,14 +289,17 @@ public class SERVCliente2 extends HttpServlet {
             }            
         } catch (SQLException e) {
             estado = "error";
-            mensaje = "error al grabar"+e;
+            mensaje = "error al grabar "+e;
             Logger.getLogger(SERVCliente2.class.getName()).log(Level.SEVERE, null, e);
-
+        } catch (MessagingException ex) {
+            estado = "error";
+            mensaje = "error al grabar "+ex;            
+            Logger.getLogger(SERVCliente2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             estado = "error";
-            mensaje = "error al grabar"+ex;
+            mensaje = "error al grabar "+ex;            
             Logger.getLogger(SERVCliente2.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         finally{                                   
             try {
                 JSONObject jsonObject=new  JSONObject();

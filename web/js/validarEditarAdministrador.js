@@ -54,7 +54,7 @@ jQuery(function ($) {
     //Permite ingresar solo letras y espacio vacios
     //Transforma las letras en minuscula
     // Los demás son eliminados segundos de ser escritos
-    $('#inputNombre').keyup( function () {
+    $('#inputNombre, #inputUserame').keyup( function () {
         $(this).val($(this).val().toLowerCase());
         if (!/^[ a-záéíóúüñ]*$/i.test(this.value)) {
             this.value = this.value.replace(/[^ a-záéíóúüñ]+/ig,"");
