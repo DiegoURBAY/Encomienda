@@ -20,8 +20,6 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
 public class SERVCliente2 extends HttpServlet {
 
     
@@ -35,8 +33,8 @@ public class SERVCliente2 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            response.addHeader("X-XSS-Protection", "1; mode=block");
-            response.addHeader("X-Frame-Options","DENY");
+            //response.addHeader("X-XSS-Protection", "1; mode=block");
+         //   response.addHeader("X-Frame-Options","DENY");
             response.setContentType("text/html;charset=UTF-8");
             
     }
@@ -45,8 +43,8 @@ public class SERVCliente2 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-         response.addHeader("X-XSS-Protection", "1; mode=block");
-        response.addHeader("X-Frame-Options","DENY");
+         //response.addHeader("X-XSS-Protection", "1; mode=block");
+    //    response.addHeader("X-Frame-Options","DENY");
         String action = request.getParameter("action");
         String usuario_de_login;
         String vista = "";
@@ -170,10 +168,15 @@ public class SERVCliente2 extends HttpServlet {
             }
             else if(action.equalsIgnoreCase("cerrar")){
                 HttpSession sesion = request.getSession();
+                //cuando estas en sesion y luego cierras
                 if(sesion.getAttribute("usuario")!=null){
                     vista = "index.jsp";
                     sesion.invalidate();                   
-                }                
+                }
+                //cuando alguien se registra
+                else{
+                    vista = "index.jsp";
+                }
             }             
         } catch (Exception e) {
             vista = "error.jsp";
@@ -190,8 +193,8 @@ public class SERVCliente2 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
         
-        response.addHeader("X-XSS-Protection", "1; mode=block");
-        response.addHeader("x-frame-options","DENY");
+      //  response.addHeader("X-XSS-Protection", "1; mode=block");
+  //      response.addHeader("x-frame-options","DENY");
         processRequest(request, response);     
        
         request.setCharacterEncoding("UTF-8");

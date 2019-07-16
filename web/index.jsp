@@ -13,15 +13,6 @@
         <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
 
-     <style id="antiClickjack" type="text/css">body{display:none !important;}</style>
-     <script type="text/javascript">
-         if (self === top) {
-             var antiClickjack = document.getElementById("antiClickjack");
-             antiClickjack.parentNode.removeChild(antiClickjack);
-         } else {
-             top.location = self.location;
-         }
-     </script>
      
         <!-- Plugin CSS -->
         <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
@@ -58,7 +49,6 @@
                 <a class="nav-link js-scroll-trigger" href="#contact">Contactenos</a>
               </li>
               <li class="nav-item">
-                  <!--<a class="nav-link js-scroll-trigger" href="login.jsp">Unase</a>-->
                    <!--<a href="#myModal" class="trigger-btn" data-toggle="modal">Unase</a>-->
                   <a class="" href="#myModal" data-toggle="modal">Unase</a>
               </li>
@@ -278,8 +268,7 @@
                                                 <div class="form-group">
                                                         <div class="clearfix">
                                                                 <label>Contraseña</label>
-                                                                <a href="#" class="pull-right text-muted"></a>
-                                                   <!--             <a class="pull-right text-muted" href="RecuperarContraseña.jsp" >Recuperar Contraseña?</a> -->
+                                                                <a href="#" class="pull-right text-muted"></a>                                                   
                                                         </div>
 
                                                         <input type="password" class="form-control" name="txtContra" id="contraLogin">

@@ -3,26 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/navbar1.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/GestionarLocal.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/RegistrarEncomienda1.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ReportarEncomienda1.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarClientePorAdmin.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ReportarCliente.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/GestionarRuta.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVTipoEncomienda.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarCliente1.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarAdministrador.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVLocal.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarEncomiendaSobre.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVLogin.java</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/RegistrarCliente.jsp</file>
             <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ListarEncomienda1.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/navbarCliente.jsp</file>
             <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/src/java/controlador/SERVEncomienda2.java</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ReportarEncomienda.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/EditarEncomiendaPaquete.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ReportarPrecio.jsp</file>
-            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ListarCliente.jsp</file>
+            <file>file:/C:/Users/usuario/Documents/NetBeansProjects/Encomienda/web/ListarEncomienda.jsp</file>
         </group>
     </open-files>
 </project-private>

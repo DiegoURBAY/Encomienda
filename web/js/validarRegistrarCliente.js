@@ -295,7 +295,7 @@ $(document).ready(function (){
             }
         });        
     }
-    
+ /*   
    function index()
     {     
         $.ajax({
@@ -314,7 +314,7 @@ $(document).ready(function (){
             }
         }); 
     }    
-
+*/
     $('#regresar').click(function (){
        confirm('¿Seguro que desea salir del registro?');
         var answer = confirm('¿Seguro que desea salir del registro?');

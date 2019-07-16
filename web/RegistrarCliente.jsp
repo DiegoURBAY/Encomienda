@@ -14,20 +14,10 @@
 <link href="css/registrarcliente.css" rel="stylesheet" type="text/css"/>
 <script src="js/validarRegistrarCliente.js" type="text/javascript"></script>
 
-      <style id="antiClickjack" type="text/css">body{display:none !important;}</style>
-     <script type="text/javascript">
-         if (self === top) {
-             var antiClickjack = document.getElementById("antiClickjack");
-             antiClickjack.parentNode.removeChild(antiClickjack);
-         } else {
-             top.location = self.location;
-         }
-     </script>   
-     
     </head>
     <body>
 <div class="signup-form">
-    <form  method="POST"  autocomplete="off" id="formulario_registrar_cliente">
+    <form action="" method="POST" autocomplete="off" id="formulario_registrar_cliente">
 		<h2>Registrar</h2>
 		<p class="hint-text">Solo le tomará unos segundos</p>
                 

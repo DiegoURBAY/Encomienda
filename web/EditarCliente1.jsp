@@ -44,7 +44,7 @@ HttpSession sesion = request.getSession();
                 
         <div class="form-group">
             <input type="text" id="inputIdentificador" class="form-control" placeholder="Identificador" name="txtIdentificador" value="<c:out value="${cliente.identificador}" />">
-            <input id="inputIdentificadorOriginal" name="txtIdentificadorOriginal" type="text" value="<c:out value="${cliente.identificador}" />">
+            <input id="inputIdentificadorOriginal" name="txtIdentificadorOriginal" type="hidden" value="<c:out value="${cliente.identificador}" />">
             <div id="ReportarIdentificador" class="outputTextArea"></div> 
         </div>                
                 
@@ -53,7 +53,7 @@ HttpSession sesion = request.getSession();
         </div>
         <div class="form-group">
             <input type="text" id="inputEmail" class="form-control" placeholder="Correo" name="txtEmail" value="<c:out value="${cliente.email}" />">
-            <input id="inputEmailOriginal" name="txtEmailOriginal" type="text" value="<c:out value="${cliente.email}" />">
+            <input id="inputEmailOriginal" name="txtEmailOriginal" type="hidden" value="<c:out value="${cliente.email}" />">
             <div id="ReportarEmail" class="outputTextArea"></div>
         </div>
 	<div class="form-group">
@@ -64,7 +64,7 @@ HttpSession sesion = request.getSession();
                 <div class="row">
                     <div class="col-xs-6">
                         <input type="text" id="inputUserame" class="form-control" placeholder="Usuario" name="txtUsuario" value="<c:out value="${cliente.usuario}" />">
-                        <input id="inputUserameOriginal" name="txtUsuarioOriginal" type="text" value="<c:out value="${cliente.usuario}" />" >
+                        <input id="inputUserameOriginal" name="txtUsuarioOriginal" type="hidden" value="<c:out value="${cliente.usuario}" />" >
                         <div id="ReportarUsuario" class="outputTextArea"></div>
                     </div>
                     <div class="col-xs-6">

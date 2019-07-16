@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +42,15 @@ public class SERVLogin extends HttpServlet {
             throws ServletException, IOException {
         
        // response.addHeader("Set-Cookie", cookie);                
-        response.addHeader("X-XSS-Protection", "1; mode=block");
+
+       /*
+       
+        Cookie cookie = new Cookie("myCookie", "myValue");
+        cookie.setMaxAge(60 * 60);
+        cookie.setDomain(".myserver.com");      
+        
+        response.addHeader("X-XSS-Protection", "1; mode=block");       
+       */
         response.addHeader("X-Frame-Options", "DENY");
         response.setContentType("text/html;charset=UTF-8");
     
@@ -56,22 +65,7 @@ public class SERVLogin extends HttpServlet {
             throws ServletException, IOException {
         
     //   response.addHeader("Set-Cookie", cookie); 
-        response.addHeader("X-XSS-Protection", "1; mode=block");
-        response.addHeader("X-Frame-Options", "DENY");
-        String action = request.getParameter("action");
-        String vista = null;        
-        try {
-            if(action.equalsIgnoreCase("inicio")){
-                vista = index;
-            }
-        } catch (Exception ex) {
-            vista = error;        
-            Logger.getLogger(SERVLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally{
-            RequestDispatcher view = request.getRequestDispatcher(vista);
-            view.forward(request, response);     
-        }
+
     }
 
     @Override
@@ -82,8 +76,7 @@ public class SERVLogin extends HttpServlet {
         response.addHeader("X-XSS-Protection", "1; mode=block");
         response.addHeader("X-Frame-Options", "DENY");
 
-        int nivel;
-        String vista = null;
+        String vista = "";
                  
         try {
             if(request.getParameter("btnIniciarUsuario")!=null){
@@ -96,7 +89,7 @@ public class SERVLogin extends HttpServlet {
 
                 Cliente cliente = clienteDAO.ConsultarByEmail(email);
                 String usuario = cliente.getUsuario();
-                nivel = cliente.getNivel();
+                int nivel = cliente.getNivel();
 
                 //nivel 1 = administrador
 

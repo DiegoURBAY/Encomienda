@@ -70,7 +70,9 @@ public class SERVPromocion extends HttpServlet {
                 
                 Cliente cliente_buscado = clienteDAO.BuscarPorUsuario(usuario);
                 
-                if(cliente_buscado.getIdentificador().length() == 8){
+                String identificador_tama = cliente_buscado.getIdentificador();
+                
+                if(identificador_tama.length() == 8){
                     id = 1;
                 }
                 else{
