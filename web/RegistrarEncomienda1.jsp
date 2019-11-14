@@ -175,20 +175,20 @@ HttpSession sesion = request.getSession();
                              <h5>Precio=(peso*cantidad*costoxkilo)</h5>
                         </div>                      
                         <div class="col-xs-6">
-                            <h5>PesoVolumen=(alto*ancho*largo)/300</h5>
+                            <h5>PesoVolumen=(alto*ancho*largo)/1000</h5>
                         </div>                        
                     </div>                            
                     <div class="row">                                                
                         <div class="col-xs-3">
-                                <label>Altura cm [10 - 25]</label>
+                                <label>Altura cm [15 - 75]</label>
                                 <input type="text" class="form-control" name="txtAltura" id="altura"  value="0"> 
                         </div>
                         <div class="col-xs-3">
-                                <label>Anchura cm [5 - 31]</label>
+                                <label>Anchura cm [15 - 65]</label>
                                 <input type="text"  class="form-control" name="txtAnchura" id="anchura"  value="0"> 
                         </div>
                         <div class="col-xs-3">
-                                <label>Largo cm [14 - 75]</label>
+                                <label>Largo cm [25 - 85]</label>
                                 <input type="text"  class="form-control" name="txtLargo" id="largo"  value="0"> 
                         </div>
                         <div class="col-xs-3">

@@ -564,15 +564,15 @@ $(document).ready(function(){
             cantidadPaquetes = $("#cantidadPaquetes").val(0);
         }
         
-        if(altura < 10 || altura > 25){
+        if(altura < 15 || altura > 75){
            altura = $('#altura').val(0);
        
         }       
-        if(anchura < 5 || anchura > 31){
+        if(anchura < 15 || anchura > 65){
            anchura = $('#anchura').val(0);
            
         }
-        if(largo < 14 || largo > 75){
+        if(largo < 25 || largo > 85){
             largo =  $('#largo').val(0);          
             
         }
@@ -589,7 +589,7 @@ $(document).ready(function(){
             $('#volumen').val(0.01);
         }        
         
-        var operacion = parseFloat(dimensiones/300).toFixed(2);
+        var operacion = parseFloat(dimensiones/1000).toFixed(2);
         
        if(!isNaN(operacion) ){
            pesoVolumetrico = $('#pesoVolumen').val(operacion);

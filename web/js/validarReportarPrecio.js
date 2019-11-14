@@ -644,7 +644,7 @@ jQuery(function ($) {
         var fecha_actual = (day<10 ? '0' : '') + day +'/'+ (month<10 ? '0' : '') + month + '/'+ momentoActual.getFullYear();       
         
         var titulo = "Ingreso_Reporte.pdf";
-                    addtext = "Zurita Sac.\n\
+                    addtext = "Encomiendas Sac.\n\
         \n\
 \n\
         Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\

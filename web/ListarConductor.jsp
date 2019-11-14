@@ -65,7 +65,8 @@ HttpSession sesion = request.getSession();
                                             <c:out value="${item.tel}"/>
                                         </td>                                    
                                         <td class="text-center">
-                                            <a href="SERVConductor?action=edit&id=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>   
+                                            <a href="SERVConductor?action=edit&id=<c:out value="${item.id}"/>"  class="btn btn-warning btn-sm" >Editar</a>
+                                            <a href="SERVEncomienda2?action=delete&id=<c:out value="${item.id}"/>" onclick="return confirm('¿Seguro que desea eliminar el registro?')" class="btn btn-danger btn-sm">Eliminar</a>
                                         
                                         </td>
                                     </tr>

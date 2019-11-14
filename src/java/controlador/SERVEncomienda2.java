@@ -263,7 +263,7 @@ public class SERVEncomienda2 extends HttpServlet {
             else if(action.equalsIgnoreCase("cerrar")){
                 HttpSession sesion = request.getSession();
                 sesion.invalidate();
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("index.jsp"); 
             }            
         } catch (Exception e) {
             vista = "error.jsp";
@@ -415,11 +415,11 @@ public class SERVEncomienda2 extends HttpServlet {
         } catch (Exception e) {
         }
         finally{
-            response.sendRedirect(request.getContextPath() + "/SERVEncomienda?action=cerrar");
+           response.sendRedirect(request.getContextPath() + "/RegistrarEncomienda1.jsp");
         }
     }
 
-
+    
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -190,7 +190,7 @@ var bounds = new google.maps.LatLngBounds();
         });
         markersArray.push(marker);
         } else {
-        $("#div-resultado").append('Error al obtener el Geocode: ' + status);
+        //$("#div-resultado").append('Error al obtener el Geocode: ' + status);
         }
         });
         }

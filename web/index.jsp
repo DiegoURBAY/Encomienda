@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Zurita SAC</title>
+        <title>Encomiendas SAC</title>
         
         <!-- Font Awesome Icons -->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -30,7 +30,7 @@
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="#page-top">Zurita SAC</a>
+          <a class="navbar-brand js-scroll-trigger" href="#page-top">Encomiendas SAC</a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -67,7 +67,7 @@
               <hr class="divider my-4">
             </div>
             <div class="col-lg-8 align-self-baseline">
-              <p class="text-white-75 font-weight-light mb-5">¡Zurita SAC puede ayudarte a enviar su encomienda de manera fácil y sencilla! ¡Simplemente unase y comience a enviar!</p>
+              <p class="text-white-75 font-weight-light mb-5">¡Encomiendas SAC puede ayudarte a enviar su encomienda de manera fácil y sencilla! ¡Simplemente unase y comience a enviar!</p>
               <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Saber más</a>
             </div>
           </div>
@@ -81,7 +81,7 @@
             <div class="col-lg-8 text-center">
               <h2 class="text-white mt-0">¡Tenemos lo que necesita!</h2>
               <hr class="divider light my-4">
-              <p class="text-white-50 mb-4">¡Zurita Sac tiene todo lo que necesita para enviar su encomienda facilmante!</p>
+              <p class="text-white-50 mb-4">¡Encomiendas Sac tiene todo lo que necesita para enviar su encomienda facilmante!</p>
               <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">¡Empezar!</a>
             </div>
           </div>
@@ -233,12 +233,12 @@
           <div class="row">
             <div class="col-lg-4 ml-auto text-center">
               <i class="fas fa-phone fa-3x mb-3 text-muted"></i>
-              <div>+1 (202) 555-0149</div>
+              <div>+1 (202) 666-7708</div>
             </div>
             <div class="col-lg-4 mr-auto text-center">
               <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
               <!-- Make sure to change the email address in anchor text AND the link below! -->
-              <a class="d-block" href="mailto:contact@yourwebsite.com">transportezuritasac@gmail.com</a>
+              <a class="d-block" href="">transporteencomiendassac@gmail.com</a>
             </div>
           </div>
         </div>
@@ -290,7 +290,7 @@
       <!-- Footer -->
       <footer class="bg-light py-5">
         <div class="container">
-          <div class="small text-center text-muted">Copyright &copy; 2019 - transportezuritasac@gmail.com</div>
+          <div class="small text-center text-muted">Copyright &copy; 2019 - transporteencomiendassac@gmail.com</div>
         </div>
       </footer>
 

@@ -941,7 +941,7 @@ function verificar_ajax(tipo, palabra_buscar){
         var titulo = "";
         if(dni !==null && dni.length !== 0){
             titulo = "Encomienda_Reporte_DNI_"+dni+".pdf";
-                    addtext = "Zurita Sac.\n\
+                    addtext = "Encomiendas Sac.\n\
         \n\
 \n\
         Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\
@@ -952,7 +952,7 @@ function verificar_ajax(tipo, palabra_buscar){
             
         }else if(ruc !==null && ruc.length !== 0){
                         titulo = "Encomienda_Reporte_RUC_"+dni+".pdf";
-                    addtext = "Zurita Sac.\n\
+                    addtext = "Encomiendas Sac.\n\
         \n\
 \n\
         Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\
@@ -963,7 +963,7 @@ function verificar_ajax(tipo, palabra_buscar){
         }
         else{
             titulo = "Encomienda_Reporte.pdf";
-                    addtext = "Zurita Sac.\n\
+                    addtext = "Encomiendas Sac.\n\
         \n\
 \n\
         Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\

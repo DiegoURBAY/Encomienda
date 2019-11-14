@@ -12,7 +12,7 @@ public class Conexion {
     
     //private String driver = "org.gjt.mm.mysql.Driver";
     private String driver = "com.mysql.jdbc.Driver";
-    private String url = "jdbc:mysql://localhost:3307/encomienda";
+    private String url = "jdbc:mysql://localhost:3306/encomienda";
 
     private String user = "root";
     private String password = "";

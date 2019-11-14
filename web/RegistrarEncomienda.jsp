@@ -4,7 +4,7 @@
 <%
 HttpSession sesion = request.getSession();
     if(sesion.getAttribute("usuario")==null){
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("ReportarEncomienda.jsp");
     }
 %>
 <!DOCTYPE html>

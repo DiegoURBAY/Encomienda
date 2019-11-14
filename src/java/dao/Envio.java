@@ -20,8 +20,8 @@ public class Envio {
 /*
 public static void main(String[] args) throws Exception {
         Envio envio = new Envio();
-        //String receptor = "1510647@utp.edu.pe";
-        String receptor = "larcroco@gmail.com";
+        //String receptor = "1410782@utp.edu.pe";
+        String receptor = "diego1996ur@gmail.com";
         
         envio.EnviarCorreo(receptor);
 }
@@ -44,11 +44,11 @@ public static void main(String[] args) throws Exception {
             Session session = Session.getDefaultInstance(props);
             
             //declaracion de variables string con nuestro datos
-            String correoRemitente = "larcroco@gmail.com";
-            String passwordRemitente = "Daniel941J";
+            String correoRemitente = "diego1996ur@gmail.com";
+            String passwordRemitente = "durbayd21";
             String correoReceptor = receptor;
         //    String asunto = "Registro de cuenta";
-          //  String mensaje = "Se ha unido a Zurita SAC! Felicidades!!";
+          //  String mensaje = "Se ha unido a Encomiendas SAC! Felicidades!!";
             
             //Se envia la sesion
             MimeMessage message = new MimeMessage(session);
@@ -108,8 +108,8 @@ public static void main(String[] args) throws Exception {
             Session session = Session.getDefaultInstance(props);
             
             //declaracion de variables string con nuestro datos
-            String correoRemitente = "larcroco@gmail.com";
-            String passwordRemitente = "Daniel941J";
+            String correoRemitente = "diego1996ur@gmail.com";
+            String passwordRemitente = "durbayd21";
             String correoReceptor = receptor;
             String asunto = "Registro de Encomienda";
             String mensaje = "Hola, "+receptor+"\n"
@@ -163,8 +163,8 @@ public static void main(String[] args) throws Exception {
             Session session = Session.getDefaultInstance(props);
             
             //declaracion de variables string con nuestro datos
-            String correoRemitente = "larcroco@gmail.com";
-            String passwordRemitente = "Daniel941J";
+            String correoRemitente = "diego1996ur@gmail.com";
+            String passwordRemitente = "durbayd21";
             String correoReceptor = receptor;
             String asunto = "Edición de envío ";
             String mensaje = "Hola, "+receptor+"\n"
@@ -206,8 +206,8 @@ public static void main(String[] args) throws Exception {
            
             Session session = Session.getDefaultInstance(props);
             
-            String correoRemitente = "larcroco@gmail.com";
-            String passwordRemitente = "Marcelo44";
+            String correoRemitente = "diego1996ur@gmail.com";
+            String passwordRemitente = "durbayd21";
             String correoReceptor = email;
             String asunto = "Recuperación de contraseña";
             String mensaje = "Hola, "+email+"\n"

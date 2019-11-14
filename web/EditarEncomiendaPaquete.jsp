@@ -42,7 +42,7 @@ HttpSession sesion = request.getSession();
         <form method="POST" action="SERVTipoEncomienda" autocomplete="off">
    
             <input type="hidden" id="cliente3" name="txtIdCliente3" value="<%= sesion.getAttribute("usuario_de_login") %>"  >
-            <input type="text" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
+            <input type="hidden" id="idUsuario" name="txtUsuario" value="<%= sesion.getAttribute("usuario") %>"  >
             <input type="hidden" id="idEncomienda" name="txtTipoEncomienda" value="<%= request.getAttribute("idTipoEncomienda") %>"  >
             <div class="row">
                 <div class="col-sm-12">

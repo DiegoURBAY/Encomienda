@@ -61,10 +61,10 @@ public class ExcelDAO extends Conexion {
         
         try {
             
-            InputStream is = new FileInputStream("C:\\Users\\usuario\\Documents\\NetBeansProjects\\Encomienda\\src\\java\\img\\logo.jpg");
+            InputStream is = new FileInputStream("D:\\DIEGO\\CURSOS-TRABAJOS\\INTEGRADOR 2\\encomienda\\Avance2\\Encomienda\\src\\java\\img\\logo.jpg");
         //   Path path = Paths.get("src\\java\\img\\logo.jpg");
            byte[] bytes = IOUtils.toByteArray(is);
-
+                                             
             
             //traer el index de la imagen, luego se le indica el formato
             int imgIndex = book.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG);
@@ -209,10 +209,10 @@ public class ExcelDAO extends Conexion {
             String titulo_documento = "Ingresos_Reporte_"+fechas.get(2);
                 
             //generar el reporte
-            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\usuario\\Downloads\\"+titulo_documento+".xlsx");
+            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\USER\\Desktop\\"+titulo_documento+".xlsx");
             book.write(fileOut);
             fileOut.close();
-            
+                                                            
             
             mensaje = "ok";
             
@@ -240,7 +240,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
         
         try {
             
-            InputStream is = new FileInputStream("C:\\Users\\usuario\\Documents\\NetBeansProjects\\Encomienda\\src\\java\\img\\logo.jpg");
+            InputStream is = new FileInputStream("D:\\DIEGO\\CURSOS-TRABAJOS\\INTEGRADOR 2\\encomienda\\Avance2\\Encomienda\\src\\java\\img\\logo.jpg");
         //   Path path = Paths.get("src\\java\\img\\logo.jpg");
            byte[] bytes = IOUtils.toByteArray(is);
 
@@ -421,7 +421,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
             String titulo_documento = "Ingresos_Reporte_Detallado_"+fechas.get(2);
                 
             //generar el reporte
-            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\usuario\\Downloads\\"+titulo_documento+".xlsx");
+            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\USER\\Desktop\\"+titulo_documento+".xlsx");
             book.write(fileOut);
             fileOut.close();
             
@@ -451,7 +451,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
         
         try {
             
-            InputStream is = new FileInputStream("C:\\Users\\usuario\\Documents\\NetBeansProjects\\Encomienda\\src\\java\\img\\logo.jpg");
+            InputStream is = new FileInputStream("D:\\DIEGO\\CURSOS-TRABAJOS\\INTEGRADOR 2\\encomienda\\Avance2\\Encomienda\\src\\java\\img\\logo.jpg");
         //   Path path = Paths.get("src\\java\\img\\logo.jpg");
            byte[] bytes = IOUtils.toByteArray(is);
 
@@ -599,7 +599,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
             String titulo_documento = "Clientes_Reporte_"+fechas.get(2);
                 
             //generar el reporte
-            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\usuario\\Downloads\\"+titulo_documento+".xlsx");
+            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\USER\\Desktop\\"+titulo_documento+".xlsx");
             book.write(fileOut);
             fileOut.close();
             
@@ -629,7 +629,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
         
         try {
             
-            InputStream is = new FileInputStream("C:\\Users\\usuario\\Documents\\NetBeansProjects\\Encomienda\\src\\java\\img\\logo.jpg");
+            InputStream is = new FileInputStream("D:\\DIEGO\\CURSOS-TRABAJOS\\INTEGRADOR 2\\encomienda\\Avance2\\Encomienda\\src\\java\\img\\logo.jpg");
         //   Path path = Paths.get("src\\java\\img\\logo.jpg");
            byte[] bytes = IOUtils.toByteArray(is);
 
@@ -808,7 +808,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
             String titulo_documento = "Ingresos_Reporte_Detallado_"+fechas.get(2);
                 
             //generar el reporte
-            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\usuario\\Downloads\\"+titulo_documento+".xlsx");
+            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\USER\\Desktop\\"+titulo_documento+".xlsx");
             book.write(fileOut);
             fileOut.close();
             
@@ -838,7 +838,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
         
         try {
             
-            InputStream is = new FileInputStream("C:\\Users\\usuario\\Documents\\NetBeansProjects\\Encomienda\\src\\java\\img\\logo.jpg");
+            InputStream is = new FileInputStream("D:\\DIEGO\\CURSOS-TRABAJOS\\INTEGRADOR 2\\encomienda\\Avance2\\Encomienda\\src\\java\\img\\logo.jpg");
         //   Path path = Paths.get("src\\java\\img\\logo.jpg");
            byte[] bytes = IOUtils.toByteArray(is);
 
@@ -1009,7 +1009,7 @@ public String generarIngresosDetallado(String tipo_cliente_string, int tipo_clie
             String titulo_documento = "Encomienda_Reporte_"+fechas.get(2);
                 
             //generar el reporte
-            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\usuario\\Downloads\\"+titulo_documento+".xlsx");
+            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\USER\\Desktop\\"+titulo_documento+".xlsx");
             book.write(fileOut);
             fileOut.close();
             

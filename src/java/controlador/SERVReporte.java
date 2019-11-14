@@ -431,7 +431,7 @@ public class SERVReporte extends HttpServlet {
                 
                 if(situacion.equalsIgnoreCase("ok")){
                     estado = "ok";
-                    mensaje = "Se ha descargado excel en carpeta descargas (Downloads)"; 
+                    mensaje = "Se ha descargado excel en el escritorio (Desktop)"; 
                 }else{
                     estado = "error";
                     mensaje = "Se ha producido un error"+situacion; 
@@ -481,7 +481,7 @@ public class SERVReporte extends HttpServlet {
                 
                 if(situacion.equalsIgnoreCase("ok")){
                      estado = "ok";
-                    mensaje = "Se ha descargado excel en carpeta descargas (Downloads)"; 
+                    mensaje = "Se ha descargado excel en el escritorio (Desktop)"; 
                 }else{
                     estado = "error";
                     mensaje = "Se ha producido un error"+situacion; 
@@ -557,7 +557,7 @@ public class SERVReporte extends HttpServlet {
                                         
                     if(situacion.equalsIgnoreCase("ok")){
                          estado = "ok";
-                        mensaje = "Se ha descargado excel en carpeta descargas (Downloads)"; 
+                        mensaje = "Se ha descargado excel en el escritorio (Desktop)"; 
                     }else{
                         estado = "error";
                         mensaje = "Se ha producido un error"+situacion; 

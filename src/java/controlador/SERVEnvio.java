@@ -150,8 +150,9 @@ public class SERVEnvio extends HttpServlet {
             
             if(tipo_envio == 1){
                 request.setAttribute("usuario",  usuario_de_login);
-                RequestDispatcher view = request.getRequestDispatcher(vista);
-                view.forward(request, response); 
+              //  RequestDispatcher view = request.getRequestDispatcher(vista);
+               // view.forward(request, response); 
+               response.sendRedirect(request.getContextPath() + "/EnviarCalificacion.jsp");
             }
             else{
                 try {

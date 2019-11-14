@@ -630,7 +630,7 @@ jQuery(function ($) {
                
         
         var titulo = "Cliente_Reporte.pdf";
-                    addtext = "Zurita Sac.\n\
+                    addtext = "Encomiendas Sac.\n\
         \n\
 \n\
         Fecha y hora de exportación: "+fecha_actual+ " "+horaImprimible+ "\n\

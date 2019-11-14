@@ -13,14 +13,14 @@ HttpSession sesion = request.getSession();
     <head>        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Lista de tipos de Envios</title>                    
-        <jsp:include page="navbar.jsp"/>             
+        <jsp:include page="navbarCliente.jsp"/>             
     </head>    
     <body>
         <div class="container">
             <input type=hidden value="<%= sesion.getAttribute("idEncomienda") %>"><br>
             <input type="hidden" value="<%= sesion.getAttribute("nivel") %>"><br>
             <input type="hidden" value="<%= sesion.getAttribute("peso") %>">
-            <input type="text" value="<%= sesion.getAttribute("usuario") %>">
+            <input type="hidden" value="<%= sesion.getAttribute("usuario") %>">
             <h1>Lista de tipos de Envios  </h1>
              <h4> Encomienda #: <%= sesion.getAttribute("idEncomienda") %></h4>
                 <hr>                                
